@@ -1,0 +1,42 @@
+#enterBtn {
+    -fx-background-color: #B2DFDB;
+    -fx-border-color: #B2DFDB;
+}
+#enterBtn:hover {
+    -fx-background-color: #8cdfdb;
+}
+
+#exitBtn {
+    -fx-background-color: #E57373;
+    -fx-border-color: #E57373;
+}
+#exitBtn:hover {
+    -fx-background-color: #e55555;
+}
+
+#btn {
+    -fx-background-color: #efefef;
+    -fx-border-color: #d6d6d6;
+}
+
+#btn:hover {
+    -fx-background-color: #ffffff;
+}
+
+#saveBtn {
+    -fx-background-color: #B2DFDB;
+    -fx-border-color: #B2DFDB;
+}
+
+#saveBtn:hover {
+    -fx-background-color: #8cdfdb;
+}
+
+#tabBtn {
+    -fx-background-color: #E3F2FD;
+    -fx-border-color: #E3F2FD;
+}
+#tabBtnActive {
+    -fx-background-color: #BBDEFB;
+    -fx-border-color: #BBDEFB;
+}

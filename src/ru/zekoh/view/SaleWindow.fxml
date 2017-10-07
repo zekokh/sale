@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.SaleController">
+   <children>
+      <HBox fx:id="panelForCheckBtns" layoutX="90.0" prefHeight="85.0" prefWidth="810.0" />
+      <ListView fx:id="goodsListView" layoutY="85.0" onMouseClicked="#leftSwipe" prefHeight="300.0" prefWidth="900.0" />
+      <Button fx:id="newCheckBtn" mnemonicParsing="false" onAction="#addNewCheck" prefHeight="85.0" prefWidth="90.0" style="-fx-background-color: #2196F3;" text="+" textFill="WHITE">
+         <font>
+            <Font name="Helvetica Light" size="25.0" />
+         </font>
+      </Button>
+      <Pane fx:id="panelForButtons" layoutY="385.0" prefHeight="363.0" prefWidth="900.0" style="-fx-background-color: white;" />
+      <Label fx:id="totalLabel" layoutX="910.0" layoutY="25.0" prefHeight="36.0" prefWidth="360.0" text="Итого: 0 р.">
+         <font>
+            <Font name="Helvetica Light" size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="discountLabel" layoutX="910.0" layoutY="70.0" prefHeight="36.0" prefWidth="360.0" text="Скидка: 0 р.">
+         <font>
+            <Font name="Helvetica Light" size="27.0" />
+         </font>
+      </Label>
+      <Label fx:id="totalWhithoutDiscountLabel" layoutX="910.0" layoutY="115.0" prefHeight="36.0" prefWidth="360.0" text="Без скидки: 0 р.">
+         <font>
+            <Font name="Helvetica Light" size="27.0" />
+         </font>
+      </Label>
+      <Pane fx:id="panelWithNumber" layoutX="910.0" layoutY="162.0" prefHeight="560.0" prefWidth="360.0">
+         <children>
+            <Button layoutY="55.0" mnemonicParsing="false" onAction="#kbrd_1" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="55.0" mnemonicParsing="false" onAction="#kbrd_2" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="2">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="55.0" mnemonicParsing="false" onAction="#kbrd_3" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="3">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="155.0" mnemonicParsing="false" onAction="#kbrd_6" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="6">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="155.0" mnemonicParsing="false" onAction="#kbrd_5" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="5">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="155.0" mnemonicParsing="false" prefHeight="90.0" onAction="#kbrd_4" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="4">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="255.0" mnemonicParsing="false" prefHeight="90.0" onAction="#kbrd_7" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="7">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="255.0" mnemonicParsing="false" onAction="#kbrd_8" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="8">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="255.0" mnemonicParsing="false" onAction="#kbrd_9" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="9">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="355.0" mnemonicParsing="false" onAction="#kbrd_0" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="0">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="355.0" mnemonicParsing="false" onAction="#kbrd_dote" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text=".">
+               <font>
+                  <Font name="Helvetica Bold" size="44.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="355.0" mnemonicParsing="false" onAction="#delLastSymbol" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="&lt;">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="455.0" mnemonicParsing="false" onAction="#switchToControlPanel" prefHeight="90.0" prefWidth="350.0" style="-fx-background-color: EEEEEE;" text="панель управления">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Label fx:id="countLabel" alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="350.0" text="0" textAlignment="RIGHT">
+               <font>
+                  <Font name="Helvetica Light" size="30.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="panelWithControlBtn" layoutX="902.0" layoutY="160.0" prefHeight="315.0" prefWidth="380.0" visible="false">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button layoutX="190.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button layoutY="90.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: EEEEEE;" text="отмена чека">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button layoutX="190.0" layoutY="90.0" mnemonicParsing="false" onAction="#exit" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: E57373;" text="выход">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button layoutY="165.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="скидка">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button layoutY="240.0" mnemonicParsing="false" onAction="#switchToKeyBord" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="клавиатура">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</Pane>
