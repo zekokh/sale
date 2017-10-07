@@ -81,5 +81,4 @@ public class MenuController {
             errorLabel.setText("К сожалению что-то пошло не так! Я не могу закрыть сессию.");
         }
     }
-
 }
