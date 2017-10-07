@@ -111,12 +111,12 @@
       </Pane>
       <Pane fx:id="panelWithControlBtn" layoutX="902.0" layoutY="160.0" prefHeight="315.0" prefWidth="380.0" visible="false">
          <children>
-            <Button mnemonicParsing="false" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
+            <Button mnemonicParsing="false" prefHeight="85.0" onAction="#payCard" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutX="190.0" mnemonicParsing="false" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
+            <Button layoutX="190.0" mnemonicParsing="false" prefHeight="85.0" onAction="#payCard" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>

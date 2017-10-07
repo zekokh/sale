@@ -1,7 +1,5 @@
 package ru.zekoh.db.entity;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.tools.corba.se.idl.constExpr.BooleanNot;
 
 public class Session {
 

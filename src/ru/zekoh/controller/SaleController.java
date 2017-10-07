@@ -21,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ru.zekoh.core.GoodsCellFactory;
+import ru.zekoh.core.printing.KKM;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
@@ -28,12 +29,14 @@ import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
 import ru.zekoh.db.entity.GoodsForDisplay;
 import ru.zekoh.db.entity.Product;
+import ru.zekoh.properties.Properties;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 
 public class SaleController {
 
@@ -727,6 +730,22 @@ public class SaleController {
             countLabel.setText(value);
         } else {
             countLabel.setText(countLabelString + value);
+        }
+    }
+
+    //Оплата безналичным платежом
+    public void payCard(ActionEvent actionEvent) {
+
+        //Если принтер подключен
+        if(Properties.KKM){
+            List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+            try {
+                KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
+            }catch (Exception e){
+                System.out.println("что то пошло не так с ккм");
+                System.out.println(e);
+            }
+
         }
     }
 }
