@@ -3,8 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/sale_jar</output-path>
     <root id="archive" name="sale.jar">
       <element id="module-output" name="sale" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-8.0.7-dmr.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/lib/fptr.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mysql-connector-java-8.0.7-dmr.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

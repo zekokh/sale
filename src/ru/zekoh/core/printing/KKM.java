@@ -183,7 +183,9 @@ public class KKM {
             checkError(fptr);
     }
 
-    public static void doIt(List<GoodsForDisplay> goodsForDisplays, Check check) {
+    public static boolean doIt(List<GoodsForDisplay> goodsForDisplays, Check check) throws DriverException {
+        boolean flag = false;
+
         Random random = new Random();
         IFptr fptr = new Fptr();
 
@@ -201,7 +203,7 @@ public class KKM {
             } else {
                 // Или настроить без него
                 // COM17
-                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 6) < 0)
+                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 3) < 0)
                     checkError(fptr);
                 // USB. Можно указать положение на шине (USB$1-1.3, например - брать из /sys/bus/usb/devices/),
                 // но тогда не нужно указывать Vid и Pid
@@ -305,27 +307,36 @@ public class KKM {
 
                 printText(fptr, "Жак-Андрэ");
                 printText(fptr, "");
-                for(int i = 0; i < goodsForDisplays.size(); i++) {
-                    String text = goodsForDisplays.get(i).getCount()+ " * "+
-                            goodsForDisplays.get(i).getPriceFromThePriceList()+" р." + " = " +
+                for (int i = 0; i < goodsForDisplays.size(); i++) {
+                    String text = goodsForDisplays.get(i).getCount() + " * " +
+                            goodsForDisplays.get(i).getPriceFromThePriceList() + " р." + " = " +
                             goodsForDisplays.get(i).getSellingPrice() + " р.";
 
                     printText(fptr, goodsForDisplays.get(i).getName(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                     printText(fptr, text);
                 }
 
-                if(check.isDiscountOnCheck() || check.isDiscountOnGoods()){
+                if (check.isDiscountOnCheck() || check.isDiscountOnGoods()) {
                     Double discount = check.getTotal() - check.getAmountByPrice();
-                    printText(fptr, "Скидка: "+ check.getTotal()+ " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                    printText(fptr, "Скидка: " + discount + " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 }
-                printText(fptr, "Итого: "+ check.getTotal() + " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                printText(fptr, "Итого: " + check.getTotal() + " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 //printFooter(fptr);
+
+                //Печать пустых строк
+                printText(fptr, "");
+                printText(fptr, "");
+                printText(fptr, "");
             }
+            flag = true;
         } catch (Exception e) {
             System.out.println(e);
+            throw e;
         } finally {
             fptr.destroy();
         }
+
+        return flag;
     }
 
     private static class DriverException extends Exception {

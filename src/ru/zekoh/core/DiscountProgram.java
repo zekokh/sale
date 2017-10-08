@@ -12,17 +12,28 @@ public class DiscountProgram {
 
     //2 9 капкейков по цене 999
 
-    //6 эклеров по цене 195
+    //6 эклеров по цене 195 (Классификатор 5)
     public static Check promotion6(Check check) {
 
-        //Количество эклеров
+        return promotion(check, 5, 6, 37.0);
+    }
+
+    //5 круасанов по цене 175 (Классификатор 6)
+    public static Check promotion2(Check check) {
+
+        return promotion(check, 6, 5, 37.0);
+    }
+
+    //Комбо отдельно реализуем
+
+
+    //Классификатор по которому искать эклер
+    //Количество эклеров кратных которым начинается скидка
+    //Цену которую нужно установить
+    public static Check promotion(Check check, int classifier, int countForPromo, Double price){
+
+        //Количество продукции
         int count = 0;
-
-        //Классификатор по которому искать эклер
-        int classifier = 5;
-
-        //Количество эклеров кратных которым начинается скидка
-        int countForPromo = 6;
 
         List<Goods> goods = check.getGoodsList();
 
@@ -47,8 +58,8 @@ public class DiscountProgram {
             for (int i = 0; i < goods.size(); i++) {
                 if (goods.get(i).getClassifier() == classifier) {
                     if(counterThing <= count){
-                        Double price = goods.get(i).getPriceFromThePriceList();
-                        goods.get(i).setPriceAfterDiscount(10.0);
+                        Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
+                        goods.get(i).setPriceAfterDiscount(price);
                         goods.get(i).setSellingPrice(goods.get(i).getCount()*goods.get(i).getPriceAfterDiscount());
                         counterThing++;
                     }
@@ -60,10 +71,4 @@ public class DiscountProgram {
 
         return check;
     }
-
-    //5 круасанов по цене 175
-
-    //10 круасанов по цене 345
-
-    //Комбо отдельно реализуем
 }

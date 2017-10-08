@@ -48,6 +48,6 @@ public class Properties {
             LOGIN = "root";
             PASSWORD = "heroin";
             KKM = false;
-            PRINTER_PORT = 6;
+            PRINTER_PORT = 3;
     }
 }

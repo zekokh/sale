@@ -17,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -136,10 +137,19 @@ public class SaleController {
     boolean flagDoubleNumberForCash = false;
 
     //Количество папок и продуктов в строке
-    int countFolderAndProductInRow = 8;
+    int countFolderAndProductInRow = 5;
 
     //Переменная где содержится level для удобства доступа
     int levalProductForSerch = 0;
+
+    //Ширина кнопок с папками и продуктами
+    int btnWigth = 180;
+
+    //Высота кнопок с папками и продуктами
+    int btnHight = 100;
+
+    //Размер шрифта папок и продуктов
+    Double fontFolderAndProduct = 20.0;
 
     //Инициализация
     @FXML
@@ -179,8 +189,9 @@ public class SaleController {
         //Кнопка - папка назад
         if (levelPath.size() > 1) {
             Button back_button = new Button("назад");
-            back_button.setPrefSize(110, 80);
+            back_button.setPrefSize(btnWigth, btnHight);
             back_button.setWrapText(true);
+            back_button.setFont(new Font(fontFolderAndProduct));
             back_button.setId("btn");
 
 
@@ -218,8 +229,9 @@ public class SaleController {
             Button[] btns = new Button[Data.getFoldersSortedByLevel().get(level).size()];
             for (int i = 0; i < btns.length; i++) {
                 btns[i] = new Button(Data.getFoldersSortedByLevel().get(level).get(i).getName());
-                btns[i].setPrefSize(110, 80);
+                btns[i].setPrefSize(btnWigth, btnHight);
                 btns[i].setWrapText(true);
+                btns[i].setFont(new Font(fontFolderAndProduct));
                 btns[i].setId(String.valueOf(Data.getFoldersSortedByLevel().get(level).get(i).getId()));
                 btns[i].setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#EEEEEE"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -270,7 +282,8 @@ public class SaleController {
             for (int i = 0; i < btns.length; i++) {
                 btns[i] = new Button(Data.getProductsSortedByLevel().get(level).get(i).getName());
                 btns[i].setId(Data.getProductsSortedByLevel().get(level).get(i).getId() + "");
-                btns[i].setPrefSize(110, 80);
+                btns[i].setPrefSize(btnWigth, btnHight);
+                btns[i].setFont(new Font(fontFolderAndProduct));
                 btns[i].setWrapText(true);
                 // btns[i].setId(String.valueOf(Data.getProductsSortedByLevel().get(level).get(i).getId()));
                 btns[i].setBackground(new Background(new BackgroundFill(
@@ -289,9 +302,16 @@ public class SaleController {
 
                     @Override
                     public void handle(MouseEvent event) {
+                        //Проверяем есть ли чек
+                        if(checkList.size() > 0){
 
-                        b.setBackground(new Background(new BackgroundFill(
-                                Color.valueOf("#B3E5FC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                            //Проевряем открыт ли чек или уже оплачен
+                            if(checkList.get(currentCheck).isALive()){
+                                b.setBackground(new Background(new BackgroundFill(
+                                        Color.valueOf("#B3E5FC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                            }
+                        }
+
                     }
                 });
 
@@ -304,31 +324,35 @@ public class SaleController {
                         if (checkList.size() < 1)
                             newCheck(true);
 
-                        //Добавляем время при первом добавлении товара в чек
-                        if (checkList.get(currentCheck).getGoodsList().size() == 0) {
+                        if (checkList.get(currentCheck).isALive()) {
 
-                            //Дата создания чека считается с добавления первого товара в чек
-                            checkList.get(currentCheck).setDateOfCreation(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
 
-                            //Меняем флаг наличия товаров в чеке
-                            checkList.get(currentCheck).setContainGoods(true);
+                            //Добавляем время при первом добавлении товара в чек
+                            if (checkList.get(currentCheck).getGoodsList().size() == 0) {
+
+                                //Дата создания чека считается с добавления первого товара в чек
+                                checkList.get(currentCheck).setDateOfCreation(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                                //Меняем флаг наличия товаров в чеке
+                                checkList.get(currentCheck).setContainGoods(true);
+                            }
+
+                            //Добавляем товар в чек
+                            Check check = checkList.get(currentCheck);
+
+                            //Ищем продукт по id
+                            Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
+
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+
+                            //Проверяем скидки
+                            checkDiscountProgram(check);
+
+                            updateDataFromANewCheck(false);
+
+                            b.setBackground(new Background(new BackgroundFill(
+                                    Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
                         }
-
-                        //Добавляем товар в чек
-                        Check check = checkList.get(currentCheck);
-
-                        //Ищем продукт по id
-                        Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
-
-                        check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
-
-                        //Проверяем скидки
-                        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
-
-                        updateDataFromANewCheck(false);
-
-                        b.setBackground(new Background(new BackgroundFill(
-                                Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
 
                     }
                 });
@@ -344,6 +368,11 @@ public class SaleController {
 
         }
         return gridPane;
+    }
+
+    //Проверяем промоушены
+    private void checkDiscountProgram(Check check) {
+        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
     }
 
     //Создаем новый чек и добавляем  в список чеков
@@ -698,9 +727,11 @@ public class SaleController {
     //Переключение на панель с клавиатурой
     public void switchToKeyBord(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
-            if (checkList.get(currentCheck).getGoodsList().size() > 0) {
-                panelWithControlBtn.setVisible(false);
-                panelWithNumber.setVisible(true);
+            if (checkList.get(currentCheck).isALive()) {
+                if (checkList.get(currentCheck).getGoodsList().size() > 0) {
+                    panelWithControlBtn.setVisible(false);
+                    panelWithNumber.setVisible(true);
+                }
             }
         }
     }
@@ -731,10 +762,14 @@ public class SaleController {
                         Product product = Data.getProductById(check.getGoodsList().get(index).getProductId(), levalProductForSerch);
                         while (i < count) {
                             check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
-                        i++;
+                            i++;
                         }
                     }
 
+                    //Проверка промоушенов
+                    checkDiscountProgram(check);
+
+                    //Обновление данных на экране пользователя
                     updateDataFromANewCheck(false);
                 }
             }
@@ -829,42 +864,48 @@ public class SaleController {
     public void payCard(ActionEvent actionEvent) {
 
         if (checkList.size() > 0) {
-            Check check = checkList.get(currentCheck);
+            if (checkList.get(currentCheck).isALive()) {
+                Check check = checkList.get(currentCheck);
 
-            //Устанавливавем вид оплаты
-            check.setTypeOfPayment(2);
-            check.setALive(false);
-            check.setPaymentState(true);
-            check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+                //Устанавливавем вид оплаты
+                check.setTypeOfPayment(2);
+                check.setALive(false);
+                check.setPaymentState(true);
+                check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
 
-            CheckDao checkDao = new CheckDaoImpl();
+                CheckDao checkDao = new CheckDaoImpl();
 
-            //Если запись в Базу Данных успешна прошла печатем чек
-            if (checkDao.updateCheck(check)) {
+                //Если запись в Базу Данных успешна прошла печатем чек
+                if (checkDao.updateCheck(check)) {
 
-                //Если принтер подключен
-                if (Properties.KKM) {
+                    //Если принтер подключен
+                    if (Properties.KKM) {
 
-                    //Показываем панель с инфой о печати
-                    panelForKKMInfo.setVisible(true);
-                    infoLabelOnKkmPanel.setText("Идет печать чека...");
-                    skipBtnForKkmPanel.setVisible(false);
-                    List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                    try {
-                        KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
-                    } catch (Exception e) {
-                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                        skipBtnForKkmPanel.setVisible(true);
-                        System.out.println("что то пошло не так с ккм");
-                        System.out.println(e);
+                        //Показываем панель с инфой о печати
+                        panelForKKMInfo.setVisible(true);
+                        infoLabelOnKkmPanel.setText("Идет печать чека...");
+                        skipBtnForKkmPanel.setVisible(false);
+                        List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                        try {
+                            if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                skipBtnForKkmPanel.setVisible(true);
+                            }
+                        } catch (Exception e) {
+                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                            skipBtnForKkmPanel.setVisible(true);
+                            System.out.println("что то пошло не так с ккм");
+                            System.out.println(e);
+                        }
                     }
+                    switchCloseCheckBtn(true);
+                    panelForKKMInfo.setVisible(false);
+
+                } else {
+                    //todo Выводим сообщения что-то пошло не так
                 }
-                switchCloseCheckBtn(true);
-            } else {
-                //todo Выводим сообщения что-то пошло не так
             }
         }
-
 
     }
 
@@ -872,6 +913,7 @@ public class SaleController {
     public void closeCheck(ActionEvent actionEvent) {
         //закрытие чека после печати
         cancelCheck(actionEvent);
+        switchCloseCheckBtn(false);
 
     }
 
@@ -993,7 +1035,10 @@ public class SaleController {
                     skipBtnForKkmPanel.setVisible(false);
                     List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
                     try {
-                        KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
+                        if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                            skipBtnForKkmPanel.setVisible(true);
+                        }
                     } catch (Exception e) {
                         infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
                         skipBtnForKkmPanel.setVisible(true);
@@ -1003,6 +1048,7 @@ public class SaleController {
                 }
                 switchCloseCheckBtn(true);
                 switchToKeyBrdCash(false);
+                panelForKKMInfo.setVisible(false);
             } else {
                 //todo Выводим сообщения что-то пошло не так
             }
@@ -1012,7 +1058,9 @@ public class SaleController {
     //Оплата наличкой
     public void payCash(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
-            switchToKeyBrdCash(true);
+            if(checkList.get(currentCheck).isALive()) {
+                switchToKeyBrdCash(true);
+            }
         }
     }
 
