@@ -46,6 +46,23 @@ public class Check {
     //Флаг для фиксации содержит ли чек товары или чек еще пустой
     private boolean containGoods = false;
 
+    public void updateCheck(Check check){
+     setId(check.getId());
+     setGoodsList(check.getGoodsList());
+     setAmountByPrice(check.getAmountByPrice());
+     setTotal(check.getTotal());
+     setPaymentState(check.isPaymentState());
+     setDiscountOnGoods(check.isDiscountOnGoods());
+     setDiscountOnCheck(check.isDiscountOnCheck());
+     setPaymentState(check.isPaymentState());
+     setTypeOfPayment(check.getTypeOfPayment());
+     setDateOfCreation(check.getDateOfCreation());
+     setDateOfClosing(check.getDateOfClosing());
+     setReturnStatus(check.isReturnStatus());
+     setALive(check.isALive());
+     setContainGoods(check.isContainGoods());
+    }
+
     public int getId() {
         return id;
     }

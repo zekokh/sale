@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.printing.KKM;
 import ru.zekoh.db.Check;
@@ -134,6 +135,12 @@ public class SaleController {
     //Флаг для дробного значения количества в клавиатуре для клавиатуры рассчитывающей сдачу
     boolean flagDoubleNumberForCash = false;
 
+    //Количество папок и продуктов в строке
+    int countFolderAndProductInRow = 8;
+
+    //Переменная где содержится level для удобства доступа
+    int levalProductForSerch = 0;
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -144,7 +151,7 @@ public class SaleController {
         //Добавляем на панель папки и продукты
         addBtnsToPanelForBtns();
 
-        goodsListView.setFixedCellSize(60);
+        goodsListView.setFixedCellSize(40);
         goodsListView.setCellFactory(new GoodsCellFactory());
 
         panelWithControlBtn.setVisible(true);
@@ -162,6 +169,9 @@ public class SaleController {
     private Pane getGrid(int level) {
         int x = 0;
         int y = 0;
+
+        //Переменная где содержится level для удобства доступа
+        levalProductForSerch = level;
 
         GridPane gridPane = new GridPane();
 
@@ -196,7 +206,7 @@ public class SaleController {
             //Добавляем кнопку на Grid
             gridPane.add(back_button, x * (x + (int) back_button.getWidth()), y);
             x++;
-            if (x % 11 == 0) {
+            if (x % 9 == 0) {
                 y++;
                 x = 0;
             }
@@ -244,7 +254,7 @@ public class SaleController {
                 if (Integer.parseInt(b.getId()) != 1) {
                     gridPane.add(b, x * (x + (int) b.getWidth()), y);
                     x++;
-                    if (x % 11 == 0) {
+                    if (x % countFolderAndProductInRow == 0) {
                         y++;
                         x = 0;
                     }
@@ -265,6 +275,8 @@ public class SaleController {
                 // btns[i].setId(String.valueOf(Data.getProductsSortedByLevel().get(level).get(i).getId()));
                 btns[i].setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
+                btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#B3E5FC"),
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }
 
             //Добавление кнопок в Grid
@@ -308,7 +320,10 @@ public class SaleController {
                         //Ищем продукт по id
                         Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
 
-                        check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+                        check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+
+                        //Проверяем скидки
+                        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
 
                         updateDataFromANewCheck(false);
 
@@ -321,7 +336,7 @@ public class SaleController {
                 b.getId();
                 gridPane.add(b, x * (x + (int) b.getWidth()), y);
                 x++;
-                if (x % 11 == 0) {
+                if (x % countFolderAndProductInRow == 0) {
                     y++;
                     x = 0;
                 }
@@ -381,7 +396,7 @@ public class SaleController {
 
             //Если мы создаем чек не через нажатия на товар
             if (!createCheckByClickingCnProduct) {
-                if(checkList.size() > 1){
+                if (checkList.size() > 1) {
                     items.clear();
                     goodsListView.refresh();
                 }
@@ -558,6 +573,9 @@ public class SaleController {
                 //Сумма за позици
                 goodsForDisplay.setSellingPrice(goods.get(i).getSellingPrice());
 
+                //Цена после скидки
+                goodsForDisplay.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
+
                 //Добавляем объект goodsForDisplay в список объектов
                 goodsForDisplayList.add(goodsForDisplay);
             } else {
@@ -700,7 +718,23 @@ public class SaleController {
                     Double count = Double.parseDouble(countLabel.getText());
 
                     int index = (check.getGoodsList().size() - 1);
-                    check.getGoodsList().get(index).setCount(count);
+
+                    //Если товар может быть дробным то просто прописываем его значение иначе дублируем его для корректной работы акций
+                    //Класификатор макаронс = 10
+                    //Класификатор хлеба и тд
+                    //todo добавить работы с дробными значениями через классификаторы
+
+                    if (check.getGoodsList().get(index).getClassifier() == 10) {
+                        check.getGoodsList().get(index).setCount(count);
+                    } else {
+                        int i = 1;
+                        Product product = Data.getProductById(check.getGoodsList().get(index).getProductId(), levalProductForSerch);
+                        while (i < count) {
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+                        i++;
+                        }
+                    }
+
                     updateDataFromANewCheck(false);
                 }
             }
@@ -834,7 +868,6 @@ public class SaleController {
 
     }
 
-
     //Закрытие чека после печати
     public void closeCheck(ActionEvent actionEvent) {
         //закрытие чека после печати
@@ -920,13 +953,13 @@ public class SaleController {
         reloadCashBack();
     }
 
-    public void reloadCashBack(){
+    public void reloadCashBack() {
         Double moneyFromCustomer = Double.parseDouble(moneyFromCustomerLabel.getText());
         Double cashBack = checkList.get(currentCheck).getTotal() - moneyFromCustomer;
-        cashBackToCustomerLabel.setText("Сдача: "+ cashBack +" р.");
+        cashBackToCustomerLabel.setText("Сдача: " + cashBack + " р.");
     }
 
-    public void clickToBtnKbrdCash(String symbol){
+    public void clickToBtnKbrdCash(String symbol) {
         String countLabelString = moneyFromCustomerLabel.getText();
         if (countLabelString.equals("0")) {
             moneyFromCustomerLabel.setText(symbol);
@@ -935,6 +968,7 @@ public class SaleController {
         }
         reloadCashBack();
     }
+
     public void payCashOnKeyBrd(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
             Check check = checkList.get(currentCheck);
@@ -986,7 +1020,7 @@ public class SaleController {
         if (flag) {
             panelWithNumberForCash.setVisible(true);
             panelWithControlBtn.setVisible(false);
-            countLabelForCash.setText("К оплате: "+ checkList.get(currentCheck).getTotal() +" р.");
+            countLabelForCash.setText("К оплате: " + checkList.get(currentCheck).getTotal() + " р.");
         } else {
             panelWithNumberForCash.setVisible(false);
             panelWithControlBtn.setVisible(true);

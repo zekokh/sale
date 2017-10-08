@@ -22,7 +22,7 @@ public class GoodsCell extends ListCell<GoodsForDisplay>
         {
             name = item.getName() + " - " +
                     item.getCount()+ " * "+
-                    item.getPriceFromThePriceList()+" руб." + " = " + item.getSellingPrice() + " руб.";
+                    item.getPriceFromThePriceList()+" руб. " + " = " + item.getSellingPrice() + " руб.";
         }
 
         this.setText(name);

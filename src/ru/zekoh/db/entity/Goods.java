@@ -11,6 +11,9 @@ public class Goods {
     //id для синхранизации с сервером статистика
     private int generalId;
 
+    //Классификатор
+    private int classifier;
+
     //Наименования товара
     private String productName;
 
@@ -30,10 +33,11 @@ public class Goods {
 
     }
 
-    public Goods(int productId, int generalId, String productName, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice) {
+    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice) {
         this.productId = productId;
         this.generalId = generalId;
         this.productName = productName;
+        this.classifier = classifier;
         this.count = count;
         this.priceFromThePriceList = priceFromThePriceList;
         this.priceAfterDiscount = priceAfterDiscount;
@@ -102,5 +106,13 @@ public class Goods {
 
     public void setCount(Double count) {
         this.count = count;
+    }
+
+    public int getClassifier() {
+        return classifier;
+    }
+
+    public void setClassifier(int classifier) {
+        this.classifier = classifier;
     }
 }

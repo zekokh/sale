@@ -15,11 +15,22 @@ public class GoodsForDisplay {
     //Цена за одну единицу по прайсу
     private Double priceFromThePriceList;
 
+    //Цена за одну единицу по прайсу
+    private Double priceAfterDiscount;
+
     //Продажная цена
     private Double sellingPrice;
 
     public int getProductId() {
         return productId;
+    }
+
+    public Double getPriceAfterDiscount() {
+        return priceAfterDiscount;
+    }
+
+    public void setPriceAfterDiscount(Double priceAfterDiscount) {
+        this.priceAfterDiscount = priceAfterDiscount;
     }
 
     public void setProductId(int productId) {

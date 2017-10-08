@@ -20,9 +20,10 @@ public class App extends Application {
 
         //todo Получаем данные о продуктах из БД и сортируем по уровню
         //Инициализация данных из проперти файла
-        Properties.initData();
+        // Properties.initData();
+        Properties.initDataWithoutFile();
 
-        if(DataBase.getConnection() != null){
+        if (DataBase.getConnection() != null) {
 
             //Получаю папки и сохраняю в оперативки
             FolderDao folderDao = new FolderDaoImpl();
@@ -35,9 +36,9 @@ public class App extends Application {
 
 
         // Делаем тяжелые долгии запросы
-        for (int i = 0; i < 10; i++) {
-            Thread.sleep(200);
-        }
+        //for (int i = 0; i < 10; i++) {
+        //    Thread.sleep(200);
+        // }
 
     }
 
