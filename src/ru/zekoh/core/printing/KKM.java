@@ -313,7 +313,12 @@ public class KKM {
                     printText(fptr, goodsForDisplays.get(i).getName(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                     printText(fptr, text);
                 }
-                printText(fptr, "Итого: "+ check.getTotal(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+
+                if(check.isDiscountOnCheck() || check.isDiscountOnGoods()){
+                    Double discount = check.getTotal() - check.getAmountByPrice();
+                    printText(fptr, "Скидка: "+ check.getTotal()+ " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                }
+                printText(fptr, "Итого: "+ check.getTotal() + " р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 //printFooter(fptr);
             }
         } catch (Exception e) {
