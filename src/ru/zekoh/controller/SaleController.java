@@ -84,6 +84,38 @@ public class SaleController {
     @FXML
     public Label countLabel;
 
+    //Панель для инвормации во время печати
+    @FXML
+    public Pane panelForKKMInfo;
+
+    //Лейбл для информации во время печати
+    @FXML
+    public Label infoLabelOnKkmPanel;
+
+    //Кнопка если возникнут проблемы с печатью выйти из режима информирования о печати
+    @FXML
+    public Button skipBtnForKkmPanel;
+
+    //Кнопка закрытия чека после печати
+    @FXML
+    public Button closeCheckBtn;
+
+    //Панель с клавиатурой для рассчета сдачи
+    @FXML
+    public Pane panelWithNumberForCash;
+
+    //К оплате на панели рассчета сдачи
+    @FXML
+    public Label countLabelForCash;
+
+    //Сумма которую дал клиент
+    @FXML
+    public Label moneyFromCustomerLabel;
+
+    //Сдача
+    @FXML
+    public Label cashBackToCustomerLabel;
+
     //Путь уровней вложенности папок и продуктов
     private ArrayList<Integer> levelPath = new ArrayList<Integer>();
 
@@ -98,6 +130,9 @@ public class SaleController {
 
     //Флаг для дробного значения количества в клавиатуре
     boolean flagDoubleNumber = false;
+
+    //Флаг для дробного значения количества в клавиатуре для клавиатуры рассчитывающей сдачу
+    boolean flagDoubleNumberForCash = false;
 
     //Инициализация
     @FXML
@@ -114,6 +149,8 @@ public class SaleController {
 
         panelWithControlBtn.setVisible(true);
         panelWithNumber.setVisible(false);
+        panelForKKMInfo.setVisible(false);
+        panelWithNumberForCash.setVisible(false);
 
 
     }
@@ -344,8 +381,10 @@ public class SaleController {
 
             //Если мы создаем чек не через нажатия на товар
             if (!createCheckByClickingCnProduct) {
-                items.clear();
-                goodsListView.refresh();
+                if(checkList.size() > 1){
+                    items.clear();
+                    goodsListView.refresh();
+                }
 
                 //Меняем сумму чека в табе для чеков
                 Button btn = (Button) panelForCheckBtns.getChildren().get(currentCheck);
@@ -359,6 +398,22 @@ public class SaleController {
                 //Сумма без скидки
                 totalWhithoutDiscountLabel.setText("Без скидки: 0 р.");
             }
+        }
+
+        if (checkList.size() > 0) {
+            if (check.isPaymentState()) {
+                closeCheckBtn.setVisible(true);
+            } else {
+                closeCheckBtn.setVisible(false);
+            }
+        }
+    }
+
+    public void switchCloseCheckBtn(boolean flag) {
+        if (flag) {
+            closeCheckBtn.setVisible(true);
+        } else {
+            closeCheckBtn.setVisible(false);
         }
     }
 
@@ -379,9 +434,9 @@ public class SaleController {
 
     //Переход в меню и выход из окно продаж
     public void exit(ActionEvent actionEvent) {
-        if(checkList.size() > 0) {
+        if (checkList.size() > 0) {
             Stage stage = new Stage();
-            try{
+            try {
                 Parent root = FXMLLoader.load(getClass().getResource("/ModalInfoWindow.fxml"));
                 stage.setTitle("Оплата");
                 stage.setMinHeight(150);
@@ -391,11 +446,11 @@ public class SaleController {
                 stage.initModality(Modality.WINDOW_MODAL);
                 stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
                 stage.show();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println(e);
             }
 
-        }else {
+        } else {
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             try {
@@ -624,8 +679,12 @@ public class SaleController {
 
     //Переключение на панель с клавиатурой
     public void switchToKeyBord(ActionEvent actionEvent) {
-        panelWithControlBtn.setVisible(false);
-        panelWithNumber.setVisible(true);
+        if (checkList.size() > 0) {
+            if (checkList.get(currentCheck).getGoodsList().size() > 0) {
+                panelWithControlBtn.setVisible(false);
+                panelWithNumber.setVisible(true);
+            }
+        }
     }
 
     //Переключение на панель управления
@@ -703,7 +762,7 @@ public class SaleController {
 
     public void delLastSymbol(ActionEvent actionEvent) {
         String data = countLabel.getText();
-        if(data.length() <= 12) {
+        if (data.length() <= 12) {
             if (data.length() > 0) {
                 if (data.length() > 1) {
                     String mayBeDote = data.substring(data.length() - 1, data.length());
@@ -712,10 +771,9 @@ public class SaleController {
                     }
                     data = data.substring(0, data.length() - 1);
                     countLabel.setText(data);
-                }else {
+                } else {
                     countLabel.setText("0");
                 }
-
 
 
             } else {
@@ -736,16 +794,211 @@ public class SaleController {
     //Оплата безналичным платежом
     public void payCard(ActionEvent actionEvent) {
 
-        //Если принтер подключен
-        if(Properties.KKM){
-            List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-            try {
-                KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
-            }catch (Exception e){
-                System.out.println("что то пошло не так с ккм");
-                System.out.println(e);
-            }
+        if (checkList.size() > 0) {
+            Check check = checkList.get(currentCheck);
 
+            //Устанавливавем вид оплаты
+            check.setTypeOfPayment(2);
+            check.setALive(false);
+            check.setPaymentState(true);
+            check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+            CheckDao checkDao = new CheckDaoImpl();
+
+            //Если запись в Базу Данных успешна прошла печатем чек
+            if (checkDao.updateCheck(check)) {
+
+                //Если принтер подключен
+                if (Properties.KKM) {
+
+                    //Показываем панель с инфой о печати
+                    panelForKKMInfo.setVisible(true);
+                    infoLabelOnKkmPanel.setText("Идет печать чека...");
+                    skipBtnForKkmPanel.setVisible(false);
+                    List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                    try {
+                        KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
+                    } catch (Exception e) {
+                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                        skipBtnForKkmPanel.setVisible(true);
+                        System.out.println("что то пошло не так с ккм");
+                        System.out.println(e);
+                    }
+                }
+                switchCloseCheckBtn(true);
+            } else {
+                //todo Выводим сообщения что-то пошло не так
+            }
         }
+
+
+    }
+
+
+    //Закрытие чека после печати
+    public void closeCheck(ActionEvent actionEvent) {
+        //закрытие чека после печати
+        cancelCheck(actionEvent);
+
+    }
+
+    //Закрыть инфо панель для печати
+    public void skipBtnForKkm(ActionEvent actionEvent) {
+        panelForKKMInfo.setVisible(false);
+    }
+
+    //Клавиатура для расчета сдачи
+    public void kbrd_1_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("1");
+    }
+
+    public void kbrd_2_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("2");
+    }
+
+    public void kbrd_3_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("3");
+    }
+
+    public void kbrd_6_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("4");
+    }
+
+    public void kbrd_5_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("5");
+    }
+
+    public void kbrd_4_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("6");
+    }
+
+    public void kbrd_7_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("7");
+    }
+
+    public void kbrd_8_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("8");
+    }
+
+    public void kbrd_9_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("9");
+    }
+
+    public void kbrd_0_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("0");
+    }
+
+    public void kbrd_dote_cash(ActionEvent actionEvent) {
+        if (!flagDoubleNumber) {
+            String countLabelString = moneyFromCustomerLabel.getText();
+            moneyFromCustomerLabel.setText(countLabelString + ".");
+            flagDoubleNumberForCash = true;
+            reloadCashBack();
+        }
+    }
+
+    public void delLastSymbol_cash(ActionEvent actionEvent) {
+        String data = moneyFromCustomerLabel.getText();
+        if (data.length() <= 12) {
+            if (data.length() > 0) {
+                if (data.length() > 1) {
+                    String mayBeDote = data.substring(data.length() - 1, data.length());
+                    if (mayBeDote.equals(".")) {
+                        flagDoubleNumberForCash = false;
+                    }
+                    data = data.substring(0, data.length() - 1);
+                    moneyFromCustomerLabel.setText(data);
+                } else {
+                    moneyFromCustomerLabel.setText("0");
+                }
+
+
+            } else {
+                clickOnKbrd("0");
+            }
+        }
+        reloadCashBack();
+    }
+
+    public void reloadCashBack(){
+        Double moneyFromCustomer = Double.parseDouble(moneyFromCustomerLabel.getText());
+        Double cashBack = checkList.get(currentCheck).getTotal() - moneyFromCustomer;
+        cashBackToCustomerLabel.setText("Сдача: "+ cashBack +" р.");
+    }
+
+    public void clickToBtnKbrdCash(String symbol){
+        String countLabelString = moneyFromCustomerLabel.getText();
+        if (countLabelString.equals("0")) {
+            moneyFromCustomerLabel.setText(symbol);
+        } else {
+            moneyFromCustomerLabel.setText(countLabelString + symbol);
+        }
+        reloadCashBack();
+    }
+    public void payCashOnKeyBrd(ActionEvent actionEvent) {
+        if (checkList.size() > 0) {
+            Check check = checkList.get(currentCheck);
+
+            //Устанавливавем вид оплаты
+            check.setTypeOfPayment(1);
+            check.setALive(false);
+            check.setPaymentState(true);
+            check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+            CheckDao checkDao = new CheckDaoImpl();
+
+            //Если запись в Базу Данных успешна прошла печатем чек
+            if (checkDao.updateCheck(check)) {
+
+                //Если принтер подключен
+                if (Properties.KKM) {
+
+                    //Показываем панель с инфой о печати
+                    panelForKKMInfo.setVisible(true);
+                    infoLabelOnKkmPanel.setText("Идет печать чека...");
+                    skipBtnForKkmPanel.setVisible(false);
+                    List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                    try {
+                        KKM.doIt(goodsForDisplays, checkList.get(currentCheck));
+                    } catch (Exception e) {
+                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                        skipBtnForKkmPanel.setVisible(true);
+                        System.out.println("что то пошло не так с ккм");
+                        System.out.println(e);
+                    }
+                }
+                switchCloseCheckBtn(true);
+                switchToKeyBrdCash(false);
+            } else {
+                //todo Выводим сообщения что-то пошло не так
+            }
+        }
+    }
+
+    //Оплата наличкой
+    public void payCash(ActionEvent actionEvent) {
+        if (checkList.size() > 0) {
+            switchToKeyBrdCash(true);
+        }
+    }
+
+    public void switchToKeyBrdCash(boolean flag) {
+        if (flag) {
+            panelWithNumberForCash.setVisible(true);
+            panelWithControlBtn.setVisible(false);
+            countLabelForCash.setText("К оплате: "+ checkList.get(currentCheck).getTotal() +" р.");
+        } else {
+            panelWithNumberForCash.setVisible(false);
+            panelWithControlBtn.setVisible(true);
+            countLabelForCash.setText("К оплате: 0 р.");
+            moneyFromCustomerLabel.setText("0");
+            cashBackToCustomerLabel.setText("Сдача: 0 р.");
+        }
+    }
+
+    //Возвращает обратно на панель с управления чеком и очищает поля на панели сдачи
+    public void returnToControlBtnPanel(ActionEvent actionEvent) {
+        switchToKeyBrdCash(false);
+
     }
 }

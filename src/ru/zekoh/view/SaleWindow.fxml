@@ -35,7 +35,7 @@
             <Font name="Helvetica Light" size="27.0" />
          </font>
       </Label>
-      <Pane fx:id="panelWithNumber" layoutX="910.0" layoutY="162.0" prefHeight="560.0" prefWidth="360.0">
+      <Pane fx:id="panelWithNumber" layoutX="910.0" layoutY="162.0" prefHeight="560.0" prefWidth="360.0" visible="false">
          <children>
             <Button layoutY="55.0" mnemonicParsing="false" onAction="#kbrd_1" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
                <font>
@@ -62,12 +62,12 @@
                   <Font name="Helvetica Light" size="40.0" />
                </font>
             </Button>
-            <Button layoutY="155.0" mnemonicParsing="false" prefHeight="90.0" onAction="#kbrd_4" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="4">
+            <Button layoutY="155.0" mnemonicParsing="false" onAction="#kbrd_4" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="4">
                <font>
                   <Font name="Helvetica Light" size="40.0" />
                </font>
             </Button>
-            <Button layoutY="255.0" mnemonicParsing="false" prefHeight="90.0" onAction="#kbrd_7" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="7">
+            <Button layoutY="255.0" mnemonicParsing="false" onAction="#kbrd_7" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="7">
                <font>
                   <Font name="Helvetica Light" size="40.0" />
                </font>
@@ -111,12 +111,12 @@
       </Pane>
       <Pane fx:id="panelWithControlBtn" layoutX="902.0" layoutY="160.0" prefHeight="315.0" prefWidth="380.0" visible="false">
          <children>
-            <Button mnemonicParsing="false" prefHeight="85.0" onAction="#payCard" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
+            <Button mnemonicParsing="false" onAction="#payCash" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutX="190.0" mnemonicParsing="false" prefHeight="85.0" onAction="#payCard" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
+            <Button layoutX="190.0" mnemonicParsing="false" onAction="#payCard" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
@@ -137,6 +137,114 @@
                </font>
             </Button>
             <Button layoutY="240.0" mnemonicParsing="false" onAction="#switchToKeyBord" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="клавиатура">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="closeCheckBtn" layoutY="90.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: FFFDE7;" text="закрыть" visible="false">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="panelWithNumberForCash" layoutX="910.0" layoutY="27.0" prefHeight="695.0" prefWidth="360.0" style="-fx-background-color: white;">
+         <children>
+            <Button layoutY="147.0" mnemonicParsing="false" onAction="#kbrd_1_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="147.0" mnemonicParsing="false" onAction="#kbrd_2_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="2">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="147.0" mnemonicParsing="false" onAction="#kbrd_3_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="3">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="247.0" mnemonicParsing="false" onAction="#kbrd_6_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="6">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="247.0" mnemonicParsing="false" onAction="#kbrd_5_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="5">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="247.0" mnemonicParsing="false" onAction="#kbrd_4_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="4">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="347.0" mnemonicParsing="false" onAction="#kbrd_7_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="7">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="347.0" mnemonicParsing="false" onAction="#kbrd_8_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="8">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="347.0" mnemonicParsing="false" onAction="#kbrd_9_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="9">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutX="120.0" layoutY="447.0" mnemonicParsing="false" onAction="#kbrd_0_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="0">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="447.0" mnemonicParsing="false" onAction="#kbrd_dote_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text=".">
+               <font>
+                  <Font name="Helvetica Bold" size="44.0" />
+               </font>
+            </Button>
+            <Button layoutX="240.0" layoutY="447.0" mnemonicParsing="false" onAction="#delLastSymbol_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="&lt;">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+            <Button layoutY="547.0" mnemonicParsing="false" onAction="#payCashOnKeyBrd" prefHeight="90.0" prefWidth="230.0" style="-fx-background-color: B3E5FC;" text="оплатить">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <Label fx:id="countLabelForCash" alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="350.0" text="К оплате: 0 р." textAlignment="RIGHT">
+               <font>
+                  <Font name="Helvetica Light" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="moneyFromCustomerLabel" alignment="CENTER_RIGHT" layoutY="46.0" prefHeight="40.0" prefWidth="350.0" text="0" textAlignment="RIGHT">
+               <font>
+                  <Font name="Helvetica Light" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="cashBackToCustomerLabel" alignment="CENTER_RIGHT" layoutY="91.0" prefHeight="40.0" prefWidth="350.0" text="Сдача: 0 р." textAlignment="RIGHT">
+               <font>
+                  <Font name="Helvetica Light" size="30.0" />
+               </font>
+            </Label>
+            <Button layoutX="240.0" layoutY="547.0" mnemonicParsing="false" onAction="#returnToControlBtnPanel" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: E57373;" text="x">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="panelForKKMInfo" opacity="0.5" prefHeight="750.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false">
+         <children>
+            <Label fx:id="infoLabelOnKkmPanel" layoutX="483.0" layoutY="300.0" text="Идет печать чека..." textFill="WHITE">
+               <font>
+                  <Font name="Helvetica Light" size="40.0" />
+               </font>
+            </Label>
+            <Button fx:id="skipBtnForKkmPanel" layoutX="531.0" layoutY="378.0" mnemonicParsing="false" onAction="#skipBtnForKkm" prefHeight="90.0" prefWidth="220.0" style="-fx-background-color: white;" text="Пропустить">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>

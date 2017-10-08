@@ -11,6 +11,9 @@ public interface CheckDao {
     //Добавить товар в чек
     public boolean addGoodsToCheck(Check check, Goods goods);
 
+    //Обновляем данные в чеке
+    public boolean updateCheck(Check check);
+
     //Удалить товар из чека
     public boolean deleteGoodsFromCheck(Goods goods);
 

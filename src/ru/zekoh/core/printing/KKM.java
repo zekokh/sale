@@ -303,15 +303,18 @@ public class KKM {
             // Его можно не открывать, а сразу начинать печатать
             if (PRINT_NONFISCAL_CHECK) {
 
+                printText(fptr, "Жак-Андрэ");
+                printText(fptr, "");
                 for(int i = 0; i < goodsForDisplays.size(); i++) {
-                    String text = goodsForDisplays.get(i).getName() + " - " +
-                            goodsForDisplays.get(i).getCount()+ " * "+
-                            goodsForDisplays.get(i).getPriceFromThePriceList()+" руб." + " = " +
-                            goodsForDisplays.get(i).getSellingPrice() + " руб.";
+                    String text = goodsForDisplays.get(i).getCount()+ " * "+
+                            goodsForDisplays.get(i).getPriceFromThePriceList()+" р." + " = " +
+                            goodsForDisplays.get(i).getSellingPrice() + " р.";
+
+                    printText(fptr, goodsForDisplays.get(i).getName(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                     printText(fptr, text);
                 }
-                printText(fptr, "Итого: "+ check.getTotal());
-                printFooter(fptr);
+                printText(fptr, "Итого: "+ check.getTotal(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                //printFooter(fptr);
             }
         } catch (Exception e) {
             System.out.println(e);

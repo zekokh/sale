@@ -149,4 +149,6 @@ public class Check {
     public void setContainGoods(boolean containGoods) {
         this.containGoods = containGoods;
     }
+
+
 }
