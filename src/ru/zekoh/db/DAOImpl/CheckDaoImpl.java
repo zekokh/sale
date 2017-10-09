@@ -3,12 +3,15 @@ package ru.zekoh.db.DAOImpl;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DataBase;
+import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.Goods;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class CheckDaoImpl implements CheckDao {
@@ -110,6 +113,91 @@ public class CheckDaoImpl implements CheckDao {
         }
 
         return flag;
+    }
+
+    @Override
+    public DailyReport soldPerDay() {
+
+        DailyReport dailyReport = new DailyReport();
+
+        //Сумма за день
+        Double soldPerDay = 0.0;
+
+        //Количество чеков за день
+        int numberOfChecks = 0;
+
+        //Возвратов на сумму
+        Double returnPerDay = 0.0;
+
+        //Сумма наличкой
+        Double amountCash = 0.0;
+
+        //Сумма картой
+        Double amountCard = 0.0;
+
+        //Текущий день
+        String today = "" + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()) + "";
+
+        //Получаем соединение с БД
+        Connection connection = DataBase.getConnection();
+
+        try {
+            if (connection != null) {
+
+                Statement stmt = null;
+                connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '0' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                while (rs.next()) {
+                    numberOfChecks++;
+                    soldPerDay = soldPerDay + rs.getDouble(3);
+
+                    if (rs.getInt(7) == 1) {
+                        amountCash = amountCash + rs.getDouble(3);
+                    } else {
+                        amountCard = amountCard + rs.getDouble(3);
+                    }
+                }
+
+                ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '1' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                while (rs.next()) {
+                    returnPerDay = returnPerDay + rs.getDouble(3);
+                }
+                stmt.close();
+            }
+
+            //Комит транзакции
+            connection.commit();
+
+            dailyReport.setAmountCard(amountCard);
+            dailyReport.setAmountCash(amountCash);
+            dailyReport.setNumberOfChecks(numberOfChecks);
+            dailyReport.setReturnPerDay(returnPerDay);
+            dailyReport.setSoldPerDay(soldPerDay);
+
+        } catch (SQLException e) {
+            System.out.println("Exception Message " + e.getLocalizedMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        return dailyReport;
+    }
+
+    @Override
+    public int numberOfChecks() {
+        return 0;
+    }
+
+    @Override
+    public Double returnPerDay() {
+        return null;
     }
 
     //Добавить товар в чек

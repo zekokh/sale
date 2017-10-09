@@ -8,8 +8,12 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import ru.zekoh.core.printing.KKM;
+import ru.zekoh.db.Check;
+import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
+import ru.zekoh.db.DAOImpl.CheckDaoImpl;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
 import ru.zekoh.db.entity.Session;
@@ -60,13 +64,13 @@ public class MenuController {
         SessionDao sessionDao = new SessionDaoImpl();
 
         //Получаем id текущего пользователя из сессии
-        Long userId =  sessionDao.getLastOpenSeesion().getUserId();
+        Long userId = sessionDao.getLastOpenSeesion().getUserId();
 
         //Создаем объект UserDao для поиска пользователя по id
         UserDao userDao = new UserDaoImpl();
 
         //Если сессия закрыта
-        if(sessionDao.closeSession(userDao.getUserById(userId))){
+        if (sessionDao.closeSession(userDao.getUserById(userId))) {
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             try {
@@ -79,6 +83,19 @@ public class MenuController {
             }
         } else {
             errorLabel.setText("К сожалению что-то пошло не так! Я не могу закрыть сессию.");
+        }
+    }
+
+    public void report(ActionEvent actionEvent) {
+
+        CheckDao checkDao = new CheckDaoImpl();
+
+        try {
+            if (!KKM.report(checkDao.soldPerDay())) {
+            }
+        } catch (Exception e) {
+            System.out.println("что то пошло не так с ккм");
+            System.out.println(e);
         }
     }
 }

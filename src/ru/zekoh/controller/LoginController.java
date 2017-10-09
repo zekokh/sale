@@ -123,17 +123,22 @@ public class LoginController {
                 //Если пользователь с таким логином найден в Базе Данных
                 if (user != null) {
                     //Сверяем пароль пользователя (игнорируется размер букв) и если совпадает создаем новую сессию (пользовательский сеанс)
-                    if (user.getPassword().equalsIgnoreCase(password)) {
+                    try {
+                        if (user.getPassword().equalsIgnoreCase(password)) {
 
-                        SessionDao sessionDao = new SessionDaoImpl();
+                            SessionDao sessionDao = new SessionDaoImpl();
 
-                        //Создаем новую сессию, если созданно успешно возвращается true
-                        checkStatus = sessionDao.createSession(user);
+                            //Создаем новую сессию, если созданно успешно возвращается true
+                            checkStatus = sessionDao.createSession(user);
 
 
-                    } else {
+                        } else {
+                            infoLabel.setText("Пароль не верный!");
+                        }
+                    }catch (Exception e){
                         infoLabel.setText("Пароль не верный!");
                     }
+
 
                 } else {
                     infoLabel.setText("Пользователь не найден!");

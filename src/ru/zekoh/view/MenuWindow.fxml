@@ -27,7 +27,7 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
-                <Button id="btn" fx:id="reportBtn" disable="true" mnemonicParsing="false" prefHeight="100.0" prefWidth="610.0" text="Z - Отчет">
+                <Button id="btn" fx:id="reportBtn" disable="true" onAction="#report" mnemonicParsing="false" prefHeight="100.0" prefWidth="610.0" text="Суточный отчет">
                     <font>
                         <Font size="45.0" />
                     </font>
