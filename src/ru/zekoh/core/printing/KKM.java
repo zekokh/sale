@@ -7,6 +7,8 @@ import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.GoodsForDisplay;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -468,10 +470,13 @@ public class KKM {
                 printText(fptr, "Жак-Андрэ");
                 printText(fptr, "французкая пекарня");
                 printText(fptr, "");
-                printText(fptr, "Кол-во чеков за день: "+dailyReport.getNumberOfChecks());
-                printText(fptr, "Возврат: "+dailyReport.getReturnPerDay()+" р.");
-                printText(fptr, "Наличными: "+ dailyReport.getAmountCash()+" р.");
-                printText(fptr, "По карте: "+ dailyReport.getAmountCard() +" р.");
+                printText(fptr, "СУТОЧНЫЙ ОТЧЕТ");
+                printText(fptr, "Дата: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+                printText(fptr, "");
+                printText(fptr, "Кол-во чеков за день: "+dailyReport.getNumberOfChecks(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                printText(fptr, "Возврат: "+dailyReport.getReturnPerDay()+" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                printText(fptr, "Наличными: "+ dailyReport.getAmountCash()+" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
+                printText(fptr, "По карте: "+ dailyReport.getAmountCard() +" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 printText(fptr, "Доход: "+ dailyReport.getSoldPerDay() +" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 //printFooter(fptr);
 

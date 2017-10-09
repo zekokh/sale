@@ -159,9 +159,10 @@ public class CheckDaoImpl implements CheckDao {
                     }
                 }
 
+
                 ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '1' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
-                while (rs.next()) {
-                    returnPerDay = returnPerDay + rs.getDouble(3);
+                while (rsReturn.next()) {
+                    returnPerDay = returnPerDay + rsReturn.getDouble(3);
                 }
                 stmt.close();
             }

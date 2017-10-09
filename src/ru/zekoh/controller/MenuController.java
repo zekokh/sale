@@ -16,6 +16,7 @@ import ru.zekoh.db.DAO.UserDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
+import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.Session;
 
 public class MenuController {
@@ -91,8 +92,8 @@ public class MenuController {
         CheckDao checkDao = new CheckDaoImpl();
 
         try {
-            if (!KKM.report(checkDao.soldPerDay())) {
-            }
+            DailyReport dailyReport = checkDao.soldPerDay();
+            KKM.report(dailyReport);
         } catch (Exception e) {
             System.out.println("что то пошло не так с ккм");
             System.out.println(e);

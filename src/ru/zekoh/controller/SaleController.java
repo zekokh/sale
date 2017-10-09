@@ -221,7 +221,7 @@ public class SaleController {
         numberOfLinesForFolderAndProduct = amountFolderAndProduct / countFolderAndProductInRow;
         int tempDivis = amountFolderAndProduct % countFolderAndProductInRow;
 
-        if(tempDivis>0){
+        if (tempDivis > 0 || level > 1) {
             numberOfLinesForFolderAndProduct++;
         }
 
@@ -420,9 +420,9 @@ public class SaleController {
     private void checkDiscountProgram(Check check) {
 
         //todo Это костыль для акции надо переделать
-        for(int i = 0; i<check.getGoodsList().size();i++){
+        for (int i = 0; i < check.getGoodsList().size(); i++) {
             check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
-            Double temp = check.getGoodsList().get(i).getCount()*check.getGoodsList().get(i).getPriceAfterDiscount();
+            Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
             check.getGoodsList().get(i).setSellingPrice(temp);
         }
 

@@ -108,7 +108,7 @@ public class DiscountProgram {
             check.setDiscountOnGoods(true);
             newCheck = check;
         } else {
-            newCheck = promotion(check, 4, 5, 20.0);
+            newCheck = promotion(check, 4, 5, 42.0);
             check.setDiscountOnGoods(true);
         }
 
