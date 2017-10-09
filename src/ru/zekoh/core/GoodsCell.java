@@ -1,6 +1,7 @@
 package ru.zekoh.core;
 
 import javafx.scene.control.ListCell;
+import javafx.scene.text.Font;
 import ru.zekoh.db.entity.Goods;
 import ru.zekoh.db.entity.GoodsForDisplay;
 
@@ -26,6 +27,7 @@ public class GoodsCell extends ListCell<GoodsForDisplay>
         }
 
         this.setText(name);
+        this.setFont(new Font(27.0));
         setGraphic(null);
     }
 }

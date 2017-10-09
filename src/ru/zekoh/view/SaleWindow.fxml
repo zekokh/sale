@@ -19,7 +19,14 @@
             <Font name="Helvetica Light" size="25.0" />
          </font>
       </Button>
-      <Pane fx:id="panelForButtons" layoutY="385.0" prefHeight="363.0" prefWidth="900.0" style="-fx-background-color: white;" />
+      <Pane layoutY="385.0" prefHeight="363.0" prefWidth="900.0" style="-fx-background-color: white;">
+         <children>
+            <ScrollPane fx:id="scrollPane" prefHeight="363.0" prefWidth="900.0">
+              <content>
+                <AnchorPane fx:id="panelForButtons" minHeight="0.0" minWidth="0.0" prefHeight="365.0" prefWidth="880.0" />
+              </content>
+            </ScrollPane>
+         </children></Pane>
       <Label fx:id="totalLabel" layoutX="910.0" layoutY="25.0" prefHeight="36.0" prefWidth="360.0" text="Итого: 0 р.">
          <font>
             <Font name="Helvetica Light" size="30.0" />

@@ -306,7 +306,9 @@ public class KKM {
             if (PRINT_NONFISCAL_CHECK) {
 
                 printText(fptr, "Жак-Андрэ");
+                printText(fptr, "французкая пекарня");
                 printText(fptr, "");
+                printText(fptr, "Дата покупки: "+ check.getDateOfClosing());
                 for (int i = 0; i < goodsForDisplays.size(); i++) {
                     String text = goodsForDisplays.get(i).getCount() + " * " +
                             goodsForDisplays.get(i).getPriceFromThePriceList() + " р." + " = " +
