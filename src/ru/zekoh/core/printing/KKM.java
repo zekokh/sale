@@ -478,8 +478,6 @@ public class KKM {
                 printText(fptr, "Наличными: "+ dailyReport.getAmountCash()+" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 printText(fptr, "По карте: "+ dailyReport.getAmountCard() +" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 printText(fptr, "Доход: "+ dailyReport.getSoldPerDay() +" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
-                //printFooter(fptr);
-
                 //Печать пустых строк
                 printText(fptr, "");
                 printText(fptr, "");
