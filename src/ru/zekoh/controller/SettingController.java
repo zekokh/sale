@@ -10,10 +10,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
+import ru.zekoh.db.DAOImpl.CheckDaoImpl;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
+import ru.zekoh.db.entity.DailyReport;
 
 import java.io.*;
 
@@ -72,6 +75,81 @@ public class SettingController {
         } catch (IOException e) {
             errorLabel.setText("ОШИБКА: Файл свойств отсуствует!");
         }
+
+        CheckDao checkDao = new CheckDaoImpl();
+        DailyReport dailyReport12 = checkDao.soldPerDay("2017-10-12");
+        System.out.println("12 октября");
+        System.out.println("Доход: "+dailyReport12.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport12.getAmountCash());
+        System.out.println("Карта: "+dailyReport12.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport13 = checkDao.soldPerDay("2017-10-13");
+        System.out.println("13 октября");
+        System.out.println("Доход: "+dailyReport13.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport13.getAmountCash());
+        System.out.println("Карта: "+dailyReport13.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport14 = checkDao.soldPerDay("2017-10-14");
+        System.out.println("14 октября");
+        System.out.println("Доход: "+dailyReport14.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport14.getAmountCash());
+        System.out.println("Карта: "+dailyReport14.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport15 = checkDao.soldPerDay("2017-10-15");
+        System.out.println("15 октября");
+        System.out.println("Доход: "+dailyReport15.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport15.getAmountCash());
+        System.out.println("Карта: "+dailyReport15.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport16 = checkDao.soldPerDay("2017-10-16");
+        System.out.println("16 октября");
+        System.out.println("Доход: "+dailyReport16.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport16.getAmountCash());
+        System.out.println("Карта: "+dailyReport16.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport17 = checkDao.soldPerDay("2017-10-17");
+        System.out.println("17 октября");
+        System.out.println("Доход: "+dailyReport17.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport17.getAmountCash());
+        System.out.println("Карта: "+dailyReport17.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport18 = checkDao.soldPerDay("2017-10-18");
+        System.out.println("18 октября");
+        System.out.println("Доход: "+dailyReport18.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport18.getAmountCash());
+        System.out.println("Карта: "+dailyReport18.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport19 = checkDao.soldPerDay("2017-10-19");
+        System.out.println("19 октября");
+        System.out.println("Доход: "+dailyReport19.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport19.getAmountCash());
+        System.out.println("Карта: "+dailyReport19.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+        DailyReport dailyReport20 = checkDao.soldPerDay("2017-10-20");
+        System.out.println("20 октября");
+        System.out.println("Доход: "+dailyReport20.getSoldPerDay());
+        System.out.println("Наличка: "+dailyReport20.getAmountCash());
+        System.out.println("Карта: "+dailyReport20.getAmountCard());
+        System.out.println("----------");
+        System.out.println("");
+
+
     }
 
     //Сохранение изменений в проперти файле

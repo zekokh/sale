@@ -20,7 +20,7 @@ public class DiscountProgram {
     //6 эклеров по цене 195 (Классификатор 5)
     public static Check promotion6(Check check) {
 
-        return promotion(check, 5, 6, 39.0);
+        return promotion(check, 5, 6, 49.17);
     }
 
     //Флан классификатор 6

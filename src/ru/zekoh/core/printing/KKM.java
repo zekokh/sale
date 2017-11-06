@@ -311,7 +311,7 @@ public class KKM {
                 printText(fptr, "Жак-Андрэ");
                 printText(fptr, "французкая пекарня");
                 printText(fptr, "");
-                printText(fptr, "Дата покупки: "+ check.getDateOfClosing());
+                printText(fptr, "Дата: "+ check.getDateOfClosing());
                 for (int i = 0; i < goodsForDisplays.size(); i++) {
                     String text = goodsForDisplays.get(i).getCount() + " * " +
                             goodsForDisplays.get(i).getPriceFromThePriceList() + " р." + " = " +
@@ -329,6 +329,10 @@ public class KKM {
                 //printFooter(fptr);
 
                 //Печать пустых строк
+                printText(fptr, "");
+                printText(fptr, "жак-андрэ.рф");
+                printText(fptr, "г.Краснодар, ул.Российская 74");
+                printText(fptr, "ИНН: 231150951668");
                 printText(fptr, "");
                 printText(fptr, "");
                 printText(fptr, "");
@@ -468,10 +472,10 @@ public class KKM {
             if (PRINT_NONFISCAL_CHECK) {
 
                 printText(fptr, "Жак-Андрэ");
-                printText(fptr, "французкая пекарня");
+                printText(fptr, "французская пекарня");
                 printText(fptr, "");
                 printText(fptr, "СУТОЧНЫЙ ОТЧЕТ");
-                printText(fptr, "Дата: " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+                printText(fptr, "Дата: " + new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime()) + "");
                 printText(fptr, "");
                 printText(fptr, "Кол-во чеков за день: "+dailyReport.getNumberOfChecks(), IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);
                 printText(fptr, "Возврат: "+dailyReport.getReturnPerDay()+" р.", IFptr.ALIGNMENT_LEFT, IFptr.WRAP_WORD);

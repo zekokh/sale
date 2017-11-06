@@ -18,6 +18,9 @@ public interface CheckDao {
     //Продано за день
     public DailyReport soldPerDay();
 
+    //Продано за день с параметрой датой
+    public DailyReport soldPerDay(String date);
+
     //Продано за день
     public int numberOfChecks();
 
@@ -30,5 +33,6 @@ public interface CheckDao {
 
     //Удалить чек
     public boolean deleteCheck(Check check);
+
 
 }

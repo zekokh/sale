@@ -116,46 +116,61 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="panelWithControlBtn" layoutX="902.0" layoutY="160.0" prefHeight="315.0" prefWidth="380.0" visible="false">
+      <Pane fx:id="panelWithControlBtn" layoutX="902.0" layoutY="160.0" prefHeight="565.0" prefWidth="380.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#payCash" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
+            <Button mnemonicParsing="false" onAction="#payCash" prefHeight="90.0" prefWidth="185.0" style="-fx-background-color: B3E5FC;" text="наличка">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutX="190.0" mnemonicParsing="false" onAction="#payCard" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
+            <Button layoutX="190.0" mnemonicParsing="false" onAction="#payCard" prefHeight="90.0" prefWidth="185.0" style="-fx-background-color: B2DFDB;" text="картой">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutY="90.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: EEEEEE;" text="отмена чека">
+            <Button layoutY="95.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: EEEEEE;" text="отмена чека">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutX="190.0" layoutY="90.0" mnemonicParsing="false" onAction="#exit" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: E57373;" text="выход">
+            <Button layoutX="190.0" layoutY="95.0" mnemonicParsing="false" onAction="#exit" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: E57373;" text="выход">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutY="165.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="скидка">
+            <Button fx:id="discountBtn" layoutY="355.0" mnemonicParsing="false" onAction="#doDiscount" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="сделать скидку">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button layoutY="240.0" mnemonicParsing="false" onAction="#switchToKeyBord" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="клавиатура">
+            <Button layoutY="185.0" mnemonicParsing="false" onAction="#switchToKeyBord" prefHeight="90.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="клавиатура">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
-            <Button fx:id="closeCheckBtn" layoutY="90.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="70.0" prefWidth="185.0" style="-fx-background-color: FFFDE7;" text="закрыть" visible="false">
+            <Button fx:id="closeCheckBtn" layoutY="95.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="85.0" prefWidth="185.0" style="-fx-background-color: FFFDE7;" text="закрыть" visible="false">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+            <TextField fx:id="idCustomerInput" layoutY="280.0" prefHeight="70.0" prefWidth="375.0" promptText="Введите id клиента">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </TextField>
+            <Label fx:id="discountInfoLabel" layoutY="445.0" prefHeight="115.0" prefWidth="375.0" wrapText="true">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Label>
+            <Button fx:id="cancelDiscountBtn" layoutY="355.0" mnemonicParsing="false" onAction="#cancelDiscount" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="отмена скидки">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelWithNumberForCash" layoutX="910.0" layoutY="27.0" prefHeight="695.0" prefWidth="360.0" style="-fx-background-color: white;">
+      <Pane fx:id="panelWithNumberForCash" layoutX="910.0" layoutY="27.0" prefHeight="695.0" prefWidth="360.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button layoutY="147.0" mnemonicParsing="false" onAction="#kbrd_1_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
                <font>

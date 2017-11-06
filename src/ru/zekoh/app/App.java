@@ -32,6 +32,9 @@ public class App extends Application {
             //Получаю продукты и сохраняю в оперативки
             ProductDao productDao = new ProductDaoImpl();
             Data.setProductsSortedByLevel(productDao.getProductsSortedByLevel());
+
+            //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
+
         }
 
 

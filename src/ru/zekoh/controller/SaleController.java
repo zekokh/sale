@@ -10,10 +10,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.*;
@@ -27,13 +24,17 @@ import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.printing.KKM;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
+import ru.zekoh.db.DAO.DiscountForEmployeesDao;
+import ru.zekoh.db.DAO.PromocodDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
+import ru.zekoh.db.DAOImpl.DiscountForEmployeesDaoImpl;
+import ru.zekoh.db.DAOImpl.PromocodDaoImpl;
 import ru.zekoh.db.Data;
-import ru.zekoh.db.entity.Goods;
-import ru.zekoh.db.entity.GoodsForDisplay;
-import ru.zekoh.db.entity.Product;
+import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -126,6 +127,22 @@ public class SaleController {
     @FXML
     public ScrollPane scrollPane;
 
+    //Кнопка для совершения скидок
+    @FXML
+    public Button discountBtn;
+
+    //Пполе для ввода id сотрудника
+    @FXML
+    public TextField idCustomerInput;
+
+    //Лейбл для информирования по проблемам скидки для сотрудника
+    @FXML
+    public Label discountInfoLabel;
+
+    //Кнопка отмены скидки
+    @FXML
+    public Button cancelDiscountBtn;
+
     //Путь уровней вложенности папок и продуктов
     private ArrayList<Integer> levelPath = new ArrayList<Integer>();
 
@@ -165,6 +182,9 @@ public class SaleController {
     //Размер шрифта папок и продуктов
     Double fontFolderAndProduct = 20.0;
 
+    //Скидка сотрудника
+    DiscountForEmployees discountForEmployees = null;
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -182,6 +202,7 @@ public class SaleController {
         panelWithNumber.setVisible(false);
         panelForKKMInfo.setVisible(false);
         panelWithNumberForCash.setVisible(false);
+        cancelDiscountBtn.setVisible(false);
 
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -419,16 +440,36 @@ public class SaleController {
     //Проверяем промоушены
     private void checkDiscountProgram(Check check) {
 
-        //todo Это костыль для акции надо переделать
-        for (int i = 0; i < check.getGoodsList().size(); i++) {
-            check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
-            Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
-            check.getGoodsList().get(i).setSellingPrice(temp);
+
+        if (check.isDiscountOnCheck()) {
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
+                Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
+                check.getGoodsList().get(i).setSellingPrice(temp);
+                check.setDiscountOnGoods(false);
+            }
+
+            Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
+
+            if ((discountForEmployees.getBalance() + temp1) >= discountForEmployees.getBudgetForTheMonth()) {
+                discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+            } else {
+                discountInfoLabel.setText("");
+            }
+        } else {
+            //todo Это костыль для акции надо переделать
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
+                Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
+                check.getGoodsList().get(i).setSellingPrice(temp);
+                check.setDiscountOnGoods(false);
+            }
+
+            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
+            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion2(check));
+            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion1(check));
         }
 
-        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
-        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion2(check));
-        checkList.get(currentCheck).updateCheck(DiscountProgram.promotion1(check));
 
     }
 
@@ -473,10 +514,22 @@ public class SaleController {
 
             //Сумма скидки
             Double discount = check.getAmountByPrice() - check.getTotal();
+            discount = new BigDecimal(discount).setScale(2, RoundingMode.UP).doubleValue();
             discountLabel.setText("Скидка: " + discount + " р.");
 
             //Сумма без скидки
             totalWhithoutDiscountLabel.setText("Без скидки: " + check.getAmountByPrice() + " р.");
+
+
+            if (discountForEmployees != null) {
+                Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
+
+                if ((discountForEmployees.getBalance() + temp1) >= discountForEmployees.getBudgetForTheMonth()) {
+                    discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+                } else {
+                    discountInfoLabel.setText("");
+                }
+            }
 
         } else {
 
@@ -531,9 +584,48 @@ public class SaleController {
         //Сумма без скидки
         totalWhithoutDiscountLabel.setText("Без скидки: 0 р.");
 
+        discountForEmployees = null;
+
+        idCustomerInput.clear();
+        discountInfoLabel.setText("");
+
+        //Переключить кнопки сделать скидку и отмена скидки
+        cancelDiscountBtn.setVisible(false);
+        discountBtn.setVisible(true);
+
+        switchCloseCheckBtn(false);
+
+
+    }
+
+    public void controllDiscount() {
+        if (checkList.get(currentCheck).isDiscountOnCheck()) {
+            idCustomerInput.setText(discountForEmployees.getName() + "");
+            discountBtn.setVisible(false);
+            cancelDiscountBtn.setVisible(true);
+        } else {
+            idCustomerInput.clear();
+            discountBtn.setVisible(true);
+            cancelDiscountBtn.setVisible(false);
+        }
+    }
+
+    public void controllDiscount(boolean delete) {
+        if (checkList.get(currentCheck).isDiscountOnCheck()) {
+            if (delete) {
+                idCustomerInput.clear();
+                discountBtn.setVisible(true);
+                cancelDiscountBtn.setVisible(false);
+            } else {
+                idCustomerInput.setText(discountForEmployees.getName() + "");
+                discountBtn.setVisible(false);
+                cancelDiscountBtn.setVisible(true);
+            }
+        }
     }
 
     //Переход в меню и выход из окно продаж
+
     public void exit(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
             Stage stage = new Stage();
@@ -607,6 +699,9 @@ public class SaleController {
                         public void handle(ActionEvent event) {
                             currentCheck = Integer.parseInt(button.getId());
                             deselectAllTabsForCheckExcept(currentCheck);
+                            //todo переключать кнопки и очищать поле
+                            controllDiscount();
+
                             updateDataFromANewCheck(false);
                         }
                     });
@@ -622,6 +717,10 @@ public class SaleController {
 
                     //Обновление данных из чека
                     updateDataFromANewCheck(createCheckByClickingCnProduct);
+
+
+                    //Панель скидки
+                    controllDiscount();
                 }
             }
         }
@@ -725,60 +824,82 @@ public class SaleController {
 
         //Расчет данных для чека
         checkList.get(currentCheck).setAmountByPrice(priceFromThePrice);
-        checkList.get(currentCheck).setTotal(sellingPriceInCheck);
+
+        if (checkList.get(currentCheck).isDiscountOnCheck()) {
+            if (discountForEmployees != null) {
+                Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100)).setScale(2, RoundingMode.UP).doubleValue();
+                checkList.get(currentCheck).setTotal(temp);
+                //System.out.println(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100));
+            }
+        } else {
+            sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.UP).doubleValue();
+            checkList.get(currentCheck).setTotal(sellingPriceInCheck);
+        }
+
     }
 
     //Уменьшаем кол-во товара при сайпе в лево
     public void leftSwipe(MouseEvent swipeEvent) {
 
         if (checkList.size() > 0) {
+            if (!checkList.get(currentCheck).isPaymentState()) {
 
-            //Текущий чек
-            Check check = checkList.get(currentCheck);
+                //Текущий чек
+                Check check = checkList.get(currentCheck);
 
-            //Если в чеке есть товары
-            if (check.getGoodsList().size() > 0) {
+                //Если в чеке есть товары
+                if (check.getGoodsList().size() > 0) {
 
-                //Находим выбранный товар
-                List<GoodsForDisplay> currentGoods = goodsListView.getSelectionModel().getSelectedItems();
+                    //Находим выбранный товар
+                    List<GoodsForDisplay> currentGoods = goodsListView.getSelectionModel().getSelectedItems();
 
-                //Если удалось определить конкретный товар
-                if (currentGoods.size() > 0) {
-                    //Найти товар в списке товаров внутри чека по id и удалить
-                    for (int i = 0; i < check.getGoodsList().size(); i++) {
-                        if (check.getGoodsList().get(i).getProductId() == currentGoods.get(0).getProductId()) {
-                            check.getGoodsList().remove(i);
-                            checkDiscountProgram(check);
-                            updateDataFromANewCheck(false);
-                            break;
+                    //Если удалось определить конкретный товар
+                    if (currentGoods.size() > 0) {
+                        //Найти товар в списке товаров внутри чека по id и удалить
+                        for (int i = 0; i < check.getGoodsList().size(); i++) {
+                            if (check.getGoodsList().get(i).getProductId() == currentGoods.get(0).getProductId()) {
+                                check.getGoodsList().remove(i);
+                                checkDiscountProgram(check);
+                                updateDataFromANewCheck(false);
+                                break;
+                            }
                         }
+
+                        if (check.getGoodsList().size() == 0) {
+                            check.setDateOfCreation(null);
+
+                            //Получается update не срабатывает так как в чеке нет товара
+                            //Поэтому в ручную очищаем
+                            items.clear();
+                            goodsListView.refresh();
+                        }
+
                     }
-
-                    if (check.getGoodsList().size() == 0) {
-                        check.setDateOfCreation(null);
-
-                        //Получается update не срабатывает так как в чеке нет товара
-                        //Поэтому в ручную очищаем
-                        items.clear();
-                        goodsListView.refresh();
-                    }
-
 
                 }
-
             }
-
         }
     }
 
     //Отмена чека
     public void cancelCheck(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
+            //Удаляем скидку на чек сотрудника если есть
+            if (checkList.get(currentCheck).isDiscountOnCheck()) {
+                controllDiscount(true);
+                discountForEmployees = null;
+            }
             checkList.remove(currentCheck);
             if (checkList.size() > 0) {
+
+
                 int index = checkList.size() - 1;
+
                 currentCheck = (index);
                 panelForCheckBtns.getChildren().remove(index);
+                for (int i = 0; i < panelForCheckBtns.getChildren().size(); i++) {
+                    panelForCheckBtns.getChildren().get(i).setId(i + "");
+                }
                 deselectAllTabsForCheckExcept(currentCheck);
                 updateDataFromANewCheck(false);
             } else {
@@ -929,45 +1050,115 @@ public class SaleController {
     public void payCard(ActionEvent actionEvent) {
 
         if (checkList.size() > 0) {
-            if (checkList.get(currentCheck).isALive()) {
-                Check check = checkList.get(currentCheck);
+            if (checkList.get(currentCheck).getGoodsList().size() > 0) {
 
-                //Устанавливавем вид оплаты
-                check.setTypeOfPayment(2);
-                check.setALive(false);
-                check.setPaymentState(true);
-                check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+                if (checkList.get(currentCheck).isALive()) {
 
-                CheckDao checkDao = new CheckDaoImpl();
+                    if (discountForEmployees == null) {
+                        Check check = checkList.get(currentCheck);
 
-                //Если запись в Базу Данных успешна прошла печатем чек
-                if (checkDao.updateCheck(check)) {
+                        //Устанавливавем вид оплаты
+                        check.setTypeOfPayment(2);
+                        check.setALive(false);
+                        check.setPaymentState(true);
+                        check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
 
-                    //Если принтер подключен
-                    if (Properties.KKM) {
+                        CheckDao checkDao = new CheckDaoImpl();
 
-                        //Показываем панель с инфой о печати
-                        panelForKKMInfo.setVisible(true);
-                        infoLabelOnKkmPanel.setText("Идет печать чека...");
-                        skipBtnForKkmPanel.setVisible(false);
-                        List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                        try {
-                            if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                skipBtnForKkmPanel.setVisible(true);
+                        //Если запись в Базу Данных успешна прошла печатем чек
+                        if (checkDao.updateCheck(check)) {
+
+                            if (check.isDiscountOnCheck()) {
+                                DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
+                                if (discountForEmployees != null) {
+                                    discountForEmp.passed(check, discountForEmployees);
+                                }
                             }
-                        } catch (Exception e) {
-                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                            skipBtnForKkmPanel.setVisible(true);
-                            System.out.println("что то пошло не так с ккм");
-                            System.out.println(e);
-                        }
-                    }
-                    switchCloseCheckBtn(true);
-                    panelForKKMInfo.setVisible(false);
 
-                } else {
-                    //todo Выводим сообщения что-то пошло не так
+                            //Если принтер подключен
+                            if (Properties.KKM) {
+
+                                //Показываем панель с инфой о печати
+                                panelForKKMInfo.setVisible(true);
+                                infoLabelOnKkmPanel.setText("Идет печать чека...");
+                                skipBtnForKkmPanel.setVisible(false);
+                                List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                                try {
+                                    if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                        skipBtnForKkmPanel.setVisible(true);
+                                    }
+                                } catch (Exception e) {
+                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                    skipBtnForKkmPanel.setVisible(true);
+                                    System.out.println("что то пошло не так с ккм");
+                                    System.out.println(e);
+                                }
+                            }
+                            switchCloseCheckBtn(true);
+                            panelForKKMInfo.setVisible(false);
+
+                        } else {
+                            //todo Выводим сообщения что-то пошло не так
+                        }
+                    } else {
+                        Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
+
+                        if ((discountForEmployees.getBalance() + temp) >= discountForEmployees.getBudgetForTheMonth()) {
+                            discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+                        } else {
+
+
+                            Check check = checkList.get(currentCheck);
+
+                            //Устанавливавем вид оплаты
+                            check.setTypeOfPayment(2);
+                            check.setALive(false);
+                            check.setPaymentState(true);
+                            check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                            CheckDao checkDao = new CheckDaoImpl();
+
+                            //Если запись в Базу Данных успешна прошла печатем чек
+                            if (checkDao.updateCheck(check)) {
+
+                                if (check.isDiscountOnCheck()) {
+                                    DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
+                                    if (discountForEmployees != null) {
+                                        discountForEmp.passed(check, discountForEmployees);
+                                    }
+                                }
+
+                                //Если принтер подключен
+                                if (Properties.KKM) {
+
+                                    //Показываем панель с инфой о печати
+                                    panelForKKMInfo.setVisible(true);
+                                    infoLabelOnKkmPanel.setText("Идет печать чека...");
+                                    skipBtnForKkmPanel.setVisible(false);
+                                    List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                                    try {
+                                        if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                            skipBtnForKkmPanel.setVisible(true);
+                                        }
+                                    } catch (Exception e) {
+                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                        skipBtnForKkmPanel.setVisible(true);
+                                        System.out.println("что то пошло не так с ккм");
+                                        System.out.println(e);
+                                    }
+                                }
+                                switchCloseCheckBtn(true);
+                                panelForKKMInfo.setVisible(false);
+
+                            } else {
+                                //todo Выводим сообщения что-то пошло не так
+                            }
+                        }
+
+
+                    }
                 }
             }
         }
@@ -978,7 +1169,6 @@ public class SaleController {
     public void closeCheck(ActionEvent actionEvent) {
         //закрытие чека после печати
         cancelCheck(actionEvent);
-        switchCloseCheckBtn(false);
 
     }
 
@@ -1001,7 +1191,7 @@ public class SaleController {
     }
 
     public void kbrd_6_cash(ActionEvent actionEvent) {
-        clickToBtnKbrdCash("4");
+        clickToBtnKbrdCash("6");
     }
 
     public void kbrd_5_cash(ActionEvent actionEvent) {
@@ -1009,7 +1199,7 @@ public class SaleController {
     }
 
     public void kbrd_4_cash(ActionEvent actionEvent) {
-        clickToBtnKbrdCash("6");
+        clickToBtnKbrdCash("4");
     }
 
     public void kbrd_7_cash(ActionEvent actionEvent) {
@@ -1080,43 +1270,108 @@ public class SaleController {
         if (checkList.size() > 0) {
             Check check = checkList.get(currentCheck);
             if (check.getGoodsList().size() > 0) {
-                //Устанавливавем вид оплаты
-                check.setTypeOfPayment(1);
-                check.setALive(false);
-                check.setPaymentState(true);
-                check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
 
-                CheckDao checkDao = new CheckDaoImpl();
+                if (discountForEmployees != null) {
 
-                //Если запись в Базу Данных успешна прошла печатем чек
-                if (checkDao.updateCheck(check)) {
+                    Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
 
-                    //Если принтер подключен
-                    if (Properties.KKM) {
+                    if ((discountForEmployees.getBalance() + temp) >= discountForEmployees.getBudgetForTheMonth()) {
+                        discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+                    } else {
 
-                        //Показываем панель с инфой о печати
-                        panelForKKMInfo.setVisible(true);
-                        infoLabelOnKkmPanel.setText("Идет печать чека...");
-                        skipBtnForKkmPanel.setVisible(false);
-                        List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                        try {
-                            if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                skipBtnForKkmPanel.setVisible(true);
+                        //Устанавливавем вид оплаты
+                        check.setTypeOfPayment(1);
+                        check.setALive(false);
+                        check.setPaymentState(true);
+                        check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                        CheckDao checkDao = new CheckDaoImpl();
+
+                        //Если запись в Базу Данных успешна прошла печатем чек
+                        if (checkDao.updateCheck(check)) {
+
+                            if (check.isDiscountOnCheck()) {
+                                DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
+                                if (discountForEmployees != null) {
+                                    discountForEmp.passed(check, discountForEmployees);
+                                }
                             }
-                        } catch (Exception e) {
-                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                            skipBtnForKkmPanel.setVisible(true);
-                            System.out.println("что то пошло не так с ккм");
-                            System.out.println(e);
+
+                            //Если принтер подключен
+                            if (Properties.KKM) {
+
+                                //Показываем панель с инфой о печати
+                                panelForKKMInfo.setVisible(true);
+                                infoLabelOnKkmPanel.setText("Идет печать чека...");
+                                skipBtnForKkmPanel.setVisible(false);
+                                List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                                try {
+                                    if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                        skipBtnForKkmPanel.setVisible(true);
+                                    }
+                                } catch (Exception e) {
+                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                    skipBtnForKkmPanel.setVisible(true);
+                                    System.out.println("что то пошло не так с ккм");
+                                    System.out.println(e);
+                                }
+                            }
+                            switchCloseCheckBtn(true);
+                            switchToKeyBrdCash(false);
+                            panelForKKMInfo.setVisible(false);
+                        } else {
+                            //todo Выводим сообщения что-то пошло не так
                         }
                     }
-                    switchCloseCheckBtn(true);
-                    switchToKeyBrdCash(false);
-                    panelForKKMInfo.setVisible(false);
                 } else {
-                    //todo Выводим сообщения что-то пошло не так
+                    //Устанавливавем вид оплаты
+                    check.setTypeOfPayment(1);
+                    check.setALive(false);
+                    check.setPaymentState(true);
+                    check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                    CheckDao checkDao = new CheckDaoImpl();
+
+                    //Если запись в Базу Данных успешна прошла печатем чек
+                    if (checkDao.updateCheck(check)) {
+
+                        if (check.isDiscountOnCheck()) {
+                            DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
+                            if (discountForEmployees != null) {
+                                discountForEmp.passed(check, discountForEmployees);
+                            }
+                        }
+
+                        //Если принтер подключен
+                        if (Properties.KKM) {
+
+                            //Показываем панель с инфой о печати
+                            panelForKKMInfo.setVisible(true);
+                            infoLabelOnKkmPanel.setText("Идет печать чека...");
+                            skipBtnForKkmPanel.setVisible(false);
+                            List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                            try {
+                                if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                    skipBtnForKkmPanel.setVisible(true);
+                                }
+                            } catch (Exception e) {
+                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                skipBtnForKkmPanel.setVisible(true);
+                                System.out.println("что то пошло не так с ккм");
+                                System.out.println(e);
+                            }
+                        }
+                        switchCloseCheckBtn(true);
+                        switchToKeyBrdCash(false);
+                        panelForKKMInfo.setVisible(false);
+                    } else {
+                        //todo Выводим сообщения что-то пошло не так
+                    }
                 }
+
+
             }
 
         }
@@ -1148,6 +1403,93 @@ public class SaleController {
     //Возвращает обратно на панель с управления чеком и очищает поля на панели сдачи
     public void returnToControlBtnPanel(ActionEvent actionEvent) {
         switchToKeyBrdCash(false);
+
+    }
+
+    //Сделать скидку
+    public void doDiscount(ActionEvent actionEvent) {
+
+        if (idCustomerInput.getText().length() == 8) {
+
+            try {
+                int numberCustomerCurd = Integer.parseInt(idCustomerInput.getText());
+
+                PromocodDao promocodDao = new PromocodDaoImpl();
+                Promocod promocod = promocodDao.getPromocodByNumber(numberCustomerCurd);
+
+                if (promocod != null && promocod.getNumber() != 0) {
+                    if(promocod.isUse()){
+                        discountInfoLabel.setText("Промокод уже был использован!");
+                    }else {
+                        discountInfoLabel.setText("Промокод активирован! Отдайте гостю багет");
+                        promocodDao.use(promocod);
+                    }
+                }else {
+                    discountInfoLabel.setText("Промокод не найден!");
+                }
+
+            } catch (Exception e) {
+                discountInfoLabel.setText("Что то пошло не так!");
+            }
+
+        }
+
+        if (checkList.size() > 0) {
+
+                if (checkList.get(currentCheck).getGoodsList().size() > 0) {
+                    DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
+                    try {
+                        int numberCustomerCurd = Integer.parseInt(idCustomerInput.getText());
+
+                        discountForEmployees = discountForEmployeesDao.getDiscountCard(numberCustomerCurd);
+
+                        if (discountForEmployees == null) {
+                            discountInfoLabel.setText("Пользователь не найден");
+                            idCustomerInput.setText("");
+                        } else {
+                            Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
+
+                            if ((discountForEmployees.getBalance() + temp) >= discountForEmployees.getBudgetForTheMonth()) {
+                                discountInfoLabel.setText(discountForEmployees.getName() + " Лимит превышен! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+                            } else {
+                                Check check = checkList.get(currentCheck);
+
+                                check.setDiscountOnCheck(true);
+                                check.setTotal(check.getAmountByPrice() - (check.getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100));
+
+                                idCustomerInput.setText(discountForEmployees.getName());
+
+                                updateDataFromANewCheck(false);
+
+                                cancelDiscountBtn.setVisible(true);
+                                discountBtn.setVisible(false);
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        discountInfoLabel.setText("Что то пошло не так!");
+                    }
+
+
+                }
+
+
+        }
+    }
+
+    //Отмена чека
+    public void cancelDiscount(ActionEvent actionEvent) {
+        discountForEmployees = null;
+        checkList.get(currentCheck).setDiscountOnCheck(false);
+        idCustomerInput.clear();
+        discountInfoLabel.setText("");
+        cancelDiscountBtn.setVisible(false);
+        discountBtn.setVisible(true);
+        updateDataFromANewCheck(false);
+    }
+
+    //Запись скидки сотрудника
+    public void recordDiscountForEmployer() {
 
     }
 }

@@ -13,6 +13,7 @@ import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
+import ru.zekoh.db.DataBase;
 import ru.zekoh.db.entity.Session;
 import ru.zekoh.db.entity.User;
 
@@ -57,6 +58,7 @@ public class LoginController {
             //Закрываем все сессии и пишем в лог о ошибки
             sessionDao.closeAllOpenSessions();
         }
+
     }
 
     public void exit(ActionEvent actionEvent) {
@@ -135,7 +137,7 @@ public class LoginController {
                         } else {
                             infoLabel.setText("Пароль не верный!");
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         infoLabel.setText("Пароль не верный!");
                     }
 
