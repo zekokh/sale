@@ -108,11 +108,11 @@ public class PromocodDaoImpl implements PromocodDao {
                 stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM `promotion` WHERE `is_a_live` ='1' AND `use`= '0' AND `printed` = '0' LIMIT 1");
                 while (rs.next()) {
-                    stmt.execute("UPDATE `promotion` SET `printed`='1' WHERE `number` = '" + rs.getInt(1) + "';");
-
                     promocod.setNumber(rs.getInt(1));
                     promocod.setUse(rs.getBoolean(2));
                 }
+
+                stmt.execute("UPDATE `promotion` SET `printed`='1' WHERE `number` = '" +  promocod.getNumber() + "';");
                 stmt.close();
             }
 

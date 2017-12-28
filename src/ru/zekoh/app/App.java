@@ -36,7 +36,6 @@ public class App extends Application {
             Data.setProductsSortedByLevel(productDao.getProductsSortedByLevel());
 
             //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
-
         }
 
         // Делаем тяжелые долгии запросы

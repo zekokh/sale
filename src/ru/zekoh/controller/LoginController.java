@@ -81,9 +81,11 @@ public class LoginController {
     }
 
     public void exit(ActionEvent actionEvent) throws IOException {
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
 
-
-        //Флаг для остановки синхронизации
+/*        //Флаг для остановки синхронизации
         SData.flag = false;
 
         if (!SData.isInTheWork()){
@@ -98,7 +100,7 @@ public class LoginController {
             stage.requestFocus();
         } catch (Exception e) {
             System.out.println(e);
-        }
+        }*/
 
     }
 

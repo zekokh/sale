@@ -4,6 +4,9 @@ import ru.zekoh.db.Check;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class DiscountProgram {
@@ -174,9 +177,68 @@ public class DiscountProgram {
     //Список классификаторов
     public static Check discountOnBakes(Check check) {
 
-        //Текущая дата
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date dateLimit = null;
+        try {
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 20:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (curentDate.after(dateLimit)) {
+
+            //Делаем 30% сктдку на выпечку
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Цена на текущий товар по прайсу
+                Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if(classifier == 13 || classifier == 4){
+
+                    //Сумма скидки
+                    Double discountAmount = priceFromThePriceList * 0.30;
+
+                    //Цена на товар со скидкой
+                    Double priceAfterDiscount = priceFromThePriceList-discountAmount;
+
+                    //Устанавливаем цену со скидкой
+                    goods.setPriceAfterDiscount(priceAfterDiscount);
+
+                    //Количество товара
+                    Double count = goods.getCount();
+
+                    //Считаем продажную цену умножая цену после скидки на кол-во товара
+                    Double sellingPrice = count * priceAfterDiscount;
+
+                    //Устанавливаем продажную цену товара
+                    goods.setSellingPrice(sellingPrice);
+
+                    //Указываем что в чеке есть товары со скидкой
+                    check.setDiscountOnGoods(true);
+                }
+            }
+        }
 
 
-        return null;
+        return check;
     }
 }

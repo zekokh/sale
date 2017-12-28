@@ -517,7 +517,7 @@ public class SaleController {
             check.updateCheck(DiscountProgram.promotionMini6(check));
 
             //Скидка 30% на выпечку после 8 вечера
-           // check.updateCheck(DiscountProgram.discountOnBakes(check));
+            check.updateCheck(DiscountProgram.discountOnBakes(check));
 
             //Промокод
             int promoCod = check.getPromocod();

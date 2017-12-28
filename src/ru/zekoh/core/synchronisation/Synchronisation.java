@@ -14,10 +14,10 @@ import static ru.zekoh.core.synchronisation.SData.flag;
 import static ru.zekoh.core.synchronisation.SData.inTheWork;
 
 public class Synchronisation extends Thread {
-
+/*
     public void run() {
 
-/*        while (flag) {
+*//*        while (flag) {
             System.out.println("Поток запущен...");
 
             synchro();
@@ -31,7 +31,7 @@ public class Synchronisation extends Thread {
         }
 
         //Окончательная выгрузка данных
-        synchro();*/
+        synchro();*//*
         inTheWork = false;
 
     }
@@ -136,6 +136,6 @@ public class Synchronisation extends Thread {
         inTheWork = false;
 
         return successFlag;
-    }
+    }*/
 }
 
