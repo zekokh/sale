@@ -8,8 +8,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import ru.zekoh.db.DAO.FolderDao;
 import ru.zekoh.db.DAO.ProductDao;
+import ru.zekoh.db.DAO.PromocodDao;
 import ru.zekoh.db.DAOImpl.FolderDaoImpl;
 import ru.zekoh.db.DAOImpl.ProductDaoImpl;
+import ru.zekoh.db.DAOImpl.PromocodDaoImpl;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.DataBase;
 import ru.zekoh.properties.Properties;
@@ -37,11 +39,11 @@ public class App extends Application {
 
         }
 
-
         // Делаем тяжелые долгии запросы
-        //for (int i = 0; i < 10; i++) {
-        //    Thread.sleep(200);
-        // }
+        //Thread.sleep(5000); //что бы видно было заставку
+       /* for (int i = 0; i < 10; i++) {
+            Thread.sleep(200);
+         }*/
 
     }
 

@@ -3,6 +3,8 @@ package ru.zekoh.core.printing;
 import com.atol.drivers.fptr.Fptr;
 import com.atol.drivers.fptr.IFptr;
 import ru.zekoh.db.Check;
+import ru.zekoh.db.DAO.PromocodDao;
+import ru.zekoh.db.DAOImpl.PromocodDaoImpl;
 import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.GoodsForDisplay;
 
@@ -309,7 +311,7 @@ public class KKM {
             if (PRINT_NONFISCAL_CHECK) {
 
                 printText(fptr, "Жак-Андрэ");
-                printText(fptr, "французкая пекарня");
+                printText(fptr, "французская пекарня");
                 printText(fptr, "");
                 printText(fptr, "Дата: "+ check.getDateOfClosing());
                 for (int i = 0; i < goodsForDisplays.size(); i++) {
@@ -333,6 +335,18 @@ public class KKM {
                 printText(fptr, "жак-андрэ.рф");
                 printText(fptr, "г.Краснодар, ул.Российская 74");
                 printText(fptr, "ИНН: 231150951668");
+                printText(fptr, "");
+
+
+                PromocodDao promocodDao = new PromocodDaoImpl();
+                int promocod = promocodDao.getPromocodForPrint().getNumber();
+
+                if(promocod != 0){
+                    printText(fptr, "");
+                    printText(fptr, "- 10% по промокоду: "+promocod);
+                    printText(fptr, "");
+                }
+
                 printText(fptr, "");
                 printText(fptr, "");
                 printText(fptr, "");

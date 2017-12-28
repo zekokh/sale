@@ -31,7 +31,7 @@ public class PromocodDaoImpl implements PromocodDao {
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM `promotion` WHERE `is_a_live` ='1' AND `number` = '"+ number +"'");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `promotion` WHERE `is_a_live` ='1' AND `number` = '" + number + "'");
                 while (rs.next()) {
                     promocod.setNumber(rs.getInt(1));
                     promocod.setUse(rs.getBoolean(2));
@@ -88,6 +88,90 @@ public class PromocodDaoImpl implements PromocodDao {
                 System.out.println(e);
             }
         }
+        return flag;
+    }
+
+    //Выбрать промокод для печати на принтере
+    @Override
+    public Promocod getPromocodForPrint() {
+
+        Promocod promocod = new Promocod();
+
+        //Получаем соединение с БД
+        Connection connection = DataBase.getConnection();
+
+        try {
+            if (connection != null) {
+
+                Statement stmt = null;
+                connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `promotion` WHERE `is_a_live` ='1' AND `use`= '0' AND `printed` = '0' LIMIT 1");
+                while (rs.next()) {
+                    stmt.execute("UPDATE `promotion` SET `printed`='1' WHERE `number` = '" + rs.getInt(1) + "';");
+
+                    promocod.setNumber(rs.getInt(1));
+                    promocod.setUse(rs.getBoolean(2));
+                }
+                stmt.close();
+            }
+
+            //Комит транзакции
+            connection.commit();
+
+        } catch (SQLException e) {
+            System.out.println("Exception Message " + e.getLocalizedMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+        return promocod;
+    }
+
+    //Проверка промокода
+    @Override
+    public boolean checkPromoFromBild(int promocod) {
+
+        boolean flag = false;
+
+        //Получаем соединение с БД
+        Connection connection = DataBase.getConnection();
+
+        try {
+            if (connection != null) {
+
+                Statement stmt = null;
+                connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `promotion` WHERE `is_a_live` ='1' AND `printed`= '1' AND `number`='" + promocod + "'");
+                while (rs.next()) {
+                    flag = !rs.getBoolean(2);
+                }
+                stmt.close();
+            }
+
+            //Комит транзакции
+            connection.commit();
+
+        } catch (SQLException e) {
+            System.out.println("Exception Message " + e.getLocalizedMessage());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        }
+
         return flag;
     }
 }

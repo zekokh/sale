@@ -1,6 +1,7 @@
 package ru.zekoh.core;
 
 import ru.zekoh.db.Check;
+import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
 
 import java.util.List;
@@ -23,13 +24,19 @@ public class DiscountProgram {
         return promotion(check, 5, 6, 49.17);
     }
 
+    //6 эклеров по цене 5 (Классификатор 12)
+    public static Check promotionMini6(Check check) {
+
+        return promotion(check, 12, 6, 24.17);
+    }
+
     //Флан классификатор 6
     public static Check promotion1(Check check) {
 
         return promotion(check, 6, 8, 97.375);
     }
 
-    //5 и 10 круасанов по цене 175 (Классификатор 6)
+    //5 и 10 круасанов по цене 175 (Классификатор 4)
     public static Check promotion2(Check check) {
 
         Check newCheck = new Check();
@@ -161,5 +168,15 @@ public class DiscountProgram {
         }
 
         return check;
+    }
+
+    //Скидка 30% на выпечку после 8 вечера
+    //Список классификаторов
+    public static Check discountOnBakes(Check check) {
+
+        //Текущая дата
+
+
+        return null;
     }
 }

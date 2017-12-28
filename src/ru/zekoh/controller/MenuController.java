@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ru.zekoh.core.printing.KKM;
+import ru.zekoh.core.synchronisation.SData;
+import ru.zekoh.core.synchronisation.Synchronisation;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.SessionDao;
@@ -43,7 +45,15 @@ public class MenuController {
         saleBtn.setDisable(false);
         reportBtn.setDisable(false);
         blockBtn.setDisable(false);
-    }
+
+        /*if(SData.isInTheWork()){
+            System.out.println("Идет синхронизация ...");
+        } else {
+            Synchronisation synchronisation = new Synchronisation();
+            synchronisation.start();
+        }*/
+
+}
 
     //Переход в окно продаж
     public void goToSaleWindow(ActionEvent actionEvent) {

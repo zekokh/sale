@@ -46,6 +46,9 @@ public class Check {
     //Флаг для фиксации содержит ли чек товары или чек еще пустой
     private boolean containGoods = false;
 
+    //Промокод из чека
+    private int promocod = 0;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -61,6 +64,7 @@ public class Check {
      setReturnStatus(check.isReturnStatus());
      setALive(check.isALive());
      setContainGoods(check.isContainGoods());
+     setPromocod(check.getPromocod());
     }
 
     public int getId() {
@@ -167,5 +171,11 @@ public class Check {
         this.containGoods = containGoods;
     }
 
+    public int getPromocod() {
+        return promocod;
+    }
 
+    public void setPromocod(int promocod) {
+        this.promocod = promocod;
+    }
 }

@@ -1,14 +1,22 @@
 package ru.zekoh.controller;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.zekoh.core.synchronisation.SData;
+import ru.zekoh.core.synchronisation.Synchronisation;
 import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
@@ -39,6 +47,12 @@ public class LoginController {
     @FXML
     public Label infoLabel;
 
+    @FXML
+    public Pane pane;
+
+    @FXML
+    public VBox vbox;
+
 
     @FXML
     public void initialize() {
@@ -57,14 +71,35 @@ public class LoginController {
 
             //Закрываем все сессии и пишем в лог о ошибки
             sessionDao.closeAllOpenSessions();
+
+            if(SData.exitBool){
+                Stage stage = (Stage) infoLabel.getScene().getWindow();
+                stage.close();
+            }
         }
 
     }
 
-    public void exit(ActionEvent actionEvent) {
+    public void exit(ActionEvent actionEvent) throws IOException {
+
+
+        //Флаг для остановки синхронизации
+        SData.flag = false;
+
+        if (!SData.isInTheWork()){
+           // Synchronisation.synchro();
+        }
+
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        try {
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/ExitLoader.fxml"));
+            stage.getScene().setRoot(pageDate);
+            stage.requestFocus();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     public void enter(ActionEvent actionEvent) throws SQLException, NoSuchAlgorithmException {

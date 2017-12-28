@@ -437,40 +437,134 @@ public class SaleController {
         return gridPane;
     }
 
-    //Проверяем промоушены
+    /* Вызываем при:
+    - уменьшении количества товара;
+    - при добавлении товара;
+    - после ввода количества товара при закрытие клавиатуры;
+     */
     private void checkDiscountProgram(Check check) {
 
+        //Отменяем скидки на товары внутри чека
+        for (int i = 0; i < check.getGoodsList().size(); i++) {
 
+            //Текущий товар
+            Goods goods = check.getGoodsList().get(i);
+
+            //Цена на текущий товар по прайсу
+            Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+            //Устанавливаем цену после скидки такую как было по прайсу
+            goods.setPriceAfterDiscount(priceFromThePriceList);
+
+            //Цена после скидки
+            Double priceAfterDiscount = goods.getPriceAfterDiscount();
+
+            //Количество товара
+            Double count = goods.getCount();
+
+            //Считаем продажную цену умножая цену после скидки на кол-во товара
+            Double sellingPrice = count * priceAfterDiscount;
+
+            //Устанавливаем продажную цену товара
+            goods.setSellingPrice(sellingPrice);
+
+            //Указываем что в чеке нет товаров со скидкой
+            check.setDiscountOnGoods(false);
+
+        }
+
+        //Если есть скидка на чек, то считаем укладывается ли сотрудник по лимиту на приобретаемые товары в месяц
         if (check.isDiscountOnCheck()) {
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
-                Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
-                check.getGoodsList().get(i).setSellingPrice(temp);
-                check.setDiscountOnGoods(false);
-            }
 
-            Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
+            //Цена за весь чек
+            Double price = check.getAmountByPrice();
 
-            if ((discountForEmployees.getBalance() + temp1) >= discountForEmployees.getBudgetForTheMonth()) {
-                discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+            //Размер скидки (проценты)
+            Double discount = discountForEmployees.getAmountOfDiscount() / 100;
+
+            //Сумма скидки
+            Double discountAmount = price * discount;
+
+            //Цена на чек со скидкой сотрудника
+            Double discountPrice = price - discountAmount;
+
+            //Текущий баланс сотрудника
+            Double balance = discountForEmployees.getBalance();
+
+            //Лимит по скидки в месяц
+            Double limit = discountForEmployees.getBudgetForTheMonth();
+
+            //Если текущий баланс сотрудника вместе с запланированной покупкой больше лимита установленного в месяц то оповестить об этом
+            if ((balance + discountPrice) >= limit) {
+                discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (limit - balance) + " р.");
             } else {
                 discountInfoLabel.setText("");
             }
         } else {
-            //todo Это костыль для акции надо переделать
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                check.getGoodsList().get(i).setPriceAfterDiscount(check.getGoodsList().get(i).getPriceFromThePriceList());
-                Double temp = check.getGoodsList().get(i).getCount() * check.getGoodsList().get(i).getPriceAfterDiscount();
-                check.getGoodsList().get(i).setSellingPrice(temp);
-                check.setDiscountOnGoods(false);
+            //Если на чек скидки нет
+            //Проверяем есть в текущем чеке товары на которые работает промоушен
+
+            //6 больших эклеров по цене 5
+            check.updateCheck(DiscountProgram.promotion6(check));
+
+            //Скидка на 5 и 10 круасанов
+            check.updateCheck(DiscountProgram.promotion2(check));
+
+            //8 кусков флана стоимость как за целый флан
+            check.updateCheck(DiscountProgram.promotion1(check));
+
+            //6 мини эклеров по цене 5
+            check.updateCheck(DiscountProgram.promotionMini6(check));
+
+            //Скидка 30% на выпечку после 8 вечера
+           // check.updateCheck(DiscountProgram.discountOnBakes(check));
+
+            //Промокод
+            int promoCod = check.getPromocod();
+
+            //Если промокод активирован
+            if (promoCod != 0) {
+
+                //Делаем скидку 10% на все товары на которых еще нет скидок
+                //Отменяем скидки на товары внутри чека
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                    //Текущий товар
+                    Goods goods = check.getGoodsList().get(i);
+
+                    //Цена на текущий товар по прайсу
+                    Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+                    //Цена после скидки
+                    Double priceAfterDiscount = goods.getPriceAfterDiscount();
+
+                    //Если цены не отличаются и этот товар не хлеб (классификатор - 11) т.е. товар не участвует в промоушене то делаем на товар скидку
+                    if (priceFromThePriceList.equals(priceAfterDiscount) && goods.getClassifier() != 11) {
+
+                        //Сумма скидки
+                        Double discountAmount = priceFromThePriceList * 0.10;
+
+                        //Делаем скидку 10%
+                        goods.setPriceAfterDiscount(priceFromThePriceList - discountAmount);
+
+                        //Обновляем значение в цене после скидки
+                        priceAfterDiscount = goods.getPriceAfterDiscount();
+                    }
+
+                    //Количество товара
+                    Double count = goods.getCount();
+
+                    //Считаем продажную цену умножая цену после скидки на кол-во товара
+                    Double sellingPrice = count * priceAfterDiscount;
+
+                    //Устанавливаем продажную цену товара
+                    goods.setSellingPrice(sellingPrice);
+
+                    //Указываем что в чеке есть товаров со скидкой
+                    check.setDiscountOnGoods(true);
+                }
             }
-
-            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion6(check));
-            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion2(check));
-            checkList.get(currentCheck).updateCheck(DiscountProgram.promotion1(check));
         }
-
-
     }
 
     //Создаем новый чек и добавляем  в список чеков
@@ -506,6 +600,10 @@ public class SaleController {
             //Рассчитываем суммы за чек
             amountInCheck(check.getGoodsList());
 
+
+            Double totalLabelDouble = new BigDecimal(check.getTotal()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            check.setTotal(totalLabelDouble);
+
             //Меняем сумму чека в табе для чеков
             Button btn = (Button) panelForCheckBtns.getChildren().get(currentCheck);
             btn.setText(check.getTotal() + " р.");
@@ -514,11 +612,13 @@ public class SaleController {
 
             //Сумма скидки
             Double discount = check.getAmountByPrice() - check.getTotal();
-            discount = new BigDecimal(discount).setScale(2, RoundingMode.UP).doubleValue();
+            discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
             discountLabel.setText("Скидка: " + discount + " р.");
 
             //Сумма без скидки
-            totalWhithoutDiscountLabel.setText("Без скидки: " + check.getAmountByPrice() + " р.");
+            Double amountByPrice = check.getAmountByPrice();
+            amountByPrice = new BigDecimal(amountByPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            totalWhithoutDiscountLabel.setText("Без скидки: " + amountByPrice + " р.");
 
 
             if (discountForEmployees != null) {
@@ -756,7 +856,8 @@ public class SaleController {
                 goodsForDisplay.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
 
                 //Сумма за позици
-                goodsForDisplay.setSellingPrice(goods.get(i).getSellingPrice());
+                Double sellingPriceDouble = new BigDecimal(goods.get(i).getSellingPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                goodsForDisplay.setSellingPrice(sellingPriceDouble);
 
                 //Цена после скидки
                 goodsForDisplay.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
@@ -774,7 +875,8 @@ public class SaleController {
 
                 //Продажная цена
                 Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
-                goodsTemp.setSellingPrice(sellingPrice);
+                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                goodsTemp.setSellingPrice(sellingPriceDouble);
 
 
             }
@@ -827,12 +929,12 @@ public class SaleController {
 
         if (checkList.get(currentCheck).isDiscountOnCheck()) {
             if (discountForEmployees != null) {
-                Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100)).setScale(2, RoundingMode.UP).doubleValue();
+                Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 checkList.get(currentCheck).setTotal(temp);
                 //System.out.println(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100));
             }
         } else {
-            sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.UP).doubleValue();
+            sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
             checkList.get(currentCheck).setTotal(sellingPriceInCheck);
         }
 
@@ -883,7 +985,10 @@ public class SaleController {
 
     //Отмена чека
     public void cancelCheck(ActionEvent actionEvent) {
+
+        //Если есть хотя бы один созданный чек
         if (checkList.size() > 0) {
+
             //Удаляем скидку на чек сотрудника если есть
             if (checkList.get(currentCheck).isDiscountOnCheck()) {
                 controllDiscount(true);
@@ -1046,125 +1151,6 @@ public class SaleController {
         }
     }
 
-    //Оплата безналичным платежом
-    public void payCard(ActionEvent actionEvent) {
-
-        if (checkList.size() > 0) {
-            if (checkList.get(currentCheck).getGoodsList().size() > 0) {
-
-                if (checkList.get(currentCheck).isALive()) {
-
-                    if (discountForEmployees == null) {
-                        Check check = checkList.get(currentCheck);
-
-                        //Устанавливавем вид оплаты
-                        check.setTypeOfPayment(2);
-                        check.setALive(false);
-                        check.setPaymentState(true);
-                        check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
-
-                        CheckDao checkDao = new CheckDaoImpl();
-
-                        //Если запись в Базу Данных успешна прошла печатем чек
-                        if (checkDao.updateCheck(check)) {
-
-                            if (check.isDiscountOnCheck()) {
-                                DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
-                                if (discountForEmployees != null) {
-                                    discountForEmp.passed(check, discountForEmployees);
-                                }
-                            }
-
-                            //Если принтер подключен
-                            if (Properties.KKM) {
-
-                                //Показываем панель с инфой о печати
-                                panelForKKMInfo.setVisible(true);
-                                infoLabelOnKkmPanel.setText("Идет печать чека...");
-                                skipBtnForKkmPanel.setVisible(false);
-                                List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                                try {
-                                    if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                        skipBtnForKkmPanel.setVisible(true);
-                                    }
-                                } catch (Exception e) {
-                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                    skipBtnForKkmPanel.setVisible(true);
-                                    System.out.println("что то пошло не так с ккм");
-                                    System.out.println(e);
-                                }
-                            }
-                            switchCloseCheckBtn(true);
-                            panelForKKMInfo.setVisible(false);
-
-                        } else {
-                            //todo Выводим сообщения что-то пошло не так
-                        }
-                    } else {
-                        Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
-
-                        if ((discountForEmployees.getBalance() + temp) >= discountForEmployees.getBudgetForTheMonth()) {
-                            discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
-                        } else {
-
-
-                            Check check = checkList.get(currentCheck);
-
-                            //Устанавливавем вид оплаты
-                            check.setTypeOfPayment(2);
-                            check.setALive(false);
-                            check.setPaymentState(true);
-                            check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
-
-                            CheckDao checkDao = new CheckDaoImpl();
-
-                            //Если запись в Базу Данных успешна прошла печатем чек
-                            if (checkDao.updateCheck(check)) {
-
-                                if (check.isDiscountOnCheck()) {
-                                    DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
-                                    if (discountForEmployees != null) {
-                                        discountForEmp.passed(check, discountForEmployees);
-                                    }
-                                }
-
-                                //Если принтер подключен
-                                if (Properties.KKM) {
-
-                                    //Показываем панель с инфой о печати
-                                    panelForKKMInfo.setVisible(true);
-                                    infoLabelOnKkmPanel.setText("Идет печать чека...");
-                                    skipBtnForKkmPanel.setVisible(false);
-                                    List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                                    try {
-                                        if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                            skipBtnForKkmPanel.setVisible(true);
-                                        }
-                                    } catch (Exception e) {
-                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                        skipBtnForKkmPanel.setVisible(true);
-                                        System.out.println("что то пошло не так с ккм");
-                                        System.out.println(e);
-                                    }
-                                }
-                                switchCloseCheckBtn(true);
-                                panelForKKMInfo.setVisible(false);
-
-                            } else {
-                                //todo Выводим сообщения что-то пошло не так
-                            }
-                        }
-
-
-                    }
-                }
-            }
-        }
-
-    }
-
     //Закрытие чека после печати
     public void closeCheck(ActionEvent actionEvent) {
         //закрытие чека после печати
@@ -1266,112 +1252,150 @@ public class SaleController {
         reloadCashBack();
     }
 
+    //Оплата безналичным платежом
+    public void payCard(ActionEvent actionEvent) {
+
+        pay(false);
+
+    }
+
+    //Оплата наличкой
     public void payCashOnKeyBrd(ActionEvent actionEvent) {
+        pay(true);
+    }
+
+    public void pay(boolean cashType) {
+
+        //Если есть хотя бы один созданный чек
         if (checkList.size() > 0) {
+
+            //Текущий чек
             Check check = checkList.get(currentCheck);
+
+            //Если есть товары в чеке
             if (check.getGoodsList().size() > 0) {
 
+                //Флаг наличия скидки для сотрудника или гостя
+                boolean flagDiscount = false;
+
+                //Если товар продается со скидкой для сотрудника или клиента, то проверим совбадает ли баланс после покупки с установленным лимитом
                 if (discountForEmployees != null) {
+
+                    //Цена за весь чек
+                    Double price = check.getAmountByPrice();
+
+                    //Размер скидки (проценты)
+                    Double discount = discountForEmployees.getAmountOfDiscount() / 100;
+
+                    //Сумма скидки
+                    Double discountAmount = price * discount;
+
+                    //Текущий баланс сотрудника
+                    Double balance = discountForEmployees.getBalance();
+
+                    //Лимит по скидки в месяц
+                    Double limit = discountForEmployees.getBudgetForTheMonth();
+
+                    //Цена на чек со скидкой сотрудника
+                    Double discountPrice = price - discountAmount;
 
                     Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * discountForEmployees.getAmountOfDiscount() / 100);
 
-                    if ((discountForEmployees.getBalance() + temp) >= discountForEmployees.getBudgetForTheMonth()) {
+                    if ((balance + discountPrice) >= limit) {
                         discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (discountForEmployees.getBudgetForTheMonth() - discountForEmployees.getBalance()) + " р.");
+                        return;
                     } else {
 
-                        //Устанавливавем вид оплаты
-                        check.setTypeOfPayment(1);
-                        check.setALive(false);
-                        check.setPaymentState(true);
-                        check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
-
-                        CheckDao checkDao = new CheckDaoImpl();
-
-                        //Если запись в Базу Данных успешна прошла печатем чек
-                        if (checkDao.updateCheck(check)) {
-
-                            if (check.isDiscountOnCheck()) {
-                                DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
-                                if (discountForEmployees != null) {
-                                    discountForEmp.passed(check, discountForEmployees);
-                                }
-                            }
-
-                            //Если принтер подключен
-                            if (Properties.KKM) {
-
-                                //Показываем панель с инфой о печати
-                                panelForKKMInfo.setVisible(true);
-                                infoLabelOnKkmPanel.setText("Идет печать чека...");
-                                skipBtnForKkmPanel.setVisible(false);
-                                List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                                try {
-                                    if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                        infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                        skipBtnForKkmPanel.setVisible(true);
-                                    }
-                                } catch (Exception e) {
-                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                    skipBtnForKkmPanel.setVisible(true);
-                                    System.out.println("что то пошло не так с ккм");
-                                    System.out.println(e);
-                                }
-                            }
-                            switchCloseCheckBtn(true);
-                            switchToKeyBrdCash(false);
-                            panelForKKMInfo.setVisible(false);
-                        } else {
-                            //todo Выводим сообщения что-то пошло не так
-                        }
-                    }
-                } else {
-                    //Устанавливавем вид оплаты
-                    check.setTypeOfPayment(1);
-                    check.setALive(false);
-                    check.setPaymentState(true);
-                    check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
-
-                    CheckDao checkDao = new CheckDaoImpl();
-
-                    //Если запись в Базу Данных успешна прошла печатем чек
-                    if (checkDao.updateCheck(check)) {
-
-                        if (check.isDiscountOnCheck()) {
-                            DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
-                            if (discountForEmployees != null) {
-                                discountForEmp.passed(check, discountForEmployees);
-                            }
-                        }
-
-                        //Если принтер подключен
-                        if (Properties.KKM) {
-
-                            //Показываем панель с инфой о печати
-                            panelForKKMInfo.setVisible(true);
-                            infoLabelOnKkmPanel.setText("Идет печать чека...");
-                            skipBtnForKkmPanel.setVisible(false);
-                            List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
-                            try {
-                                if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
-                                    infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                    skipBtnForKkmPanel.setVisible(true);
-                                }
-                            } catch (Exception e) {
-                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
-                                skipBtnForKkmPanel.setVisible(true);
-                                System.out.println("что то пошло не так с ккм");
-                                System.out.println(e);
-                            }
-                        }
-                        switchCloseCheckBtn(true);
-                        switchToKeyBrdCash(false);
-                        panelForKKMInfo.setVisible(false);
-                    } else {
-                        //todo Выводим сообщения что-то пошло не так
+                        //Если условия соблюдены для скидки
+                        flagDiscount = true;
                     }
                 }
 
+                //Если есть скидка 10% по промоушену из чека
+                if(check.getPromocod() != 0){
 
+                    //Промокод
+                    int promoCod = check.getPromocod();
+
+                    //Создаем объест promoCod для манипуляцией сущностью
+                    PromocodDao promocodDao = new PromocodDaoImpl();
+
+                    //Получаем обхект промокода
+                    Promocod promo = promocodDao.getPromocodByNumber(promoCod);
+
+                    //Отмечаем промокод как использованный
+                    promocodDao.use(promo);
+                }
+
+                //Устанавливавем вид оплаты
+                if (cashType) {
+
+                    //Наличка
+                    check.setTypeOfPayment(1);
+                } else {
+
+                    //Картой
+                    check.setTypeOfPayment(2);
+                }
+
+
+                //Устанавливает флаг что чека больше не существует
+                check.setALive(false);
+
+                //Устанавливаем флаг оплаты, чек оплачен
+                check.setPaymentState(true);
+
+                //Указываем дату закрытия чека
+                check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                //Создаем объект Check DAO для манипуляции с сущностью
+                CheckDao checkDao = new CheckDaoImpl();
+
+                //Если запись в Базу Данных успешна прошла печатем чек
+                if (checkDao.updateCheck(check)) {
+
+                    //Если есть скидка на чек для сотрудника или гостя
+                    if (flagDiscount) {
+
+                        //Создаем объект для манипуляции скидкой для сотрудника или гостя
+                        DiscountForEmployeesDao discountForEmp = new DiscountForEmployeesDaoImpl();
+
+                        //Если данные о сотруднике или госте со скидкой существуют то добавляем их БД
+                        if (discountForEmployees != null) {
+
+                            //Обновляем в БД баланс на счету сотрудника, клиента и записываем в историю транзаций о проведенной скидке
+                            discountForEmp.passed(check, discountForEmployees);
+                        }
+                    }
+
+                    //Если принтер подключен
+                    if (Properties.KKM) {
+
+                        //Показываем панель с инфой о печати
+                        panelForKKMInfo.setVisible(true);
+                        infoLabelOnKkmPanel.setText("Идет печать чека...");
+                        skipBtnForKkmPanel.setVisible(false);
+                        List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
+                        try {
+                            if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                                skipBtnForKkmPanel.setVisible(true);
+                            }
+                        } catch (Exception e) {
+                            infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
+                            skipBtnForKkmPanel.setVisible(true);
+                            System.out.println("что то пошло не так с ккм");
+                            System.out.println(e);
+                        }
+                    }
+                    switchCloseCheckBtn(true);
+                    switchToKeyBrdCash(false);
+                    panelForKKMInfo.setVisible(false);
+                } else {
+
+                    //Если не удалось добавить чек в БД то сообщаем об этом пользователю
+                    discountInfoLabel.setText("Не удалось добавить чек в БД!!! Обратитесь к администратору!");
+                }
             }
 
         }
@@ -1409,32 +1433,59 @@ public class SaleController {
     //Сделать скидку
     public void doDiscount(ActionEvent actionEvent) {
 
-        if (idCustomerInput.getText().length() == 8) {
+        //Очищаем информационное поле от предвидущих записей
+        discountInfoLabel.setText("");
 
-            try {
-                int numberCustomerCurd = Integer.parseInt(idCustomerInput.getText());
+        //Номер сикдки (сотрудника или гостя) или промокода
+        String data = idCustomerInput.getText();
 
-                PromocodDao promocodDao = new PromocodDaoImpl();
-                Promocod promocod = promocodDao.getPromocodByNumber(numberCustomerCurd);
+        // Если введенное значение равно 7 то это скидка из чека
+        if (data.length() == 7) {
 
-                if (promocod != null && promocod.getNumber() != 0) {
-                    if(promocod.isUse()){
-                        discountInfoLabel.setText("Промокод уже был использован!");
-                    }else {
-                        discountInfoLabel.setText("Промокод активирован! Отдайте гостю багет");
-                        promocodDao.use(promocod);
+            //Если есть открытые чеки
+            if (checkList.size() > 0) {
+
+                //Текущий чек
+                Check check = checkList.get(currentCheck);
+
+                //Список товаров в чеке
+                List<Goods> goods = check.getGoodsList();
+
+                //Если в чеке есть товары
+                if (goods.size() > 0) {
+
+                    //Идентификационный номер сотрудника или гостя
+                    int promoCod = Integer.parseInt(data);
+
+                    //Находим промокод
+                    PromocodDao promocodDao = new PromocodDaoImpl();
+
+                    //Если прокод найдет и его можно использовать то записываем в переменную true
+                    boolean checkPromocod = promocodDao.checkPromoFromBild(promoCod);
+
+                    //Если можно использовать промокод
+                    if (checkPromocod) {
+
+                        //Устанавливаем в чек промокод
+                        check.setPromocod(promoCod);
+
+                        //Проверяем наличие промоушенов и делаем скидку на товары без акции
+                        checkDiscountProgram(check);
+
+                        idCustomerInput.setText("Скидка по промокоду 10%");
+                        updateDataFromANewCheck(false);
+                        cancelDiscountBtn.setVisible(true);
+                        discountBtn.setVisible(false);
+
+                    } else {
+                        discountInfoLabel.setText("Промокод не активен или был активирован!");
                     }
-                }else {
-                    discountInfoLabel.setText("Промокод не найден!");
                 }
-
-            } catch (Exception e) {
-                discountInfoLabel.setText("Что то пошло не так!");
             }
 
-        }
 
-        if (checkList.size() > 0) {
+        } else {
+            if (checkList.size() > 0) {
 
                 if (checkList.get(currentCheck).getGoodsList().size() > 0) {
                     DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
@@ -1469,18 +1520,25 @@ public class SaleController {
                     } catch (Exception e) {
                         discountInfoLabel.setText("Что то пошло не так!");
                     }
-
-
                 }
-
-
+            }
         }
     }
 
-    //Отмена чека
+    //Отмена скидки
     public void cancelDiscount(ActionEvent actionEvent) {
+
+        //Текущий чек
+        Check check = checkList.get(currentCheck);
+
+        //Обнуляем промокод
+        check.setPromocod(0);
+
+        //Обновляем цены на товары после отмены чека
+        checkDiscountProgram(check);
+
         discountForEmployees = null;
-        checkList.get(currentCheck).setDiscountOnCheck(false);
+        check.setDiscountOnCheck(false);
         idCustomerInput.clear();
         discountInfoLabel.setText("");
         cancelDiscountBtn.setVisible(false);
