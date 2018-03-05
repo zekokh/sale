@@ -1,5 +1,6 @@
 package ru.zekoh.db;
 
+import ru.zekoh.db.entity.DiscountForEmployees;
 import ru.zekoh.db.entity.Goods;
 
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ public class Check {
     //Дата создания чека (фиксируем дату создания когда в чеке появляетя первый товар)
     private String dateOfCreation;
 
-    //Дата закрытие чеак
+    //Дата закрытие чека
     private String dateOfClosing;
 
     //Статус возврата
@@ -48,6 +49,8 @@ public class Check {
 
     //Промокод из чека
     private int promocod = 0;
+
+    private DiscountForEmployees discountForEmployees = null;
 
     public void updateCheck(Check check){
      setId(check.getId());
@@ -177,5 +180,13 @@ public class Check {
 
     public void setPromocod(int promocod) {
         this.promocod = promocod;
+    }
+
+    public DiscountForEmployees getDiscountForEmployees() {
+        return discountForEmployees;
+    }
+
+    public void setDiscountForEmployees(DiscountForEmployees discountForEmployees) {
+        this.discountForEmployees = discountForEmployees;
     }
 }

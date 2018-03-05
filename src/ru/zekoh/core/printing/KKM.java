@@ -208,13 +208,13 @@ public class KKM {
             } else {
                 // Или настроить без него
                 // COM17
-                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 3) < 0)
+                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 5) < 0)
                     checkError(fptr);
                 // USB. Можно указать положение на шине (USB$1-1.3, например - брать из /sys/bus/usb/devices/),
                 // но тогда не нужно указывать Vid и Pid
                 // Работа напрямую с USB - Linux Only!
-               /* if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, IFptr.SETTING_PORT_USB) < 0)
-                    checkError(fptr); */
+               //* if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, IFptr.SETTING_PORT_USB) < 0)
+                  //  checkError(fptr);
                 if (fptr.put_DeviceSingleSetting(IFptr.SETTING_VID, 0x2912) < 0)
                     checkError(fptr);
                 if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PID, 0x0005) < 0)
@@ -333,12 +333,12 @@ public class KKM {
                 //Печать пустых строк
                 printText(fptr, "");
                 printText(fptr, "жак-андрэ.рф");
-                printText(fptr, "г.Краснодар, ул.Российская 74");
-                printText(fptr, "ИНН: 231150951668");
+                printText(fptr, "г.Майкоп, ул.Шоссейная 1");
+                printText(fptr, "ИНН: 01053643269");
                 printText(fptr, "");
 
-
-                PromocodDao promocodDao = new PromocodDaoImpl();
+                //Выдача и печать промокода на 10%
+/*                PromocodDao promocodDao = new PromocodDaoImpl();
                 int promocod = promocodDao.getPromocodForPrint().getNumber();
 
                 if(promocod != 0){
@@ -348,7 +348,7 @@ public class KKM {
                 }
 
                 printText(fptr, "");
-                printText(fptr, "");
+                printText(fptr, "");*/
                 printText(fptr, "");
             }
             flag = true;
@@ -370,11 +370,16 @@ public class KKM {
         IFptr fptr = new Fptr();
 
         try {
+            //System.out.println("начал создавать fptr");
             fptr.create();
+            //System.out.println("Получилось создать fptr");
 
             // Выставляем рабочий каталог. В нем дККМ будет искать требуемые ему библиотеки.
+//            System.out.println("Выставляем рабочий католог");
             fptr.put_DeviceSingleSetting(fptr.SETTING_SEARCHDIR, System.getProperty("java.library.path"));
+  //          System.out.println("Нашел либ");
             fptr.ApplySingleSettings();
+    //        System.out.println("Применил найтройки");
 
             if (USE_SHOWPROPERTIES) {
                 // Для настройки драйвера можно вызвать графическое окно настроек
@@ -383,7 +388,7 @@ public class KKM {
             } else {
                 // Или настроить без него
                 // COM17
-                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 3) < 0)
+                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 5) < 0)
                     checkError(fptr);
                 // USB. Можно указать положение на шине (USB$1-1.3, например - брать из /sys/bus/usb/devices/),
                 // но тогда не нужно указывать Vid и Pid
@@ -407,16 +412,22 @@ public class KKM {
                     checkError(fptr);
             }
 
+            //System.out.println("Настройки из кассы");
+            //System.out.println(fptr.get_DeviceSettings());
             // Подключаемся к устройству
             if (fptr.put_DeviceEnabled(true) < 0)
+              //  System.out.println("Подключаемся к устройству");
                 checkError(fptr);
+               // System.out.println("Удалось подключится");
 
             // Проверка связи
             if (fptr.GetStatus() < 0)
+                //System.out.println("Проверка связи");
                 checkError(fptr);
 
             // Убедились, что настройки подходят и касса отвечает - вытаскиваем актуальные настройки из драйвера
             if (true) {
+               // System.out.println("Настройки из драйвера");
                 String settings = fptr.get_DeviceSettings();
                 // Тут можно их сохранить в файл, базу, т.п.
                 // При следующем запуске их можно передать в драйвер чере put_DeviceSettings()
@@ -503,6 +514,7 @@ public class KKM {
             }
             flag = true;
         } catch (Exception e) {
+            System.out.println("Ошибка");
             System.out.println(e);
             throw e;
         } finally {

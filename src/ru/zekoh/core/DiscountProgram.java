@@ -24,7 +24,7 @@ public class DiscountProgram {
     //6 эклеров по цене 195 (Классификатор 5)
     public static Check promotion6(Check check) {
 
-        return promotion(check, 5, 6, 49.17);
+        return promotion(check, 5, 6, 32.5);
     }
 
     //6 эклеров по цене 5 (Классификатор 12)
@@ -36,7 +36,7 @@ public class DiscountProgram {
     //Флан классификатор 6
     public static Check promotion1(Check check) {
 
-        return promotion(check, 6, 8, 97.375);
+        return promotion(check, 6, 8, 81.125);
     }
 
     //5 и 10 круасанов по цене 175 (Классификатор 4)
@@ -77,7 +77,7 @@ public class DiscountProgram {
                 if (goods.get(i).getClassifier() == classifier) {
                     if (counterThing <= count) {
                         Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                        goods.get(i).setPriceAfterDiscount(41.5);
+                        goods.get(i).setPriceAfterDiscount(34.5);
                         goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                         counterThing++;
                     }
@@ -104,7 +104,7 @@ public class DiscountProgram {
                         if (counterThingFor5 <= otheThingCount) {
                             if (areEqualDouble(goods.get(i).getPriceFromThePriceList(), goods.get(i).getPriceAfterDiscount(), 2)) {
                                 Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                                goods.get(i).setPriceAfterDiscount(42.0);
+                                goods.get(i).setPriceAfterDiscount(35.0);
                                 goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                                 counterThingFor5++;
                             }
@@ -118,7 +118,7 @@ public class DiscountProgram {
             check.setDiscountOnGoods(true);
             newCheck = check;
         } else {
-            newCheck = promotion(check, 4, 5, 42.0);
+            newCheck = promotion(check, 4, 5, 35.0);
             check.setDiscountOnGoods(true);
         }
 
@@ -240,5 +240,10 @@ public class DiscountProgram {
 
 
         return check;
+    }
+
+    //Скидкак на 5 мафинов
+    public static Check maffins(Check check){
+        return promotion(check, 14, 5, 42.0);
     }
 }
