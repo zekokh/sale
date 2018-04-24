@@ -77,7 +77,7 @@ public class DiscountProgram {
                 if (goods.get(i).getClassifier() == classifier) {
                     if (counterThing <= count) {
                         Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                        goods.get(i).setPriceAfterDiscount(41.5);
+                        goods.get(i).setPriceAfterDiscount(37.6);
                         goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                         counterThing++;
                     }
@@ -92,7 +92,7 @@ public class DiscountProgram {
                 int tempFor5 = otheThingCount / 5;
                 if (tempFor5 > 0) {
 
-                    //На столько эклеров нао сделать скидку
+                    //На столько круасан надо сделать скидку
                     otheThingCount = 5 * tempFor5;
                 }
 
@@ -104,7 +104,7 @@ public class DiscountProgram {
                         if (counterThingFor5 <= otheThingCount) {
                             if (areEqualDouble(goods.get(i).getPriceFromThePriceList(), goods.get(i).getPriceAfterDiscount(), 2)) {
                                 Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                                goods.get(i).setPriceAfterDiscount(42.0);
+                                goods.get(i).setPriceAfterDiscount(37.6);
                                 goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                                 counterThingFor5++;
                             }
@@ -118,7 +118,7 @@ public class DiscountProgram {
             check.setDiscountOnGoods(true);
             newCheck = check;
         } else {
-            newCheck = promotion(check, 4, 5, 42.0);
+            newCheck = promotion(check, 4, 5, 37.6);
             check.setDiscountOnGoods(true);
         }
 
@@ -173,7 +173,7 @@ public class DiscountProgram {
         return check;
     }
 
-    //Скидка 30% на выпечку после 8 вечера
+    //Скидка 25% на выпечку после 8 вечера
     //Список классификаторов
     public static Check discountOnBakes(Check check) {
 
@@ -189,7 +189,7 @@ public class DiscountProgram {
         //Создаем лимит после какой даты и врмени можно будет сделать скидку
         Date dateLimit = null;
         try {
-            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 20:00:00");
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 19:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class DiscountProgram {
         //Сравниваем текщую дату с лимитом
         if (curentDate.after(dateLimit)) {
 
-            //Делаем 30% сктдку на выпечку
+            //Делаем 25% сктдку на выпечку
             for (int i = 0; i < check.getGoodsList().size(); i++) {
 
                 //Текущий товар
@@ -212,13 +212,16 @@ public class DiscountProgram {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if(classifier == 13 || classifier == 4){
+                // if(classifier == 13 || classifier == 4){
+                if(classifier == 4){
 
                     //Сумма скидки
-                    Double discountAmount = priceFromThePriceList * 0.30;
+                   // Double discountAmount = priceFromThePriceList * 0.25;
 
                     //Цена на товар со скидкой
-                    Double priceAfterDiscount = priceFromThePriceList-discountAmount;
+                   // Double priceAfterDiscount = priceFromThePriceList-discountAmount;
+
+                    Double priceAfterDiscount = 25.0;
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);

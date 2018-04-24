@@ -208,7 +208,7 @@ public class KKM {
             } else {
                 // Или настроить без него
                 // COM17
-                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 3) < 0)
+                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 8) < 0)
                     checkError(fptr);
                 // USB. Можно указать положение на шине (USB$1-1.3, например - брать из /sys/bus/usb/devices/),
                 // но тогда не нужно указывать Vid и Pid
@@ -333,11 +333,13 @@ public class KKM {
                 //Печать пустых строк
                 printText(fptr, "");
                 printText(fptr, "жак-андрэ.рф");
-                printText(fptr, "г.Краснодар, ул.Российская 74");
-                printText(fptr, "ИНН: 231150951668");
+                printText(fptr, "instagram.com/jacques_andre_");
+                printText(fptr, "г.Нальчик, ул.Толстого 68");
+               // printText(fptr, "ИНН: 231150951668");
                 printText(fptr, "");
 
 
+/*
                 PromocodDao promocodDao = new PromocodDaoImpl();
                 int promocod = promocodDao.getPromocodForPrint().getNumber();
 
@@ -346,6 +348,7 @@ public class KKM {
                     printText(fptr, "- 10% по промокоду: "+promocod);
                     printText(fptr, "");
                 }
+*/
 
                 printText(fptr, "");
                 printText(fptr, "");
@@ -383,7 +386,7 @@ public class KKM {
             } else {
                 // Или настроить без него
                 // COM17
-                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 3) < 0)
+                if (fptr.put_DeviceSingleSetting(IFptr.SETTING_PORT, 8) < 0)
                     checkError(fptr);
                 // USB. Можно указать положение на шине (USB$1-1.3, например - брать из /sys/bus/usb/devices/),
                 // но тогда не нужно указывать Vid и Pid

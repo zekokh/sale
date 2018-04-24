@@ -505,18 +505,18 @@ public class SaleController {
             //Проверяем есть в текущем чеке товары на которые работает промоушен
 
             //6 больших эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotion6(check));
+            //check.updateCheck(DiscountProgram.promotion6(check));
 
             //Скидка на 5 и 10 круасанов
-            check.updateCheck(DiscountProgram.promotion2(check));
+            //check.updateCheck(DiscountProgram.promotion2(check));
 
             //8 кусков флана стоимость как за целый флан
-            check.updateCheck(DiscountProgram.promotion1(check));
+            //check.updateCheck(DiscountProgram.promotion1(check));
 
             //6 мини эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotionMini6(check));
+            //check.updateCheck(DiscountProgram.promotionMini6(check));
 
-            //Скидка 30% на выпечку после 8 вечера
+            //Скидка 25% на выпечку после 8 вечера
             check.updateCheck(DiscountProgram.discountOnBakes(check));
 
             //Промокод

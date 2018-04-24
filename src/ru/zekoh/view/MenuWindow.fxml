@@ -22,6 +22,7 @@
                   <Insets bottom="30.0" />
                </VBox.margin>
             </Label>
+            <ProgressBar fx:id="bar" prefWidth="200.0" progress="0.0" style="-fx-min-width: 800; -fx-min-height: 20;" />
                 <Button id="btn" fx:id="saleBtn" disable="true" mnemonicParsing="false" onAction="#goToSaleWindow" prefHeight="100.0" prefWidth="610.0" text="Продажи">
                     <font>
                         <Font size="45.0" />
@@ -32,7 +33,7 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
-            <Button id="btn" disable="true" mnemonicParsing="false" prefHeight="100.0" prefWidth="610.0" text="Обновить данные">
+            <Button id="btn" fx:id="reloadBtn" mnemonicParsing="false" onAction="#reload" prefHeight="100.0" prefWidth="610.0" text="Обновить данные">
                <font>
                   <Font size="45.0" />
                </font>

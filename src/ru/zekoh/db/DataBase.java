@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import static ru.zekoh.properties.Properties.*;
 
 public class DataBase {
+
     public static Connection getConnection() {
 
 
@@ -28,4 +29,5 @@ public class DataBase {
 
         return dbConnection;
     }
+
 }
