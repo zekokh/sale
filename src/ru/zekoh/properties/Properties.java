@@ -1,5 +1,8 @@
 package ru.zekoh.properties;
 
+
+import ru.atol.drivers10.fptr.IFptr;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -19,6 +22,9 @@ public class Properties {
 
     //Порт для подключения ККМ
     public static int PRINTER_PORT;
+
+    // Драйвер принтера
+    public static IFptr FPTR = null;
 
     //Инициализация данных из проперти файла
     public static void initData(){

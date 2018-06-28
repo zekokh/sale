@@ -27,12 +27,12 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
-                <Button id="btn" fx:id="reportBtn" disable="true" mnemonicParsing="false" onAction="#report" prefHeight="100.0" prefWidth="610.0" text="Суточный отчет">
+                <Button id="btn" fx:id="reportBtn" disable="true" mnemonicParsing="false" onAction="#report" prefHeight="100.0" prefWidth="610.0" text="Закрыть смену">
                     <font>
                         <Font size="45.0" />
                     </font>
                 </Button>
-            <Button id="btn" disable="true" mnemonicParsing="false" prefHeight="100.0" prefWidth="610.0" text="Обновить данные">
+            <Button id="btn" fx:id="testOFD" disable="true" mnemonicParsing="false" onAction="#testOfd" prefHeight="100.0" prefWidth="610.0" text="Диагностика с ОФД">
                <font>
                   <Font size="45.0" />
                </font>

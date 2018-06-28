@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ru.zekoh.core.printing.KKM;
+import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.core.synchronisation.SData;
 import ru.zekoh.core.synchronisation.Synchronisation;
 import ru.zekoh.db.Check;
@@ -20,6 +21,7 @@ import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
 import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.Session;
+import ru.zekoh.properties.Properties;
 
 public class MenuController {
 
@@ -39,12 +41,17 @@ public class MenuController {
     @FXML
     public Label errorLabel;
 
+    // Кнопка тестирования ОФД
+    @FXML
+    public Button testOFD;
+
     //Инициализация
     @FXML
     public void initialize() {
         saleBtn.setDisable(false);
         reportBtn.setDisable(false);
         blockBtn.setDisable(false);
+        testOFD.setDisable(false);
 
         /*if(SData.isInTheWork()){
             System.out.println("Идет синхронизация ...");
@@ -99,7 +106,9 @@ public class MenuController {
 
     public void report(ActionEvent actionEvent) {
 
-        CheckDao checkDao = new CheckDaoImpl();
+        KKMOFD.closeShift(Properties.FPTR);
+
+/*        CheckDao checkDao = new CheckDaoImpl();
 
         try {
             DailyReport dailyReport = checkDao.soldPerDay();
@@ -107,6 +116,11 @@ public class MenuController {
         } catch (Exception e) {
             System.out.println("что то пошло не так с ккм");
             System.out.println(e);
-        }
+        }*/
+    }
+
+    // Диагностика с ОФД
+    public void testOfd(ActionEvent actionEvent) {
+        KKMOFD.ofdTest(Properties.FPTR);
     }
 }
