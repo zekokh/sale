@@ -137,7 +137,7 @@ public class MenuController {
     }
 
     // Диагностика с ОФД
-    public void testOfd(ActionEvent actionEvent) {
+    public void testOfdAction(ActionEvent actionEvent) {
         KKMOFD.ofdTest(Properties.FPTR);
     }
 }
