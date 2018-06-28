@@ -1253,7 +1253,8 @@ public class SaleController {
 
     public void reloadCashBack() {
         Double moneyFromCustomer = Double.parseDouble(moneyFromCustomerLabel.getText());
-        Double cashBack = checkList.get(currentCheck).getTotal() - moneyFromCustomer;
+        Double cashBack = moneyFromCustomer - checkList.get(currentCheck).getTotal();
+        cashBack = new BigDecimal(cashBack).setScale(2, RoundingMode.HALF_UP).doubleValue();
         cashBackToCustomerLabel.setText("Сдача: " + cashBack + " р.");
     }
 
@@ -1495,6 +1496,7 @@ public class SaleController {
 
                                 check.setTotal(check.getAmountByPrice() - (check.getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100));
 
+                                discountConverter(check);
                                 idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
 
                                 updateDataFromANewCheck(false);
@@ -1509,72 +1511,17 @@ public class SaleController {
                 }
             }
         }
-
-        // Если введенное значение равно 7 то это скидка из чека
-        if (data.length() == 7) {
-
-            //Если есть открытые чеки
-            if (checkList.size() > 0) {
-
-                //Текущий чек
-                Check check = checkList.get(currentCheck);
-
-                //Проверяем открыт ли чек
-                if (check.isALive()) {
-
-
-                    //Список товаров в чеке
-                    List<Goods> goods = check.getGoodsList();
-
-                    //Если в чеке есть товары
-                    if (goods.size() > 0) {
-
-                        //Идентификационный номер сотрудника или гостя
-                        int promoCod = Integer.parseInt(data);
-
-                        //Находим промокод
-                        PromocodDao promocodDao = new PromocodDaoImpl();
-
-                        //Если прокод найдет и его можно использовать то записываем в переменную true
-                        boolean checkPromocod = promocodDao.checkPromoFromBild(promoCod);
-
-                        //Если можно использовать промокод
-                        if (checkPromocod) {
-
-                            //Устанавливаем в чек промокод
-                            check.setPromocod(promoCod);
-
-                            //Проверяем наличие промоушенов и делаем скидку на товары без акции
-                            checkDiscountProgram(check);
-
-                            idCustomerInput.setText("Скидка по промокоду 10%");
-                            updateDataFromANewCheck(false);
-                            cancelDiscountBtn.setVisible(true);
-                            discountBtn.setVisible(false);
-
-                        } else {
-                            discountInfoLabel.setText("Промокод не активен или был активирован!");
-                        }
-                    }
-                } else {
-                    //чек закрыт
-                }
-            }
-
-        } else {
-
-        }
     }
 
 
     // Скидка на чек
-    private Check discountConverter(Check check){
-        Double discount = check.getDiscountForEmployees().getAmountOfDiscount()/100;
+    private Check discountConverter(Check check) {
+        Double discount = check.getDiscountForEmployees().getAmountOfDiscount() / 100;
 
         List<Goods> goods = check.getGoodsList();
 
-        for(int i=0; i<goods.size(); i++){
-            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList()*discount;
+        for (int i = 0; i < goods.size(); i++) {
+            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList() - (goods.get(i).getPriceFromThePriceList() * discount);
             goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
 
             Double sellingPrice = priceAfterDiscount * goods.get(i).getCount();

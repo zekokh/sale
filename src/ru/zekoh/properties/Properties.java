@@ -53,7 +53,7 @@ public class Properties {
             HOST = "jdbc:mysql://localhost:3306/voshod?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
             LOGIN = "root";
             PASSWORD = "heroin";
-            KKM = false;
+            KKM = true;
             PRINTER_PORT = 3;
     }
 }
