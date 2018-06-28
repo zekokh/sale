@@ -23,6 +23,8 @@ import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.Session;
 import ru.zekoh.properties.Properties;
 
+import java.util.concurrent.ExecutionException;
+
 public class MenuController {
 
     //Кнопка для перехда в окно продаж
@@ -52,6 +54,15 @@ public class MenuController {
         reportBtn.setDisable(false);
         blockBtn.setDisable(false);
         testOFD.setDisable(false);
+
+        if(Properties.FPTR == null){
+            try{
+                Properties.FPTR = KKMOFD.create();
+            }catch (Exception e){
+                System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!"+e.getMessage().toString());
+            }
+
+        }
 
         /*if(SData.isInTheWork()){
             System.out.println("Идет синхронизация ...");
@@ -89,6 +100,12 @@ public class MenuController {
 
         //Если сессия закрыта
         if (sessionDao.closeSession(userDao.getUserById(userId))) {
+
+            if(Properties.FPTR != null){
+                KKMOFD.close(Properties.FPTR);
+                Properties.FPTR = null;
+            }
+
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             try {

@@ -22,6 +22,7 @@ import javafx.stage.StageStyle;
 import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.printing.KKM;
+import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.DiscountForEmployeesDao;
@@ -1393,7 +1394,7 @@ public class SaleController {
                             skipBtnForKkmPanel.setVisible(false);
                             List<GoodsForDisplay> goodsForDisplays = convert(checkList.get(currentCheck).getGoodsList());
                             try {
-                                if (!KKM.doIt(goodsForDisplays, checkList.get(currentCheck))) {
+                                if (!KKMOFD.printCheck(Properties.FPTR, checkList.get(currentCheck), goodsForDisplays)) {
                                     infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
                                     skipBtnForKkmPanel.setVisible(true);
                                 }

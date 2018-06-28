@@ -6,6 +6,7 @@ import ru.zekoh.db.Check;
 import ru.zekoh.db.entity.GoodsForDisplay;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class KKMOFD {
     public static String name = "Кассир";
@@ -117,8 +118,13 @@ public class KKMOFD {
 
     //Закрытие драйвера
     public static boolean close(IFptr fptr) {
-        fptr.close();
-        fptr.destroy();
+        try{
+            fptr.close();
+            fptr.destroy();
+        }catch (Exception e){
+            System.out.println("Не смог удалить объект драйвера!"+e.getMessage().toString());
+        }
+
 
         return true;
     }
