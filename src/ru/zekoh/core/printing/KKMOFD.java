@@ -123,6 +123,7 @@ public class KKMOFD {
             fptr.destroy();
         }catch (Exception e){
             System.out.println("Не смог удалить объект драйвера!"+e.getMessage().toString());
+            return false;
         }
 
 
