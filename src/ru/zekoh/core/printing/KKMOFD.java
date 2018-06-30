@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public class KKMOFD {
     public static String name = "Кассир";
     public static String inn = "";
-    public static String COM_PORT = "7";
+    public static String COM_PORT = "3";
 
     // Создать и распечатать чек (Объект драйвера открытый, Чек, Тип платежа)
     public static boolean printCheck(IFptr fptr, Check check, List<GoodsForDisplay> goodsForDisplays) {
@@ -99,21 +99,28 @@ public class KKMOFD {
     // Инициализация драйвера
     public static IFptr create() {
 
-        // Инициализация драйвера
-        IFptr fptr = new Fptr();
+        try{
+            // Инициализация драйвера
+            IFptr fptr = new Fptr();
 
 
-        fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_MODEL, String.valueOf(IFptr.LIBFPTR_MODEL_ATOL_30F));
-        fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_PORT, String.valueOf(IFptr.LIBFPTR_PORT_COM));
-        fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_COM_FILE, COM_PORT);
-        fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_BAUDRATE, String.valueOf(IFptr.LIBFPTR_PORT_BR_115200));
-        fptr.applySingleSettings();
+            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_MODEL, String.valueOf(IFptr.LIBFPTR_MODEL_ATOL_30F));
+            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_PORT, String.valueOf(IFptr.LIBFPTR_PORT_COM));
+            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_COM_FILE, COM_PORT);
+            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_BAUDRATE, String.valueOf(IFptr.LIBFPTR_PORT_BR_115200));
+            fptr.applySingleSettings();
 
-        fptr.open();
+            fptr.open();
 
-        System.out.println("Соединение с ККТ: " + fptr.isOpened());
+            System.out.println("Соединение с ККТ: " + fptr.isOpened());
 
-        return fptr;
+            return fptr;
+        }catch (NullPointerException e){
+            System.out.println("Ошибка создания объекта драйвера!");
+            System.out.println(e.getMessage().toString());
+        }
+
+        return null;
     }
 
     //Закрытие драйвера
@@ -121,11 +128,11 @@ public class KKMOFD {
         try{
             fptr.close();
             fptr.destroy();
+            System.out.println("Объект драйвера удален!");
         }catch (Exception e){
             System.out.println("Не смог удалить объект драйвера!"+e.getMessage().toString());
             return false;
         }
-
 
         return true;
     }

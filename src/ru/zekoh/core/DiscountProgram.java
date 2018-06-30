@@ -1,5 +1,6 @@
 package ru.zekoh.core;
 
+
 import ru.zekoh.db.Check;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
@@ -24,7 +25,7 @@ public class DiscountProgram {
     //6 эклеров по цене 195 (Классификатор 5)
     public static Check promotion6(Check check) {
 
-        return promotion(check, 5, 6, 32.5);
+        return promotion(check, 5, 6, 49.17);
     }
 
     //6 эклеров по цене 5 (Классификатор 12)
@@ -36,10 +37,10 @@ public class DiscountProgram {
     //Флан классификатор 6
     public static Check promotion1(Check check) {
 
-        return promotion(check, 6, 8, 81.125);
+        return promotion(check, 6, 8, 97.375);
     }
 
-    //5 и 10 круасанов по цене 175 (Классификатор 4)
+    //5 круассан по цене 4
     public static Check promotion2(Check check) {
 
         Check newCheck = new Check();
@@ -62,12 +63,12 @@ public class DiscountProgram {
         }
 
         amountCount = count;
-        if (count >= 10) {
-            int temp = count / 10;
+        if (count >= 5) {
+            int temp = count / 5;
             if (temp > 0) {
 
                 //На столько круассанов надо сделать скидку
-                count = 10 * temp;
+                count = 5 * temp;
             }
 
             //Счетчик кол-ва продукции на которую надо сделать
@@ -77,14 +78,14 @@ public class DiscountProgram {
                 if (goods.get(i).getClassifier() == classifier) {
                     if (counterThing <= count) {
                         Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                        goods.get(i).setPriceAfterDiscount(34.5);
+                        goods.get(i).setPriceAfterDiscount(37.6);
                         goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                         counterThing++;
                     }
                 }
             }
 
-            //Если есть еще круасаны но меньше 10
+/*            //Если есть еще круасаны но меньше 10
             int otheThingCount = (amountCount - count);
 
             if (otheThingCount >= 5) {
@@ -104,7 +105,7 @@ public class DiscountProgram {
                         if (counterThingFor5 <= otheThingCount) {
                             if (areEqualDouble(goods.get(i).getPriceFromThePriceList(), goods.get(i).getPriceAfterDiscount(), 2)) {
                                 Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
-                                goods.get(i).setPriceAfterDiscount(35.0);
+                                goods.get(i).setPriceAfterDiscount(49.0);
                                 goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                                 counterThingFor5++;
                             }
@@ -112,14 +113,16 @@ public class DiscountProgram {
                     }
                 }
 
-            }
+            }*/
 
 
             check.setDiscountOnGoods(true);
             newCheck = check;
         } else {
-            newCheck = promotion(check, 4, 5, 35.0);
-            check.setDiscountOnGoods(true);
+            /*newCheck = promotion(check, 4, 5, 37.6);
+            check.setDiscountOnGoods(true);*/
+
+            return check;
         }
 
         return newCheck;
@@ -240,10 +243,5 @@ public class DiscountProgram {
 
 
         return check;
-    }
-
-    //Скидкак на 5 мафинов
-    public static Check maffins(Check check){
-        return promotion(check, 14, 5, 42.0);
     }
 }

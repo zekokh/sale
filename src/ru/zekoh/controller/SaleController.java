@@ -515,13 +515,10 @@ public class SaleController {
             check.updateCheck(DiscountProgram.promotion1(check));
 
             //6 мини эклеров по цене 5
-            //check.updateCheck(DiscountProgram.promotionMini6(check));
+            check.updateCheck(DiscountProgram.promotionMini6(check));
 
             //Скидка 30% на выпечку после 8 вечера
-            //check.updateCheck(DiscountProgram.discountOnBakes(check));
-
-            //Скидка на 5 мафинов
-            //check.updateCheck(DiscountProgram.maffins(check));
+            check.updateCheck(DiscountProgram.discountOnBakes(check));
 
 
             //Промокод
