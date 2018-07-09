@@ -477,6 +477,8 @@ public class SaleController {
         //Если есть скидка на чек, то считаем укладывается ли сотрудник по лимиту на приобретаемые товары в месяц
         if (check.isDiscountOnCheck()) {
 
+            discountConverter(check);
+
             //Цена за весь чек
             Double price = check.getAmountByPrice();
 
@@ -624,6 +626,7 @@ public class SaleController {
 
 
             if (check.getDiscountForEmployees() != null) {
+
                 Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
 
                 if ((check.getDiscountForEmployees().getBalance() + temp1) >= check.getDiscountForEmployees().getBudgetForTheMonth()) {
@@ -1537,11 +1540,14 @@ public class SaleController {
         //Обнуляем промокод
         check.setPromocod(0);
 
+        check.setDiscountOnCheck(false);
+        check.setDiscountForEmployees(null);
+
         //Обновляем цены на товары после отмены чека
         checkDiscountProgram(check);
 
         checkList.get(currentCheck).setDiscountForEmployees(null);
-        check.setDiscountOnCheck(false);
+
         idCustomerInput.clear();
         discountInfoLabel.setText("");
         cancelDiscountBtn.setVisible(false);

@@ -1,5 +1,8 @@
 package ru.zekoh.db.entity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class DailyReport {
 
     //Доход за день
@@ -18,7 +21,8 @@ public class DailyReport {
     private Double amountCard;
 
     public Double getSoldPerDay() {
-        return soldPerDay;
+        Double temp = new BigDecimal(soldPerDay).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return temp;
     }
 
     public void setSoldPerDay(Double soldPerDay) {
@@ -34,7 +38,8 @@ public class DailyReport {
     }
 
     public Double getReturnPerDay() {
-        return returnPerDay;
+        Double temp = new BigDecimal(returnPerDay).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return temp;
     }
 
     public void setReturnPerDay(Double returnPerDay) {
@@ -42,7 +47,8 @@ public class DailyReport {
     }
 
     public Double getAmountCash() {
-        return amountCash;
+        Double temp = new BigDecimal(amountCash).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return temp;
     }
 
     public void setAmountCash(Double amountCash) {
@@ -50,7 +56,8 @@ public class DailyReport {
     }
 
     public Double getAmountCard() {
-        return amountCard;
+        Double temp = new BigDecimal(amountCard).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return temp;
     }
 
     public void setAmountCard(Double amountCard) {
