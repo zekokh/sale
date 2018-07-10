@@ -5,6 +5,8 @@ import ru.zekoh.db.Check;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -192,7 +194,7 @@ public class DiscountProgram {
         //Создаем лимит после какой даты и врмени можно будет сделать скидку
         Date dateLimit = null;
         try {
-            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 20:00:00");
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 07:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -224,6 +226,7 @@ public class DiscountProgram {
                     Double priceAfterDiscount = priceFromThePriceList-discountAmount;
 
                     //Устанавливаем цену со скидкой
+                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(2, RoundingMode.HALF_UP).doubleValue();
                     goods.setPriceAfterDiscount(priceAfterDiscount);
 
                     //Количество товара

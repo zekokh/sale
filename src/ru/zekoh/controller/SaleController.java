@@ -479,17 +479,8 @@ public class SaleController {
 
             discountConverter(check);
 
-            //Цена за весь чек
-            Double price = check.getAmountByPrice();
-
-            //Размер скидки (проценты)
-            Double discount = check.getDiscountForEmployees().getAmountOfDiscount() / 100;
-
-            //Сумма скидки
-            Double discountAmount = price * discount;
-
-            //Цена на чек со скидкой сотрудника
-            Double discountPrice = price - discountAmount;
+            // Цена за весь чек с учетом скидки
+            Double total = check.getTotal();
 
             //Текущий баланс сотрудника
             Double balance = check.getDiscountForEmployees().getBalance();
@@ -498,7 +489,7 @@ public class SaleController {
             Double limit = check.getDiscountForEmployees().getBudgetForTheMonth();
 
             //Если текущий баланс сотрудника вместе с запланированной покупкой больше лимита установленного в месяц то оповестить об этом
-            if ((balance + discountPrice) >= limit) {
+            if ((balance + total) >= limit) {
                 discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (limit - balance) + " р.");
             } else {
                 discountInfoLabel.setText("");
@@ -1520,13 +1511,18 @@ public class SaleController {
 
         List<Goods> goods = check.getGoodsList();
 
+        Double total = 0.0;
         for (int i = 0; i < goods.size(); i++) {
             Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList() - (goods.get(i).getPriceFromThePriceList() * discount);
             goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
 
             Double sellingPrice = priceAfterDiscount * goods.get(i).getCount();
             goods.get(i).setSellingPrice(sellingPrice);
+            total += sellingPrice;
         }
+
+        // Устанавливаем общую сумму чека
+        check.setTotal(total);
 
         return check;
     }
