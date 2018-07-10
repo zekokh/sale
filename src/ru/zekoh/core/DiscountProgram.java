@@ -194,7 +194,7 @@ public class DiscountProgram {
         //Создаем лимит после какой даты и врмени можно будет сделать скидку
         Date dateLimit = null;
         try {
-            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 07:00:00");
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 20:00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
