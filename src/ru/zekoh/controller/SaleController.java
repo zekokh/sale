@@ -477,10 +477,17 @@ public class SaleController {
         //Если есть скидка на чек, то считаем укладывается ли сотрудник по лимиту на приобретаемые товары в месяц
         if (check.isDiscountOnCheck()) {
 
-            discountConverter(check);
+            //Цена за весь чек
+            Double price = check.getAmountByPrice();
 
-            // Цена за весь чек с учетом скидки
-            Double total = check.getTotal();
+            //Размер скидки (проценты)
+            Double discount = check.getDiscountForEmployees().getAmountOfDiscount() / 100;
+
+            //Сумма скидки
+            Double discountAmount = price * discount;
+
+            //Цена на чек со скидкой сотрудника
+            Double discountPrice = price - discountAmount;
 
             //Текущий баланс сотрудника
             Double balance = check.getDiscountForEmployees().getBalance();
@@ -489,7 +496,7 @@ public class SaleController {
             Double limit = check.getDiscountForEmployees().getBudgetForTheMonth();
 
             //Если текущий баланс сотрудника вместе с запланированной покупкой больше лимита установленного в месяц то оповестить об этом
-            if ((balance + total) >= limit) {
+            if ((balance + discountPrice) >= limit) {
                 discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (limit - balance) + " р.");
             } else {
                 discountInfoLabel.setText("");
@@ -508,10 +515,13 @@ public class SaleController {
             check.updateCheck(DiscountProgram.promotion1(check));
 
             //6 мини эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotionMini6(check));
+            //check.updateCheck(DiscountProgram.promotionMini6(check));
 
             //Скидка 30% на выпечку после 8 вечера
-            check.updateCheck(DiscountProgram.discountOnBakes(check));
+            //check.updateCheck(DiscountProgram.discountOnBakes(check));
+
+            //Скидка на 5 мафинов
+            //check.updateCheck(DiscountProgram.maffins(check));
 
 
             //Промокод
@@ -561,6 +571,7 @@ public class SaleController {
             }
         }
     }
+
 
     //Создаем новый чек и добавляем  в список чеков
     public void addNewCheck(ActionEvent actionEvent) {
