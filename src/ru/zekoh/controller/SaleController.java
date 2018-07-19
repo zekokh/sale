@@ -477,17 +477,10 @@ public class SaleController {
         //Если есть скидка на чек, то считаем укладывается ли сотрудник по лимиту на приобретаемые товары в месяц
         if (check.isDiscountOnCheck()) {
 
-            //Цена за весь чек
-            Double price = check.getAmountByPrice();
+            discountConverter(check);
 
-            //Размер скидки (проценты)
-            Double discount = check.getDiscountForEmployees().getAmountOfDiscount() / 100;
-
-            //Сумма скидки
-            Double discountAmount = price * discount;
-
-            //Цена на чек со скидкой сотрудника
-            Double discountPrice = price - discountAmount;
+            // Цена за весь чек с учетом скидки
+            Double total = check.getTotal();
 
             //Текущий баланс сотрудника
             Double balance = check.getDiscountForEmployees().getBalance();
@@ -496,7 +489,7 @@ public class SaleController {
             Double limit = check.getDiscountForEmployees().getBudgetForTheMonth();
 
             //Если текущий баланс сотрудника вместе с запланированной покупкой больше лимита установленного в месяц то оповестить об этом
-            if ((balance + discountPrice) >= limit) {
+            if ((balance + total) >= limit) {
                 discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (limit - balance) + " р.");
             } else {
                 discountInfoLabel.setText("");
