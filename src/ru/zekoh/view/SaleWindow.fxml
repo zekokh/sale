@@ -168,6 +168,11 @@
                   <Font name="Helvetica Light" size="25.0" />
                </font>
             </Button>
+            <Button fx:id="bonusBtn" layoutY="432.0" mnemonicParsing="false" onAction="#bonusAction" prefHeight="70.0" prefWidth="375.0" style="-fx-background-color: EEEEEE;" text="бонусная программа">
+               <font>
+                  <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Pane fx:id="panelWithNumberForCash" layoutX="910.0" layoutY="27.0" prefHeight="695.0" prefWidth="360.0" style="-fx-background-color: white;" visible="false">
@@ -269,6 +274,15 @@
             <Button fx:id="skipBtnForKkmPanel" layoutX="531.0" layoutY="378.0" mnemonicParsing="false" onAction="#skipBtnForKkm" prefHeight="90.0" prefWidth="220.0" style="-fx-background-color: white;" text="Пропустить">
                <font>
                   <Font name="Helvetica Light" size="25.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="bonusPane" prefHeight="750.0" prefWidth="1280.0" style="-fx-background-color: white;">
+         <children>
+            <Button fx:id="closeBonusPaneBtn" layoutX="514.0" layoutY="634.0" mnemonicParsing="false" onAction="#closeBonusPaneAction" prefHeight="70.0" prefWidth="300.0" style="-fx-background-color: eeee;" text="закрыть">
+               <font>
+                  <Font name="Helvetica Neue Light" size="25.0" />
                </font>
             </Button>
          </children>

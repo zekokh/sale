@@ -144,6 +144,18 @@ public class SaleController {
     @FXML
     public Button cancelDiscountBtn;
 
+    // Кнопка отображения участников бонусной программы
+    @FXML
+    public Button bonusBtn;
+
+    // Панель с участниками бонусной программы
+    @FXML
+    public Pane bonusPane;
+
+    // Кнопка для закрытия панели с участниками бонусной программы
+    @FXML
+    public Button closeBonusPaneBtn;
+
     //Путь уровней вложенности папок и продуктов
     private ArrayList<Integer> levelPath = new ArrayList<Integer>();
 
@@ -204,6 +216,8 @@ public class SaleController {
         panelForKKMInfo.setVisible(false);
         panelWithNumberForCash.setVisible(false);
         cancelDiscountBtn.setVisible(false);
+
+        bonusPane.setVisible(false);
 
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -1558,5 +1572,26 @@ public class SaleController {
     //Запись скидки сотрудника
     public void recordDiscountForEmployer() {
 
+    }
+
+    // Отображения панели с учасниками бонусной программы
+    public void bonusAction(ActionEvent actionEvent) {
+        bonusPane.setVisible(true);
+
+        // Создаем новый поток который получает данные о пользователе и отрисовывает их
+        Thread thread = new Thread(){
+            public void run(){
+                System.out.println("Thread Running");
+            }
+        };
+
+        thread.start();
+    }
+
+    // Закрытие панели с учасниками бонусной программы
+    public void closeBonusPaneAction(ActionEvent actionEvent) {
+        bonusPane.setVisible(false);
+
+        // Завершить поток
     }
 }

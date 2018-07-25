@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public class KKMOFD {
     public static String name = "Кассир";
     public static String inn = "";
-    public static String COM_PORT = "5";
+    public static String COM_PORT = "4";
 
     // Создать и распечатать чек (Объект драйвера открытый, Чек, Тип платежа)
     public static boolean printCheck(IFptr fptr, Check check, List<GoodsForDisplay> goodsForDisplays) {
