@@ -14,7 +14,7 @@ public class DiscountForEmployeesDaoImpl implements DiscountForEmployeesDao {
 
     //Получить скидочную карту по id
     @Override
-    public DiscountForEmployees getDiscountCard(int numberCard) {
+    public DiscountForEmployees getDiscountCard(long numberCard) {
 
 
         DiscountForEmployees discountForEmployees = new DiscountForEmployees();
@@ -31,7 +31,7 @@ public class DiscountForEmployeesDaoImpl implements DiscountForEmployeesDao {
                 ResultSet rs = stmt.executeQuery("SELECT * FROM `discount_for_employees` WHERE is_a_live ='1' AND number_card = '"+ numberCard +"'");
                 while (rs.next()) {
                     discountForEmployees.setId(rs.getInt(1));
-                    discountForEmployees.setNumberCard(rs.getInt(2));
+                    discountForEmployees.setNumberCard(rs.getLong(2));
                     discountForEmployees.setName(rs.getString(3));
                     discountForEmployees.setBudgetForTheMonth(rs.getDouble(4));
                     discountForEmployees.setAmountOfDiscount(rs.getDouble(5));
@@ -76,7 +76,11 @@ public class DiscountForEmployeesDaoImpl implements DiscountForEmployeesDao {
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                stmt.execute("UPDATE discount_for_employees SET balance = "+balance+" WHERE id ='"+ discountForEmployees.getId() +"';");
+                //todo Костыль если тут 4744500 то я понимаю что это скидка из приложения и не обновляю в бд
+                if(discountForEmployees.getBudgetForTheMonth() != 9720445.73){
+                    stmt.execute("UPDATE discount_for_employees SET balance = "+balance+" WHERE id ='"+ discountForEmployees.getId() +"';");
+                }
+
                 //stmt.execute("UPDATE discount_for_employees SET balance = "+ balance +" WHERE 'id'='"+ discountForEmployees.getId()+"'");
                 stmt.execute("INSERT INTO `discount_history` (check_id,employer_id) VALUES('"+ check.getId() +"', '"+ discountForEmployees.getId() +"')");
                 stmt.close();

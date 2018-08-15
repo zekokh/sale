@@ -1,4 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: c:\driverSell
-Main-Class: ru.zekoh.Main
+Main-Class: ru.zekoh.app.App
 

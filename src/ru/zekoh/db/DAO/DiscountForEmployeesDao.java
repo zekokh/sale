@@ -6,7 +6,7 @@ import ru.zekoh.db.entity.DiscountForEmployees;
 public interface DiscountForEmployeesDao {
 
     //Получить скидочную карту по id
-    public DiscountForEmployees getDiscountCard(int numberCard);
+    public DiscountForEmployees getDiscountCard(long numberCard);
 
     //Запись в бд данных о скидки
     public boolean passed(Check check, DiscountForEmployees discountForEmployees);

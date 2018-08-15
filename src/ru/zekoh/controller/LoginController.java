@@ -118,8 +118,8 @@ public class LoginController {
                 stage.getScene().setRoot(pageDate);
                 stage.requestFocus();
             } catch (Exception e) {
-                System.out.println(e);
-                infoLabel.setText("Ну удалось построить окно меню! Попробуйте позже.");
+                System.out.println(e.getMessage().toString());
+                infoLabel.setText("Не удалось построить окно меню! Попробуйте позже.");
             }
         }
     }

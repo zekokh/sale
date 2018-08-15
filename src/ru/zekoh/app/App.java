@@ -39,11 +39,10 @@ public class App extends Application {
         }
 
         // Делаем тяжелые долгии запросы
-        //Thread.sleep(5000); //что бы видно было заставку
-       /* for (int i = 0; i < 10; i++) {
+        Thread.sleep(5000); //что бы видно было заставку
+       for (int i = 0; i < 10; i++) {
             Thread.sleep(200);
-         }*/
-
+         }
     }
 
     @Override
@@ -54,7 +53,7 @@ public class App extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("/LoginWindow.fxml"));
         primaryStage.setTitle("Жак-Андрэ Продажи");
-        primaryStage.setScene(new Scene(root, 1280, 750));
+        primaryStage.setScene(new Scene(root, 1024, 740));
         primaryStage.show();
     }
 }

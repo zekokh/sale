@@ -189,7 +189,7 @@ public class DiscountProgram {
         //Создаем лимит после какой даты и врмени можно будет сделать скидку
         Date dateLimit = null;
         try {
-            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 20:00:00");
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 19:20:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -215,7 +215,7 @@ public class DiscountProgram {
                 if(classifier == 13 || classifier == 4){
 
                     //Сумма скидки
-                    Double discountAmount = priceFromThePriceList * 0.30;
+                    Double discountAmount = priceFromThePriceList * 0.40;
 
                     //Цена на товар со скидкой
                     Double priceAfterDiscount = priceFromThePriceList-discountAmount;

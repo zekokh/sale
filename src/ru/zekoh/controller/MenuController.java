@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.atol.drivers10.fptr.Fptr;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.core.printing.KKM;
@@ -19,12 +21,18 @@ import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
+import ru.zekoh.db.DAOImpl.SellReportDaoImpl;
 import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
 import ru.zekoh.db.entity.DailyReport;
+import ru.zekoh.db.entity.SellReport;
 import ru.zekoh.db.entity.Session;
 import ru.zekoh.properties.Properties;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MenuController {
@@ -52,6 +60,8 @@ public class MenuController {
     // Кнопка суточный отчет
     public Button xReport;
 
+    private static String[] columns = {"Наименование", "Кол-во"};
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -61,11 +71,11 @@ public class MenuController {
         testOFD.setDisable(false);
         xReport.setDisable(false);
 
-        if(Properties.FPTR == null){
-            try{
-               //Properties.FPTR = KKMOFD.create();
-            }catch (Exception e){
-                System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!"+e.getMessage().toString());
+        if (Properties.FPTR == null) {
+            try {
+                //Properties.FPTR = KKMOFD.create();
+            } catch (Exception e) {
+                System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!" + e.getMessage().toString());
             }
         }
     }
@@ -98,7 +108,7 @@ public class MenuController {
         //Если сессия закрыта
         if (sessionDao.closeSession(userDao.getUserById(userId))) {
 
-            if(Properties.FPTR != null){
+            if (Properties.FPTR != null) {
                 KKMOFD.close(Properties.FPTR);
                 Properties.FPTR = null;
             }
@@ -135,8 +145,76 @@ public class MenuController {
     }
 
     // Диагностика с ОФД
-    public void testOfdAction(ActionEvent actionEvent) {
-        KKMOFD.ofdTest(Properties.FPTR);
+    public void testOfdAction(ActionEvent actionEvent) throws IOException {
+        //KKMOFD.ofdTest(Properties.FPTR);
+
+        SellReportDaoImpl sellReportDao = new SellReportDaoImpl();
+        List<SellReport> sellReports = sellReportDao.findAll();
+
+        // Create a Workbook
+        Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
+
+        CreationHelper createHelper = workbook.getCreationHelper();
+
+        // Create a Sheet
+        Sheet sheet = workbook.createSheet("Статистика");
+
+        // Create a Font for styling header cells
+        Font headerFont = workbook.createFont();
+        headerFont.setBold(true);
+        headerFont.setFontHeightInPoints((short) 14);
+        headerFont.setColor(IndexedColors.RED.getIndex());
+
+        // Create a CellStyle with the font
+        CellStyle headerCellStyle = workbook.createCellStyle();
+        headerCellStyle.setFont(headerFont);
+
+        // Create a Row
+        Row headerRow = sheet.createRow(0);
+
+        // Create cells
+        for (int i = 0; i < columns.length; i++) {
+            Cell cell = headerRow.createCell(i);
+            cell.setCellValue(columns[i]);
+            cell.setCellStyle(headerCellStyle);
+        }
+
+        // Create Cell Style for formatting Date
+        CellStyle dateCellStyle = workbook.createCellStyle();
+        dateCellStyle.setDataFormat(createHelper.createDataFormat().getFormat("dd-MM-yyyy"));
+
+        // Create Other rows and cells with employees data
+        int rowNum = 1;
+        for (SellReport sell : sellReports) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0)
+                    .setCellValue(sell.getName());
+
+            row.createCell(1)
+                    .setCellValue(sell.getCount());
+
+            //Cell dateOfBirthCell = row.createCell(2);
+            //dateOfBirthCell.setCellValue(employee.getDateOfBirth());
+            //dateOfBirthCell.setCellStyle(dateCellStyle);
+
+            //row.createCell(3)
+            // .setCellValue(employee.getSalary());
+        }
+
+        // Resize all columns to fit the content size
+        for (int i = 0; i < columns.length; i++) {
+            sheet.autoSizeColumn(i);
+        }
+
+        // Write the output to a file
+        FileOutputStream fileOut = new FileOutputStream("выгрузка.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
+
+        // Closing the workbook
+        workbook.close();
+
     }
 
     // Суточный отчет
@@ -145,11 +223,11 @@ public class MenuController {
 
         try {
             DailyReport dailyReport = checkDao.soldPerDay();
-            errorLabel.setText("Кол-во чеков: "+dailyReport.getNumberOfChecks()+"\n" +
-                    "Возврат: "+dailyReport.getReturnPerDay()+" р. \n" +
-                    "Наличными: "+ dailyReport.getAmountCash()+" р. \n" +
-                    "По карте: "+ dailyReport.getAmountCard() +" р. \n" +
-                    "Доход: "+ dailyReport.getSoldPerDay() +" р.");
+            errorLabel.setText("Кол-во чеков: " + dailyReport.getNumberOfChecks() + "\n" +
+                    "Возврат: " + dailyReport.getReturnPerDay() + " р. \n" +
+                    "Наличными: " + dailyReport.getAmountCash() + " р. \n" +
+                    "По карте: " + dailyReport.getAmountCard() + " р. \n" +
+                    "Доход: " + dailyReport.getSoldPerDay() + " р.");
         } catch (Exception e) {
             System.out.println("что то пошло c суточным отчетом не так!");
             System.out.println(e);

@@ -6,7 +6,7 @@ public class DiscountForEmployees {
     private int id;
 
     //Номер карты
-    private int numberCard;
+    private long numberCard;
 
     //Имя
     private String name;
@@ -31,11 +31,11 @@ public class DiscountForEmployees {
         this.id = id;
     }
 
-    public int getNumberCard() {
+    public long getNumberCard() {
         return numberCard;
     }
 
-    public void setNumberCard(int numberCard) {
+    public void setNumberCard(long numberCard) {
         this.numberCard = numberCard;
     }
 

@@ -1,7 +1,10 @@
 package ru.zekoh.controller;
 
+import com.sun.deploy.net.HttpResponse;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +22,19 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+
 import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.printing.KKM;
@@ -34,13 +50,23 @@ import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import static java.lang.Math.toIntExact;
 
 
 public class SaleController {
@@ -181,10 +207,10 @@ public class SaleController {
     int levalProductForSerch = 0;
 
     //Ширина кнопок с папками и продуктами
-    int btnWigth = 180;
+    int btnWigth = 136;
 
     //Высота кнопок с папками и продуктами
-    int btnHight = 100;
+    int btnHight = 90;
 
     //Считаем количество рядов папок и кнопок для расчета высоты panel
     int numberOfLinesForFolderAndProduct = 0;
@@ -193,7 +219,13 @@ public class SaleController {
     int amountFolderAndProduct = 0;
 
     //Размер шрифта папок и продуктов
-    Double fontFolderAndProduct = 20.0;
+    Double fontFolderAndProduct = 16.0;
+
+    // Флаг для обновления пользователей из бонусной программы
+    boolean bonusFlag = true;
+
+    // id пекарни
+    int bakeryId = 1;
 
     //Скидка сотрудника
     //DiscountForEmployees discountForEmployees = null;
@@ -208,7 +240,8 @@ public class SaleController {
         //Добавляем на панель папки и продукты
         addBtnsToPanelForBtns();
 
-        goodsListView.setFixedCellSize(70);
+        goodsListView.setFixedCellSize(60);
+
         goodsListView.setCellFactory(new GoodsCellFactory());
 
         panelWithControlBtn.setVisible(true);
@@ -263,7 +296,7 @@ public class SaleController {
 
         int temp = (numberOfLinesForFolderAndProduct * btnHight) + 10;
 
-        panelForButtons.setPrefSize(880, temp);
+        panelForButtons.setPrefSize(680, temp);
 
         GridPane gridPane = new GridPane();
 
@@ -525,7 +558,7 @@ public class SaleController {
             //check.updateCheck(DiscountProgram.promotionMini6(check));
 
             //Скидка 30% на выпечку после 8 вечера
-            //check.updateCheck(DiscountProgram.discountOnBakes(check));
+            check.updateCheck(DiscountProgram.discountOnBakes(check));
 
             //Скидка на 5 мафинов
             //check.updateCheck(DiscountProgram.maffins(check));
@@ -592,10 +625,12 @@ public class SaleController {
                 Button btn = (Button) panelForCheckBtns.getChildren().get(i);
                 btn.setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#BBDEFB"), CornerRadii.EMPTY, Insets.EMPTY)));
+                btn.setFont(new Font(fontFolderAndProduct));
             } else {
                 Button btn = (Button) panelForCheckBtns.getChildren().get(i);
                 btn.setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#E3F2FD"), CornerRadii.EMPTY, Insets.EMPTY)));
+                btn.setFont(new Font(fontFolderAndProduct));
             }
         }
     }
@@ -646,6 +681,11 @@ public class SaleController {
             }
 
         } else {
+
+            if(checkList.size() > 0 && check.getGoodsList().size() <= 0 ){
+                goodsListView.getItems().clear();
+                goodsListView.refresh();
+            }
 
             //Если мы создаем чек не через нажатия на товар
             if (!createCheckByClickingCnProduct) {
@@ -1393,6 +1433,9 @@ public class SaleController {
 
                                 //Обновляем в БД баланс на счету сотрудника, клиента и записываем в историю транзаций о проведенной скидке
                                 discountForEmp.passed(check, checkList.get(currentCheck).getDiscountForEmployees());
+
+                                // Отправляем данные на сервер и клиенту
+                                pushDataOnTheServer(check);
                             }
                         }
 
@@ -1432,6 +1475,42 @@ public class SaleController {
                 System.out.printf("Чек уже не существует!");
             }
 
+        }
+    }
+
+    // Отправляем данные на сервер и клиенту
+    private void pushDataOnTheServer(Check check) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            String name  = check.getDiscountForEmployees().getName();
+            int id  = check.getDiscountForEmployees().getId();
+            int checkId  = check.getId();
+            Double total = check.getTotal();
+
+            //todo перевести в unix формат
+            String dateString  = check.getDateOfClosing();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date date = dateFormat.parse(dateString );
+            long unixTime = (long) date.getTime()/1000;
+            System.out.println(unixTime );
+            System.out.println(total );
+
+            HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
+            StringEntity params =new StringEntity("{\"customerId\":\""+id+"\",\"bakeryId\":\""+bakeryId+"\",\"checkId\":\""+checkId+"\",\"date\":\""+unixTime+"\",\"total\":\""+total+"\"} ");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            System.out.println("status code "+response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        }catch (Exception ex) {
+            System.out.println(ex.getMessage().toString());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
         }
     }
 
@@ -1486,7 +1565,7 @@ public class SaleController {
                     DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
 
                     try {
-                        int numberCustomerCurd = Integer.parseInt(idCustomerInput.getText());
+                        long numberCustomerCurd =  new Long(idCustomerInput.getText());
 
                         check.setDiscountForEmployees(discountForEmployeesDao.getDiscountCard(numberCustomerCurd));
 
@@ -1574,24 +1653,194 @@ public class SaleController {
 
     }
 
+    private void setUserOnPanel() {
+        if (bonusPane.getChildren().size() > 1) {
+            bonusPane.getChildren().remove(1);
+        }
+
+        try {
+            String url = "http://5.188.41.134:8080/api/v1/bakery/"+bakeryId+"";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int responseCode = con.getResponseCode();
+            //System.out.println("\nSending 'GET' request to URL : " + url);
+            //System.out.println("Response Code : " + responseCode);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            //print in String
+
+            //String output = response.toString().replace("[", "").replace("]", "");
+            //System.out.println("Тут" + response.toString());
+            JSONArray myresponse = new JSONArray(response.toString());
+
+            List<UserFromBonus> userFromBonusList = new ArrayList<UserFromBonus>();
+            for (int i = 0; i < myresponse.length(); i++) {
+                JSONObject json = new JSONObject(myresponse.get(i).toString());
+                UserFromBonus userFromBonus = new UserFromBonus();
+                userFromBonus.setId(json.getLong("id"));
+
+                String[] name = json.getString("mail").split("@");
+                userFromBonus.setMail(name[0]);
+                userFromBonus.setDisclount(json.getDouble("discount"));
+                userFromBonusList.add(userFromBonus);
+                //System.out.println("mail тут " + json.getString("mail"));
+            }
+
+
+            GridPane gridPane = new GridPane();
+            Button[] btns = new Button[userFromBonusList.size()];
+            int x = 0;
+            int y = 0;
+            for (int i = 0; i < userFromBonusList.size(); i++) {
+                btns[i] = new Button(userFromBonusList.get(i).getMail());
+                btns[i].setPrefSize(280, btnHight);
+                btns[i].setWrapText(true);
+                btns[i].setFont(new Font(fontFolderAndProduct));
+                btns[i].setId("" + userFromBonusList.get(i).getId() + "");
+                btns[i].setBackground(new Background(new BackgroundFill(
+                        Color.valueOf("#EEEEEE"), CornerRadii.EMPTY, Insets.EMPTY)));
+                btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#E0E0E0"),
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            for (Button b : btns) {
+
+                b.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        //Проверяем есть ли чек
+                        if (checkList.size() > 0) {
+
+                            //Проевряем открыт ли чек или уже оплачен
+                            if (checkList.get(currentCheck).isALive()) {
+                                b.setBackground(new Background(new BackgroundFill(
+                                        Color.valueOf("#B3E5FC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                            }
+                        }
+
+                    }
+                });
+
+                //Действие когда кнопка отпущена
+                b.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+
+                        //Если чека нет создаем чек
+                        if (checkList.size() < 1)
+                            newCheck(true);
+
+                        if (checkList.get(currentCheck).isALive()) {
+                           // System.out.println("бинго!");
+
+                            if (checkList.size() > 0) {
+                                if (checkList.get(currentCheck).isALive()) {
+                                    Check check = checkList.get(currentCheck);
+
+                                    UserFromBonus currentUserFromBonus = new UserFromBonus();
+                                    for (int i = 0; i < userFromBonusList.size(); i++) {
+                                        long longId = Integer.parseInt(b.getId());
+                                        if(userFromBonusList.get(i).getId() == toIntExact(longId)){
+                                            currentUserFromBonus = userFromBonusList.get(i);
+                                        }
+                                    }
+
+                                    if(currentUserFromBonus != null){
+                                        DiscountForEmployees discountForEmployees = new DiscountForEmployees();
+                                        //todo узкое место если long будет больше int жопка будет надо привести в порядок
+                                        discountForEmployees.setId(toIntExact(currentUserFromBonus.getId()));
+                                        discountForEmployees.setBalance(0.0);
+                                        discountForEmployees.setBudgetForTheMonth(9720445.73);
+                                        discountForEmployees.setAmountOfDiscount(currentUserFromBonus.getDisclount());
+                                        discountForEmployees.setName(currentUserFromBonus.getMail());
+                                        check.setDiscountForEmployees(discountForEmployees);
+                                        bonusPane.setVisible(false);
+                                        bonusFlag = false;
+
+                                        check.setDiscountOnCheck(true);
+
+                                        discountConverter(check);
+                                        idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
+
+                                        updateDataFromANewCheck(false);
+
+                                        cancelDiscountBtn.setVisible(true);
+                                        discountBtn.setVisible(false);
+                                    }
+
+                                }
+                            }
+
+
+
+                            b.setBackground(new Background(new BackgroundFill(
+                                    Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
+
+                    }
+                });
+
+
+                gridPane.add(b, x * (x + (int) b.getWidth()), y);
+                x++;
+                if (x % countFolderAndProductInRow == 0) {
+                    y++;
+                    x = 0;
+                }
+
+
+            }
+
+            bonusPane.getChildren().add(gridPane);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }
+
     // Отображения панели с учасниками бонусной программы
     public void bonusAction(ActionEvent actionEvent) {
+
         bonusPane.setVisible(true);
+        bonusFlag = true;
+        setUserOnPanel();
 
         // Создаем новый поток который получает данные о пользователе и отрисовывает их
-        Thread thread = new Thread(){
-            public void run(){
-                System.out.println("Thread Running");
-            }
-        };
+        Thread clientThread = new Thread(() -> {
 
-        thread.start();
+            try {
+                while (bonusFlag) {
+                    Thread.sleep(1000);
+                    Platform.runLater(() -> {
+                        setUserOnPanel();
+                        //System.out.println("Пошел хасан!");
+                    });
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        });
+        clientThread.setDaemon(true);
+
+        clientThread.start();
+
+
     }
 
     // Закрытие панели с учасниками бонусной программы
     public void closeBonusPaneAction(ActionEvent actionEvent) {
         bonusPane.setVisible(false);
-
+        bonusFlag = false;
         // Завершить поток
     }
 }

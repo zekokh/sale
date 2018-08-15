@@ -44,3 +44,7 @@
     -fx-background-insets: 1 1 2 1;
     -fx-padding: 0.20em;
 }
+.list-cell
+{
+  -fx-font: 16pt "Arial";
+}
