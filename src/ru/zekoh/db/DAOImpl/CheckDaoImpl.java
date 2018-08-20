@@ -83,13 +83,15 @@ public class CheckDaoImpl implements CheckDao {
 
         int contain_goods = check.isContainGoods() ? 1 : 0;
 
+        Double withBonus = check.getAmountPaidBonuses();
+
         try {
             if (connection != null) {
 
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                stmt.execute("UPDATE `check` SET `amount_by_price` = '" + check.getAmountByPrice() + "', `total` = '" + check.getTotal() + "', `payment_state`='" + payment_state + "', `discount_on_goods`='" + discount_on_goods + "', `discount_on_check`='" + discount_on_check + "', `type_of_payment`='" + check.getTypeOfPayment() + "', `date_of_creation`='" + check.getDateOfCreation() + "', `date_of_closing`='" + check.getDateOfClosing() + "', `return_status`='" + return_status + "',`is_a_live`='" + is_a_live + "',`contain_goods`='" + contain_goods + "' WHERE `id`='" + check.getId() + "';");
+                stmt.execute("UPDATE `check` SET `amount_by_price` = '" + check.getAmountByPrice() + "', `total` = '" + check.getTotal() + "', `payment_state`='" + payment_state + "', `discount_on_goods`='" + discount_on_goods + "', `discount_on_check`='" + discount_on_check + "', `type_of_payment`='" + check.getTypeOfPayment() + "', `date_of_creation`='" + check.getDateOfCreation() + "', `date_of_closing`='" + check.getDateOfClosing() + "', `return_status`='" + return_status + "',`is_a_live`='" + is_a_live + "',`pay_with_bonus` = '" + withBonus + "',`contain_goods`='" + contain_goods + "' WHERE `id`='" + check.getId() + "';");
                 for (int i = 0; i < goods.size(); i++) {
                     stmt.execute("INSERT INTO `goods` (`check_id`, `general_id`, `product_id`, `product_name`, `price_from_the_price_list`, `price_after_discount`, `selling_price`, `quantity`) VALUE ('" + check.getId() + "', '" + goods.get(i).getGeneralId() + "','" + goods.get(i).getProductId() + "', '" + goods.get(i).getProductName() + "', '" + goods.get(i).getPriceFromThePriceList() + "','" + goods.get(i).getPriceAfterDiscount() + "', '" + goods.get(i).getSellingPrice() + "', '" + goods.get(i).getCount() + "')");
                 }

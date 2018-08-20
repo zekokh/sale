@@ -182,6 +182,10 @@ public class SaleController {
     @FXML
     public Button closeBonusPaneBtn;
 
+    // Label для отображения бонуса
+    @FXML
+    public Label bonusLabel;
+
     //Путь уровней вложенности папок и продуктов
     private ArrayList<Integer> levelPath = new ArrayList<Integer>();
 
@@ -226,6 +230,12 @@ public class SaleController {
 
     // id пекарни
     int bakeryId = 1;
+
+    // Максиммальный процент от суммы покупки, который можно оплатить бонусами
+    Double maxValuePayBonuses = 0.30;
+
+    // Сумма бонусов которой оплачивается покупка
+    Double discountWithBonus = 0.0;
 
     //Скидка сотрудника
     //DiscountForEmployees discountForEmployees = null;
@@ -541,6 +551,57 @@ public class SaleController {
             } else {
                 discountInfoLabel.setText("");
             }
+        } else if (check.isCashBack()) {
+            // Если оплата без скидок просто делаем кэшбэк
+
+            //6 больших эклеров по цене 5
+            check.updateCheck(DiscountProgram.promotion6(check));
+
+            //Скидка на 5 и 10 круасанов
+            check.updateCheck(DiscountProgram.promotion2(check));
+
+            //Скидка 30% на выпечку после 7.20 вечера
+            check.updateCheck(DiscountProgram.discountOnBakes(check));
+
+        } else if (check.isPayWithBonus()) {
+            // Часть бонусами и делаем кэшбэк
+
+            //6 больших эклеров по цене 5
+            check.updateCheck(DiscountProgram.promotion6(check));
+
+            //Скидка на 5 и 10 круасанов
+            check.updateCheck(DiscountProgram.promotion2(check));
+
+            //Скидка 30% на выпечку после 7.20 вечера
+            check.updateCheck(DiscountProgram.discountOnBakes(check));
+
+            // Считаем сумму, которую можно заплатить бонусными балами
+
+            List<Goods> goods = check.getGoodsList();
+            Double amountThatCanBePaidWithBonuses = 0.0;
+
+            for (int i = 0; i < goods.size(); i++) {
+
+                Goods currentGoods = goods.get(i);
+
+                // Если это не багет, то можно оплатить бонусными баллами
+                if (currentGoods.getClassifier() != 11) {
+                    amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
+                }
+            }
+
+            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * maxValuePayBonuses).setScale(2, RoundingMode.HALF_UP).doubleValue();;
+
+
+            if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
+                discountWithBonus = check.getDiscountForEmployees().getBonus();
+            } else {
+                discountWithBonus = amountThatCanBePaidWithBonuses;
+            }
+
+            check.setAmountPaidBonuses(discountWithBonus);
+            Double total = check.getTotal() - discountWithBonus;
+            check.setTotal(total);
         } else {
             //Если на чек скидки нет
             //Проверяем есть в текущем чеке товары на которые работает промоушен
@@ -552,12 +613,12 @@ public class SaleController {
             check.updateCheck(DiscountProgram.promotion2(check));
 
             //8 кусков флана стоимость как за целый флан
-            check.updateCheck(DiscountProgram.promotion1(check));
+            // check.updateCheck(DiscountProgram.promotion1(check));
 
             //6 мини эклеров по цене 5
             //check.updateCheck(DiscountProgram.promotionMini6(check));
 
-            //Скидка 30% на выпечку после 8 вечера
+            //Скидка 30% на выпечку после 7.20 вечера
             check.updateCheck(DiscountProgram.discountOnBakes(check));
 
             //Скидка на 5 мафинов
@@ -610,6 +671,7 @@ public class SaleController {
                 }
             }
         }
+
     }
 
 
@@ -671,18 +733,26 @@ public class SaleController {
 
             if (check.getDiscountForEmployees() != null) {
 
-                Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
+                if (check.isPayWithBonus()) {
+                    bonusLabel.setText("Бонус: "+check.getAmountPaidBonuses());
 
-                if ((check.getDiscountForEmployees().getBalance() + temp1) >= check.getDiscountForEmployees().getBudgetForTheMonth()) {
-                    discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (check.getDiscountForEmployees().getBudgetForTheMonth() - check.getDiscountForEmployees().getBalance()) + " р.");
+                } else if (check.isCashBack()) {
+
                 } else {
-                    discountInfoLabel.setText("");
+                    Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
+
+                    if ((check.getDiscountForEmployees().getBalance() + temp1) >= check.getDiscountForEmployees().getBudgetForTheMonth()) {
+                        discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (check.getDiscountForEmployees().getBudgetForTheMonth() - check.getDiscountForEmployees().getBalance()) + " р.");
+                    } else {
+                        discountInfoLabel.setText("");
+                    }
                 }
+
             }
 
         } else {
 
-            if(checkList.size() > 0 && check.getGoodsList().size() <= 0 ){
+            if (checkList.size() > 0 && check.getGoodsList().size() <= 0) {
                 goodsListView.getItems().clear();
                 goodsListView.refresh();
             }
@@ -705,6 +775,9 @@ public class SaleController {
 
                 //Сумма без скидки
                 totalWhithoutDiscountLabel.setText("Без скидки: 0 р.");
+
+                // Сумма бонусов
+                bonusLabel.setText("Бонус: 0");
             }
         }
 
@@ -737,6 +810,9 @@ public class SaleController {
 
         //Сумма без скидки
         totalWhithoutDiscountLabel.setText("Без скидки: 0 р.");
+
+        // Сумма бонусов
+        bonusLabel.setText("Бонус: 0");
 
         if (checkList.size() > 0) {
             checkList.get(currentCheck).setDiscountForEmployees(null);
@@ -991,7 +1067,26 @@ public class SaleController {
         //Расчет данных для чека
         checkList.get(currentCheck).setAmountByPrice(priceFromThePrice);
 
-        if (checkList.get(currentCheck).isDiscountOnCheck()) {
+        Check check = checkList.get(currentCheck);
+
+        // Проверяем нет ли кэшэка или оплаты баллами
+        if (check.isPayWithBonus()) {
+            if (check.getDiscountForEmployees() != null) {
+
+                Double temp = new BigDecimal(sellingPriceInCheck-check.getAmountPaidBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                checkList.get(currentCheck).setTotal(temp);
+            }
+        } else if (check.isDiscountOnCheck()) {
+            if (check.getDiscountForEmployees() != null) {
+                Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                checkList.get(currentCheck).setTotal(temp);
+            }
+        } else {
+            sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            checkList.get(currentCheck).setTotal(sellingPriceInCheck);
+        }
+
+        /*if (checkList.get(currentCheck).isDiscountOnCheck()) {
             if (checkList.get(currentCheck).getDiscountForEmployees() != null) {
                 Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 checkList.get(currentCheck).setTotal(temp);
@@ -1000,7 +1095,7 @@ public class SaleController {
         } else {
             sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
             checkList.get(currentCheck).setTotal(sellingPriceInCheck);
-        }
+        }*/
 
     }
 
@@ -1353,33 +1448,37 @@ public class SaleController {
                     //Если товар продается со скидкой для сотрудника или клиента, то проверим совбадает ли баланс после покупки с установленным лимитом
                     if (checkList.get(currentCheck).getDiscountForEmployees() != null) {
 
-                        //Цена за весь чек
-                        Double price = check.getAmountByPrice();
-
-                        //Размер скидки (проценты)
-                        Double discount = checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100;
-
-                        //Сумма скидки
-                        Double discountAmount = price * discount;
-
-                        //Текущий баланс сотрудника
-                        Double balance = checkList.get(currentCheck).getDiscountForEmployees().getBalance();
-
-                        //Лимит по скидки в месяц
-                        Double limit = checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth();
-
-                        //Цена на чек со скидкой сотрудника
-                        Double discountPrice = price - discountAmount;
-
-                        Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100);
-
-                        if ((balance + discountPrice) >= limit) {
-                            discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth() - checkList.get(currentCheck).getDiscountForEmployees().getBalance()) + " р.");
-                            return;
-                        } else {
-
-                            //Если условия соблюдены для скидки
+                        if (check.isCashBack() || check.isPayWithBonus()){
                             flagDiscount = true;
+                        } else {
+                            //Цена за весь чек
+                            Double price = check.getAmountByPrice();
+
+                            //Размер скидки (проценты)
+                            Double discount = checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100;
+
+                            //Сумма скидки
+                            Double discountAmount = price * discount;
+
+                            //Текущий баланс сотрудника
+                            Double balance = checkList.get(currentCheck).getDiscountForEmployees().getBalance();
+
+                            //Лимит по скидки в месяц
+                            Double limit = checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth();
+
+                            //Цена на чек со скидкой сотрудника
+                            Double discountPrice = price - discountAmount;
+
+                            Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100);
+
+                            if ((balance + discountPrice) >= limit) {
+                                discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth() - checkList.get(currentCheck).getDiscountForEmployees().getBalance()) + " р.");
+                                return;
+                            } else {
+
+                                //Если условия соблюдены для скидки
+                                flagDiscount = true;
+                            }
                         }
                     }
 
@@ -1483,28 +1582,29 @@ public class SaleController {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         try {
-            String name  = check.getDiscountForEmployees().getName();
-            int id  = check.getDiscountForEmployees().getId();
-            int checkId  = check.getId();
+            String name = check.getDiscountForEmployees().getName();
+            int id = check.getDiscountForEmployees().getId();
+            int checkId = check.getId();
             Double total = check.getTotal();
+            Double amountPaidBonuses = check.getAmountPaidBonuses();
 
             //todo перевести в unix формат
-            String dateString  = check.getDateOfClosing();
+            String dateString = check.getDateOfClosing();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            Date date = dateFormat.parse(dateString );
-            long unixTime = (long) date.getTime()/1000;
-            System.out.println(unixTime );
-            System.out.println(total );
+            Date date = dateFormat.parse(dateString);
+            long unixTime = (long) date.getTime() / 1000;
+            System.out.println(unixTime);
+            System.out.println(total);
 
             HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
-            StringEntity params =new StringEntity("{\"customerId\":\""+id+"\",\"bakeryId\":\""+bakeryId+"\",\"checkId\":\""+checkId+"\",\"date\":\""+unixTime+"\",\"total\":\""+total+"\"} ");
+            StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\""+amountPaidBonuses+ "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + unixTime + "\",\"total\":\"" + total + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);
-            System.out.println("status code "+response.getStatusLine().getStatusCode());
+            System.out.println("status code " + response.getStatusLine().getStatusCode());
             //handle response here...
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage().toString());
             //handle exception here
 
@@ -1565,7 +1665,7 @@ public class SaleController {
                     DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
 
                     try {
-                        long numberCustomerCurd =  new Long(idCustomerInput.getText());
+                        long numberCustomerCurd = new Long(idCustomerInput.getText());
 
                         check.setDiscountForEmployees(discountForEmployeesDao.getDiscountCard(numberCustomerCurd));
 
@@ -1659,7 +1759,7 @@ public class SaleController {
         }
 
         try {
-            String url = "http://5.188.41.134:8080/api/v1/bakery/"+bakeryId+"";
+            String url = "http://5.188.41.134:8080/api/v1/bakery/" + bakeryId + "";
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
             int responseCode = con.getResponseCode();
@@ -1678,16 +1778,39 @@ public class SaleController {
             //String output = response.toString().replace("[", "").replace("]", "");
             //System.out.println("Тут" + response.toString());
             JSONArray myresponse = new JSONArray(response.toString());
-
+            System.out.println(myresponse);
+            System.out.println("______--___");
             List<UserFromBonus> userFromBonusList = new ArrayList<UserFromBonus>();
             for (int i = 0; i < myresponse.length(); i++) {
                 JSONObject json = new JSONObject(myresponse.get(i).toString());
-                UserFromBonus userFromBonus = new UserFromBonus();
-                userFromBonus.setId(json.getLong("id"));
 
-                String[] name = json.getString("mail").split("@");
+                System.out.println("JSON" + json);
+                System.out.println("----");
+                System.out.println("Бонус " + json.getInt("bonus"));
+
+                int payWithBonuses = json.getInt("bonus");
+                UserFromBonus userFromBonus = new UserFromBonus();
+
+                JSONObject customerInformation = (JSONObject) json.get("customer");
+                System.out.println("Получилось " + customerInformation.getLong("id"));
+                userFromBonus.setId(customerInformation.getLong("id"));
+
+                // Если приходит запрос с просьбой оплатить покупку бонусами, то сохраняем кол-во бонусов клиента
+                if (payWithBonuses == 1) {
+                    userFromBonus.setBonus(customerInformation.getDouble("bonus"));
+                } else {
+
+                    // Если оплата без бонусов, просто устанавливаем 0, тогда бонусы будут только начисляться с покупки
+                    userFromBonus.setBonus(0.0);
+                }
+
+
+                String[] name = customerInformation.getString("mail").split("@");
                 userFromBonus.setMail(name[0]);
-                userFromBonus.setDisclount(json.getDouble("discount"));
+
+                //System.out.println("С бонусом или нет: " + json.getBoolean("bonus"));
+
+                userFromBonus.setDisclount(customerInformation.getDouble("discount"));
                 userFromBonusList.add(userFromBonus);
                 //System.out.println("mail тут " + json.getString("mail"));
             }
@@ -1738,7 +1861,7 @@ public class SaleController {
                             newCheck(true);
 
                         if (checkList.get(currentCheck).isALive()) {
-                           // System.out.println("бинго!");
+                            // System.out.println("бинго!");
 
                             if (checkList.size() > 0) {
                                 if (checkList.get(currentCheck).isALive()) {
@@ -1747,28 +1870,47 @@ public class SaleController {
                                     UserFromBonus currentUserFromBonus = new UserFromBonus();
                                     for (int i = 0; i < userFromBonusList.size(); i++) {
                                         long longId = Integer.parseInt(b.getId());
-                                        if(userFromBonusList.get(i).getId() == toIntExact(longId)){
+                                        if (userFromBonusList.get(i).getId() == toIntExact(longId)) {
                                             currentUserFromBonus = userFromBonusList.get(i);
                                         }
                                     }
 
-                                    if(currentUserFromBonus != null){
+                                    if (currentUserFromBonus != null) {
                                         DiscountForEmployees discountForEmployees = new DiscountForEmployees();
                                         //todo узкое место если long будет больше int жопка будет надо привести в порядок
                                         discountForEmployees.setId(toIntExact(currentUserFromBonus.getId()));
                                         discountForEmployees.setBalance(0.0);
                                         discountForEmployees.setBudgetForTheMonth(9720445.73);
                                         discountForEmployees.setAmountOfDiscount(currentUserFromBonus.getDisclount());
+                                        discountForEmployees.setBonus(currentUserFromBonus.getBonus());
+                                        discountForEmployees.setLevel(currentUserFromBonus.getLevel());
                                         discountForEmployees.setName(currentUserFromBonus.getMail());
                                         check.setDiscountForEmployees(discountForEmployees);
                                         bonusPane.setVisible(false);
+
+                                        // Флаг для отображения панели со списком участников бонусной программы
                                         bonusFlag = false;
 
-                                        check.setDiscountOnCheck(true);
+                                        if (discountForEmployees.getLevel() != 5 && discountForEmployees.getLevel() != 4) {
+                                            check.setDiscountOnCheck(false);
 
-                                        discountConverter(check);
+                                            // Если payWithBonus == true то оплачиваем бонусами и делаем кэш бэк
+                                            if (discountForEmployees.getBonus() == 0.0) {
+                                                check.setPayWithBonus(false);
+                                                check.setCashBack(true);
+                                            } else {
+                                                check.setPayWithBonus(true);
+                                                check.setCashBack(false);
+                                            }
+
+                                        } else {
+                                            check.setDiscountOnCheck(true);
+                                        }
+
+
+                                        //discountConverter(check);
                                         idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
-
+                                        checkDiscountProgram(check);
                                         updateDataFromANewCheck(false);
 
                                         cancelDiscountBtn.setVisible(true);
@@ -1777,7 +1919,6 @@ public class SaleController {
 
                                 }
                             }
-
 
 
                             b.setBackground(new Background(new BackgroundFill(
@@ -1809,30 +1950,35 @@ public class SaleController {
     // Отображения панели с учасниками бонусной программы
     public void bonusAction(ActionEvent actionEvent) {
 
-        bonusPane.setVisible(true);
-        bonusFlag = true;
-        setUserOnPanel();
 
-        // Создаем новый поток который получает данные о пользователе и отрисовывает их
-        Thread clientThread = new Thread(() -> {
+        try {
+            bonusPane.setVisible(true);
+            bonusFlag = true;
+            setUserOnPanel();
 
-            try {
-                while (bonusFlag) {
-                    Thread.sleep(1000);
-                    Platform.runLater(() -> {
-                        setUserOnPanel();
-                        //System.out.println("Пошел хасан!");
-                    });
+            // Создаем новый поток который получает данные о пользователе и отрисовывает их
+            Thread clientThread = new Thread(() -> {
+
+                try {
+                    while (bonusFlag) {
+                        Thread.sleep(1000);
+                        Platform.runLater(() -> {
+                            setUserOnPanel();
+                            //System.out.println("Пошел хасан!");
+                        });
+                    }
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            });
+            clientThread.setDaemon(true);
 
-        });
-        clientThread.setDaemon(true);
-
-        clientThread.start();
+            clientThread.start();
+        } catch (Exception e) {
+            System.out.println("Ошибка! " + e.getMessage().toString());
+        }
 
 
     }
@@ -1841,6 +1987,14 @@ public class SaleController {
     public void closeBonusPaneAction(ActionEvent actionEvent) {
         bonusPane.setVisible(false);
         bonusFlag = false;
+        // Текущий чек
+        Check check = checkList.get(currentCheck);
+
+
+        //Обновляем цены на товары после отмены чека
+        checkDiscountProgram(check);
+
+        //clientThread.interrupt();
         // Завершить поток
     }
 }

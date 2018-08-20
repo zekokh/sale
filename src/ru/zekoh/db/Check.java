@@ -52,6 +52,12 @@ public class Check {
 
     private DiscountForEmployees discountForEmployees = null;
 
+    private boolean payWithBonus = false;
+
+    private boolean cashBack = false;
+
+    private Double amountPaidBonuses = 0.0;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -76,6 +82,30 @@ public class Check {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isPayWithBonus() {
+        return payWithBonus;
+    }
+
+    public void setPayWithBonus(boolean payWithBonus) {
+        this.payWithBonus = payWithBonus;
+    }
+
+    public boolean isCashBack() {
+        return cashBack;
+    }
+
+    public void setCashBack(boolean cashBack) {
+        this.cashBack = cashBack;
+    }
+
+    public Double getAmountPaidBonuses() {
+        return amountPaidBonuses;
+    }
+
+    public void setAmountPaidBonuses(Double amountPaidBonuses) {
+        this.amountPaidBonuses = amountPaidBonuses;
     }
 
     public List<Goods> getGoodsList() {

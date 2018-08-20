@@ -20,6 +20,12 @@ public class DiscountForEmployees {
     //Израсходованно в этом месяце
     private Double balance;
 
+    // Кол-во бонусов
+    private Double bonus;
+
+    // Уровень в системе Жак-Андрэ Бонус
+    private int level;
+
     //Статус жизни
     private boolean is_a_live;
 
@@ -31,8 +37,24 @@ public class DiscountForEmployees {
         this.id = id;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public long getNumberCard() {
         return numberCard;
+    }
+
+    public Double getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Double bonus) {
+        this.bonus = bonus;
     }
 
     public void setNumberCard(long numberCard) {
