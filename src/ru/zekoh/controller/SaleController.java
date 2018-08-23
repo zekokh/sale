@@ -61,10 +61,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Math.toIntExact;
 
@@ -232,7 +229,7 @@ public class SaleController {
     int bakeryId = 1;
 
     // Максиммальный процент от суммы покупки, который можно оплатить бонусами
-    Double maxValuePayBonuses = 0.30;
+    //Double maxValuePayBonuses = 0.30;
 
     // Сумма бонусов которой оплачивается покупка
     Double discountWithBonus = 0.0;
@@ -263,7 +260,7 @@ public class SaleController {
         bonusPane.setVisible(false);
 
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
     }
 
@@ -590,7 +587,7 @@ public class SaleController {
                 }
             }
 
-            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * maxValuePayBonuses).setScale(2, RoundingMode.HALF_UP).doubleValue();;
+            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();;
 
 
             if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
@@ -1589,6 +1586,7 @@ public class SaleController {
             Double amountPaidBonuses = check.getAmountPaidBonuses();
 
             //todo перевести в unix формат
+
             String dateString = check.getDateOfClosing();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = dateFormat.parse(dateString);
@@ -1735,6 +1733,8 @@ public class SaleController {
 
         check.setDiscountOnCheck(false);
         check.setDiscountForEmployees(null);
+        check.setPayWithBonus(false);
+        check.setCashBack(false);
 
         //Обновляем цены на товары после отмены чека
         checkDiscountProgram(check);
@@ -1743,6 +1743,7 @@ public class SaleController {
 
         idCustomerInput.clear();
         discountInfoLabel.setText("");
+        bonusLabel.setText("Бонус: 0");
         cancelDiscountBtn.setVisible(false);
         discountBtn.setVisible(true);
         updateDataFromANewCheck(false);
@@ -1807,6 +1808,7 @@ public class SaleController {
 
                 String[] name = customerInformation.getString("mail").split("@");
                 userFromBonus.setMail(name[0]);
+                userFromBonus.setLevel(customerInformation.getInt("level"));
 
                 //System.out.println("С бонусом или нет: " + json.getBoolean("bonus"));
 
@@ -1910,6 +1912,19 @@ public class SaleController {
 
                                         //discountConverter(check);
                                         idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
+
+                                        if(discountForEmployees.getLevel() == 5){
+                                            check.setDiscountOnCheck(false);
+                                            check.setPayWithBonus(true);
+                                            check.setMaxValuePayBonuses(0.4);
+                                        }else if (discountForEmployees.getLevel() == 4) {
+                                            check.setDiscountOnCheck(false);
+                                            check.setPayWithBonus(true);
+                                            check.setMaxValuePayBonuses(0.2);
+                                        }else {
+                                            check.setMaxValuePayBonuses(0.3);
+                                        }
+
                                         checkDiscountProgram(check);
                                         updateDataFromANewCheck(false);
 

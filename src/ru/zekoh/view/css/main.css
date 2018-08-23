@@ -48,3 +48,11 @@
 {
   -fx-font: 16pt "Arial";
 }
+
+.scroll-bar .increment-button {
+-fx-padding: 0.75em;
+}
+
+.scroll-bar .decrement-button {
+-fx-padding: 0.75em;
+}

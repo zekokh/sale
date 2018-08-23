@@ -58,6 +58,8 @@ public class Check {
 
     private Double amountPaidBonuses = 0.0;
 
+    private Double maxValuePayBonuses = 0.3;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -218,5 +220,13 @@ public class Check {
 
     public void setDiscountForEmployees(DiscountForEmployees discountForEmployees) {
         this.discountForEmployees = discountForEmployees;
+    }
+
+    public Double getMaxValuePayBonuses() {
+        return maxValuePayBonuses;
+    }
+
+    public void setMaxValuePayBonuses(Double maxValuePayBonuses) {
+        this.maxValuePayBonuses = maxValuePayBonuses;
     }
 }
