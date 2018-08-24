@@ -587,7 +587,8 @@ public class SaleController {
                 }
             }
 
-            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();;
+            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            ;
 
 
             if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
@@ -731,7 +732,7 @@ public class SaleController {
             if (check.getDiscountForEmployees() != null) {
 
                 if (check.isPayWithBonus()) {
-                    bonusLabel.setText("Бонус: "+check.getAmountPaidBonuses());
+                    bonusLabel.setText("Бонус: " + check.getAmountPaidBonuses());
 
                 } else if (check.isCashBack()) {
 
@@ -1070,7 +1071,7 @@ public class SaleController {
         if (check.isPayWithBonus()) {
             if (check.getDiscountForEmployees() != null) {
 
-                Double temp = new BigDecimal(sellingPriceInCheck-check.getAmountPaidBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double temp = new BigDecimal(sellingPriceInCheck - check.getAmountPaidBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 checkList.get(currentCheck).setTotal(temp);
             }
         } else if (check.isDiscountOnCheck()) {
@@ -1445,7 +1446,7 @@ public class SaleController {
                     //Если товар продается со скидкой для сотрудника или клиента, то проверим совбадает ли баланс после покупки с установленным лимитом
                     if (checkList.get(currentCheck).getDiscountForEmployees() != null) {
 
-                        if (check.isCashBack() || check.isPayWithBonus()){
+                        if (check.isCashBack() || check.isPayWithBonus()) {
                             flagDiscount = true;
                         } else {
                             //Цена за весь чек
@@ -1511,6 +1512,9 @@ public class SaleController {
 
                     //Указываем дату закрытия чека
                     check.setDateOfClosing(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime()) + "");
+
+                    // Указываем дату закрытия в UNIX
+                    check.setDateOfClosingUnix(System.currentTimeMillis() / 1000L);
 
                     //Создаем объект Check DAO для манипуляции с сущностью
                     CheckDao checkDao = new CheckDaoImpl();
@@ -1585,17 +1589,15 @@ public class SaleController {
             Double total = check.getTotal();
             Double amountPaidBonuses = check.getAmountPaidBonuses();
 
-            //todo перевести в unix формат
-
-            String dateString = check.getDateOfClosing();
+/*            String dateString = check.getDateOfClosing();
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
             Date date = dateFormat.parse(dateString);
             long unixTime = (long) date.getTime() / 1000;
-            System.out.println(unixTime);
+            System.out.println(unixTime);*/
             System.out.println(total);
 
             HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
-            StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\""+amountPaidBonuses+ "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + unixTime + "\",\"total\":\"" + total + "\"} ");
+            StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\"" + amountPaidBonuses + "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosingUnix() + "\",\"total\":\"" + total + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);
@@ -1913,15 +1915,15 @@ public class SaleController {
                                         //discountConverter(check);
                                         idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
 
-                                        if(discountForEmployees.getLevel() == 5){
+                                        if (discountForEmployees.getLevel() == 5) {
                                             check.setDiscountOnCheck(false);
                                             check.setPayWithBonus(true);
                                             check.setMaxValuePayBonuses(0.4);
-                                        }else if (discountForEmployees.getLevel() == 4) {
+                                        } else if (discountForEmployees.getLevel() == 4) {
                                             check.setDiscountOnCheck(false);
                                             check.setPayWithBonus(true);
                                             check.setMaxValuePayBonuses(0.2);
-                                        }else {
+                                        } else {
                                             check.setMaxValuePayBonuses(0.3);
                                         }
 

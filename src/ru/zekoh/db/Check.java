@@ -38,6 +38,9 @@ public class Check {
     //Дата закрытие чека
     private String dateOfClosing;
 
+    // Дата закрытие чека в UNIX
+    private long dateOfClosingUnix;
+
     //Статус возврата
     private boolean returnStatus = false;
 
@@ -76,6 +79,7 @@ public class Check {
      setALive(check.isALive());
      setContainGoods(check.isContainGoods());
      setPromocod(check.getPromocod());
+     setDateOfClosingUnix(check.getDateOfClosingUnix());
     }
 
     public int getId() {
@@ -228,5 +232,13 @@ public class Check {
 
     public void setMaxValuePayBonuses(Double maxValuePayBonuses) {
         this.maxValuePayBonuses = maxValuePayBonuses;
+    }
+
+    public long getDateOfClosingUnix() {
+        return dateOfClosingUnix;
+    }
+
+    public void setDateOfClosingUnix(long dateOfClosingUnix) {
+        this.dateOfClosingUnix = dateOfClosingUnix;
     }
 }
