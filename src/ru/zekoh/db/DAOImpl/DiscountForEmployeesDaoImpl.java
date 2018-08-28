@@ -37,6 +37,7 @@ public class DiscountForEmployeesDaoImpl implements DiscountForEmployeesDao {
                     discountForEmployees.setAmountOfDiscount(rs.getDouble(5));
                     discountForEmployees.setIs_a_live(rs.getBoolean(6));
                     discountForEmployees.setBalance(rs.getDouble(7));
+                    discountForEmployees.setRole(rs.getInt(8));
                 }
                 stmt.close();
             }
@@ -69,7 +70,7 @@ public class DiscountForEmployeesDaoImpl implements DiscountForEmployeesDao {
         //Получаем соединение с БД
         Connection connection = DataBase.getConnection();
 
-        Double balance = discountForEmployees.getBalance() + check.getTotal();
+        Double balance = discountForEmployees.getBalance() + check.getAmountByPrice();
 
         try {
             if (connection != null) {

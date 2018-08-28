@@ -499,186 +499,188 @@ public class SaleController {
      */
     private void checkDiscountProgram(Check check) {
 
-        //Отменяем скидки на товары внутри чека
+        // Отменяем скидки на товары внутри чека
         for (int i = 0; i < check.getGoodsList().size(); i++) {
 
-            //Текущий товар
+            // Текущий товар
             Goods goods = check.getGoodsList().get(i);
 
-            //Цена на текущий товар по прайсу
+            // Цена на текущий товар по прайсу
             Double priceFromThePriceList = goods.getPriceFromThePriceList();
 
-            //Устанавливаем цену после скидки такую как было по прайсу
+            // Устанавливаем цену после скидки такую как было по прайсу
             goods.setPriceAfterDiscount(priceFromThePriceList);
 
-            //Цена после скидки
+            // Цена после скидки
             Double priceAfterDiscount = goods.getPriceAfterDiscount();
 
-            //Количество товара
+            // Количество товара
             Double count = goods.getCount();
 
-            //Считаем продажную цену умножая цену после скидки на кол-во товара
+            // Считаем продажную цену умножая цену после скидки на кол-во товара
             Double sellingPrice = count * priceAfterDiscount;
 
-            //Устанавливаем продажную цену товара
+            // Устанавливаем продажную цену товара
             goods.setSellingPrice(sellingPrice);
 
-            //Указываем что в чеке нет товаров со скидкой
+            // Указываем что в чеке нет товаров со скидкой
             check.setDiscountOnGoods(false);
 
         }
 
         //Если есть скидка на чек, то считаем укладывается ли сотрудник по лимиту на приобретаемые товары в месяц
-        if (check.isDiscountOnCheck()) {
+        if (check.getDiscountForEmployees() != null) {
 
-            discountConverter(check);
+            // Если не равняется 1 т.е. не обычный клиент, то делаем 20% скидку
+            // Role = 2 - это друг
+            if(check.getDiscountForEmployees().getRole() == 2){
+                discountConverter(check, 0.2);
 
-            // Цена за весь чек с учетом скидки
-            Double total = check.getTotal();
+                // тут смотрим про бонусы история
+                if(check.isPayWithBonus()){
+                    // Считаем сумму, которую можно заплатить бонусными балами
 
-            //Текущий баланс сотрудника
-            Double balance = check.getDiscountForEmployees().getBalance();
+                    List<Goods> goods = check.getGoodsList();
+                    Double amountThatCanBePaidWithBonuses = 0.0;
 
-            //Лимит по скидки в месяц
-            Double limit = check.getDiscountForEmployees().getBudgetForTheMonth();
+                    for (int i = 0; i < goods.size(); i++) {
 
-            //Если текущий баланс сотрудника вместе с запланированной покупкой больше лимита установленного в месяц то оповестить об этом
-            if ((balance + total) >= limit) {
-                discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (limit - balance) + " р.");
-            } else {
-                discountInfoLabel.setText("");
-            }
-        } else if (check.isCashBack()) {
-            // Если оплата без скидок просто делаем кэшбэк
+                        Goods currentGoods = goods.get(i);
 
-            //6 больших эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotion6(check));
-
-            //Скидка на 5 и 10 круасанов
-            check.updateCheck(DiscountProgram.promotion2(check));
-
-            //Скидка 30% на выпечку после 7.20 вечера
-            check.updateCheck(DiscountProgram.discountOnBakes(check));
-
-        } else if (check.isPayWithBonus()) {
-            // Часть бонусами и делаем кэшбэк
-
-            //6 больших эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotion6(check));
-
-            //Скидка на 5 и 10 круасанов
-            check.updateCheck(DiscountProgram.promotion2(check));
-
-            //Скидка 30% на выпечку после 7.20 вечера
-            check.updateCheck(DiscountProgram.discountOnBakes(check));
-
-            // Считаем сумму, которую можно заплатить бонусными балами
-
-            List<Goods> goods = check.getGoodsList();
-            Double amountThatCanBePaidWithBonuses = 0.0;
-
-            for (int i = 0; i < goods.size(); i++) {
-
-                Goods currentGoods = goods.get(i);
-
-                // Если это не багет, то можно оплатить бонусными баллами
-                if (currentGoods.getClassifier() != 11) {
-                    amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
-                }
-            }
-
-            amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            ;
-
-
-            if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
-                discountWithBonus = check.getDiscountForEmployees().getBonus();
-            } else {
-                discountWithBonus = amountThatCanBePaidWithBonuses;
-            }
-
-            check.setAmountPaidBonuses(discountWithBonus);
-            Double total = check.getTotal() - discountWithBonus;
-            check.setTotal(total);
-        } else {
-            //Если на чек скидки нет
-            //Проверяем есть в текущем чеке товары на которые работает промоушен
-
-            //6 больших эклеров по цене 5
-            check.updateCheck(DiscountProgram.promotion6(check));
-
-            //Скидка на 5 и 10 круасанов
-            check.updateCheck(DiscountProgram.promotion2(check));
-
-            //8 кусков флана стоимость как за целый флан
-            // check.updateCheck(DiscountProgram.promotion1(check));
-
-            //6 мини эклеров по цене 5
-            //check.updateCheck(DiscountProgram.promotionMini6(check));
-
-            //Скидка 30% на выпечку после 7.20 вечера
-            check.updateCheck(DiscountProgram.discountOnBakes(check));
-
-            //Скидка на 5 мафинов
-            //check.updateCheck(DiscountProgram.maffins(check));
-
-
-            //Промокод
-            int promoCod = check.getPromocod();
-
-            //Если промокод активирован
-            if (promoCod != 0) {
-
-                //Делаем скидку 10% на все товары на которых еще нет скидок
-                //Отменяем скидки на товары внутри чека
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                    //Текущий товар
-                    Goods goods = check.getGoodsList().get(i);
-
-                    //Цена на текущий товар по прайсу
-                    Double priceFromThePriceList = goods.getPriceFromThePriceList();
-
-                    //Цена после скидки
-                    Double priceAfterDiscount = goods.getPriceAfterDiscount();
-
-                    //Если цены не отличаются и этот товар не хлеб (классификатор - 11) и комбо из папки (классификатор - 14) т.е. товар не участвует в промоушене то делаем на товар скидку
-                    if (priceFromThePriceList.equals(priceAfterDiscount) && goods.getClassifier() != 11 && goods.getClassifier() != 14) {
-
-                        //Сумма скидки
-                        Double discountAmount = priceFromThePriceList * 0.10;
-
-                        //Делаем скидку 10%
-                        goods.setPriceAfterDiscount(priceFromThePriceList - discountAmount);
-
-                        //Обновляем значение в цене после скидки
-                        priceAfterDiscount = goods.getPriceAfterDiscount();
+                        // Если это не багет, то можно оплатить бонусными баллами
+                        if (currentGoods.getClassifier() != 11) {
+                            amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
+                        }
                     }
 
-                    //Количество товара
-                    Double count = goods.getCount();
+                    amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
 
-                    //Считаем продажную цену умножая цену после скидки на кол-во товара
-                    Double sellingPrice = count * priceAfterDiscount;
+                    if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
+                        discountWithBonus = check.getDiscountForEmployees().getBonus();
+                    } else {
+                        discountWithBonus = amountThatCanBePaidWithBonuses;
+                    }
 
-                    //Устанавливаем продажную цену товара
-                    goods.setSellingPrice(sellingPrice);
+                    check.setAmountPaidBonuses(discountWithBonus);
+                    Double total = check.getTotal() - discountWithBonus;
+                    check.setTotal(total);
+                }
+            }else if (check.getDiscountForEmployees().getRole() == 1) {
 
-                    //Указываем что в чеке есть товаров со скидкой
-                    check.setDiscountOnGoods(true);
+                if (check.isCashBack()) {
+
+                    // Если оплата без скидок просто делаем кэшбэк
+
+                    allDiscountProgram(check);
+
+                } else if (check.isPayWithBonus()) {
+                    // Часть бонусами и делаем кэшбэк
+
+                    allDiscountProgram(check);
+
+                    // Считаем сумму, которую можно заплатить бонусными балами
+
+                    List<Goods> goods = check.getGoodsList();
+                    Double amountThatCanBePaidWithBonuses = 0.0;
+
+                    for (int i = 0; i < goods.size(); i++) {
+
+                        Goods currentGoods = goods.get(i);
+
+                        // Если это не багет, то можно оплатить бонусными баллами
+                        if (currentGoods.getClassifier() != 11) {
+                            amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
+                        }
+                    }
+
+                    amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * check.getMaxValuePayBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+                    if (amountThatCanBePaidWithBonuses >= check.getDiscountForEmployees().getBonus()) {
+                        discountWithBonus = check.getDiscountForEmployees().getBonus();
+                    } else {
+                        discountWithBonus = amountThatCanBePaidWithBonuses;
+                    }
+
+                    check.setAmountPaidBonuses(discountWithBonus);
+                    Double total = check.getTotal() - discountWithBonus;
+                    check.setTotal(total);
+                }
+                // Role = 4 - сотрудник с ограничением 5.000р в месяц
+            } else if(check.getDiscountForEmployees().getRole() == 4) {
+
+
+                DiscountForEmployees staff = check.getDiscountForEmployees();
+
+                Double discount = staff.getAmountOfDiscount()/100;
+                discountConverter(check, discount);
+
+
+                Double leftBalance = staff.getBudgetForTheMonth()-staff.getBalance();
+
+                if (check.getAmountByPrice() >= leftBalance){
+                    // Запрет на оплату
+                    check.setBlocked(true);
+
+                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: "+leftBalance);
+                }else {
+                    // Разрешаем оплачивать
+                    check.setBlocked(false);
+                    discountInfoLabel.setText("");
                 }
             }
+
+        } else {
+            // Если на чек скидки нет
+            // Проверяем есть в текущем чеке товары на которые работает промоушен
+
+            allDiscountProgram(check);
         }
+
+
 
     }
 
+    public void allDiscountProgram(Check check){
+        // 6 больших эклеров по цене 5
+        check.updateCheck(DiscountProgram.promotion6(check));
 
-    //Создаем новый чек и добавляем  в список чеков
+        // Скидка на 5 и 10 круасанов
+        check.updateCheck(DiscountProgram.promotion2(check));
+
+        // Скидка 30% на выпечку после 7.20 вечера
+        check.updateCheck(DiscountProgram.discountOnBakes(check));
+    }
+
+    // Скидка на чек для сотрудников и своих
+    private Check discountConverter(Check check, Double discount) {
+
+        // 20 % скидка для сотрудников и своих
+        //Double discount = 0.2;
+
+        List<Goods> goods = check.getGoodsList();
+
+        Double total = 0.0;
+        for (int i = 0; i < goods.size(); i++) {
+            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList() - (goods.get(i).getPriceFromThePriceList() * discount);
+            goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+
+            Double sellingPrice = priceAfterDiscount * goods.get(i).getCount();
+            goods.get(i).setSellingPrice(sellingPrice);
+            total += sellingPrice;
+        }
+
+        // Устанавливаем общую сумму чека
+        check.setTotal(total);
+
+        return check;
+    }
+
+    // Создаем новый чек и добавляем  в список чеков
     public void addNewCheck(ActionEvent actionEvent) {
         newCheck(false);
     }
 
-    //Метод делает неактивные все табы чеков кроме переданного номера
+    // Метод делает неактивные все табы чеков кроме переданного номера
     private void deselectAllTabsForCheckExcept(int index) {
         for (int i = 0; i < panelForCheckBtns.getChildren().size(); i++) {
             if (index == i) {
@@ -736,16 +738,14 @@ public class SaleController {
 
                 } else if (check.isCashBack()) {
 
-                } else {
-                    Double temp1 = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
-
-                    if ((check.getDiscountForEmployees().getBalance() + temp1) >= check.getDiscountForEmployees().getBudgetForTheMonth()) {
-                        discountInfoLabel.setText("Лимит превышен! Ваш баланс: " + (check.getDiscountForEmployees().getBudgetForTheMonth() - check.getDiscountForEmployees().getBalance()) + " р.");
-                    } else {
-                        discountInfoLabel.setText("");
-                    }
                 }
-
+                idCustomerInput.setText(check.getDiscountForEmployees().getName());
+                discountBtn.setVisible(false);
+                cancelDiscountBtn.setVisible(true);
+            }else {
+                idCustomerInput.clear();
+                discountBtn.setVisible(true);
+                cancelDiscountBtn.setVisible(false);
             }
 
         } else {
@@ -1075,10 +1075,7 @@ public class SaleController {
                 checkList.get(currentCheck).setTotal(temp);
             }
         } else if (check.isDiscountOnCheck()) {
-            if (check.getDiscountForEmployees() != null) {
-                Double temp = new BigDecimal(checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100)).setScale(2, RoundingMode.HALF_UP).doubleValue();
-                checkList.get(currentCheck).setTotal(temp);
-            }
+
         } else {
             sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
             checkList.get(currentCheck).setTotal(sellingPriceInCheck);
@@ -1094,6 +1091,27 @@ public class SaleController {
             sellingPriceInCheck = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
             checkList.get(currentCheck).setTotal(sellingPriceInCheck);
         }*/
+
+        if(check.getDiscountForEmployees() != null){
+            if(check.getDiscountForEmployees().getRole() == 4) {
+
+
+                DiscountForEmployees staff = check.getDiscountForEmployees();
+
+                Double leftBalance = staff.getBudgetForTheMonth()-staff.getBalance();
+
+                if (check.getAmountByPrice() >= leftBalance){
+                    // Запрет на оплату
+                    check.setBlocked(true);
+
+                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: "+leftBalance);
+                }else {
+                    // Разрешаем оплачивать
+                    check.setBlocked(false);
+                    discountInfoLabel.setText("");
+                }
+            }
+        }
 
     }
 
@@ -1432,7 +1450,7 @@ public class SaleController {
             Check check = checkList.get(currentCheck);
 
             //Если выбранный чек еще существует
-            if (check.isALive()) {
+            if (check.isALive() && !check.isBlocked()) {
 
                 //Если есть товары в чеке
                 if (check.getGoodsList().size() > 0) {
@@ -1449,34 +1467,8 @@ public class SaleController {
                         if (check.isCashBack() || check.isPayWithBonus()) {
                             flagDiscount = true;
                         } else {
-                            //Цена за весь чек
-                            Double price = check.getAmountByPrice();
-
-                            //Размер скидки (проценты)
-                            Double discount = checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100;
-
-                            //Сумма скидки
-                            Double discountAmount = price * discount;
-
-                            //Текущий баланс сотрудника
-                            Double balance = checkList.get(currentCheck).getDiscountForEmployees().getBalance();
-
-                            //Лимит по скидки в месяц
-                            Double limit = checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth();
-
-                            //Цена на чек со скидкой сотрудника
-                            Double discountPrice = price - discountAmount;
-
-                            Double temp = checkList.get(currentCheck).getAmountByPrice() - (checkList.get(currentCheck).getAmountByPrice() * checkList.get(currentCheck).getDiscountForEmployees().getAmountOfDiscount() / 100);
-
-                            if ((balance + discountPrice) >= limit) {
-                                discountInfoLabel.setText("Не возможно совершить покупку! Ваш баланс: " + (checkList.get(currentCheck).getDiscountForEmployees().getBudgetForTheMonth() - checkList.get(currentCheck).getDiscountForEmployees().getBalance()) + " р.");
-                                return;
-                            } else {
-
-                                //Если условия соблюдены для скидки
-                                flagDiscount = true;
-                            }
+                            //Если условия соблюдены для скидки
+                            flagDiscount = true;
                         }
                     }
 
@@ -1535,7 +1527,10 @@ public class SaleController {
                                 discountForEmp.passed(check, checkList.get(currentCheck).getDiscountForEmployees());
 
                                 // Отправляем данные на сервер и клиенту
-                                pushDataOnTheServer(check);
+
+                                if(checkList.get(currentCheck).getDiscountForEmployees().getRole() != 4){
+                                    pushDataOnTheServer(check);
+                                }
                             }
                         }
 
@@ -1572,7 +1567,7 @@ public class SaleController {
                     }
                 }
             } else {
-                System.out.printf("Чек уже не существует!");
+                System.out.printf("Чек уже не существует или заблокирован!");
             }
 
         }
@@ -1671,27 +1666,21 @@ public class SaleController {
 
                         if (check.getDiscountForEmployees() == null) {
                             discountInfoLabel.setText("Пользователь не найден");
-                            idCustomerInput.setText("");
+                            idCustomerInput.clear();
                         } else {
                             //todo изменение цены
                             Double temp = check.getAmountByPrice() - (check.getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
 
-                            if ((check.getDiscountForEmployees().getBalance() + temp) >= check.getDiscountForEmployees().getBudgetForTheMonth()) {
-                                discountInfoLabel.setText(check.getDiscountForEmployees().getName() + " Лимит превышен! Ваш баланс: " + (check.getDiscountForEmployees().getBudgetForTheMonth() - check.getDiscountForEmployees().getBalance()) + " р.");
-                            } else {
                                 check.setDiscountOnCheck(true);
 
-
-                                check.setTotal(check.getAmountByPrice() - (check.getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100));
-
-                                discountConverter(check);
+                                checkDiscountProgram(check);
                                 idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
 
                                 updateDataFromANewCheck(false);
 
                                 cancelDiscountBtn.setVisible(true);
                                 discountBtn.setVisible(false);
-                            }
+
                         }
                     } catch (Exception e) {
                         discountInfoLabel.setText("Что то пошло не так!");
@@ -1699,29 +1688,6 @@ public class SaleController {
                 }
             }
         }
-    }
-
-
-    // Скидка на чек
-    private Check discountConverter(Check check) {
-        Double discount = check.getDiscountForEmployees().getAmountOfDiscount() / 100;
-
-        List<Goods> goods = check.getGoodsList();
-
-        Double total = 0.0;
-        for (int i = 0; i < goods.size(); i++) {
-            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList() - (goods.get(i).getPriceFromThePriceList() * discount);
-            goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
-
-            Double sellingPrice = priceAfterDiscount * goods.get(i).getCount();
-            goods.get(i).setSellingPrice(sellingPrice);
-            total += sellingPrice;
-        }
-
-        // Устанавливаем общую сумму чека
-        check.setTotal(total);
-
-        return check;
     }
 
     //Отмена скидки
@@ -1811,6 +1777,7 @@ public class SaleController {
                 String[] name = customerInformation.getString("mail").split("@");
                 userFromBonus.setMail(name[0]);
                 userFromBonus.setLevel(customerInformation.getInt("level"));
+                userFromBonus.setRole(customerInformation.getInt("role"));
 
                 //System.out.println("С бонусом или нет: " + json.getBoolean("bonus"));
 
@@ -1888,6 +1855,7 @@ public class SaleController {
                                         discountForEmployees.setAmountOfDiscount(currentUserFromBonus.getDisclount());
                                         discountForEmployees.setBonus(currentUserFromBonus.getBonus());
                                         discountForEmployees.setLevel(currentUserFromBonus.getLevel());
+                                        discountForEmployees.setLevel(currentUserFromBonus.getRole());
                                         discountForEmployees.setName(currentUserFromBonus.getMail());
                                         check.setDiscountForEmployees(discountForEmployees);
                                         bonusPane.setVisible(false);
@@ -1915,7 +1883,7 @@ public class SaleController {
                                         //discountConverter(check);
                                         idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
 
-                                        if (discountForEmployees.getLevel() == 5) {
+                                        /*if (discountForEmployees.getLevel() == 5) {
                                             check.setDiscountOnCheck(false);
                                             check.setPayWithBonus(true);
                                             check.setMaxValuePayBonuses(0.4);
@@ -1925,7 +1893,7 @@ public class SaleController {
                                             check.setMaxValuePayBonuses(0.2);
                                         } else {
                                             check.setMaxValuePayBonuses(0.3);
-                                        }
+                                        }*/
 
                                         checkDiscountProgram(check);
                                         updateDataFromANewCheck(false);

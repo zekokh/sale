@@ -47,7 +47,7 @@
             <Font name="Helvetica Light" size="22.0" />
          </font>
       </Label>
-      <Pane fx:id="panelWithNumber" layoutX="703.0" layoutY="162.0" prefHeight="560.0" prefWidth="360.0" visible="false">
+      <Pane fx:id="panelWithNumber" layoutX="703.0" layoutY="162.0" prefHeight="560.0" prefWidth="319.0" visible="false">
          <children>
             <Button layoutY="55.0" mnemonicParsing="false" onAction="#kbrd_1" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
                <font>
@@ -165,7 +165,7 @@
             </TextField>
             <Label fx:id="discountInfoLabel" layoutY="486.0" prefHeight="85.0" prefWidth="318.0">
                <font>
-                  <Font name="Helvetica Light" size="20.0" />
+                  <Font name="Helvetica Light" size="15.0" />
                </font>
             </Label>
             <Button fx:id="cancelDiscountBtn" layoutY="341.0" mnemonicParsing="false" onAction="#cancelDiscount" prefHeight="70.0" prefWidth="318.0" style="-fx-background-color: EEEEEE;" text="отмена скидки">
@@ -180,7 +180,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelWithNumberForCash" layoutX="703.0" layoutY="27.0" prefHeight="695.0" prefWidth="360.0" style="-fx-background-color: white;">
+      <Pane fx:id="panelWithNumberForCash" layoutX="703.0" layoutY="27.0" prefHeight="695.0" prefWidth="319.0" style="-fx-background-color: white;">
          <children>
             <Button layoutY="147.0" mnemonicParsing="false" onAction="#kbrd_1_cash" prefHeight="90.0" prefWidth="110.0" style="-fx-background-color: EEEEEE;" text="1">
                <font>

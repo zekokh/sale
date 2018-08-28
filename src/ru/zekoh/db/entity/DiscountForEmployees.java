@@ -26,11 +26,22 @@ public class DiscountForEmployees {
     // Уровень в системе Жак-Андрэ Бонус
     private int level;
 
+    // Роль в системе
+    private int role;
+
     //Статус жизни
     private boolean is_a_live;
 
     public int getId() {
         return id;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 
     public void setId(int id) {

@@ -63,6 +63,9 @@ public class Check {
 
     private Double maxValuePayBonuses = 0.3;
 
+    // Блокировка на печать
+    private boolean blocked = false;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -240,5 +243,13 @@ public class Check {
 
     public void setDateOfClosingUnix(long dateOfClosingUnix) {
         this.dateOfClosingUnix = dateOfClosingUnix;
+    }
+
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
     }
 }

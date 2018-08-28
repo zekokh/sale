@@ -6,6 +6,7 @@ public class UserFromBonus {
     Double disclount;
     Double bonus;
     int level;
+    int role;
 
     public int getLevel() {
         return level;
@@ -45,5 +46,13 @@ public class UserFromBonus {
 
     public void setDisclount(Double disclount) {
         this.disclount = disclount;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }
