@@ -614,7 +614,6 @@ public class SaleController {
                 Double discount = staff.getAmountOfDiscount()/100;
                 discountConverter(check, discount);
 
-
                 Double leftBalance = staff.getBudgetForTheMonth()-staff.getBalance();
 
                 if (check.getAmountByPrice() >= leftBalance){
