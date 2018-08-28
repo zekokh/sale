@@ -1528,6 +1528,7 @@ public class SaleController {
                                 // Отправляем данные на сервер и клиенту
 
                                 if(checkList.get(currentCheck).getDiscountForEmployees().getRole() != 4){
+
                                     pushDataOnTheServer(check);
                                 }
                             }
@@ -1746,21 +1747,21 @@ public class SaleController {
             //String output = response.toString().replace("[", "").replace("]", "");
             //System.out.println("Тут" + response.toString());
             JSONArray myresponse = new JSONArray(response.toString());
-            System.out.println(myresponse);
-            System.out.println("______--___");
+            //System.out.println(myresponse);
+            //System.out.println("______--___");
             List<UserFromBonus> userFromBonusList = new ArrayList<UserFromBonus>();
             for (int i = 0; i < myresponse.length(); i++) {
                 JSONObject json = new JSONObject(myresponse.get(i).toString());
 
-                System.out.println("JSON" + json);
-                System.out.println("----");
-                System.out.println("Бонус " + json.getInt("bonus"));
+                //System.out.println("JSON" + json);
+                //System.out.println("----");
+                //System.out.println("Бонус " + json.getInt("bonus"));
 
                 int payWithBonuses = json.getInt("bonus");
                 UserFromBonus userFromBonus = new UserFromBonus();
 
                 JSONObject customerInformation = (JSONObject) json.get("customer");
-                System.out.println("Получилось " + customerInformation.getLong("id"));
+                //System.out.println("Получилось " + customerInformation.getLong("id"));
                 userFromBonus.setId(customerInformation.getLong("id"));
 
                 // Если приходит запрос с просьбой оплатить покупку бонусами, то сохраняем кол-во бонусов клиента
@@ -1854,7 +1855,7 @@ public class SaleController {
                                         discountForEmployees.setAmountOfDiscount(currentUserFromBonus.getDisclount());
                                         discountForEmployees.setBonus(currentUserFromBonus.getBonus());
                                         discountForEmployees.setLevel(currentUserFromBonus.getLevel());
-                                        discountForEmployees.setLevel(currentUserFromBonus.getRole());
+                                        discountForEmployees.setRole(currentUserFromBonus.getRole());
                                         discountForEmployees.setName(currentUserFromBonus.getMail());
                                         check.setDiscountForEmployees(discountForEmployees);
                                         bonusPane.setVisible(false);
