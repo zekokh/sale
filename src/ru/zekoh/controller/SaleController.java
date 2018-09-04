@@ -640,14 +640,18 @@ public class SaleController {
     }
 
     public void allDiscountProgram(Check check){
+
+        check.setDiscounСroissant(false);
         // 6 больших эклеров по цене 5
         check.updateCheck(DiscountProgram.promotion6(check));
 
         // Скидка на 5 и 10 круасанов
-        check.updateCheck(DiscountProgram.promotion2(check));
+        //check.updateCheck(DiscountProgram.promotion2(check));
 
         // Скидка 30% на выпечку после 7.20 вечера
         check.updateCheck(DiscountProgram.discountOnBakes(check));
+
+        check.updateCheck(DiscountProgram.combo(check));
     }
 
     // Скидка на чек для сотрудников и своих

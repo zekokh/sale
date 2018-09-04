@@ -4,6 +4,8 @@ import ru.zekoh.db.Check;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.Goods;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -80,6 +82,7 @@ public class DiscountProgram {
                         goods.get(i).setPriceAfterDiscount(39.9);
                         goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
                         counterThing++;
+                        check.setDiscounСroissant(true);
                     }
                 }
             }
@@ -162,6 +165,9 @@ public class DiscountProgram {
                         Double priceFromThePriceList = goods.get(i).getPriceFromThePriceList();
                         goods.get(i).setPriceAfterDiscount(price);
                         goods.get(i).setSellingPrice(goods.get(i).getCount() * goods.get(i).getPriceAfterDiscount());
+                        if (classifier == 4){
+                            check.setDiscounСroissant(true);
+                        }
                         counterThing++;
                     }
                 }
@@ -212,13 +218,13 @@ public class DiscountProgram {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if(classifier == 13 || classifier == 4){
+                if (classifier == 13 || classifier == 4) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * 0.40;
 
                     //Цена на товар со скидкой
-                    Double priceAfterDiscount = priceFromThePriceList-discountAmount;
+                    Double priceAfterDiscount = priceFromThePriceList - discountAmount;
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);
@@ -238,13 +244,340 @@ public class DiscountProgram {
             }
         }
 
-
         return check;
     }
 
     //Скидкак на 5 мафинов
-    public static Check maffins(Check check){
+    public static Check maffins(Check check) {
         return promotion(check, 14, 5, 42.0);
+    }
+
+    // Комбо и ланчи
+    public static Check combo(Check check) {
+
+        check = promotion(check, 4, 5, 39.8);
+
+
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+        Date maxValue = new Date();
+        Date minValue = new Date();
+
+        // Счетчик для чая
+        int teaCounter = 0;
+
+        // Ачма
+        int achmaCounter = 0;
+
+        // Счетчик для панини + чай + американер/мини пальмие
+        int hardCounter = 0;
+
+        // Счетчик для круассана/эскарго + чай
+        int hard2Counter = 0;
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date dateLimit = null;
+        try {
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 19:20:00");
+            maxValue = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 15:00:00");
+            minValue = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " 11:00:00");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (!curentDate.after(dateLimit)) {
+            if (curentDate.before(maxValue) && curentDate.after(minValue)) {
+                // Ланч
+                // Проходим по списку ищем сколько чая в чеке
+
+                List<Goods> goods = check.getGoodsList();
+
+                for (int i = 0; i < goods.size(); i++) {
+                    if (goods.get(i).getProductId() == 76 || goods.get(i).getProductId() == 77) {
+                        teaCounter++;
+                    }
+                }
+
+                // смотрим по приоритетам что есть из списка ланча потом комбо
+                if (teaCounter > 0) {
+                    for (int x = 0; x <= teaCounter; x++) {
+                        for (int i = 0; i < goods.size(); i++) {
+                            Goods currentGoods = goods.get(i);
+
+                            // Приоритизация
+                            // Если есть Ачма + Чай она в приоритете
+                            if (currentGoods.getProductId() == 13) {
+                                if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                    Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 26.0;
+                                    currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                    Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    currentGoods.setSellingPrice(sellingPrice);
+                                    achmaCounter++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+
+                    if (teaCounter > achmaCounter) {
+                        int counter = teaCounter - achmaCounter;
+                        int americanrAndPalmyeCounter = 0;
+
+                        // Проверить есть ли мини пальмье или американер
+                        for (int i = 0; i < goods.size(); i++) {
+                            Goods currentGoods = goods.get(i);
+                            if (currentGoods.getProductId() == 250 || currentGoods.getProductId() == 23) {
+                                americanrAndPalmyeCounter++;
+                            }
+                        }
+
+                        int maxEach = counter;
+                        if (maxEach > americanrAndPalmyeCounter) {
+                            maxEach = americanrAndPalmyeCounter;
+                        }
+                        if (americanrAndPalmyeCounter > 0) {
+                            for (int x = 0; x < maxEach; x++) {
+                                for (int i = 0; i < goods.size(); i++) {
+                                    Goods currentGoods = goods.get(i);
+
+                                    // Приоритизация
+                                    // Если есть Фромаж Тартар Шаркутри + Чай + мини Пальмье или Американер
+                                    if (currentGoods.getClassifier() == 15) {
+                                        if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 25.0;
+                                            currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                            Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                            currentGoods.setSellingPrice(sellingPrice);
+                                            hardCounter++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    if ((teaCounter - achmaCounter - hardCounter) > 0) {
+
+                        if (check.isDiscounСroissant()) {
+                            int count = 0;
+
+                            for (int i = 0; i < goods.size(); i++) {
+                                Goods currentGoods = goods.get(i);
+
+                                // Приоритизация
+                                // Если есть Круассан/Эскарго + Чай она в приоритете
+                                if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                    count++;
+                                }
+                            }
+
+                            if (count > 5) {
+                                for (int i = 0; i < goods.size(); i++) {
+                                    Goods currentGoods = goods.get(i);
+
+                                    // Приоритизация
+                                    // Если есть Круассан/Эскарго + Чай она в приоритете
+                                    if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                        if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                            currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                            Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                            currentGoods.setSellingPrice(sellingPrice);
+                                            hard2Counter++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                            for (int i = 0; i < goods.size(); i++) {
+                                Goods currentGoods = goods.get(i);
+
+                                // Приоритизация
+                                // Если есть Круассан/Эскарго + Чай она в приоритете
+                                if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                    if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                        currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                        Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                        currentGoods.setSellingPrice(sellingPrice);
+                                        hard2Counter++;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+
+
+
+
+
+/*                        for (int i = 0; i < goods.size(); i++) {
+                            Goods currentGoods = goods.get(i);
+
+                            // Приоритизация
+                            // Если есть Круассан/Эскарго + Чай она в приоритете
+                            if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                    Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                    currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                    Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    currentGoods.setSellingPrice(sellingPrice);
+                                    hard2Counter++;
+                                    break;
+                                }
+                            }
+                        }*/
+                    }
+
+
+                    if ((teaCounter - achmaCounter - hardCounter - hard2Counter) > 0) {
+                        int americanrAndPalmyeCounter = 0;
+
+                        // Проверить есть ли мини пальмье или американер
+                        for (int i = 0; i < goods.size(); i++) {
+                            Goods currentGoods = goods.get(i);
+                            if (currentGoods.getProductId() == 210 || currentGoods.getProductId() == 23) {
+                                americanrAndPalmyeCounter++;
+                            }
+                        }
+
+                        int maxEach = teaCounter - achmaCounter - hardCounter - hard2Counter;
+                        if (maxEach > americanrAndPalmyeCounter) {
+                            maxEach = americanrAndPalmyeCounter;
+                        }
+
+                        if (americanrAndPalmyeCounter > 0) {
+
+                            for (int x = 0; x < maxEach; x++) {
+                                for (int i = 0; i < goods.size(); i++) {
+                                    Goods currentGoods = goods.get(i);
+
+                                    // Приоритизация
+                                    // Если есть Пуле + Чай + мини Пальмье или Американер
+                                    if (currentGoods.getProductId() == 81) {
+                                        if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 15.0;
+                                            currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                            Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                            currentGoods.setSellingPrice(sellingPrice);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                List<Goods> goods = check.getGoodsList();
+
+                for (int i = 0; i < goods.size(); i++) {
+                    if (goods.get(i).getProductId() == 76 || goods.get(i).getProductId() == 77) {
+                        teaCounter++;
+                    }
+                }
+
+                // смотрим по приоритетам что есть из списка ланча потом комбо
+                if (teaCounter > 0) {
+                    for (int x = 0; x <= teaCounter; x++) {
+                        for (int i = 0; i < goods.size(); i++) {
+                            Goods currentGoods = goods.get(i);
+
+                            // Приоритизация
+                            // Если есть Ачма + Чай она в приоритете
+                            if (currentGoods.getProductId() == 13) {
+                                if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                    Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 26.0;
+                                    currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                    Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    currentGoods.setSellingPrice(sellingPrice);
+                                    achmaCounter++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    if ((teaCounter - achmaCounter) > 0) {
+
+                        if (check.isDiscounСroissant()) {
+                            int count = 0;
+
+                            for (int i = 0; i < goods.size(); i++) {
+                                Goods currentGoods = goods.get(i);
+
+                                // Приоритизация
+                                // Если есть Круассан/Эскарго + Чай она в приоритете
+                                if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                    count++;
+                                }
+                            }
+
+                            if (count > 6) {
+                                for (int i = 0; i < goods.size(); i++) {
+                                    Goods currentGoods = goods.get(i);
+
+                                    // Приоритизация
+                                    // Если есть Круассан/Эскарго + Чай она в приоритете
+                                    if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                        if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                            currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                            Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                            currentGoods.setSellingPrice(sellingPrice);
+                                            hard2Counter++;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+
+                            for (int i = 0; i < goods.size(); i++) {
+                                Goods currentGoods = goods.get(i);
+
+                                // Приоритизация
+                                // Если есть Круассан/Эскарго + Чай она в приоритете
+                                if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
+                                    if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
+                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                        currentGoods.setPriceAfterDiscount(priceAfterDiscount);
+                                        Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                        currentGoods.setSellingPrice(sellingPrice);
+                                        hard2Counter++;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+            }
+
+
+            // Тут комбо
+        }
+
+        return check;
     }
 }
 

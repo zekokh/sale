@@ -66,6 +66,8 @@ public class Check {
     // Блокировка на печать
     private boolean blocked = false;
 
+    private boolean discounСroissant = false;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -251,5 +253,13 @@ public class Check {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+
+    public boolean isDiscounСroissant() {
+        return discounСroissant;
+    }
+
+    public void setDiscounСroissant(boolean discounСroissant) {
+        this.discounСroissant = discounСroissant;
     }
 }
