@@ -6,7 +6,6 @@ import ru.zekoh.db.Check;
 import ru.zekoh.db.entity.GoodsForDisplay;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class KKMOFD {
     public static String name = "Кассир";

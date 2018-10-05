@@ -10,13 +10,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import ru.atol.drivers10.fptr.Fptr;
-import ru.atol.drivers10.fptr.IFptr;
-import ru.zekoh.core.printing.KKM;
 import ru.zekoh.core.printing.KKMOFD;
-import ru.zekoh.core.synchronisation.SData;
-import ru.zekoh.core.synchronisation.Synchronisation;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAO.SessionDao;
 import ru.zekoh.db.DAO.UserDao;
@@ -26,14 +20,11 @@ import ru.zekoh.db.DAOImpl.SessionDaoImpl;
 import ru.zekoh.db.DAOImpl.UserDaoImpl;
 import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.SellReport;
-import ru.zekoh.db.entity.Session;
 import ru.zekoh.properties.Properties;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class MenuController {
 
@@ -66,14 +57,14 @@ public class MenuController {
     @FXML
     public void initialize() {
         saleBtn.setDisable(false);
-        reportBtn.setDisable(false);
+        reportBtn.setDisable(true);
         blockBtn.setDisable(false);
         testOFD.setDisable(false);
         xReport.setDisable(false);
 
         if (Properties.FPTR == null) {
             try {
-                Properties.FPTR = KKMOFD.create();
+                //Properties.FPTR = KKMOFD.create();
             } catch (Exception e) {
                 System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!" + e.getMessage().toString());
             }

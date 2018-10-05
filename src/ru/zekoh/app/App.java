@@ -39,10 +39,10 @@ public class App extends Application {
         }
 
         // Делаем тяжелые долгии запросы
-        Thread.sleep(5000); //что бы видно было заставку
-       for (int i = 0; i < 10; i++) {
-            Thread.sleep(200);
-         }
+       // Thread.sleep(5000); //что бы видно было заставку
+       //for (int i = 0; i < 10; i++) {
+         //   Thread.sleep(200);
+         //}
     }
 
     @Override

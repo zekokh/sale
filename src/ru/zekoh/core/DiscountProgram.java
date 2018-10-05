@@ -392,7 +392,7 @@ public class DiscountProgram {
                                     // Если есть Круассан/Эскарго + Чай она в приоритете
                                     if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
                                         if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
-                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 16.0;
                                             currentGoods.setPriceAfterDiscount(priceAfterDiscount);
                                             Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                             currentGoods.setSellingPrice(sellingPrice);
@@ -411,7 +411,7 @@ public class DiscountProgram {
                                 // Если есть Круассан/Эскарго + Чай она в приоритете
                                 if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
                                     if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
-                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 16.0;
                                         currentGoods.setPriceAfterDiscount(priceAfterDiscount);
                                         Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                         currentGoods.setSellingPrice(sellingPrice);
@@ -538,7 +538,7 @@ public class DiscountProgram {
                                     // Если есть Круассан/Эскарго + Чай она в приоритете
                                     if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
                                         if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
-                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                            Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 16.0;
                                             currentGoods.setPriceAfterDiscount(priceAfterDiscount);
                                             Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                             currentGoods.setSellingPrice(sellingPrice);
@@ -557,7 +557,7 @@ public class DiscountProgram {
                                 // Если есть Круассан/Эскарго + Чай она в приоритете
                                 if (currentGoods.getProductId() == 14 || currentGoods.getProductId() == 15 || currentGoods.getProductId() == 17 || currentGoods.getProductId() == 18 || currentGoods.getProductId() == 19 || currentGoods.getProductId() == 20 || currentGoods.getProductId() == 33 || currentGoods.getProductId() == 35) {
                                     if (currentGoods.getPriceAfterDiscount() == currentGoods.getPriceFromThePriceList()) {
-                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 20.0;
+                                        Double priceAfterDiscount = currentGoods.getPriceFromThePriceList() - 16.0;
                                         currentGoods.setPriceAfterDiscount(priceAfterDiscount);
                                         Double sellingPrice = new BigDecimal(priceAfterDiscount * currentGoods.getCount()).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                         currentGoods.setSellingPrice(sellingPrice);
