@@ -64,7 +64,7 @@ public class MenuController {
 
         if (Properties.FPTR == null) {
             try {
-                //Properties.FPTR = KKMOFD.create();
+                Properties.FPTR = KKMOFD.create();
             } catch (Exception e) {
                 System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!" + e.getMessage().toString());
             }
