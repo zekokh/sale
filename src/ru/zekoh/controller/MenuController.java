@@ -57,7 +57,7 @@ public class MenuController {
     @FXML
     public void initialize() {
         saleBtn.setDisable(false);
-        reportBtn.setDisable(true);
+        reportBtn.setDisable(false);
         blockBtn.setDisable(false);
         testOFD.setDisable(false);
         xReport.setDisable(false);
