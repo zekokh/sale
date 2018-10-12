@@ -49,7 +49,7 @@ public class Properties {
 
     //Инициализация данных из проперти файла
     public static void initDataWithoutFile(){
-        HOST = "jdbc:mysql://localhost:3306/krasnodar1102018?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        HOST = "jdbc:mysql://localhost:3306/sale?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
         KKM = true;
