@@ -1003,7 +1003,7 @@ public class SaleController {
 
                 //Продажная цена
                 Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
-                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(3, RoundingMode.HALF_UP).doubleValue();
                 goodsTemp.setSellingPrice(sellingPriceDouble);
 
 
