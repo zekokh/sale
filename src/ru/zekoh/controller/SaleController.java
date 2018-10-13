@@ -520,11 +520,11 @@ public class SaleController {
 
             // Если не равняется 1 т.е. не обычный клиент, то делаем 20% скидку
             // Role = 2 - это друг
-            if(check.getDiscountForEmployees().getRole() == 2){
+            if (check.getDiscountForEmployees().getRole() == 2) {
                 discountConverter(check, 0.2);
 
                 // тут смотрим про бонусы история
-                if(check.isPayWithBonus()){
+                if (check.isPayWithBonus()) {
                     // Считаем сумму, которую можно заплатить бонусными балами
 
                     List<Goods> goods = check.getGoodsList();
@@ -550,9 +550,13 @@ public class SaleController {
 
                     check.setAmountPaidBonuses(discountWithBonus);
                     Double total = check.getTotal() - discountWithBonus;
+
+                    // Рассчет оплаты бонусами
+                    payBonus(check);
+
                     check.setTotal(total);
                 }
-            }else if (check.getDiscountForEmployees().getRole() == 1) {
+            } else if (check.getDiscountForEmployees().getRole() == 1) {
 
                 if (check.isCashBack()) {
 
@@ -590,25 +594,29 @@ public class SaleController {
 
                     check.setAmountPaidBonuses(discountWithBonus);
                     Double total = check.getTotal() - discountWithBonus;
+
+                    // Рассчет оплаты бонусами
+                    payBonus(check);
+
                     check.setTotal(total);
                 }
                 // Role = 4 - сотрудник с ограничением 5.000р в месяц
-            } else if(check.getDiscountForEmployees().getRole() == 4) {
+            } else if (check.getDiscountForEmployees().getRole() == 4) {
 
 
                 DiscountForEmployees staff = check.getDiscountForEmployees();
 
-                Double discount = staff.getAmountOfDiscount()/100;
+                Double discount = staff.getAmountOfDiscount() / 100;
                 discountConverter(check, discount);
 
-                Double leftBalance = staff.getBudgetForTheMonth()-staff.getBalance();
+                Double leftBalance = staff.getBudgetForTheMonth() - staff.getBalance();
 
-                if (check.getAmountByPrice() >= leftBalance){
+                if (check.getAmountByPrice() >= leftBalance) {
                     // Запрет на оплату
                     check.setBlocked(true);
 
-                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: "+leftBalance);
-                }else {
+                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: " + leftBalance);
+                } else {
                     // Разрешаем оплачивать
                     check.setBlocked(false);
                     discountInfoLabel.setText("");
@@ -622,11 +630,9 @@ public class SaleController {
             allDiscountProgram(check);
         }
 
-
-
     }
 
-    public void allDiscountProgram(Check check){
+    public void allDiscountProgram(Check check) {
 
         check.setDiscounСroissant(false);
         // 6 больших эклеров по цене 5
@@ -732,7 +738,7 @@ public class SaleController {
                 idCustomerInput.setText(check.getDiscountForEmployees().getName());
                 discountBtn.setVisible(false);
                 cancelDiscountBtn.setVisible(true);
-            }else {
+            } else {
                 idCustomerInput.clear();
                 discountBtn.setVisible(true);
                 cancelDiscountBtn.setVisible(false);
@@ -1057,11 +1063,17 @@ public class SaleController {
 
         Check check = checkList.get(currentCheck);
 
-        // Проверяем нет ли кэшэка или оплаты баллами
+        // Проверяем нет ли кэшбэка или оплаты баллами
         if (check.isPayWithBonus()) {
+            /*
             if (check.getDiscountForEmployees() != null) {
 
                 Double temp = new BigDecimal(sellingPriceInCheck - check.getAmountPaidBonuses()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                checkList.get(currentCheck).setTotal(temp);
+            }*/
+            if (check.getDiscountForEmployees() != null) {
+
+                Double temp = new BigDecimal(sellingPriceInCheck).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 checkList.get(currentCheck).setTotal(temp);
             }
         } else if (check.isDiscountOnCheck()) {
@@ -1082,20 +1094,20 @@ public class SaleController {
             checkList.get(currentCheck).setTotal(sellingPriceInCheck);
         }*/
 
-        if(check.getDiscountForEmployees() != null){
-            if(check.getDiscountForEmployees().getRole() == 4) {
+        if (check.getDiscountForEmployees() != null) {
+            if (check.getDiscountForEmployees().getRole() == 4) {
 
 
                 DiscountForEmployees staff = check.getDiscountForEmployees();
 
-                Double leftBalance = staff.getBudgetForTheMonth()-staff.getBalance();
+                Double leftBalance = staff.getBudgetForTheMonth() - staff.getBalance();
 
-                if (check.getAmountByPrice() >= leftBalance){
+                if (check.getAmountByPrice() >= leftBalance) {
                     // Запрет на оплату
                     check.setBlocked(true);
 
-                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: "+leftBalance);
-                }else {
+                    discountInfoLabel.setText("Бюджет на месяц превышен!\nУ Вас: " + leftBalance);
+                } else {
                     // Разрешаем оплачивать
                     check.setBlocked(false);
                     discountInfoLabel.setText("");
@@ -1518,7 +1530,7 @@ public class SaleController {
 
                                 // Отправляем данные на сервер и клиенту
 
-                                if(checkList.get(currentCheck).getDiscountForEmployees().getRole() != 4){
+                                if (checkList.get(currentCheck).getDiscountForEmployees().getRole() != 4) {
 
                                     pushDataOnTheServer(check);
                                 }
@@ -1662,15 +1674,15 @@ public class SaleController {
                             //todo изменение цены
                             Double temp = check.getAmountByPrice() - (check.getAmountByPrice() * check.getDiscountForEmployees().getAmountOfDiscount() / 100);
 
-                                check.setDiscountOnCheck(true);
+                            check.setDiscountOnCheck(true);
 
-                                checkDiscountProgram(check);
-                                idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
+                            checkDiscountProgram(check);
+                            idCustomerInput.setText(checkList.get(currentCheck).getDiscountForEmployees().getName());
 
-                                updateDataFromANewCheck(false);
+                            updateDataFromANewCheck(false);
 
-                                cancelDiscountBtn.setVisible(true);
-                                discountBtn.setVisible(false);
+                            cancelDiscountBtn.setVisible(true);
+                            discountBtn.setVisible(false);
 
                         }
                     } catch (Exception e) {
@@ -1972,5 +1984,31 @@ public class SaleController {
 
         //clientThread.interrupt();
         // Завершить поток
+    }
+
+    private void payBonus(Check check) {
+        if (check.isPayWithBonus()) {
+            Double amountBonuses = check.getAmountPaidBonuses();
+            List<Goods> goods = check.getGoodsList();
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                if(amountBonuses == 0.0){
+                    return;
+                }
+
+                Double priceAfterDiscount = goods.get(i).getPriceAfterDiscount();
+                if (amountBonuses >= priceAfterDiscount) {
+                    goods.get(i).setPriceAfterDiscount(0.0);
+
+                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                    amountBonuses = amountBonuses - priceAfterDiscount;
+                }else {
+                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount-amountBonuses);
+                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                    amountBonuses = 0.0;
+                }
+
+            }
+        }
+
     }
 }
