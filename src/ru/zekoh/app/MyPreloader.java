@@ -45,8 +45,8 @@ public class MyPreloader extends Preloader {
         //Добавляем шрифт
         Label label = new Label("ZEKOH TECHNOLOGY");
         try {
-            final String urlFont = getClass().getResource("/fonts/Exo.ttf").getFile();
-            //final String urlFont = "C:\\Users\\kassa\\Desktop\\sell\\fonts\\Exo.ttf";
+            //final String urlFont = getClass().getResource("/fonts/Exo.ttf").getFile();
+            final String urlFont = "C:\\Users\\kassa\\Desktop\\sell\\fonts\\Exo.ttf";
             final Font f = Font.loadFont(new FileInputStream(new File(urlFont)), 49);
             label.setFont(f); // use this font with our label
             label.setTextFill(Color.WHITE);

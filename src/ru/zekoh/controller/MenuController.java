@@ -5,9 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ru.zekoh.core.printing.KKMOFD;
@@ -49,7 +54,11 @@ public class MenuController {
     public Button testOFD;
 
     // Кнопка суточный отчет
+    @FXML
     public Button xReport;
+
+    @FXML
+    public Button exelReport;
 
     private static String[] columns = {"Наименование", "Кол-во"};
 
@@ -61,10 +70,11 @@ public class MenuController {
         blockBtn.setDisable(false);
         testOFD.setDisable(false);
         xReport.setDisable(false);
+        exelReport.setDisable(false);
 
         if (Properties.FPTR == null) {
             try {
-                Properties.FPTR = KKMOFD.create();
+               Properties.FPTR = KKMOFD.create();
             } catch (Exception e) {
                 System.out.println("Ошибка! Не удалось создать объект драйвера ККТ!" + e.getMessage().toString());
             }
@@ -209,19 +219,44 @@ public class MenuController {
     }
 
     // Суточный отчет
-    public void xReportAction(ActionEvent actionEvent) {
-        CheckDao checkDao = new CheckDaoImpl();
+    public void xReportAction(ActionEvent actionEvent) throws IOException {
 
-        try {
-            DailyReport dailyReport = checkDao.soldPerDay();
-            errorLabel.setText("Кол-во чеков: " + dailyReport.getNumberOfChecks() + "\n" +
-                    "Возврат: " + dailyReport.getReturnPerDay() + " р. \n" +
-                    "Наличными: " + dailyReport.getAmountCash() + " р. \n" +
-                    "По карте: " + dailyReport.getAmountCard() + " р. \n" +
-                    "Доход: " + dailyReport.getSoldPerDay() + " р.");
-        } catch (Exception e) {
-            System.out.println("что то пошло c суточным отчетом не так!");
-            System.out.println(e);
-        }
+        Stage dialog = new Stage();
+
+
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setTitle("Жак-Андрэ Продажи");
+
+        Parent root = FXMLLoader.load(getClass().getResource("/xReportWindow.fxml"));
+
+        dialog.setScene(new Scene(root, 400, 400));
+
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
+
     }
+
+    public void doExelReport(ActionEvent actionEvent) throws IOException {
+        Stage dialog = new Stage();
+
+
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setTitle("Жак-Андрэ Продажи");
+
+        Parent root = FXMLLoader.load(getClass().getResource("/ExelWindow.fxml"));
+
+        dialog.setScene(new Scene(root, 1024, 740));
+
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
+    }
+
 }

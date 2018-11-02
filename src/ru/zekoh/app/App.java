@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ru.zekoh.core.report.ExelReport;
 import ru.zekoh.db.DAO.FolderDao;
 import ru.zekoh.db.DAO.ProductDao;
 import ru.zekoh.db.DAO.PromocodDao;
@@ -43,6 +44,8 @@ public class App extends Application {
        //for (int i = 0; i < 10; i++) {
          //   Thread.sleep(200);
          //}
+
+        // ExelReport.report();
     }
 
     @Override
