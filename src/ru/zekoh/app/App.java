@@ -26,7 +26,7 @@ public class App extends Application {
         // Properties.initData();
         Properties.initDataWithoutFile();
 
-        if (DataBase.getConnection() != null) {
+        /*if (DataBase.getConnection() != null) {
 
             //Получаю папки и сохраняю в оперативки
             FolderDao folderDao = new FolderDaoImpl();
@@ -37,7 +37,7 @@ public class App extends Application {
             Data.setProductsSortedByLevel(productDao.getProductsSortedByLevel());
 
             //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
-        }
+        }*/
 
         // Делаем тяжелые долгии запросы
        // Thread.sleep(5000); //что бы видно было заставку
