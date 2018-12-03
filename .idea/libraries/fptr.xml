@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="fptr">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/fptr.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

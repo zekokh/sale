@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.InfoController">
+   <children>
+      <Button layoutX="289.0" layoutY="152.0" mnemonicParsing="false" onAction="#exit" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: FFECB3;" text="ok">
+         <font>
+            <Font name="Helvetica Light" size="25.0" />
+         </font>
+      </Button>
+      <Label alignment="CENTER" layoutX="50.0" layoutY="36.0" prefHeight="66.0" prefWidth="600.0" text="У Вас есть открытые чеки!" textAlignment="CENTER">
+         <font>
+            <Font name="Helvetica Light" size="25.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="58.0" layoutY="69.0" prefHeight="66.0" prefWidth="600.0" text="Для выхода из системы закройте все чеки." textAlignment="CENTER">
+         <font>
+            <Font name="Helvetica Light" size="25.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>

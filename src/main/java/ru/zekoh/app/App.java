@@ -1,0 +1,85 @@
+package ru.zekoh.app;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import ru.zekoh.db.HibernateSessionFactory;
+import ru.zekoh.db.entity.DataEntity;
+import ru.zekoh.db.entity.UserEntity;
+import ru.zekoh.properties.Properties;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class App extends Application {
+
+    private static Logger logger = LogManager.getLogger(App.class);
+
+    @Override
+    public void init() throws Exception {
+
+        //todo Получаем данные о продуктах из БД и сортируем по уровню
+        //Инициализация данных из проперти файла
+        // Properties.initData();
+
+            //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
+
+        logger.info("Инициаизация связи с базой данных.");
+
+        try {
+            // Получаем список пользователей
+            Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+            Properties.users = session.createQuery("SELECT a FROM UserEntity a", UserEntity.class).getResultList();
+            List<DataEntity> dataFolder = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1", DataEntity.class).getResultList();
+            generateFolder(dataFolder);
+
+            List<DataEntity> dataProduct = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 0", DataEntity.class).getResultList();
+
+
+
+            session.close();
+        }catch (Exception e){
+            logger.error("Произошла ошибка при попытки подключения к БД! \n"+e.toString());
+        }
+
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        //Отмена перетаскивания окно и скрытие кнопок изменения вида окна
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginWindow.fxml"));
+        primaryStage.setTitle("Жак-Андрэ Продажи");
+        primaryStage.setScene(new Scene(root, 1024, 740));
+        primaryStage.show();
+    }
+
+    private void generateFolder(List<DataEntity> dataEntity){
+
+    }
+
+    /*            session.beginTransaction();
+
+            UserEntity userEntity = new UserEntity();
+
+            userEntity.setLogin("testFrom Hybernate");
+            userEntity.setMail("misterTest@mail.ru");
+            userEntity.setName("Test testovich");
+            userEntity.setPassword("1235");
+            userEntity.setRoleId(1);
+
+            session.save(userEntity);
+            session.getTransaction().commit();
+            session.close();
+
+            */
+}
