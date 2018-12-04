@@ -35,7 +35,7 @@ public class ProductDaoImpl implements ProductDao{
                     Product product = new Product();
 
                     product.setId(rs.getInt(1));
-                    product.setName(rs.getString(2));
+                    product.setShortName(rs.getString(2));
                     product.setPrice(rs.getDouble(3));
                     product.setParentId(rs.getInt(5));
                     product.setGeneralId(rs.getInt(6));

@@ -9,13 +9,20 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import ru.zekoh.db.DAO.FolderDao;
+import ru.zekoh.db.DAOImpl.FolderDaoImpl;
+import ru.zekoh.db.Data;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.DataEntity;
+import ru.zekoh.db.entity.Folder;
+import ru.zekoh.db.entity.Product;
 import ru.zekoh.db.entity.UserEntity;
 import ru.zekoh.properties.Properties;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class App extends Application {
 
@@ -28,7 +35,7 @@ public class App extends Application {
         //Инициализация данных из проперти файла
         // Properties.initData();
 
-            //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
+        //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
 
         logger.info("Инициаизация связи с базой данных.");
 
@@ -37,16 +44,14 @@ public class App extends Application {
             Session session = HibernateSessionFactory.getSessionFactory().openSession();
 
             Properties.users = session.createQuery("SELECT a FROM UserEntity a", UserEntity.class).getResultList();
-            List<DataEntity> dataFolder = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1", DataEntity.class).getResultList();
-            generateFolder(dataFolder);
-
-            List<DataEntity> dataProduct = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 0", DataEntity.class).getResultList();
-
-
 
             session.close();
-        }catch (Exception e){
-            logger.error("Произошла ошибка при попытки подключения к БД! \n"+e.toString());
+
+            Data.folders = generateFolders();
+            Data.products = generateProducts();
+
+        } catch (Exception e) {
+            logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
         }
 
     }
@@ -63,8 +68,64 @@ public class App extends Application {
         primaryStage.show();
     }
 
-    private void generateFolder(List<DataEntity> dataEntity){
+    private Map<Integer, ArrayList<Folder>> generateFolders() {
 
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
+        session.close();
+
+        //Создаем список папок отсортированных по уровню
+        Map<Integer, ArrayList<Folder>> folderListSortByLevel = new HashMap<Integer, ArrayList<Folder>>();
+
+        for(DataEntity data : dataEntity){
+            Folder folder = new Folder();
+            folder.setId(data.getId());
+            folder.setName(data.getShortName());
+            folder.setParentId(data.getParentId());
+
+            int folderParentId = folder.getParentId();
+
+            if (folderListSortByLevel.containsKey(folderParentId)) {
+                folderListSortByLevel.get(folderParentId).add(folder);
+            } else {
+                ArrayList<Folder> folderList = new ArrayList<Folder>();
+                folderList.add(folder);
+                folderListSortByLevel.put(folderParentId, folderList);
+            }
+        }
+
+        return folderListSortByLevel;
+    }
+
+    private Map<Integer, ArrayList<Product>> generateProducts() {
+
+        Session session = HibernateSessionFactory.getSessionFactory().openSession();
+        List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 0 ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
+        session.close();
+
+        //Создаем список папок отсортированных по уровню
+        Map<Integer, ArrayList<Product>> productListSortByLevel = new HashMap<Integer, ArrayList<Product>>();
+
+        for(DataEntity data : dataEntity){
+            Product product = new Product();
+            product.setId(data.getId());
+            product.setShortName(data.getShortName());
+            product.setFullName(data.getFullName());
+            product.setParentId(data.getParentId());
+            product.setPrice(data.getPrice());
+
+            int productParentId = product.getParentId();
+
+            if (productListSortByLevel.containsKey(productParentId)) {
+                productListSortByLevel.get(productParentId).add(product);
+            } else {
+                ArrayList<Product> productList = new ArrayList<Product>();
+                productList.add(product);
+                productListSortByLevel.put(productParentId, productList);
+            }
+        }
+
+        return productListSortByLevel;
     }
 
     /*            session.beginTransaction();

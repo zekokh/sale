@@ -142,7 +142,6 @@ public class Login {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
-
-
+        System.exit(0);
     }
 }

@@ -11,10 +11,13 @@ public class CheckObject {
     private List<Goods> goodsList = new ArrayList<Goods>();
 
     //Итоговая стоимость за весь чек с учетом скидок
-    private Double sellingPrice = 0.00;
+    private Double sellingPrice = 0.0;
 
     //Сумма чека по прайсу
-    private Double amountByPrice;
+    private Double amountByPrice = 0.0;
+
+    //Сумма оплаченная бонусами
+    private Double amountBonus = 0.0;
 
     //Статус оплаты
     private boolean paymentState = false;
@@ -27,6 +30,9 @@ public class CheckObject {
 
     //Дата закрытие чека
     private String dateOfClosing;
+
+    // Статус жизни чека
+    private boolean live = true;
 
     public List<Goods> getGoodsList() {
         return goodsList;
@@ -82,5 +88,21 @@ public class CheckObject {
 
     public void setDateOfClosing(String dateOfClosing) {
         this.dateOfClosing = dateOfClosing;
+    }
+
+    public boolean isLive() {
+        return live;
+    }
+
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
+    public Double getAmountBonus() {
+        return amountBonus;
+    }
+
+    public void setAmountBonus(Double amountBonus) {
+        this.amountBonus = amountBonus;
     }
 }

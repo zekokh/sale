@@ -23,11 +23,11 @@ public class GoodsCell extends ListCell<GoodsForDisplay>
         {
             name = item.getName() + " - " +
                     item.getCount()+ " * "+
-                    item.getPriceFromThePriceList()+" руб. " + " = " + item.getSellingPrice() + " руб.";
+                    item.getPriceFromThePriceList()+"" + " = " + item.getSellingPrice() + "";
         }
 
         this.setText(name);
-        this.setFont(new Font(27.0));
+        this.setFont(new Font(12.0));
         setGraphic(null);
     }
 }

@@ -29,11 +29,14 @@ public class Goods {
     //Количество товара для дробных товаров
     private Double count;
 
+    // Весовой товар
+    private boolean unit;
+
     public Goods() {
 
     }
 
-    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice) {
+    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit) {
         this.productId = productId;
         this.generalId = generalId;
         this.productName = productName;
@@ -42,6 +45,7 @@ public class Goods {
         this.priceFromThePriceList = priceFromThePriceList;
         this.priceAfterDiscount = priceAfterDiscount;
         this.sellingPrice = sellingPrice;
+        this.unit = unit;
     }
 
     public int getCheckId() {
@@ -114,5 +118,13 @@ public class Goods {
 
     public void setClassifier(int classifier) {
         this.classifier = classifier;
+    }
+
+    public boolean isUnit() {
+        return unit;
+    }
+
+    public void setUnit(boolean unit) {
+        this.unit = unit;
     }
 }

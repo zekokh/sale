@@ -2,23 +2,29 @@ package ru.zekoh.db.entity;
 
 public class Product {
 
-    //id
+    // id
     private int id;
 
-    //id для синхранизации с сервером статистики
+    // id для синхранизации с сервером статистики
     private int generalId;
 
-    //Название продукта
-    private String name;
+    // Название продукта
+    private String shortName;
 
-    //Цена продукта
+    // Полное имя продукта
+    private String fullName;
+
+    // Цена продукта
     private double price;
 
-    //id родительского элемента
+    // id родительского элемента
     private int parentId;
 
-    //id классификатора
+    // id классификатора
     private int classifierId;
+
+    // Весовой продукт true - в штуках
+    private boolean unit = true;
 
     //Статус жизни
     private boolean isALive;
@@ -39,12 +45,12 @@ public class Product {
         this.generalId = generalId;
     }
 
-    public String getName() {
-        return name;
+    public String getShortName() {
+        return shortName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public double getPrice() {
@@ -78,4 +84,22 @@ public class Product {
     public void setALive(boolean ALive) {
         isALive = ALive;
     }
+
+    public boolean isUnit() {
+        return unit;
+    }
+
+    public void setUnit(boolean unit) {
+        this.unit = unit;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+
 }

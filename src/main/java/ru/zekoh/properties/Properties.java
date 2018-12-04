@@ -9,7 +9,9 @@ import ru.zekoh.db.entity.UserEntity;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Properties {
 
@@ -36,9 +38,6 @@ public class Properties {
 
     // Текущий пользователь системы
     public static UserEntity currentUser = null;
-
-    // Список папок
-    public static List<Folder> folders = null;
 
     // Список продуктов и товаров
     public static List<Product> products = null;

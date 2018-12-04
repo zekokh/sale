@@ -262,16 +262,16 @@ public class SaleController {
         //Кол-во папок
         int countFolders = 0;
 
-        if (Data.getFoldersSortedByLevel().containsKey(level) && Data.getFoldersSortedByLevel().get(level).size() > 0) {
+       /* if (Data.getFoldersSortedByLevel().containsKey(level) && Data.getFoldersSortedByLevel().get(level).size() > 0) {
             countFolders = Data.getFoldersSortedByLevel().get(level).size();
-        }
+        }*/
 
         //Кол-во продуктов
         int countProduct = 0;
 
-        if (Data.getProductsSortedByLevel().containsKey(level) && Data.getProductsSortedByLevel().get(level).size() > 0) {
+/*        if (Data.getProductsSortedByLevel().containsKey(level) && Data.getProductsSortedByLevel().get(level).size() > 0) {
             countProduct = Data.getProductsSortedByLevel().get(level).size();
-        }
+        }*/
 
         amountFolderAndProduct = countFolders + countProduct;
 
@@ -328,14 +328,14 @@ public class SaleController {
         }
 
         //Если есть папки отрисовываем папки
-        if (Data.getFoldersSortedByLevel().containsKey(level) && Data.getFoldersSortedByLevel().get(level).size() > 0) {
-            Button[] btns = new Button[Data.getFoldersSortedByLevel().get(level).size()];
+        if (Data.folders.containsKey(level) && Data.folders.get(level).size() > 0) {
+            Button[] btns = new Button[Data.folders.get(level).size()];
             for (int i = 0; i < btns.length; i++) {
-                btns[i] = new Button(Data.getFoldersSortedByLevel().get(level).get(i).getName());
+                btns[i] = new Button(Data.folders.get(level).get(i).getName());
                 btns[i].setPrefSize(btnWigth, btnHight);
                 btns[i].setWrapText(true);
                 btns[i].setFont(new Font(fontFolderAndProduct));
-                btns[i].setId(String.valueOf(Data.getFoldersSortedByLevel().get(level).get(i).getId()));
+                btns[i].setId(String.valueOf(Data.folders.get(level).get(i).getId()));
                 btns[i].setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#EEEEEE"), CornerRadii.EMPTY, Insets.EMPTY)));
                 btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#E0E0E0"),
@@ -380,11 +380,11 @@ public class SaleController {
         }
 
         //Если есть продукты отрисовываем продукты
-        if (Data.getProductsSortedByLevel().containsKey(level) && Data.getProductsSortedByLevel().get(level).size() > 0) {
-            Button[] btns = new Button[Data.getProductsSortedByLevel().get(level).size()];
+        if (Data.products.containsKey(level) && Data.products.get(level).size() > 0) {
+            Button[] btns = new Button[Data.products.get(level).size()];
             for (int i = 0; i < btns.length; i++) {
-                btns[i] = new Button(Data.getProductsSortedByLevel().get(level).get(i).getName());
-                btns[i].setId(Data.getProductsSortedByLevel().get(level).get(i).getId() + "");
+                btns[i] = new Button(Data.products.get(level).get(i).getShortName());
+                btns[i].setId(Data.products.get(level).get(i).getId() + "");
                 btns[i].setPrefSize(btnWigth, btnHight);
                 btns[i].setFont(new Font(fontFolderAndProduct));
                 btns[i].setWrapText(true);
@@ -446,7 +446,7 @@ public class SaleController {
                             //Ищем продукт по id
                             Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
 
-                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true));
 
                             //Проверяем скидки
                             checkDiscountProgram(check);
@@ -868,7 +868,7 @@ public class SaleController {
                 stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
                 stage.show();
             } catch (Exception e) {
-               logger.error(e.toString());
+                logger.error(e.toString());
             }
 
         } else {
@@ -1223,7 +1223,7 @@ public class SaleController {
                         int i = 1;
                         Product product = Data.getProductById(check.getGoodsList().get(index).getProductId(), levalProductForSerch);
                         while (i < count) {
-                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice()));
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true));
                             i++;
                         }
                     }
@@ -1547,7 +1547,7 @@ public class SaleController {
                             } catch (Exception e) {
                                 infoLabelOnKkmPanel.setText("Возникли проблемы с ККМ отключите ККМ в настройках и обратитесь к администратору!");
                                 skipBtnForKkmPanel.setVisible(true);
-                                logger.error("Что то пошло не так с ккм! \n" +e.toString());
+                                logger.error("Что то пошло не так с ккм! \n" + e.toString());
                             }
                         }
                         switchCloseCheckBtn(true);
@@ -1596,7 +1596,7 @@ public class SaleController {
             //handle response here...
 
         } catch (Exception ex) {
-            logger.error("Отправка данных на сервер системы лояльности не произведена! \n"+ex.getMessage());
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
             //handle exception here
 
         } finally {
@@ -1984,7 +1984,7 @@ public class SaleController {
             Double amountBonuses = check.getAmountPaidBonuses();
             List<Goods> goods = check.getGoodsList();
             for (int i = 0; i < check.getGoodsList().size(); i++) {
-                if(amountBonuses == 0.0){
+                if (amountBonuses == 0.0) {
                     return;
                 }
 
@@ -1994,8 +1994,8 @@ public class SaleController {
 
                     goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
                     amountBonuses = amountBonuses - priceAfterDiscount;
-                }else {
-                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount-amountBonuses);
+                } else {
+                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
                     goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
                     amountBonuses = 0.0;
                 }

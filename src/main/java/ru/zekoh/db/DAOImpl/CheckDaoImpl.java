@@ -1,5 +1,8 @@
 package ru.zekoh.db.DAOImpl;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.zekoh.controller.Sale;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DataBase;
@@ -15,6 +18,8 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CheckDaoImpl implements CheckDao {
+
+    private static Logger logger = LogManager.getLogger(CheckDaoImpl.class);
 
     //Создаем чек
     @Override
@@ -179,11 +184,14 @@ public class CheckDaoImpl implements CheckDao {
             dailyReport.setSoldPerDay(soldPerDay);
 
         } catch (SQLException e) {
-            System.out.println("Exception Message " + e.getLocalizedMessage());
+            logger.error("Ошибка в формировании суточного отчета \n"+e.getLocalizedMessage());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getStackTrace());
         } finally {
+
+            dailyReport = null;
+
             try {
                 connection.close();
             } catch (Exception e) {
