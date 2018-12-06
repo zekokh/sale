@@ -97,9 +97,22 @@ public class MenuController {
         }
     }
 
-    public void report(ActionEvent actionEvent) {
+    public void report(ActionEvent actionEvent) throws IOException {
 
-        KKMOFD.closeShift(Properties.FPTR);
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setTitle("Жак-Андрэ Продажи");
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/zReportWindow.fxml"));
+
+        dialog.setScene(new Scene(root, 700, 300));
+
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
 
     }
 

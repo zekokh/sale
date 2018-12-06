@@ -1,9 +1,12 @@
 package ru.zekoh.db;
 
 import ru.zekoh.db.entity.Folder;
+import ru.zekoh.db.entity.PageFolder;
+import ru.zekoh.db.entity.PageProduct;
 import ru.zekoh.db.entity.Product;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +17,10 @@ public class Data {
 
     // Список продуктов и товаров
     public static Map<Integer, ArrayList<Product>> products = null;
+
+    public static Map<Integer, ArrayList<PageFolder>> arrayFolderMap = new HashMap<Integer, ArrayList<PageFolder>>();
+
+    public static Map<Integer, List<PageProduct>> arrayProductMap = new HashMap<Integer, List<PageProduct>>();
 
 
     //Вернуть товар по его id

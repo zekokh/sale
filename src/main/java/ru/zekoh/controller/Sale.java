@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -26,9 +28,7 @@ import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.Data;
-import ru.zekoh.db.entity.Goods;
-import ru.zekoh.db.entity.GoodsForDisplay;
-import ru.zekoh.db.entity.Product;
+import ru.zekoh.db.entity.*;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -38,6 +38,16 @@ import java.util.*;
 public class Sale {
 
     private static Logger logger = LogManager.getLogger(Sale.class);
+    public Button libraBtn;
+
+    // Налево при пагинации
+    public Button rightPagination;
+
+    // На право при пагинации
+    public Button leftPagination;
+
+    // Количество страниц в уровне
+    private int maxCurrenPages = 0;
 
     // Список чеков
     private List<CheckObject> checkList = new ArrayList<CheckObject>();
@@ -51,6 +61,9 @@ public class Sale {
 
     //Переменная где содержится level для удобства доступа
     int levalProductForSerch = 0;
+
+    // Переменная пагинации
+    int currentPage = 1;
 
     //Считаем количество рядов папок и кнопок для расчета высоты panel
     int numberOfLinesForFolderAndProduct = 0;
@@ -72,6 +85,18 @@ public class Sale {
 
     //
     private int tempGoodsIndex = 0;
+
+    //
+    private String countNotUnitProduct = "";
+
+    // Продукт при вводе количества
+    Product currentNotUnitProduct = null;
+
+    // При вводе продукта отображается поверх клавиатуры
+    public Label produtWhenInputCountLabel;
+
+    // Флаг дробного значения для клавиатуры
+    private boolean flagDoubleNumberForKbr = false;
 
     //Товары для отображения в чеке (в UI ListView)
     private ObservableList<GoodsForDisplay> items;
@@ -142,13 +167,21 @@ public class Sale {
         //Инициализация 1 уровня вложенности папко
         levelPath.add(1);
 
+        // Лобавляем изображение на кнопку
+        Image imageDecline = new Image(getClass().getResourceAsStream("/img/libra-icon.png"));
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(45);
+        imageView.setFitHeight(40);
+        imageView.setImage(imageDecline);
+        libraBtn.setGraphic(imageView);
+
         goodsListView.setCellFactory(new GoodsCellFactory());
 
         int level = levelPath.get(levelPath.size() - 1);
-        panelForButtons.getChildren().add(getGrid(level));
-    }
+        panelForButtons.getChildren().add(getGrid(level, 1));
 
-    public void leftSwipe(MouseEvent mouseEvent) {
+        // Устанавливаем размер ячейки в списке товаров
+        goodsListView.setFixedCellSize(46);
     }
 
     public void addNewCheck(ActionEvent actionEvent) {
@@ -183,7 +216,7 @@ public class Sale {
 
             //Меняем сумму чека в табе для чеков
             Button btn = (Button) panelForCheckBtns.getChildren().get(currentCheckIndex);
-            btn.setText(generateRubleFromDouble(check.getSellingPrice()));
+            btn.setText("" + check.getSellingPrice());
 
 
             List<GoodsForDisplay> goodsForDisplayList = convert(check.getGoodsList());
@@ -194,7 +227,7 @@ public class Sale {
             // Оставить выделение пока товар активен для редактирвоания
             if (tempGoods != null) {
                 goodsListView.getSelectionModel().select(tempGoodsIndex);
-            }else {
+            } else {
                 goodsListView.getSelectionModel().clearSelection();
             }
 
@@ -202,6 +235,8 @@ public class Sale {
             if (check.getGoodsList().size() > 10) {
                 goodsListView.scrollTo(goodsForDisplayList.size() - 1);
             }
+
+
 
         } else {
             clearAllUI();
@@ -269,14 +304,14 @@ public class Sale {
         panelForButtons.getChildren().clear();
 
         //заполняем элементами
-        panelForButtons.getChildren().add(getGrid(1));
+        panelForButtons.getChildren().add(getGrid(1, 1));
     }
 
     //Конвертирует GoodsList в лист для отображении в ListView
     public List<GoodsForDisplay> convert(List<Goods> goods) {
 
         // Сортируем товары по id что при удалении они не скакали по ListView а с самого начала лежали рядом друг с другом
-       // goods.sort(Comparator.comparingDouble(Goods::getProductId)
+        // goods.sort(Comparator.comparingDouble(Goods::getProductId)
         //        .reversed());
 
         //Список товаров для вывода на дисплей
@@ -372,43 +407,38 @@ public class Sale {
         }
     }
 
-    public void kbrd_1(ActionEvent actionEvent) {
+    private void typeToKbrdCount(int number) {
+
+        if (countNotUnitProduct.length() < 10000000)
+
+            if (number != 0) {
+                countNotUnitProduct += number;
+            } else {
+                if (countNotUnitProduct.length() > 0) {
+                    countNotUnitProduct += number;
+                }
+            }
+        countLabel.setText("" + countNotUnitProduct);
     }
 
-    public void kbrd_2(ActionEvent actionEvent) {
-    }
 
-    public void kbrd_3(ActionEvent actionEvent) {
-    }
+    // Кнопка отображения количество введенного веса
+    public void libraAction(ActionEvent actionEvent) {
+        //currentNotUnitProduct = Data.getProductById(tempGoods.getProductId(), t);
 
-    public void kbrd_4(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_5(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_6(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_7(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_8(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_9(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_0(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_dote(ActionEvent actionEvent) {
-    }
-
-    public void removeLastSymbol(ActionEvent actionEvent) {
+        if (checkList.size() > 0) {
+            if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
+                /*if (tempGoods != null) {
+                    countNotUnitProduct = ""+tempGoods.getCount();
+                    currentNotUnitProduct = Data.getProductById(tempGoods.getProductId(), tempGoods.getParentId());
+                    displayScreenForEnteringProductQuantities(true);
+                }*/
+            }
+        }
     }
 
     public void switchToControlPanel(ActionEvent actionEvent) {
+        displayScreenForEnteringProductQuantities(false);
     }
 
     public void payCash(ActionEvent actionEvent) {
@@ -486,42 +516,6 @@ public class Sale {
     public void appDiscount(ActionEvent actionEvent) {
     }
 
-    public void kbrd_1_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_2_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_3_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_4_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_5_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_6_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_7_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_8_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_9_cash(ActionEvent actionEvent) {
-    }
-
-    public void kbrd_0_cash(ActionEvent actionEvent) {
-    }
-
-
-    public void kbrd_dote_cash(ActionEvent actionEvent) {
-    }
-
-    public void removeLastSymbol_cash(ActionEvent actionEvent) {
-    }
 
     public void payCashOnKeyBrd(ActionEvent actionEvent) {
     }
@@ -532,12 +526,42 @@ public class Sale {
     public void closeBonusPaneAction(ActionEvent actionEvent) {
     }
 
-    private Pane getGrid(int level) {
+    // Метод возвращает папку по уровню и страницы
+    private ArrayList<Folder> getFolders(int level, int page){
+        ArrayList<Folder> list = new  ArrayList<Folder>();
+
+        for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+            if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
+                list = Data.arrayFolderMap.get(level).get(i).getListFolders();
+            }
+        }
+        return list;
+    }
+
+    // Метод возвращает продукты по уровню и страницы
+    private ArrayList<Product> getProducts(int level, int page){
+        ArrayList<Product> list = new  ArrayList<Product>();
+
+        for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+            if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
+                list = (ArrayList<Product>) Data.arrayProductMap.get(level).get(i).getListProducts();
+            }
+        }
+        return list;
+    }
+
+    private Pane getGrid(int level, int page) {
         int x = 0;
         int y = 0;
 
+        int foldersMaxPage = 0;
+
+        int productsMaxPage = 0;
+
         //Переменная где содержится level для удобства доступа
         levalProductForSerch = level;
+
+        currentPage = page;
 
         //Считаем количество строк в панеле с папками и продуктами
         numberOfLinesForFolderAndProduct = 0;
@@ -545,18 +569,36 @@ public class Sale {
         //Кол-во папок
         int countFolders = 0;
 
-        if (Data.folders.containsKey(level) && Data.folders.get(level).size() > 0) {
-            countFolders = Data.folders.get(level).size();
+        if(Data.arrayFolderMap.containsKey(level)){
+
+            ArrayList<Folder> list = new ArrayList<Folder>();
+
+            for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+                if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
+                    list = (ArrayList<Folder>) Data.arrayFolderMap.get(level).get(i).getListFolders();
+                    countFolders = list.size();
+                }
+            }
+
         }
 
         //Кол-во продуктов
         int countProduct = 0;
 
-        if (Data.products.containsKey(level) && Data.products.get(level).size() > 0) {
-            countProduct = Data.products.get(level).size();
+        if(Data.arrayProductMap.containsKey(level)){
+
+            ArrayList<Product> list = new ArrayList<Product>();
+
+            for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+                if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
+                    list = (ArrayList<Product>) Data.arrayProductMap.get(level).get(i).getListProducts();
+                    countProduct = list.size();
+                }
+            }
         }
 
         amountFolderAndProduct = countFolders + countProduct;
+
 
         numberOfLinesForFolderAndProduct = amountFolderAndProduct / countFolderAndProductInRow;
         int tempDivis = amountFolderAndProduct % countFolderAndProductInRow;
@@ -596,7 +638,7 @@ public class Sale {
                     panelForButtons.getChildren().clear();
 
                     //Заполняем элементами
-                    panelForButtons.getChildren().add(getGrid(levelPath.get(levelBack)));
+                    panelForButtons.getChildren().add(getGrid(levelPath.get(levelBack), 1));
                 }
             });
 
@@ -611,14 +653,31 @@ public class Sale {
         }
 
         //Если есть папки отрисовываем папки
-        if (Data.folders.containsKey(level) && Data.folders.get(level).size() > 0) {
-            Button[] btns = new Button[Data.folders.get(level).size()];
+        boolean folderIsExist = false;
+
+        if(Data.arrayFolderMap.containsKey(level)) {
+
+
+            for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+                if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
+                    if(Data.arrayFolderMap.get(level).get(i).getListFolders().size() > 0){
+                        folderIsExist = true;
+                    }
+                }
+            }
+        }
+
+        if (folderIsExist) {
+
+            foldersMaxPage = Data.arrayFolderMap.get(level).size();
+            ArrayList<Folder> folders = getFolders(level, page);
+            Button[] btns = new Button[folders.size()];
             for (int i = 0; i < btns.length; i++) {
-                btns[i] = new Button(Data.folders.get(level).get(i).getName());
+                btns[i] = new Button(folders.get(i).getName());
                 btns[i].setPrefSize(btnWigth, btnHight);
                 btns[i].setWrapText(true);
                 btns[i].setFont(new Font(fontFolderAndProduct));
-                btns[i].setId(String.valueOf(Data.folders.get(level).get(i).getId()));
+                btns[i].setId(String.valueOf(folders.get(i).getId()));
                 btns[i].setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#EEEEEE"), CornerRadii.EMPTY, Insets.EMPTY)));
                 btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#E0E0E0"),
@@ -642,7 +701,7 @@ public class Sale {
                         //удаляем старую Grid
                         panelForButtons.getChildren().clear();
                         //заполняем элементами
-                        panelForButtons.getChildren().add(getGrid(Integer.parseInt(b.getId())));
+                        panelForButtons.getChildren().add(getGrid(Integer.parseInt(b.getId()), 1));
 
 
                     }
@@ -663,11 +722,31 @@ public class Sale {
         }
 
         //Если есть продукты отрисовываем продукты
-        if (Data.products.containsKey(level) && Data.products.get(level).size() > 0) {
-            Button[] btns = new Button[Data.products.get(level).size()];
+
+        //Если есть папки отрисовываем папки
+        boolean productIsExist = false;
+
+        if(Data.arrayProductMap.containsKey(level)) {
+
+
+            for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+                if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
+                    if(Data.arrayProductMap.get(level).get(i).getListProducts().size() > 0){
+                        productIsExist = true;
+                    }
+                }
+            }
+        }
+
+
+        if (productIsExist) {
+
+            productsMaxPage = Data.arrayProductMap.get(level).size();
+            ArrayList<Product> products = getProducts(level, page);
+            Button[] btns = new Button[products.size()];
             for (int i = 0; i < btns.length; i++) {
-                btns[i] = new Button(Data.products.get(level).get(i).getShortName());
-                btns[i].setId(Data.products.get(level).get(i).getId() + "");
+                btns[i] = new Button(products.get(i).getShortName());
+                btns[i].setId(products.get(i).getId() + "");
                 btns[i].setPrefSize(btnWigth, btnHight);
                 btns[i].setFont(new Font(fontFolderAndProduct));
                 btns[i].setWrapText(true);
@@ -727,12 +806,47 @@ public class Sale {
             }
 
         }
+        maxCurrenPages = productsMaxPage;
+        if(maxCurrenPages < foldersMaxPage){
+            maxCurrenPages = foldersMaxPage;
+        }
+
+        // Пагинация
+        if(maxCurrenPages > 1) {
+
+            if (currentPage < maxCurrenPages && currentPage > 1) {
+                rightPagination.setVisible(true);
+                leftPagination.setVisible(true);
+
+                rightPagination.setDisable(false);
+                leftPagination.setDisable(false);
+            } else if(currentPage < maxCurrenPages) {
+                rightPagination.setVisible(true);
+                rightPagination.setDisable(false);
+                leftPagination.setVisible(true);
+                leftPagination.setDisable(true);
+            }else {
+                leftPagination.setVisible(true);
+                leftPagination.setDisable(false);
+
+                rightPagination.setVisible(true);
+                rightPagination.setDisable(true);
+            }
+
+
+        }else {
+            rightPagination.setVisible(false);
+            leftPagination.setVisible(false);
+        }
+
         return gridPane;
     }
 
     private void addItemToGoods(Button b, int level) {
         if (checkList.get(currentCheckIndex).isLive()) {
 
+            // Обнуляем выбанный товар до этого
+            tempGoods = null;
 
             //Добавляем время при первом добавлении товара в чек
             if (checkList.get(currentCheckIndex).getGoodsList().size() == 0) {
@@ -750,21 +864,77 @@ public class Sale {
             //Ищем продукт по id
             Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
 
+            if (product.isUnit()) {
 
-            // todo отобразить экран для ввода кол-во продукции если товар весовой
-            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit()));
+                check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId()));
+
+                // Проверка на скидки и оновление всех данных
+                reloadAll();
+
+                b.setBackground(new Background(new BackgroundFill(
+                        Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+            } else {
+
+                currentNotUnitProduct = product;
+                // todo отобразить экран для ввода кол-во продукции если товар весовой
+                displayScreenForEnteringProductQuantities(true);
+            }
+        }
+    }
+
+    private void displayScreenForEnteringProductQuantities(boolean value) {
+        panelForButtons.setVisible(!value);
+        panelWithNumber.setVisible(value);
+
+        if (!value) {
+            if (countNotUnitProduct.length() > 0) {
+                addItemToGoods(currentNotUnitProduct, Double.parseDouble(countNotUnitProduct));
+            }
+            countNotUnitProduct = "";
+        } else {
+            produtWhenInputCountLabel.setText(currentNotUnitProduct.getShortName());
+            countLabel.setText("" + countNotUnitProduct);
+        }
+    }
+
+    public void cancelCountKbr(ActionEvent actionEvent) {
+        countNotUnitProduct = "";
+        displayScreenForEnteringProductQuantities(false);
+    }
+
+    private void addItemToGoods(Product product, Double count) {
+        if (checkList.get(currentCheckIndex).isLive()) {
+
+            // Обнуляем выбанный товар до этого
+            tempGoods = null;
+
+            //Добавляем время при первом добавлении товара в чек
+            if (checkList.get(currentCheckIndex).getGoodsList().size() == 0) {
+
+                //Дата создания чека считается с добавления первого товара в чек
+                Date date = new Date();
+                String currentDate = "" + date.getTime() / 1000 + "";
+                checkList.get(currentCheckIndex).setDateOfCreation(currentDate);
+
+            }
+
+            //Добавляем товар в чек
+            CheckObject check = checkList.get(currentCheckIndex);
+
+            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), count, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId()));
 
             // Проверка на скидки и оновление всех данных
             reloadAll();
-
-            b.setBackground(new Background(new BackgroundFill(
-                    Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
 
         }
     }
 
     private void createNewCheck() {
         if (checkList.size() <= 9) {
+
+            // Обнуляем выбранный товар
+            tempGoods = null;
 
             CheckObject checkObject = new CheckObject();
             checkList.add(checkObject);
@@ -774,7 +944,9 @@ public class Sale {
             Button button = new Button();
             String temp = (currentCheckIndex) + "";
             button.setId(temp);
-            button.setText(checkObject.getSellingPrice() + " р.");
+            button.setStyle("-fx-font-size: 15");
+            button.setText("" + checkObject.getSellingPrice());
+
             button.setPrefSize(90, 60);
             button.setBackground(new Background(new BackgroundFill(
                     Color.valueOf("#BBDEFB"), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -785,6 +957,8 @@ public class Sale {
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
+                    // Обнуляем выбранный товар
+                    tempGoods = null;
                     currentCheckIndex = Integer.parseInt(button.getId());
                     deselectAllTabsForCheckExcept(currentCheckIndex);
                     reloadAll();
@@ -840,104 +1014,279 @@ public class Sale {
     // Удалить товар из чека
     public void deleteItem(ActionEvent actionEvent) {
 
-        // Если товар выбран
-        if (tempGoods != null) {
+        if (checkList.size() > 0) {
             CheckObject check = checkList.get(currentCheckIndex);
 
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                Goods goods = check.getGoodsList().get(i);
+            // Если чек открыт
+            if (check.isLive()) {
 
-                double a = tempGoods.getPriceAfterDiscount();
-                double b = goods.getPriceAfterDiscount();
-                boolean isEq = Double.compare(a, b) == 0 ? true : false;
-                if (tempGoods.getProductId() == goods.getProductId() && isEq) {
-                    check.getGoodsList().remove(i);
-                    i = -1;
+                // Если товар выбран
+                if (tempGoods != null) {
+
+                    for (int i = 0; i < check.getGoodsList().size(); i++) {
+                        Goods goods = check.getGoodsList().get(i);
+
+                        double a = tempGoods.getPriceAfterDiscount();
+                        double b = goods.getPriceAfterDiscount();
+                        boolean isEq = Double.compare(a, b) == 0 ? true : false;
+                        if (tempGoods.getProductId() == goods.getProductId() && isEq) {
+                            check.getGoodsList().remove(i);
+                            i = -1;
+                        }
+                    }
+
+                    tempGoods = null;
+                    reloadAll();
                 }
-
             }
-
-            tempGoods = null;
-            reloadAll();
         }
     }
 
     public void addItem(ActionEvent actionEvent) {
 
-        // Если товар выбран
-        if (tempGoods != null) {
+        if (checkList.size() > 0) {
             CheckObject check = checkList.get(currentCheckIndex);
 
+            // Если чек открыт
+            if (check.isLive()) {
 
-            // Если товар штуный
-            if (tempGoods.isUnit()) {
+                // Если товар выбран
+                if (tempGoods != null) {
 
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-                    Goods goods = check.getGoodsList().get(i);
-                    if (tempGoods.getProductId() == goods.getProductId()) {
 
-                        Goods newGoods = new Goods(goods.getProductId(), goods.getGeneralId(), goods.getProductName(), goods.getClassifier(), goods.getCount(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.isUnit());
-                        check.getGoodsList().add(newGoods);
-                        break;
+                    // Если товар штуный
+                    if (tempGoods.isUnit()) {
+
+                        for (int i = 0; i < check.getGoodsList().size(); i++) {
+                            Goods goods = check.getGoodsList().get(i);
+                            if (tempGoods.getProductId() == goods.getProductId()) {
+
+                                Goods newGoods = new Goods(goods.getProductId(), goods.getGeneralId(), goods.getProductName(), goods.getClassifier(), goods.getCount(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.isUnit(), goods.getParentId());
+                                check.getGoodsList().add(newGoods);
+                                break;
+                            }
+
+                        }
+                    } else {
+                        for (int i = 0; i < check.getGoodsList().size(); i++) {
+                            Goods goods = check.getGoodsList().get(i);
+
+                            if (tempGoods.getProductId() == goods.getProductId() && tempGoods.getPriceAfterDiscount() == goods.getPriceAfterDiscount()) {
+
+                                Goods currentGood = check.getGoodsList().get(i);
+                                currentGood.setCount(currentGood.getCount() + 1);
+                            }
+
+                        }
                     }
 
-                }
-            } else {
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-                    Goods goods = check.getGoodsList().get(i);
-
-                    if (tempGoods.getProductId() == goods.getProductId() && tempGoods.getPriceAfterDiscount() == goods.getPriceAfterDiscount()) {
-
-                        Goods currentGood = check.getGoodsList().get(i);
-                        currentGood.setCount(currentGood.getCount() + 1);
-                    }
-
+                    reloadAll();
                 }
             }
-
-            reloadAll();
         }
     }
 
     public void removeItem(ActionEvent actionEvent) {
-        // Если товар выбран
-        if (tempGoods != null) {
+
+        if (checkList.size() > 0) {
             CheckObject check = checkList.get(currentCheckIndex);
 
+            // Если чек открыт
+            if (check.isLive()) {
 
-            // Если товар штуный
-            if (tempGoods.isUnit()) {
+                // Если товар выбран
+                if (tempGoods != null) {
 
-                boolean flag = true;
-                int count = 0;
+                    // Если товар штуный
+                    if (tempGoods.isUnit()) {
 
-                for (int i = check.getGoodsList().size()-1; i >= 0; i--) {
-                    Goods goods = check.getGoodsList().get(i);
+                        boolean flag = true;
+                        int count = 0;
 
-                    double a = tempGoods.getPriceAfterDiscount();
-                    double b = goods.getPriceAfterDiscount();
-                    boolean isEq = Double.compare(a, b) == 0 ? true : false;
-                    if (tempGoods.getProductId() == goods.getProductId() && isEq) {
+                        for (int i = check.getGoodsList().size() - 1; i >= 0; i--) {
+                            Goods goods = check.getGoodsList().get(i);
 
+                            double a = tempGoods.getPriceAfterDiscount();
+                            double b = goods.getPriceAfterDiscount();
+                            boolean isEq = Double.compare(a, b) == 0 ? true : false;
+                            if (tempGoods.getProductId() == goods.getProductId() && isEq) {
 
-                       if(flag){
-                           check.getGoodsList().remove(i);
-                           flag = false;
-                       }else {
-                           count++;
+                                if (flag) {
+                                    check.getGoodsList().remove(i);
+                                    flag = false;
+                                } else {
+                                    count++;
 
-                       }
+                                }
+                            }
+                        }
 
+                        if (count == 0) {
+                            tempGoods = null;
+                        }
+                        reloadAll();
+                    } else {
 
+                        for (int i = check.getGoodsList().size() - 1; i >= 0; i--) {
+                            Goods goods = check.getGoodsList().get(i);
+
+                            double a = tempGoods.getPriceAfterDiscount();
+                            double b = goods.getPriceAfterDiscount();
+                            boolean isEq = Double.compare(a, b) == 0 ? true : false;
+                            if (tempGoods.getProductId() == goods.getProductId() && isEq) {
+
+                                Goods currentGood = check.getGoodsList().get(i);
+                                if (currentGood.getCount() - 1 > 0) {
+                                    currentGood.setCount(currentGood.getCount() - 1);
+                                } else {
+                                    tempGoods = null;
+                                    check.getGoodsList().remove(i);
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        reloadAll();
                     }
-
                 }
-
-                if (count == 0){
-                    tempGoods = null;
-                }
-                reloadAll();
             }
+        }
+    }
+
+    public void kbrd_1_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_2_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_3_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_4_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_5_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_6_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_7_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_8_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_9_cash(ActionEvent actionEvent) {
+    }
+
+    public void kbrd_0_cash(ActionEvent actionEvent) {
+    }
+
+
+    public void kbrd_dote_cash(ActionEvent actionEvent) {
+    }
+
+    public void removeLastSymbol_cash(ActionEvent actionEvent) {
+    }
+
+
+    public void kbrd_1(ActionEvent actionEvent) {
+
+        typeToKbrdCount(1);
+    }
+
+    public void kbrd_2(ActionEvent actionEvent) {
+        typeToKbrdCount(2);
+    }
+
+    public void kbrd_3(ActionEvent actionEvent) {
+        typeToKbrdCount(3);
+    }
+
+    public void kbrd_4(ActionEvent actionEvent) {
+
+        typeToKbrdCount(4);
+    }
+
+    public void kbrd_5(ActionEvent actionEvent) {
+
+        typeToKbrdCount(5);
+    }
+
+    public void kbrd_6(ActionEvent actionEvent) {
+
+        typeToKbrdCount(6);
+    }
+
+    public void kbrd_7(ActionEvent actionEvent) {
+
+        typeToKbrdCount(7);
+    }
+
+    public void kbrd_8(ActionEvent actionEvent) {
+
+        typeToKbrdCount(8);
+    }
+
+    public void kbrd_9(ActionEvent actionEvent) {
+
+        typeToKbrdCount(9);
+    }
+
+    public void kbrd_0(ActionEvent actionEvent) {
+        typeToKbrdCount(0);
+    }
+
+    public void kbrd_dote(ActionEvent actionEvent) {
+        if (!flagDoubleNumberForKbr) {
+
+            countNotUnitProduct += ".";
+            flagDoubleNumberForKbr = true;
+            countLabel.setText(countNotUnitProduct);
+        }
+    }
+
+    public void removeLastSymbol(ActionEvent actionEvent) {
+        if (countNotUnitProduct.length() > 0) {
+            if (countNotUnitProduct.length() > 0) {
+                if (countNotUnitProduct.length() > 1) {
+                    String mayBeDote = countNotUnitProduct.substring(countNotUnitProduct.length() - 1, countNotUnitProduct.length());
+                    if (mayBeDote.equals(".")) {
+                        flagDoubleNumberForKbr = false;
+                    }
+                    countNotUnitProduct = countNotUnitProduct.substring(0, countNotUnitProduct.length() - 1);
+                    countLabel.setText(countNotUnitProduct);
+                } else {
+                    countNotUnitProduct = "";
+                    countLabel.setText(countNotUnitProduct);
+                }
+
+
+            }
+
+            countLabel.setText("" + countNotUnitProduct);
+        }
+    }
+
+    public void rightPaginationAction(ActionEvent actionEvent) {
+        if (currentPage < maxCurrenPages) {
+            currentPage++;
+
+            //удаляем старую Grid
+            panelForButtons.getChildren().clear();
+            //заполняем элементами
+            panelForButtons.getChildren().add(getGrid(levelPath.get(levelPath.size() - 1), currentPage));
+        }
+    }
+
+    public void leftPaginationAction(ActionEvent actionEvent) {
+        if(currentPage > 1){
+            currentPage--;
+
+            //заполняем элементами
+            panelForButtons.getChildren().add(getGrid(levelPath.get(levelPath.size()-1), currentPage));
         }
     }
 }

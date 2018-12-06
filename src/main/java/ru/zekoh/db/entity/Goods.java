@@ -32,11 +32,14 @@ public class Goods {
     // Весовой товар
     private boolean unit;
 
+    // id классификатора
+    private int parentId;
+
     public Goods() {
 
     }
 
-    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit) {
+    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit, int parentId) {
         this.productId = productId;
         this.generalId = generalId;
         this.productName = productName;
@@ -46,6 +49,7 @@ public class Goods {
         this.priceAfterDiscount = priceAfterDiscount;
         this.sellingPrice = sellingPrice;
         this.unit = unit;
+        this.parentId = parentId;
     }
 
     public int getCheckId() {
@@ -126,5 +130,13 @@ public class Goods {
 
     public void setUnit(boolean unit) {
         this.unit = unit;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
     }
 }

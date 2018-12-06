@@ -14,7 +14,7 @@ import ru.zekoh.db.entity.DailyReport;
 
 public class XReportController {
 
-    private static Logger logger = LogManager.getLogger(Sale.class);
+    private static Logger logger = LogManager.getLogger(XReportController.class);
 
     @FXML
     public Label label;

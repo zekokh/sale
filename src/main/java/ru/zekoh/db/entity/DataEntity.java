@@ -15,6 +15,7 @@ public class DataEntity {
     private boolean live;
     private int classifier;
     private int serialNumber;
+    private boolean unit;
 
     @Id
     @Column(name = "id")
@@ -114,5 +115,15 @@ public class DataEntity {
 
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    @Basic
+    @Column(name = "unit")
+    public boolean isUnit() {
+        return unit;
+    }
+
+    public void setUnit(boolean unit) {
+        this.unit = unit;
     }
 }

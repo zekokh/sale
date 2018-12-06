@@ -446,7 +446,7 @@ public class SaleController {
                             //Ищем продукт по id
                             Product product = Data.getProductById(Integer.parseInt(b.getId()), level);
 
-                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true));
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true, product.getParentId()));
 
                             //Проверяем скидки
                             checkDiscountProgram(check);
@@ -1223,7 +1223,7 @@ public class SaleController {
                         int i = 1;
                         Product product = Data.getProductById(check.getGoodsList().get(index).getProductId(), levalProductForSerch);
                         while (i < count) {
-                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true));
+                            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), true, product.getParentId()));
                             i++;
                         }
                     }

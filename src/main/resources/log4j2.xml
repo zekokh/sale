@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="info" name="RoutingTest" packages="org.apache.logging.log4j.test">
+<Configuration status="debug" name="RoutingTest" packages="org.apache.logging.log4j.test">
     <Properties>
         <Property name="filename">target/rolling1/rollingtest-$${sd:type}.log</Property>
     </Properties>
-    <ThresholdFilter level="info"/>
+    <ThresholdFilter level="debug"/>
 
     <Appenders>
         <Console name="STDOUT">
             <PatternLayout pattern="%m%n"/>
-            <ThresholdFilter level="info"/>
+            <ThresholdFilter level="debug"/>
         </Console>
         <Routing name="Routing">
             <Routes pattern="$${sd:type}">
@@ -27,11 +27,11 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="EventLogger" level="info" additivity="false">
+        <Logger name="EventLogger" level="debug" additivity="false">
             <AppenderRef ref="Routing"/>
         </Logger>
 
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="STDOUT"/>
         </Root>
     </Loggers>

@@ -46,7 +46,7 @@
 }
 .list-cell
 {
-  -fx-font: 16pt "Arial";
+  -fx-font: 13pt "Arial";
 }
 
 .scroll-bar .increment-button {
@@ -55,4 +55,8 @@
 
 .scroll-bar .decrement-button {
 -fx-padding: 0.75em;
+}
+
+#cashBtn:pressed {
+    -fx-background-color: #9b192d;
 }
