@@ -32,7 +32,7 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
-                <Button id="btn" fx:id="testOFD" disable="true" mnemonicParsing="false" prefHeight="100.0" prefWidth="610.0" text="Диагностика с ОФД">
+                <Button id="btn" fx:id="update" disable="true" mnemonicParsing="false" onAction="#updateData" prefHeight="100.0" prefWidth="610.0" text="Обновить данные">
                     <font>
                         <Font size="45.0" />
                     </font>

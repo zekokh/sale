@@ -12,7 +12,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.InfoController">
    <children>
-      <Button layoutX="289.0" layoutY="152.0" mnemonicParsing="false" onAction="#exit" prefHeight="80.0" prefWidth="130.0" style="-fx-background-color: FFECB3;" text="ok">
+      <Button id="yellowBtnId" layoutX="289.0" layoutY="152.0" mnemonicParsing="false" onAction="#exit" prefHeight="80.0" prefWidth="130.0" text="ok">
          <font>
             <Font name="Helvetica Light" size="25.0" />
          </font>

@@ -181,7 +181,7 @@ public class Sale {
         panelForButtons.getChildren().add(getGrid(level, 1));
 
         // Устанавливаем размер ячейки в списке товаров
-        goodsListView.setFixedCellSize(46);
+        goodsListView.setFixedCellSize(48);
     }
 
     public void addNewCheck(ActionEvent actionEvent) {
@@ -232,7 +232,7 @@ public class Sale {
             }
 
             // Скрол к последнему товару в чеке
-            if (check.getGoodsList().size() > 10) {
+            if (check.getGoodsList().size() > 8) {
                 goodsListView.scrollTo(goodsForDisplayList.size() - 1);
             }
 
@@ -1287,6 +1287,18 @@ public class Sale {
 
             //заполняем элементами
             panelForButtons.getChildren().add(getGrid(levelPath.get(levelPath.size()-1), currentPage));
+        }
+    }
+
+    public void upListGoods(ActionEvent actionEvent) {
+        if(goodsListView.getItems().size() > 8) {
+            goodsListView.scrollTo(0);
+        }
+    }
+
+    public void downListGoods(ActionEvent actionEvent) {
+        if(goodsListView.getItems().size() > 8) {
+            goodsListView.scrollTo(goodsListView.getItems().size());
         }
     }
 }

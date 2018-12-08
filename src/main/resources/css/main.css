@@ -49,14 +49,59 @@
   -fx-font: 13pt "Arial";
 }
 
+
 .scroll-bar .increment-button {
--fx-padding: 0.75em;
+-fx-padding: 0.10em;
 }
 
 .scroll-bar .decrement-button {
--fx-padding: 0.75em;
+-fx-padding: 0.10em;
+}
+
+#cancelCheckId {
+    -fx-background-color: #E57373;
+}
+
+#cancelCheckId:pressed {
+    -fx-background-color: #cd6767;
+}
+
+#cardBtn {
+    -fx-background-color: #BEEBE7;
+}
+
+#cardBtn:pressed {
+    -fx-background-color: #a9d2ce;
+}
+
+#cashBtn {
+    -fx-background-color: #B3E5FC;
 }
 
 #cashBtn:pressed {
-    -fx-background-color: #9b192d;
+    -fx-background-color: #9ccae1;
+}
+
+#greyBtn {
+    -fx-background-color: #EEEEEE;
+}
+
+#greyBtn:pressed {
+    -fx-background-color: #cdcdcd;
+}
+
+#addCheckId {
+    -fx-background-color: #2196F3;
+}
+
+#addCheckId:pressed {
+    -fx-background-color: #1c88d7;
+}
+
+#yellowBtnId {
+    -fx-background-color: #FFECB3;
+}
+
+#yellowBtnId:pressed {
+    -fx-background-color: #e6d3a1;
 }

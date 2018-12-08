@@ -19,6 +19,8 @@ import ru.zekoh.properties.Properties;
 
 import java.io.IOException;
 
+import static ru.zekoh.core.Сatalog.generate;
+
 public class MenuController {
 
     private static Logger logger = LogManager.getLogger(MenuController.class);
@@ -39,15 +41,15 @@ public class MenuController {
     @FXML
     public Label errorLabel;
 
-    // Кнопка тестирования ОФД
-    @FXML
-    public Button testOFD;
-
     // Кнопка суточный отчет
     @FXML
     public Button xReport;
 
     private static String[] columns = {"Наименование", "Кол-во"};
+
+    // Кнопка обновления данных
+    @FXML
+    public Button update;
 
     //Инициализация
     @FXML
@@ -58,7 +60,7 @@ public class MenuController {
         saleBtn.setDisable(false);
         reportBtn.setDisable(false);
         blockBtn.setDisable(false);
-        testOFD.setDisable(false);
+        update.setDisable(false);
         xReport.setDisable(false);
 
 
@@ -137,5 +139,9 @@ public class MenuController {
 
 
 
+    }
+
+    public void updateData(ActionEvent actionEvent) {
+        generate();
     }
 }
