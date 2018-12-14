@@ -14,73 +14,73 @@
    <children>
       <GridPane layoutX="332.0" layoutY="274.0" prefHeight="420.0" prefWidth="354.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" valignment="CENTER" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="110.0" minHeight="110.0" prefHeight="110.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_1" prefHeight="110.0" prefWidth="120.0" text="1">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_1" prefHeight="107.0" prefWidth="117.0" text="1">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_2" prefHeight="110.0" prefWidth="120.0" text="2" GridPane.columnIndex="1">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_2" prefHeight="107.0" prefWidth="117.0" text="2" GridPane.columnIndex="1">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_3" prefHeight="110.0" prefWidth="120.0" text="3" GridPane.columnIndex="2">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_3" prefHeight="107.0" prefWidth="117.0" text="3" GridPane.columnIndex="2">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_4" prefHeight="110.0" prefWidth="120.0" text="4" GridPane.rowIndex="1">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_4" prefHeight="107.0" prefWidth="117.0" text="4" GridPane.rowIndex="1">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_5" prefHeight="110.0" prefWidth="120.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_5" prefHeight="107.0" prefWidth="117.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_6" prefHeight="110.0" prefWidth="120.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_6" prefHeight="107.0" prefWidth="117.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_7" prefHeight="110.0" prefWidth="120.0" text="7" GridPane.rowIndex="2">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_7" prefHeight="107.0" prefWidth="117.0" text="7" GridPane.rowIndex="2">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_8" prefHeight="110.0" prefWidth="120.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_8" prefHeight="107.0" prefWidth="117.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_9" prefHeight="110.0" prefWidth="120.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_9" prefHeight="107.0" prefWidth="117.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exit" prefHeight="110.0" prefWidth="120.0" text="X" GridPane.rowIndex="3">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exit" prefHeight="107.0" prefWidth="117.0" text="X" GridPane.rowIndex="3">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_0" prefHeight="110.0" prefWidth="120.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#pushOnKey_0" prefHeight="107.0" prefWidth="117.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="50.0" />
                </font>
             </Button>
-            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeChar" prefHeight="110.0" prefWidth="120.0" text="&lt;" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Button id="greyBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeChar" prefHeight="107.0" prefWidth="117.0" text="&lt;" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <font>
                   <Font size="50.0" />
                </font>

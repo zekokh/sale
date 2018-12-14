@@ -1,5 +1,6 @@
 package ru.zekoh.db;
 
+import ru.zekoh.db.entity.Discount;
 import ru.zekoh.db.entity.Goods;
 
 import java.util.ArrayList;
@@ -33,6 +34,18 @@ public class CheckObject {
 
     // Статус жизни чека
     private boolean live = true;
+
+    // Статус отображения окна для ввода скидок
+    private boolean panelForFindDiscountCard = false;
+
+    // Скидка по карте или через приложение
+    private boolean discountAccountExist = false;
+
+    // Скидка
+    private Discount discount;
+
+
+
 
     public List<Goods> getGoodsList() {
         return goodsList;
@@ -104,5 +117,29 @@ public class CheckObject {
 
     public void setAmountBonus(Double amountBonus) {
         this.amountBonus = amountBonus;
+    }
+
+    public boolean isPanelForFindDiscountCard() {
+        return panelForFindDiscountCard;
+    }
+
+    public void setPanelForFindDiscountCard(boolean panelForFindDiscountCard) {
+        this.panelForFindDiscountCard = panelForFindDiscountCard;
+    }
+
+    public boolean isDiscountAccountExist() {
+        return discountAccountExist;
+    }
+
+    public void setDiscountAccountExist(boolean discountAccountExist) {
+        this.discountAccountExist = discountAccountExist;
+    }
+
+    public Discount getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Discount discount) {
+        this.discount = discount;
     }
 }

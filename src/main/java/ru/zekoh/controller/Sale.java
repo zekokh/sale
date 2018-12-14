@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,10 +25,14 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
+import ru.zekoh.db.DAO.DiscountForEmployeesDao;
+import ru.zekoh.db.DAOImpl.DiscountForEmployeesDaoImpl;
 import ru.zekoh.db.Data;
+import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 
 import java.math.BigDecimal;
@@ -45,6 +50,21 @@ public class Sale {
 
     // На право при пагинации
     public Button leftPagination;
+
+    // Вверх по списку товаров
+    public Button upInListView;
+
+    // Вниз по списку товаров
+    public Button downInListView;
+
+    // Панель для поиска скидочной карты
+    public Pane panelFindDiscount;
+
+    // Текстовое поле для ввода номера карты
+    public TextField numberDiscountCardTextField;
+
+    // Справочный лейбл для инфы при поиски скидочной карты
+    public Label labelForFindDiscount;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -161,19 +181,44 @@ public class Sale {
     // Кнопка закрытия скидок
     public Button closeBonusPaneBtn;
 
+    //
+    public int ListViewPaginationIndex = 0;
+
     @FXML
     public void initialize() {
 
         //Инициализация 1 уровня вложенности папко
         levelPath.add(1);
 
-        // Лобавляем изображение на кнопку
+        // Добавляем изображение на кнопку
         Image imageDecline = new Image(getClass().getResourceAsStream("/img/libra-icon.png"));
         ImageView imageView = new ImageView();
         imageView.setFitWidth(45);
         imageView.setFitHeight(40);
         imageView.setImage(imageDecline);
         libraBtn.setGraphic(imageView);
+
+        // Добавляем изображение на кнопки вверх
+        Image imageDeclineUp = new Image(getClass().getResourceAsStream("/img/arrow.png"));
+        ImageView imageViewUp = new ImageView();
+        imageViewUp.setFitWidth(40);
+        imageViewUp.setFitHeight(35);
+        imageViewUp.setRotate(imageViewUp.getRotate() - 180);
+        imageViewUp.setImage(imageDeclineUp);
+        upInListView.setGraphic(imageViewUp);
+
+        // Добавляем изображение на кнопки вниз
+        Image imageDeclineDown = new Image(getClass().getResourceAsStream("/img/arrow.png"));
+        ImageView imageViewDown = new ImageView();
+        imageViewDown.setFitWidth(40);
+        imageViewDown.setFitHeight(35);
+        imageViewDown.setRotate(imageViewUp.getRotate() - 180);
+        imageViewDown.setImage(imageDeclineDown);
+        downInListView.setGraphic(imageViewDown);
+
+        // Скрываем кнопки перемещения по списку товаров
+        upInListView.setVisible(false);
+        downInListView.setVisible(false);
 
         goodsListView.setCellFactory(new GoodsCellFactory());
 
@@ -233,11 +278,29 @@ public class Sale {
 
             // Скрол к последнему товару в чеке
             if (check.getGoodsList().size() > 8) {
+                upInListView.setVisible(true);
+                downInListView.setVisible(true);
                 goodsListView.scrollTo(goodsForDisplayList.size() - 1);
+                ListViewPaginationIndex = goodsForDisplayList.size() - 1;
+            } else {
+                ListViewPaginationIndex = 0;
+                upInListView.setVisible(false);
+                downInListView.setVisible(false);
             }
 
 
+            if(!checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && panelFindDiscount.isVisible()) {
+                panelForButtons.setVisible(true);
+                panelFindDiscount.setVisible(false);
+            }else if (checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && !panelFindDiscount.isVisible()){
+                panelForButtons.setVisible(false);
+                panelFindDiscount.setVisible(true);
 
+                // Если будет привязан к чеку надо отобразить инфу по скидке
+
+                numberDiscountCardTextField.clear();
+                numberDiscountCardTextField.requestFocus();
+            }
         } else {
             clearAllUI();
         }
@@ -462,15 +525,25 @@ public class Sale {
                 panelForCheckBtns.getChildren().remove(index);
                 for (int i = 0; i < panelForCheckBtns.getChildren().size(); i++) {
                     panelForCheckBtns.getChildren().get(i).setId(i + "");
+
+                    CheckObject checkObject = checkList.get(i);
+                    Button b = (Button) panelForCheckBtns.getChildren().get(i);
+                    b.setText("" + checkObject.getSellingPrice());
                 }
                 deselectAllTabsForCheckExcept(currentCheckIndex);
 
                 reloadAll();
 
             } else {
+
                 panelForCheckBtns.getChildren().clear();
                 currentCheckIndex = 0;
                 reloadAll();
+            }
+
+            if (panelFindDiscount.isVisible()){
+                panelFindDiscount.setVisible(false);
+                panelForButtons.setVisible(true);
             }
         }
 
@@ -511,6 +584,18 @@ public class Sale {
     }
 
     public void cardDiscount(ActionEvent actionEvent) {
+        if (checkList.size() > 0) {
+            panelForButtons.setVisible(false);
+            panelFindDiscount.setVisible(true);
+
+            checkList.get(currentCheckIndex).setPanelForFindDiscountCard(true);
+
+            // Если будет привязан к чеку надо отобразить инфу по скидке
+
+            numberDiscountCardTextField.clear();
+            numberDiscountCardTextField.requestFocus();
+
+        }
     }
 
     public void appDiscount(ActionEvent actionEvent) {
@@ -527,10 +612,10 @@ public class Sale {
     }
 
     // Метод возвращает папку по уровню и страницы
-    private ArrayList<Folder> getFolders(int level, int page){
-        ArrayList<Folder> list = new  ArrayList<Folder>();
+    private ArrayList<Folder> getFolders(int level, int page) {
+        ArrayList<Folder> list = new ArrayList<Folder>();
 
-        for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+        for (int i = 0; i < Data.arrayFolderMap.get(level).size(); i++) {
             if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
                 list = Data.arrayFolderMap.get(level).get(i).getListFolders();
             }
@@ -539,10 +624,10 @@ public class Sale {
     }
 
     // Метод возвращает продукты по уровню и страницы
-    private ArrayList<Product> getProducts(int level, int page){
-        ArrayList<Product> list = new  ArrayList<Product>();
+    private ArrayList<Product> getProducts(int level, int page) {
+        ArrayList<Product> list = new ArrayList<Product>();
 
-        for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+        for (int i = 0; i < Data.arrayProductMap.get(level).size(); i++) {
             if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
                 list = (ArrayList<Product>) Data.arrayProductMap.get(level).get(i).getListProducts();
             }
@@ -569,11 +654,11 @@ public class Sale {
         //Кол-во папок
         int countFolders = 0;
 
-        if(Data.arrayFolderMap.containsKey(level)){
+        if (Data.arrayFolderMap.containsKey(level)) {
 
             ArrayList<Folder> list = new ArrayList<Folder>();
 
-            for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+            for (int i = 0; i < Data.arrayFolderMap.get(level).size(); i++) {
                 if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
                     list = (ArrayList<Folder>) Data.arrayFolderMap.get(level).get(i).getListFolders();
                     countFolders = list.size();
@@ -585,11 +670,11 @@ public class Sale {
         //Кол-во продуктов
         int countProduct = 0;
 
-        if(Data.arrayProductMap.containsKey(level)){
+        if (Data.arrayProductMap.containsKey(level)) {
 
             ArrayList<Product> list = new ArrayList<Product>();
 
-            for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+            for (int i = 0; i < Data.arrayProductMap.get(level).size(); i++) {
                 if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
                     list = (ArrayList<Product>) Data.arrayProductMap.get(level).get(i).getListProducts();
                     countProduct = list.size();
@@ -655,12 +740,12 @@ public class Sale {
         //Если есть папки отрисовываем папки
         boolean folderIsExist = false;
 
-        if(Data.arrayFolderMap.containsKey(level)) {
+        if (Data.arrayFolderMap.containsKey(level)) {
 
 
-            for(int i =0; i < Data.arrayFolderMap.get(level).size(); i++){
+            for (int i = 0; i < Data.arrayFolderMap.get(level).size(); i++) {
                 if (Data.arrayFolderMap.get(level).get(i).getPage() == page) {
-                    if(Data.arrayFolderMap.get(level).get(i).getListFolders().size() > 0){
+                    if (Data.arrayFolderMap.get(level).get(i).getListFolders().size() > 0) {
                         folderIsExist = true;
                     }
                 }
@@ -726,12 +811,12 @@ public class Sale {
         //Если есть папки отрисовываем папки
         boolean productIsExist = false;
 
-        if(Data.arrayProductMap.containsKey(level)) {
+        if (Data.arrayProductMap.containsKey(level)) {
 
 
-            for(int i =0; i < Data.arrayProductMap.get(level).size(); i++){
+            for (int i = 0; i < Data.arrayProductMap.get(level).size(); i++) {
                 if (Data.arrayProductMap.get(level).get(i).getPage() == page) {
-                    if(Data.arrayProductMap.get(level).get(i).getListProducts().size() > 0){
+                    if (Data.arrayProductMap.get(level).get(i).getListProducts().size() > 0) {
                         productIsExist = true;
                     }
                 }
@@ -807,12 +892,12 @@ public class Sale {
 
         }
         maxCurrenPages = productsMaxPage;
-        if(maxCurrenPages < foldersMaxPage){
+        if (maxCurrenPages < foldersMaxPage) {
             maxCurrenPages = foldersMaxPage;
         }
 
         // Пагинация
-        if(maxCurrenPages > 1) {
+        if (maxCurrenPages > 1) {
 
             if (currentPage < maxCurrenPages && currentPage > 1) {
                 rightPagination.setVisible(true);
@@ -820,12 +905,12 @@ public class Sale {
 
                 rightPagination.setDisable(false);
                 leftPagination.setDisable(false);
-            } else if(currentPage < maxCurrenPages) {
+            } else if (currentPage < maxCurrenPages) {
                 rightPagination.setVisible(true);
                 rightPagination.setDisable(false);
                 leftPagination.setVisible(true);
                 leftPagination.setDisable(true);
-            }else {
+            } else {
                 leftPagination.setVisible(true);
                 leftPagination.setDisable(false);
 
@@ -834,7 +919,7 @@ public class Sale {
             }
 
 
-        }else {
+        } else {
             rightPagination.setVisible(false);
             leftPagination.setVisible(false);
         }
@@ -1282,23 +1367,167 @@ public class Sale {
     }
 
     public void leftPaginationAction(ActionEvent actionEvent) {
-        if(currentPage > 1){
+        if (currentPage > 1) {
             currentPage--;
 
             //заполняем элементами
-            panelForButtons.getChildren().add(getGrid(levelPath.get(levelPath.size()-1), currentPage));
+            panelForButtons.getChildren().add(getGrid(levelPath.get(levelPath.size() - 1), currentPage));
         }
     }
 
     public void upListGoods(ActionEvent actionEvent) {
-        if(goodsListView.getItems().size() > 8) {
-            goodsListView.scrollTo(0);
+        if (goodsListView.getItems().size() > 8) {
+            int temp = ListViewPaginationIndex - 8;
+            if (temp >= 0) {
+                goodsListView.scrollTo(temp);
+                ListViewPaginationIndex = temp;
+            } else {
+                goodsListView.scrollTo(0);
+                ListViewPaginationIndex = 0;
+            }
+
         }
     }
 
     public void downListGoods(ActionEvent actionEvent) {
-        if(goodsListView.getItems().size() > 8) {
-            goodsListView.scrollTo(goodsListView.getItems().size());
+        if (goodsListView.getItems().size() > 8) {
+
+            int temp = ListViewPaginationIndex + 8;
+            if (temp < goodsListView.getItems().size()) {
+                goodsListView.scrollTo(temp);
+                ListViewPaginationIndex = temp;
+            } else {
+                goodsListView.scrollTo(goodsListView.getItems().size());
+                ListViewPaginationIndex = goodsListView.getItems().size() - 1;
+            }
         }
+    }
+
+    // Скрыть панель ввода скидочной карты
+    public void discountHidePanel(ActionEvent actionEvent) {
+        panelFindDiscount.setVisible(false);
+        panelForButtons.setVisible(true);
+        checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
+
+        labelForFindDiscount.setText("");
+    }
+
+    public void kbrdDiscount_1(ActionEvent actionEvent) {
+        typeToDiscountTextField("1");
+    }
+
+    public void kbrdDiscount_2(ActionEvent actionEvent) {
+        typeToDiscountTextField("2");
+    }
+
+    public void kbrdDiscount_3(ActionEvent actionEvent) {
+        typeToDiscountTextField("3");
+    }
+
+    public void kbrdDiscount_4(ActionEvent actionEvent) {
+        typeToDiscountTextField("4");
+    }
+
+    public void kbrdDiscount_5(ActionEvent actionEvent) {
+        typeToDiscountTextField("5");
+    }
+
+    public void kbrdDiscount_6(ActionEvent actionEvent) {
+        typeToDiscountTextField("6");
+    }
+
+    public void kbrdDiscount_7(ActionEvent actionEvent) {
+        typeToDiscountTextField("7");
+    }
+
+    public void kbrdDiscount_8(ActionEvent actionEvent) {
+        typeToDiscountTextField("8");
+    }
+
+    public void kbrdDiscount_9(ActionEvent actionEvent) {
+        typeToDiscountTextField("9");
+    }
+
+    public void kbrdDiscount_0(ActionEvent actionEvent) {
+        typeToDiscountTextField("0");
+    }
+
+    public void kbrdDiscount_remove(ActionEvent actionEvent) {
+        if(numberDiscountCardTextField.getLength() > 1) {
+            numberDiscountCardTextField.setText(numberDiscountCardTextField.getText().substring(0, numberDiscountCardTextField.getLength() - 1));
+        }else if (numberDiscountCardTextField.getLength() == 1) {
+            numberDiscountCardTextField.setText(numberDiscountCardTextField.getText().substring(0, numberDiscountCardTextField.getLength() - 1));
+            numberDiscountCardTextField.requestFocus();
+        } else {
+            numberDiscountCardTextField.requestFocus();
+        }
+
+        labelForFindDiscount.setText("");
+    }
+
+    public void kbrdDiscount_clean(ActionEvent actionEvent) {
+        if(numberDiscountCardTextField.getLength() > 0) {
+            numberDiscountCardTextField.clear();
+            numberDiscountCardTextField.requestFocus();
+            labelForFindDiscount.setText("");
+        }
+    }
+
+    private void typeToDiscountTextField(String text){
+        numberDiscountCardTextField.setText(numberDiscountCardTextField.getText()+text);
+        labelForFindDiscount.setText("");
+    }
+
+    public void findMemberByCodeNumber(ActionEvent actionEvent) {
+
+        // Отправить запрос на поиск
+        if(numberDiscountCardTextField.getLength() > 0) {
+
+            long numberMember = new Long(numberDiscountCardTextField.getText());
+            DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
+            try {
+
+                // Получаем список пользователей
+                Session session = HibernateSessionFactory.getSessionFactory().openSession();
+
+                List<DiscountCardEntity> card = session.createQuery("SELECT a FROM DiscountCardEntity a WHERE a.live = true and a.number = :number", DiscountCardEntity.class)
+                        .setParameter("number", numberMember)
+                        .getResultList();
+
+                if(card.size()>0) {
+
+                    CheckObject check = checkList.get(currentCheckIndex);
+
+
+                    // Устанавливаем что есть скидка
+                    check.setDiscountAccountExist(true);
+
+                    Discount discount = new Discount();
+
+                    // Устанавливаем роль аккаунта
+                    discount.setDiscountRole(card.get(0).getRole());
+
+                    // Устанавливаем сумму скидки
+                    discount.setBonus(card.get(0).getAmountOfDiscount());
+
+                    // todo может сделать интерфейс
+
+
+
+                    labelForFindDiscount.setText(card.get(0).getName());
+                }else {
+                    // Отображение ошибки
+
+                    labelForFindDiscount.setText("Карта не найдена!");
+                }
+            } catch (Exception e) {
+                logger.error(e.toString());
+                labelForFindDiscount.setText("Карта не найдена!");
+            }
+        }
+
+        // Обработать ответ
+
+        // Отобразить ответ
     }
 }

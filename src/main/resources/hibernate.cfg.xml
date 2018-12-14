@@ -20,5 +20,6 @@
         <mapping class="ru.zekoh.db.entity.CheckEntity"/>
         <mapping class="ru.zekoh.db.entity.UserEntity"/>
         <mapping class="ru.zekoh.db.entity.DataEntity"/>
+        <mapping class="ru.zekoh.db.entity.DiscountCardEntity"/>
     </session-factory>
 </hibernate-configuration>
