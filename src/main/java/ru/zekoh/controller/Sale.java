@@ -242,6 +242,26 @@ public class Sale {
             CheckObject check = checkList.get(currentCheckIndex);
 
             // todo Проверить промоушены и акции
+            if (check.getGoodsList().size() > 0) {
+
+                if (check.isDiscountAccountExist()) {
+
+                    if (check.getDiscount().getDiscountRole() == 4) {
+
+                        // Вычесть из продажной цены сумму скидки на весь чек
+                        List<Goods> goods = check.getGoodsList();
+
+                        for (int i = 0; i < goods.size(); i++) {
+
+                            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
+
+                            priceAfterDiscount -= (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+
+                            goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+                        }
+                    }
+                }
+            }
 
             // Рассчитать цену исходя из проджной
             calculationPrice(check);
@@ -250,10 +270,11 @@ public class Sale {
             sellingPrice.setText(generateRubleFromDouble(check.getSellingPrice()));
 
             // Устанавливаем цену без скидки
-            whithoutDiscount.setText(generateRubleFromDouble(check.getSellingPrice()));
+            whithoutDiscount.setText(generateRubleFromDouble(check.getAmountByPrice()));
 
             // Устанавливаем сумму скидки
             Double tempAmountDiscount = check.getAmountByPrice() - check.getSellingPrice();
+            tempAmountDiscount = new BigDecimal(tempAmountDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
             amountDiscount.setText(generateRubleFromDouble(tempAmountDiscount));
 
             // Устанавливаем сумму бонусов которыми клиент планирует оплатить часть покупки
@@ -289,10 +310,10 @@ public class Sale {
             }
 
 
-            if(!checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && panelFindDiscount.isVisible()) {
+            if (!checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && panelFindDiscount.isVisible()) {
                 panelForButtons.setVisible(true);
                 panelFindDiscount.setVisible(false);
-            }else if (checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && !panelFindDiscount.isVisible()){
+            } else if (checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && !panelFindDiscount.isVisible()) {
                 panelForButtons.setVisible(false);
                 panelFindDiscount.setVisible(true);
 
@@ -541,7 +562,7 @@ public class Sale {
                 reloadAll();
             }
 
-            if (panelFindDiscount.isVisible()){
+            if (panelFindDiscount.isVisible()) {
                 panelFindDiscount.setVisible(false);
                 panelForButtons.setVisible(true);
             }
@@ -1453,9 +1474,9 @@ public class Sale {
     }
 
     public void kbrdDiscount_remove(ActionEvent actionEvent) {
-        if(numberDiscountCardTextField.getLength() > 1) {
+        if (numberDiscountCardTextField.getLength() > 1) {
             numberDiscountCardTextField.setText(numberDiscountCardTextField.getText().substring(0, numberDiscountCardTextField.getLength() - 1));
-        }else if (numberDiscountCardTextField.getLength() == 1) {
+        } else if (numberDiscountCardTextField.getLength() == 1) {
             numberDiscountCardTextField.setText(numberDiscountCardTextField.getText().substring(0, numberDiscountCardTextField.getLength() - 1));
             numberDiscountCardTextField.requestFocus();
         } else {
@@ -1466,22 +1487,22 @@ public class Sale {
     }
 
     public void kbrdDiscount_clean(ActionEvent actionEvent) {
-        if(numberDiscountCardTextField.getLength() > 0) {
+        if (numberDiscountCardTextField.getLength() > 0) {
             numberDiscountCardTextField.clear();
             numberDiscountCardTextField.requestFocus();
             labelForFindDiscount.setText("");
         }
     }
 
-    private void typeToDiscountTextField(String text){
-        numberDiscountCardTextField.setText(numberDiscountCardTextField.getText()+text);
+    private void typeToDiscountTextField(String text) {
+        numberDiscountCardTextField.setText(numberDiscountCardTextField.getText() + text);
         labelForFindDiscount.setText("");
     }
 
     public void findMemberByCodeNumber(ActionEvent actionEvent) {
 
         // Отправить запрос на поиск
-        if(numberDiscountCardTextField.getLength() > 0) {
+        if (numberDiscountCardTextField.getLength() > 0) {
 
             long numberMember = new Long(numberDiscountCardTextField.getText());
             DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
@@ -1494,7 +1515,7 @@ public class Sale {
                         .setParameter("number", numberMember)
                         .getResultList();
 
-                if(card.size()>0) {
+                if (card.size() > 0) {
 
                     CheckObject check = checkList.get(currentCheckIndex);
 
@@ -1507,15 +1528,23 @@ public class Sale {
                     // Устанавливаем роль аккаунта
                     discount.setDiscountRole(card.get(0).getRole());
 
-                    // Устанавливаем сумму скидки
-                    discount.setBonus(card.get(0).getAmountOfDiscount());
+                    // Баланс
+                    discount.setBalance(card.get(0).getBalance());
 
-                    // todo может сделать интерфейс
+                    // Бюджет
+                    discount.setBudget(card.get(0).getBudgetForTheMonth());
 
+                    // Прцент скидки
+                    discount.setPercentDiscount(card.get(0).getAmountOfDiscount());
+
+                    check.setDiscount(discount);
 
 
                     labelForFindDiscount.setText(card.get(0).getName());
-                }else {
+
+                    reloadAll();
+                } else {
+
                     // Отображение ошибки
 
                     labelForFindDiscount.setText("Карта не найдена!");

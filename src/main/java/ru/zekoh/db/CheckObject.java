@@ -44,7 +44,8 @@ public class CheckObject {
     // Скидка
     private Discount discount;
 
-
+    // Блокировка продажи
+    private boolean blockForSale = false;
 
 
     public List<Goods> getGoodsList() {
@@ -141,5 +142,13 @@ public class CheckObject {
 
     public void setDiscount(Discount discount) {
         this.discount = discount;
+    }
+
+    public boolean isBlockForSale() {
+        return blockForSale;
+    }
+
+    public void setBlockForSale(boolean blockForSale) {
+        this.blockForSale = blockForSale;
     }
 }
