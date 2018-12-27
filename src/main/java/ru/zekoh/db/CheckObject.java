@@ -38,11 +38,14 @@ public class CheckObject {
     // Статус отображения окна для ввода скидок
     private boolean panelForFindDiscountCard = false;
 
-    // Скидка по карте или через приложение
+    // Скидка по карте
     private boolean discountAccountExist = false;
 
+    // Скидка по карте
+    private boolean discountAppExist = false;
+
     // Скидка
-    private Discount discount;
+    private Discount discount = null;
 
     // Блокировка продажи
     private boolean blockForSale = false;
@@ -150,5 +153,13 @@ public class CheckObject {
 
     public void setBlockForSale(boolean blockForSale) {
         this.blockForSale = blockForSale;
+    }
+
+    public boolean isDiscountAppExist() {
+        return discountAppExist;
+    }
+
+    public void setDiscountAppExist(boolean discountAppExist) {
+        this.discountAppExist = discountAppExist;
     }
 }

@@ -209,12 +209,12 @@
                   <Font name="Helvetica Light" size="15.0" />
                </font>
             </Label>
-            <Button id="greyBtn" layoutX="151.0" layoutY="85.0" mnemonicParsing="false" onAction="#cardDiscount" prefHeight="80.0" prefWidth="90.0" text="\%">
+            <Button id="greyBtn" fx:id="discountBtn" layoutX="151.0" layoutY="85.0" mnemonicParsing="false" onAction="#cardDiscount" prefHeight="80.0" prefWidth="90.0" text="\%">
                <font>
                   <Font name="Helvetica Light" size="30.0" />
                </font>
             </Button>
-            <Button id="greyBtn" layoutX="246.0" layoutY="85.0" mnemonicParsing="false" onAction="#appDiscount" prefHeight="80.0" prefWidth="100.0" text="App">
+            <Button id="greyBtn" fx:id="appBtn" layoutX="246.0" layoutY="85.0" mnemonicParsing="false" onAction="#appDiscount" prefHeight="80.0" prefWidth="100.0" text="App">
                <font>
                   <Font name="Helvetica Light" size="21.0" />
                </font>
@@ -291,15 +291,6 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="bonusPane" prefHeight="750.0" prefWidth="1024.0" style="-fx-background-color: white;" visible="false">
-         <children>
-            <Button fx:id="closeBonusPaneBtn" layoutX="385.0" layoutY="636.0" mnemonicParsing="false" onAction="#closeBonusPaneAction" prefHeight="70.0" prefWidth="300.0" style="-fx-background-color: eeee;" text="закрыть">
-               <font>
-                  <Font name="Helvetica Neue Light" size="25.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
       <Button id="greyBtn" fx:id="libraBtn" layoutX="352.0" layoutY="487.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#libraAction" prefHeight="80.0" prefWidth="90.0">
          <font>
             <Font name="Helvetica Light" size="42.0" />
@@ -325,14 +316,14 @@
             <Font name="Helvetica Light" size="42.0" />
          </font>
       </Button>
-      <Pane fx:id="panelFindDiscount" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;">
+      <Pane fx:id="panelFindDiscount" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
          <children>
             <TextField fx:id="numberDiscountCardTextField" layoutX="161.0" layoutY="110.0" prefHeight="40.0" prefWidth="259.0">
                <font>
                   <Font size="20.0" />
                </font>
             </TextField>
-            <GridPane fx:id="paneWithBtnForDiscountCard" layoutX="142.0" layoutY="165.0" prefHeight="266.0" prefWidth="300.0">
+            <GridPane fx:id="panelWithBtnForDiscountCard" layoutX="142.0" layoutY="165.0" prefHeight="266.0" prefWidth="300.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
@@ -417,7 +408,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Label layoutX="42.0" layoutY="8.0" text="Введите номер карты для актвивации скидки">
+            <Label fx:id="discountTitle" layoutX="42.0" layoutY="8.0" text="Введите номер карты для актвивации скидки">
                <font>
                   <Font size="22.0" />
                </font>
@@ -425,6 +416,49 @@
             <Label fx:id="labelForFindDiscount" alignment="TOP_LEFT" layoutX="45.0" layoutY="43.0" prefHeight="60.0" prefWidth="495.0" wrapText="true">
                <font>
                   <Font name="System Bold" size="22.0" />
+               </font>
+            </Label>
+            <Button id="cardBtn" fx:id="discountOkBtn" layoutX="42.0" layoutY="108.0" mnemonicParsing="false" onAction="#discountOkAction" prefHeight="80.0" prefWidth="123.0" text="ок" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+            <Button id="cancelCheckId" fx:id="discountCancelBtn" layoutX="173.0" layoutY="108.0" mnemonicParsing="false" onAction="#discountCancelAction" prefHeight="80.0" prefWidth="123.0" text="отмена" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="panelForApp" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+         <children>
+            <Button id="greyBtn" layoutX="229.0" layoutY="586.0" mnemonicParsing="false" onAction="#closePanelForApp" prefHeight="80.0" prefWidth="123.0" text="закрыть">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane fx:id="panelForAppWithInfo" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+         <children>
+            <Button id="cancelCheckId" layoutX="290.0" layoutY="146.0" mnemonicParsing="false" onAction="#appCancelAction" prefHeight="80.0" prefWidth="123.0" text="отмена">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+            <Button id="cardBtn" layoutX="159.0" layoutY="146.0" mnemonicParsing="false" onAction="#appOkAction" prefHeight="80.0" prefWidth="123.0" text="ок">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+            <Label layoutX="83.0" layoutY="40.0" text="К чеку применина скдика пользователя">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+            <Label fx:id="appLabelInfo" layoutX="83.0" layoutY="88.0" prefHeight="27.0" prefWidth="414.0">
+               <font>
+                  <Font size="21.0" />
                </font>
             </Label>
          </children>

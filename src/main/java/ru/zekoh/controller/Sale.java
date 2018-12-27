@@ -1,5 +1,6 @@
 package ru.zekoh.controller;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +27,8 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
@@ -35,10 +38,16 @@ import ru.zekoh.db.Data;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static java.lang.Math.toIntExact;
 
 public class Sale {
 
@@ -66,6 +75,35 @@ public class Sale {
     // Справочный лейбл для инфы при поиски скидочной карты
     public Label labelForFindDiscount;
 
+    // Кнопка подтверждения выбора пользователя со скидкой
+    public Button discountOkBtn;
+
+    // Кнопка отмены выбора пользователя со скидкой
+    public Button discountCancelBtn;
+
+    // Панель с клавиатурой для посика пользователя
+    public GridPane panelWithBtnForDiscountCard;
+    public Button findBtnForDiacountCard;
+    public Button cancelBtnForDiacountCard;
+
+    // Кнопка добавления сикдки
+    public Button discountBtn;
+
+    // Label с заголовком на панели поиска пользователя со скидкой
+    public Label discountTitle;
+
+    // Панель для отображения пользователей из мобильного приложения
+    public Pane panelForApp;
+
+    // Кнопка для отображения panelForApp
+    public Button appBtn;
+
+    // Панель с информацией о пользователе из мобильного приложения
+    public Pane panelForAppWithInfo;
+
+    // Инфо о пользователи из приложения
+    public Label appLabelInfo;
+
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
 
@@ -74,6 +112,9 @@ public class Sale {
 
     // Index текущего чека
     private int currentCheckIndex = 0;
+
+    // id пекарни
+    int bakeryId = 1;
 
 
     //Размер шрифта папок и продуктов
@@ -175,9 +216,6 @@ public class Sale {
     // Сумма без скидки
     public Label whithoutDiscount;
 
-    // Панель скидок
-    public Pane bonusPane;
-
     // Кнопка закрытия скидок
     public Button closeBonusPaneBtn;
 
@@ -260,7 +298,48 @@ public class Sale {
                             goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
                         }
                     }
+                } else {
+
+                    if (check.getDiscount() != null) {
+
+                        if (check.getDiscount().getDiscountRole() == 2) {
+
+                            // Вычесть из продажной цены сумму скидки 20% на весь чек
+                            List<Goods> goods = check.getGoodsList();
+
+                            for (int i = 0; i < goods.size(); i++) {
+
+                                Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
+
+                                priceAfterDiscount -= priceAfterDiscount * 0.2;
+
+                                goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+                            }
+
+                            // Рассчитать цену исходя из проджной
+                            calculationPrice(check);
+
+                            if (check.getDiscount().isPayWithBonus()) {
+
+                                // Посчитать количество оплатой бонусами
+
+                            }
+                        }
+                    } else {
+
+                        // Вернуть ценны по прайсу
+                        List<Goods> goods = check.getGoodsList();
+
+                        for (int i = 0; i < goods.size(); i++) {
+
+                            goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
+                        }
+                    }
+
+
                 }
+
+
             }
 
             // Рассчитать цену исходя из проджной
@@ -298,7 +377,7 @@ public class Sale {
             }
 
             // Скрол к последнему товару в чеке
-            if (check.getGoodsList().size() > 8) {
+            if (goodsListView.getItems().size() > 8) {
                 upInListView.setVisible(true);
                 downInListView.setVisible(true);
                 goodsListView.scrollTo(goodsForDisplayList.size() - 1);
@@ -310,20 +389,75 @@ public class Sale {
             }
 
 
-            if (!checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && panelFindDiscount.isVisible()) {
+            if (!check.isPanelForFindDiscountCard() && panelFindDiscount.isVisible()) {
                 panelForButtons.setVisible(true);
                 panelFindDiscount.setVisible(false);
-            } else if (checkList.get(currentCheckIndex).isPanelForFindDiscountCard() && !panelFindDiscount.isVisible()) {
+            } else if (check.isPanelForFindDiscountCard() && !panelFindDiscount.isVisible()) {
                 panelForButtons.setVisible(false);
                 panelFindDiscount.setVisible(true);
-
-                // Если будет привязан к чеку надо отобразить инфу по скидке
 
                 numberDiscountCardTextField.clear();
                 numberDiscountCardTextField.requestFocus();
             }
+
+            if (panelFindDiscount.isVisible()) {
+                // Если будет привязан к чеку надо отобразить инфу по скидке
+                if (check.isDiscountAccountExist()) {
+                    discountTitle.setText("К чеку применина скдика пользователя: ");
+                    labelForFindDiscount.setText(check.getDiscount().getName());
+                    switchDiscountUserPanel(true);
+                } else {
+                    discountTitle.setText("Введите номер карты для актвивации скидки");
+                    labelForFindDiscount.setText("");
+                    switchDiscountUserPanel(false);
+
+                }
+            }
+
+            if (check.isDiscountAccountExist()) {
+                discountBtn.setId("yellowBtnId");
+            } else {
+                discountBtn.setId("greyBtn");
+            }
+
+
+            // Правило отображение панели при скидки через приложение
+            if (panelForApp.isVisible()) {
+                if (check.isDiscountAppExist()) {
+
+                    // Убрать панель с пользователями и оторазить выбранного пользователя
+                    switchPanelAppToUserInfo(true);
+
+
+                } else {
+                    switchPanelAppToUserInfo(false);
+                }
+            }
+
+            if (check.isDiscountAppExist()) {
+                appBtn.setId("yellowBtnId");
+            } else {
+                appBtn.setId("greyBtn");
+            }
+
+
         } else {
             clearAllUI();
+        }
+    }
+
+    // Переключение между панелью с информацией и панелью поиска пользователя из приложения
+    private void switchPanelAppToUserInfo(boolean flag) {
+        if (flag) {
+            panelForApp.setVisible(false);
+            panelForAppWithInfo.setVisible(true);
+
+            appLabelInfo.setText(checkList.get(currentCheckIndex).getDiscount().getName());
+        } else {
+            panelForApp.setVisible(true);
+            panelForAppWithInfo.setVisible(false);
+            startSearchNewUsers();
+
         }
     }
 
@@ -379,6 +513,9 @@ public class Sale {
         amountDiscount.setText("");
         amountBonus.setText("");
         whithoutDiscount.setText("");
+
+        discountBtn.setId("greyBtn");
+        appBtn.setId("greyBtn");
 
         // Очищаем level Path
         levelPath.clear();
@@ -606,30 +743,279 @@ public class Sale {
 
     public void cardDiscount(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
+
+            CheckObject checkObject = checkList.get(currentCheckIndex);
+
             panelForButtons.setVisible(false);
             panelFindDiscount.setVisible(true);
 
+            if (checkObject.isDiscountAccountExist()) {
+                discountTitle.setText("К чеку применина скдика пользователя: ");
+                labelForFindDiscount.setText(checkList.get(currentCheckIndex).getDiscount().getName());
+                switchDiscountUserPanel(true);
+            } else {
+                discountTitle.setText("Введите номер карты для актвивации скидки");
+                labelForFindDiscount.setText("");
+                switchDiscountUserPanel(false);
+
+
+                numberDiscountCardTextField.clear();
+                numberDiscountCardTextField.requestFocus();
+            }
             checkList.get(currentCheckIndex).setPanelForFindDiscountCard(true);
-
-            // Если будет привязан к чеку надо отобразить инфу по скидке
-
-            numberDiscountCardTextField.clear();
-            numberDiscountCardTextField.requestFocus();
 
         }
     }
 
     public void appDiscount(ActionEvent actionEvent) {
+
+        if (checkList.size() > 0) {
+
+            if (checkList.get(currentCheckIndex).isDiscountAppExist()) {
+                switchPanelAppToUserInfo(true);
+            } else {
+
+
+                switchPanelForApp(true);
+
+                // Если к чеку прикреплен пользователей из приложения его надо отобразить
+
+                // Поиск пользователей в пекарне
+                startSearchNewUsers();
+
+
+                // Отображение пользователей в пекарне
+            }
+
+        }
     }
 
+    private void startSearchNewUsers(){
+
+        getUsersFromApp();
+
+        // Поиск пользователей в пекарне
+        try {
+            getUsersFromApp();
+
+            // Создаем новый поток который получает данные о пользователе и отрисовывает их
+            Thread clientThread = new Thread(() -> {
+
+                try {
+                    while (panelForApp.isVisible()) {
+                        Thread.sleep(1000);
+                        Platform.runLater(() -> {
+                            getUsersFromApp();
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+            });
+            clientThread.setDaemon(true);
+
+            clientThread.start();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void getUsersFromApp() {
+        try {
+            String url = "http://5.188.41.134:8080/api/v1/bakery/" + bakeryId + "";
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            int responseCode = con.getResponseCode();
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            System.out.println("ищем...");
+            JSONArray myresponse = new JSONArray(response.toString());
+            List<UserFromBonus> userFromBonusList = new ArrayList<UserFromBonus>();
+            for (int i = 0; i < myresponse.length(); i++) {
+                JSONObject json = new JSONObject(myresponse.get(i).toString());
+                int payWithBonuses = json.getInt("bonus");
+                UserFromBonus userFromBonus = new UserFromBonus();
+                JSONObject customerInformation = (JSONObject) json.get("customer");
+
+                userFromBonus.setId(customerInformation.getLong("id"));
+
+                // Если приходит запрос с просьбой оплатить покупку бонусами, то сохраняем кол-во бонусов клиента
+                if (payWithBonuses == 1) {
+                    userFromBonus.setBonus(customerInformation.getDouble("bonus"));
+                } else {
+
+                    // Если оплата без бонусов, просто устанавливаем 0, тогда бонусы будут только начисляться с покупки
+                    userFromBonus.setBonus(0.0);
+                }
+
+
+                String[] name = customerInformation.getString("mail").split("@");
+                userFromBonus.setMail(name[0]);
+                userFromBonus.setLevel(customerInformation.getInt("level"));
+                userFromBonus.setRole(customerInformation.getInt("role"));
+
+                //System.out.println("С бонусом или нет: " + json.getBoolean("bonus"));
+
+                userFromBonus.setDisclount(customerInformation.getDouble("discount"));
+                userFromBonusList.add(userFromBonus);
+                //System.out.println("mail тут " + json.getString("mail"));
+            }
+
+
+            GridPane gridPane = new GridPane();
+            Button[] btns = new Button[userFromBonusList.size()];
+            int x = 0;
+            int y = 0;
+            for (int i = 0; i < userFromBonusList.size(); i++) {
+                btns[i] = new Button(userFromBonusList.get(i).getMail());
+                btns[i].setPrefSize(280, btnHight);
+                btns[i].setWrapText(true);
+                btns[i].setFont(new Font(fontFolderAndProduct));
+                btns[i].setId("" + userFromBonusList.get(i).getId() + "");
+                btns[i].setBackground(new Background(new BackgroundFill(
+                        Color.valueOf("#EEEEEE"), CornerRadii.EMPTY, Insets.EMPTY)));
+                btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#E0E0E0"),
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+
+            for (Button b : btns) {
+
+                b.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        //Проверяем есть ли чек
+                        if (checkList.size() > 0) {
+
+                            //Проевряем открыт ли чек или уже оплачен
+                            if (checkList.get(currentCheckIndex).isLive()) {
+                                b.setBackground(new Background(new BackgroundFill(
+                                        Color.valueOf("#B3E5FC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                            }
+                        }
+
+                    }
+                });
+
+                //Действие когда кнопка отпущена
+                b.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+
+
+                        if (checkList.get(currentCheckIndex).isLive()) {
+
+                            if (checkList.size() > 0) {
+                                if (checkList.get(currentCheckIndex).isLive()) {
+                                    CheckObject check = checkList.get(currentCheckIndex);
+
+                                    UserFromBonus currentUserFromBonus = new UserFromBonus();
+                                    for (int i = 0; i < userFromBonusList.size(); i++) {
+                                        long longId = Integer.parseInt(b.getId());
+                                        if (userFromBonusList.get(i).getId() == toIntExact(longId)) {
+                                            currentUserFromBonus = userFromBonusList.get(i);
+                                        }
+                                    }
+
+                                    if (currentUserFromBonus != null) {
+                                        DiscountForEmployees discountForEmployees = new DiscountForEmployees();
+                                        //todo узкое место если long будет больше int жопка будет надо привести в порядок
+
+                                        Discount discount = new Discount();
+
+                                        // Устанавливаем что есть скидка
+
+
+                                        // Если существует скидка по карте то отменяем ее
+                                        if (check.isDiscountAccountExist()) {
+                                            check.setDiscountAccountExist(false);
+                                            check.setDiscount(null);
+                                        }
+
+                                        check.setDiscountAppExist(true);
+
+                                        // Устанавливаем роль аккаунта
+                                        discount.setDiscountRole(currentUserFromBonus.getRole());
+
+                                        // Баланс
+                                        discount.setBalance(0.0);
+
+                                        // Бюджет
+                                        discount.setBudget(9720445.73);
+
+                                        // Прцент скидки
+                                        discount.setPercentDiscount(currentUserFromBonus.getDisclount());
+
+                                        // Имя пользователя со скидкой
+                                        discount.setName(currentUserFromBonus.getMail());
+
+                                        discount.setId(toIntExact(currentUserFromBonus.getId()));
+
+                                        check.setDiscount(discount);
+
+
+                                        discountForEmployees.setBonus(currentUserFromBonus.getBonus());
+                                        if (currentUserFromBonus.getBonus() > 0) {
+                                            discount.setPayWithBonus(true);
+                                        }
+                                        discountForEmployees.setLevel(currentUserFromBonus.getLevel());
+
+                                        reloadAll();
+
+                                        //switchPanelForApp(false);
+
+                                    }
+
+                                }
+                            }
+
+
+                            b.setBackground(new Background(new BackgroundFill(
+                                    Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
+
+                    }
+                });
+
+
+                gridPane.add(b, x * (x + (int) b.getWidth()), y);
+                x++;
+                if (x % countFolderAndProductInRow == 0) {
+                    y++;
+                    x = 0;
+                }
+
+
+            }
+
+            panelForApp.getChildren().add(gridPane);
+
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+    }
+
+    private void switchPanelForApp(boolean flag) {
+        if (flag) {
+            panelForApp.setVisible(true);
+            panelForButtons.setVisible(false);
+        } else {
+            panelForApp.setVisible(false);
+            panelForButtons.setVisible(true);
+        }
+    }
 
     public void payCashOnKeyBrd(ActionEvent actionEvent) {
     }
 
     public void cashСancellation(ActionEvent actionEvent) {
-    }
-
-    public void closeBonusPaneAction(ActionEvent actionEvent) {
     }
 
     // Метод возвращает папку по уровню и страницы
@@ -1430,6 +1816,7 @@ public class Sale {
         panelForButtons.setVisible(true);
         checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
 
+        discountTitle.setText("Введите номер карты для актвивации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -1483,6 +1870,7 @@ public class Sale {
             numberDiscountCardTextField.requestFocus();
         }
 
+        discountTitle.setText("Введите номер карты для актвивации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -1490,12 +1878,16 @@ public class Sale {
         if (numberDiscountCardTextField.getLength() > 0) {
             numberDiscountCardTextField.clear();
             numberDiscountCardTextField.requestFocus();
+
+            discountTitle.setText("Введите номер карты для актвивации скидки");
             labelForFindDiscount.setText("");
         }
     }
 
     private void typeToDiscountTextField(String text) {
         numberDiscountCardTextField.setText(numberDiscountCardTextField.getText() + text);
+
+        discountTitle.setText("Введите номер карты для актвивации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -1537,9 +1929,12 @@ public class Sale {
                     // Прцент скидки
                     discount.setPercentDiscount(card.get(0).getAmountOfDiscount());
 
+                    // Имя пользователя со скидкой
+                    discount.setName(card.get(0).getName());
+
                     check.setDiscount(discount);
 
-
+                    discountTitle.setText("К чеку применина скдика пользователя: ");
                     labelForFindDiscount.setText(card.get(0).getName());
 
                     reloadAll();
@@ -1558,5 +1953,68 @@ public class Sale {
         // Обработать ответ
 
         // Отобразить ответ
+    }
+
+    // Переключатель при выборе пользователя со скидкой
+
+    private void switchDiscountUserPanel(boolean flag) {
+        if (flag) {
+            // Отобразить кнопки ок и отмена и скрыть все остальное
+            discountOkBtn.setVisible(true);
+            discountCancelBtn.setVisible(true);
+
+            numberDiscountCardTextField.setVisible(false);
+            panelWithBtnForDiscountCard.setVisible(false);
+            findBtnForDiacountCard.setVisible(false);
+            cancelBtnForDiacountCard.setVisible(false);
+        } else {
+            discountOkBtn.setVisible(false);
+            discountCancelBtn.setVisible(false);
+
+            numberDiscountCardTextField.setVisible(true);
+            panelWithBtnForDiscountCard.setVisible(true);
+            findBtnForDiacountCard.setVisible(true);
+            cancelBtnForDiacountCard.setVisible(true);
+
+            numberDiscountCardTextField.clear();
+            numberDiscountCardTextField.requestFocus();
+        }
+    }
+
+    // Действие на нажатие кнопки ОК когда пользоватеь для скидки найден
+    public void discountOkAction(ActionEvent actionEvent) {
+        panelFindDiscount.setVisible(false);
+        panelForButtons.setVisible(true);
+        checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
+
+        discountTitle.setText("Введите номер карты для актвивации скидки");
+        labelForFindDiscount.setText("");
+    }
+
+    // Удаления пользователя со скидкой из чека
+    public void discountCancelAction(ActionEvent actionEvent) {
+        discountTitle.setText("Введите номер карты для актвивации скидки");
+        labelForFindDiscount.setText("");
+        CheckObject checkObject = checkList.get(currentCheckIndex);
+        checkObject.setDiscountAccountExist(false);
+        checkObject.setDiscount(null);
+        reloadAll();
+    }
+
+    public void closePanelForApp(ActionEvent actionEvent) {
+        switchPanelForApp(false);
+    }
+
+
+    public void appCancelAction(ActionEvent actionEvent) {
+        checkList.get(currentCheckIndex).setDiscountAppExist(false);
+        checkList.get(currentCheckIndex).setDiscount(null);
+        switchPanelAppToUserInfo(false);
+        reloadAll();
+    }
+
+    public void appOkAction(ActionEvent actionEvent) {
+        switchPanelAppToUserInfo(false);
+        switchPanelForApp(false);
     }
 }

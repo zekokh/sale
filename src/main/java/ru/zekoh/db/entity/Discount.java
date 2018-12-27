@@ -2,6 +2,9 @@ package ru.zekoh.db.entity;
 
 public class Discount {
 
+    // id пользователя
+    private int id;
+
     // Имя
     private String name;
 
@@ -19,6 +22,16 @@ public class Discount {
 
     // Устанавливаем роль карты
     private int discountRole = 0;
+
+    private boolean payWithBonus = false;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -66,5 +79,13 @@ public class Discount {
 
     public void setDiscountRole(int discountRole) {
         this.discountRole = discountRole;
+    }
+
+    public boolean isPayWithBonus() {
+        return payWithBonus;
+    }
+
+    public void setPayWithBonus(boolean payWithBonus) {
+        this.payWithBonus = payWithBonus;
     }
 }
