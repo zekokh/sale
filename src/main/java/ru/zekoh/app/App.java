@@ -40,6 +40,8 @@ public class App extends Application {
 
             generate();
 
+            Properties.initDataWithoutFile();
+
         } catch (Exception e) {
             logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
         }

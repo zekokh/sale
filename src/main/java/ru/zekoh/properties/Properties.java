@@ -2,10 +2,9 @@ package ru.zekoh.properties;
 
 
 import ru.atol.drivers10.fptr.IFptr;
-import ru.zekoh.db.entity.Folder;
-import ru.zekoh.db.entity.Product;
-import ru.zekoh.db.entity.User;
-import ru.zekoh.db.entity.UserEntity;
+import ru.zekoh.db.Check;
+import ru.zekoh.db.CheckObject;
+import ru.zekoh.db.entity.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,6 +40,10 @@ public class Properties {
 
     // Список продуктов и товаров
     public static List<Product> products = null;
+
+    public static CheckObject checkObject = null;
+
+    public static boolean statusPrinted = false;
 
     //Инициализация данных из проперти файла
     public static void initData(){

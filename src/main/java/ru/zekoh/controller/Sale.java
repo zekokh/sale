@@ -37,8 +37,11 @@ import ru.zekoh.db.DAOImpl.DiscountForEmployeesDaoImpl;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
+import ru.zekoh.properties.Properties;
 
+import javax.swing.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -103,6 +106,9 @@ public class Sale {
 
     // Инфо о пользователи из приложения
     public Label appLabelInfo;
+
+    // Панель с пользователями из приложения
+    public Pane panelWithUsersFromApp;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -177,9 +183,6 @@ public class Sale {
     // Панель с клавиатурой для рассчета сдачи
     public Pane panelWithNumberForCash;
 
-    // К оплате на панели рассчета сдачи
-    public Label countLabelForCash;
-
     // Сумма которую дал клиент
     public Label moneyFromCustomerLabel;
 
@@ -221,6 +224,10 @@ public class Sale {
 
     //
     public int ListViewPaginationIndex = 0;
+
+    boolean flagDoubleNumber = false;
+
+    boolean flagDoubleNumberForCash = false;
 
     @FXML
     public void initialize() {
@@ -317,11 +324,21 @@ public class Sale {
                             }
 
                             // Рассчитать цену исходя из проджной
-                            calculationPrice(check);
+                            // calculationPrice(check);
 
                             if (check.getDiscount().isPayWithBonus()) {
 
                                 // Посчитать количество оплатой бонусами
+                                payBonus(check);
+
+                            }
+                        } else if (check.getDiscount().getDiscountRole() == 1) {
+
+                            // Если пользователь с ролью 1, обычный рядовой пользователь
+                            if (check.getDiscount().isPayWithBonus()) {
+
+                                // Посчитать количество оплатой бонусами
+                                payBonus(check);
 
                             }
                         }
@@ -335,8 +352,6 @@ public class Sale {
                             goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                         }
                     }
-
-
                 }
 
 
@@ -441,9 +456,62 @@ public class Sale {
             }
 
 
+            if (panelWithNumberForCash.isVisible()) {
+                switchToCashKbr(false);
+            }
+
         } else {
             clearAllUI();
         }
+    }
+
+    private void payBonus(CheckObject check) {
+
+        List<Goods> goodsForBonus = check.getGoodsList();
+        Double amountThatCanBePaidWithBonuses = 0.0;
+
+        for (int i = 0; i < goodsForBonus.size(); i++) {
+
+            Goods currentGoods = goodsForBonus.get(i);
+
+            // Если это не багет, то можно оплатить бонусными баллами
+            if (currentGoods.getClassifier() != 11) {
+                amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
+            }
+        }
+
+        amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * 0.3).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+        if (amountThatCanBePaidWithBonuses >= check.getDiscount().getBonus()) {
+            check.setAmountBonus(check.getDiscount().getBonus());
+        } else {
+            check.setAmountBonus(amountThatCanBePaidWithBonuses);
+        }
+
+
+        if (check.getDiscount().isPayWithBonus()) {
+            Double amountBonuses = check.getAmountBonus();
+            List<Goods> goods = check.getGoodsList();
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                if (amountBonuses == 0.0) {
+                    return;
+                }
+
+                Double priceAfterDiscount = goods.get(i).getPriceAfterDiscount();
+                if (amountBonuses >= priceAfterDiscount) {
+                    goods.get(i).setPriceAfterDiscount(0.0);
+
+                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                    amountBonuses = amountBonuses - priceAfterDiscount;
+                } else {
+                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
+                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                    amountBonuses = 0.0;
+                }
+
+            }
+        }
+
     }
 
     // Переключение между панелью с информацией и панелью поиска пользователя из приложения
@@ -524,12 +592,80 @@ public class Sale {
         //удаляем старую Grid
         panelForButtons.getChildren().clear();
 
+        // Убираем оплату наличкой клавиатуру
+        if (panelWithNumberForCash.isVisible()) {
+            switchToCashKbr(false);
+        }
+
+
         //заполняем элементами
         panelForButtons.getChildren().add(getGrid(1, 1));
     }
 
     //Конвертирует GoodsList в лист для отображении в ListView
     public List<GoodsForDisplay> convert(List<Goods> goods) {
+
+        // Сортируем товары по id что при удалении они не скакали по ListView а с самого начала лежали рядом друг с другом
+        // goods.sort(Comparator.comparingDouble(Goods::getProductId)
+        //        .reversed());
+
+        //Список товаров для вывода на дисплей
+        List<GoodsForDisplay> goodsForDisplayList = new ArrayList<GoodsForDisplay>();
+
+
+        for (int i = 0; i < goods.size(); i++) {
+
+            int temp = checkContain(goodsForDisplayList, goods.get(i));
+
+            if (temp == -1) {
+
+                //Создаем новый объект goods для отображения в ListView
+                GoodsForDisplay goodsForDisplay = new GoodsForDisplay();
+
+                //Добавляем id продукта
+                goodsForDisplay.setProductId(goods.get(i).getProductId());
+
+                //Добавляем имя продука
+                goodsForDisplay.setName(goods.get(i).getProductName());
+
+                //Добавляем количетсво товара
+                goodsForDisplay.setCount(goods.get(i).getCount());
+
+                //Цена по прайсу
+                goodsForDisplay.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
+
+                //Сумма за позици
+                Double sellingPriceDouble = new BigDecimal(goods.get(i).getSellingPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                goodsForDisplay.setSellingPrice(sellingPriceDouble);
+
+                //Цена после скидки
+                goodsForDisplay.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
+
+                //Добавляем объект goodsForDisplay в список объектов
+                goodsForDisplayList.add(goodsForDisplay);
+            } else {
+
+                //Временная переменная для удобной работы с позицией в чеке которая уже есть для увелечения ее показателей
+                GoodsForDisplay goodsTemp = goodsForDisplayList.get(temp);
+
+                //Количество
+                Double count = goodsTemp.getCount() + goods.get(i).getCount();
+                goodsTemp.setCount(count);
+
+                //Продажная цена
+                Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
+                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                goodsTemp.setSellingPrice(sellingPriceDouble);
+
+
+            }
+        }
+
+        return goodsForDisplayList;
+    }
+
+    //Конвертирует GoodsList в лист для отображении в ListView
+    public List<GoodsForDisplay> convertToCheck(List<Goods> goods) {
 
         // Сортируем товары по id что при удалении они не скакали по ListView а с самого начала лежали рядом друг с другом
         // goods.sort(Comparator.comparingDouble(Goods::getProductId)
@@ -662,13 +798,68 @@ public class Sale {
         displayScreenForEnteringProductQuantities(false);
     }
 
-    public void payCash(ActionEvent actionEvent) {
+    private void switchToCashKbr(boolean flag) {
+        if (flag) {
+            panelWithNumberForCash.setVisible(true);
+            panelForButtons.setVisible(false);
+
+            // Все что может быть под ним
+            panelForAppWithInfo.setVisible(false);
+            panelForApp.setVisible(false);
+            panelFindDiscount.setVisible(false);
+
+            // Очищаю переменные
+
+            flagDoubleNumber = false;
+            flagDoubleNumberForCash = false;
+            cashBackToCustomerLabel.setText("Сдача: 0 р.");
+
+
+        } else {
+            moneyFromCustomerLabel.setText("");
+            panelWithNumberForCash.setVisible(false);
+            panelForButtons.setVisible(true);
+        }
     }
 
-    public void payCard(ActionEvent actionEvent) {
+    public void payCash(ActionEvent actionEvent) {
+        if (checkList.size() > 0) {
+            if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
+                if (!panelWithNumberForCash.isVisible()) {
+                    switchToCashKbr(true);
+                }
+            }
+        }
+    }
+
+    public void payCard(ActionEvent actionEvent) throws IOException {
+        if (checkList.size() > 0) {
+            if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
+                if (!panelWithNumberForCash.isVisible()) {
+                    Stage dialog = new Stage();
+                    dialog.initStyle(StageStyle.UNDECORATED);
+                    dialog.setTitle("Жак-Андрэ Продажи");
+
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/PayCardWindow.fxml"));
+
+                    dialog.setScene(new Scene(root, 700, 300));
+
+                    Node source = (Node) actionEvent.getSource();
+                    Stage stage = (Stage) source.getScene().getWindow();
+
+                    dialog.initOwner(stage);
+                    dialog.initModality(Modality.APPLICATION_MODAL);
+                    dialog.showAndWait();
+                }
+            }
+        }
     }
 
     public void cancelCheck(ActionEvent actionEvent) {
+        cancelCheckMethod();
+    }
+
+    private void cancelCheckMethod(){
         //Если есть хотя бы один созданный чек
         if (checkList.size() > 0) {
 
@@ -704,8 +895,6 @@ public class Sale {
                 panelForButtons.setVisible(true);
             }
         }
-
-
     }
 
     public void exit(ActionEvent actionEvent) {
@@ -745,24 +934,27 @@ public class Sale {
         if (checkList.size() > 0) {
 
             CheckObject checkObject = checkList.get(currentCheckIndex);
+            if (!panelForApp.isVisible() && !panelWithNumberForCash.isVisible()) {
 
-            panelForButtons.setVisible(false);
-            panelFindDiscount.setVisible(true);
+                panelForButtons.setVisible(false);
+                panelFindDiscount.setVisible(true);
 
-            if (checkObject.isDiscountAccountExist()) {
-                discountTitle.setText("К чеку применина скдика пользователя: ");
-                labelForFindDiscount.setText(checkList.get(currentCheckIndex).getDiscount().getName());
-                switchDiscountUserPanel(true);
-            } else {
-                discountTitle.setText("Введите номер карты для актвивации скидки");
-                labelForFindDiscount.setText("");
-                switchDiscountUserPanel(false);
+                if (checkObject.isDiscountAccountExist()) {
+                    discountTitle.setText("К чеку применина скдика пользователя: ");
+                    labelForFindDiscount.setText(checkList.get(currentCheckIndex).getDiscount().getName());
+                    switchDiscountUserPanel(true);
+                } else {
+                    discountTitle.setText("Введите номер карты для актвивации скидки");
+                    labelForFindDiscount.setText("");
+                    switchDiscountUserPanel(false);
 
 
-                numberDiscountCardTextField.clear();
-                numberDiscountCardTextField.requestFocus();
+                    numberDiscountCardTextField.clear();
+                    numberDiscountCardTextField.requestFocus();
+                }
+                checkList.get(currentCheckIndex).setPanelForFindDiscountCard(true);
+
             }
-            checkList.get(currentCheckIndex).setPanelForFindDiscountCard(true);
 
         }
     }
@@ -771,29 +963,32 @@ public class Sale {
 
         if (checkList.size() > 0) {
 
-            if (checkList.get(currentCheckIndex).isDiscountAppExist()) {
-                switchPanelAppToUserInfo(true);
-            } else {
+            if (!panelFindDiscount.isVisible() && !panelWithNumberForCash.isVisible()) {
 
 
-                switchPanelForApp(true);
-
-                // Если к чеку прикреплен пользователей из приложения его надо отобразить
-
-                // Поиск пользователей в пекарне
-                startSearchNewUsers();
+                if (checkList.get(currentCheckIndex).isDiscountAppExist()) {
+                    switchPanelAppToUserInfo(true);
+                } else {
 
 
-                // Отображение пользователей в пекарне
+                    switchPanelForApp(true);
+
+                    // Если к чеку прикреплен пользователей из приложения его надо отобразить
+
+                    // Поиск пользователей в пекарне
+                    startSearchNewUsers();
+
+
+                    // Отображение пользователей в пекарне
+                }
+
             }
 
         }
     }
 
-    private void startSearchNewUsers(){
-
-        getUsersFromApp();
-
+    private void startSearchNewUsers() {
+        panelWithUsersFromApp.getChildren().clear();
         // Поиск пользователей в пекарне
         try {
             getUsersFromApp();
@@ -835,7 +1030,7 @@ public class Sale {
                 response.append(inputLine);
             }
             in.close();
-            System.out.println("ищем...");
+            //System.out.println("ищем...");
             JSONArray myresponse = new JSONArray(response.toString());
             List<UserFromBonus> userFromBonusList = new ArrayList<UserFromBonus>();
             for (int i = 0; i < myresponse.length(); i++) {
@@ -854,7 +1049,6 @@ public class Sale {
                     // Если оплата без бонусов, просто устанавливаем 0, тогда бонусы будут только начисляться с покупки
                     userFromBonus.setBonus(0.0);
                 }
-
 
                 String[] name = customerInformation.getString("mail").split("@");
                 userFromBonus.setMail(name[0]);
@@ -964,6 +1158,7 @@ public class Sale {
                                         discountForEmployees.setBonus(currentUserFromBonus.getBonus());
                                         if (currentUserFromBonus.getBonus() > 0) {
                                             discount.setPayWithBonus(true);
+                                            discount.setBonus(currentUserFromBonus.getBonus());
                                         }
                                         discountForEmployees.setLevel(currentUserFromBonus.getLevel());
 
@@ -995,7 +1190,7 @@ public class Sale {
 
             }
 
-            panelForApp.getChildren().add(gridPane);
+            panelWithUsersFromApp.getChildren().add(gridPane);
 
         } catch (Exception e) {
             logger.error(e.toString());
@@ -1006,6 +1201,9 @@ public class Sale {
         if (flag) {
             panelForApp.setVisible(true);
             panelForButtons.setVisible(false);
+
+            // Если вдруг открыта панель выбора пользователя по карте
+            panelFindDiscount.setVisible(false);
         } else {
             panelForApp.setVisible(false);
             panelForButtons.setVisible(true);
@@ -1013,9 +1211,15 @@ public class Sale {
     }
 
     public void payCashOnKeyBrd(ActionEvent actionEvent) {
+        try {
+            pay(true, actionEvent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cashСancellation(ActionEvent actionEvent) {
+        switchToCashKbr(false);
     }
 
     // Метод возвращает папку по уровню и страницы
@@ -1647,40 +1851,102 @@ public class Sale {
     }
 
     public void kbrd_1_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("1");
     }
 
     public void kbrd_2_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("2");
     }
 
     public void kbrd_3_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("3");
     }
 
     public void kbrd_4_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("4");
     }
 
     public void kbrd_5_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("5");
     }
 
     public void kbrd_6_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("6");
     }
 
     public void kbrd_7_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("7");
     }
 
     public void kbrd_8_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("8");
     }
 
     public void kbrd_9_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("9");
     }
 
     public void kbrd_0_cash(ActionEvent actionEvent) {
+        clickToBtnKbrdCash("0");
     }
 
 
     public void kbrd_dote_cash(ActionEvent actionEvent) {
+        if (!flagDoubleNumber) {
+            String countLabelString = moneyFromCustomerLabel.getText();
+            moneyFromCustomerLabel.setText(countLabelString + ".");
+            flagDoubleNumberForCash = true;
+            reloadCashBack();
+        }
     }
 
     public void removeLastSymbol_cash(ActionEvent actionEvent) {
+        String data = moneyFromCustomerLabel.getText();
+        if (data.length() <= 12) {
+            if (data.length() > 0) {
+                if (data.length() > 1) {
+                    String mayBeDote = data.substring(data.length() - 1, data.length());
+                    if (mayBeDote.equals(".")) {
+                        flagDoubleNumberForCash = false;
+                    }
+                    data = data.substring(0, data.length() - 1);
+                    moneyFromCustomerLabel.setText(data);
+                } else {
+                    moneyFromCustomerLabel.setText("0");
+                }
+
+
+            } else {
+                clickOnKbrd("0");
+            }
+        }
+        reloadCashBack();
+    }
+
+    public void clickOnKbrd(String value) {
+        String countLabelString = countLabel.getText();
+        if (countLabelString.equals("0")) {
+            countLabel.setText(value);
+        } else {
+            countLabel.setText(countLabelString + value);
+        }
+    }
+
+    public void reloadCashBack() {
+        Double moneyFromCustomer = Double.parseDouble(moneyFromCustomerLabel.getText());
+        Double cashBack = moneyFromCustomer - checkList.get(currentCheckIndex).getSellingPrice();
+        cashBack = new BigDecimal(cashBack).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        cashBackToCustomerLabel.setText("Сдача: " + cashBack + " р.");
+    }
+
+    public void clickToBtnKbrdCash(String symbol) {
+        String countLabelString = moneyFromCustomerLabel.getText();
+        if (countLabelString.equals("0")) {
+            moneyFromCustomerLabel.setText(symbol);
+        } else {
+            moneyFromCustomerLabel.setText(countLabelString + symbol);
+        }
+        reloadCashBack();
     }
 
 
@@ -1912,6 +2178,12 @@ public class Sale {
                     CheckObject check = checkList.get(currentCheckIndex);
 
 
+                    // Если существует скидка по карте то отменяем ее
+                    if (check.isDiscountAppExist()) {
+                        check.setDiscountAppExist(false);
+                        check.setDiscount(null);
+                    }
+
                     // Устанавливаем что есть скидка
                     check.setDiscountAccountExist(true);
 
@@ -1967,6 +2239,10 @@ public class Sale {
             panelWithBtnForDiscountCard.setVisible(false);
             findBtnForDiacountCard.setVisible(false);
             cancelBtnForDiacountCard.setVisible(false);
+
+            // Вслучаи если открыто другая
+            panelForApp.setVisible(false);
+
         } else {
             discountOkBtn.setVisible(false);
             discountCancelBtn.setVisible(false);
@@ -2016,5 +2292,99 @@ public class Sale {
     public void appOkAction(ActionEvent actionEvent) {
         switchPanelAppToUserInfo(false);
         switchPanelForApp(false);
+    }
+
+    // Метод проведения оплаты
+    private void pay(boolean isCash, ActionEvent event) throws IOException {
+
+        // Проверить все ли условия соблюдены
+        if (checkList.size() > 0) {
+
+            //Текущий чек
+            CheckObject checkObject = checkList.get(currentCheckIndex);
+
+            //Если выбранный чек еще существует
+            if (checkObject.isLive() && !checkObject.isBlockForSale()) {
+
+                //Если есть товары в чеке
+                if (checkObject.getGoodsList().size() > 0) {
+
+                    // Сформировать чек
+
+                    CheckEntity checkEntity = new CheckEntity();
+                    checkEntity.setAmountByPrice(checkObject.getAmountByPrice());
+                    checkEntity.setTotal(checkObject.getSellingPrice());
+                    //checkEntity.setPaymentState();
+                    //checkEntity.setDiscountOnGoods();
+                    //checkEntity.setDiscountOnCheck();
+                    if(isCash){
+                        checkEntity.setTypeOfPayment(1);
+                    }else {
+                        checkEntity.setTypeOfPayment(2);
+                    }
+
+                    checkEntity.setDateOfCreation(checkObject.getDateOfCreation());
+
+                    //Дата создания чека считается с добавления первого товара в чек
+                    Date date = new Date();
+                    String currentDate = "" + date.getTime() / 1000 + "";
+                    checkEntity.setDateOfClosing(currentDate);
+                    //checkEntity.setDateOfClosingUnix();
+                    checkEntity.setReturnStatus(false);
+                    //checkEntity.setIsALive();
+                    //checkEntity.setContainGoods();
+                    checkEntity.setPayWithBonus(checkObject.getAmountBonus());
+
+                    // Отправить на принтер
+                    if (Properties.KKM) {
+
+                        // Открыть модальное окно для печати чека
+                        Properties.checkObject = checkObject;
+
+                        Stage dialog = new Stage();
+                        dialog.initStyle(StageStyle.UNDECORATED);
+                        dialog.setTitle("Жак-Андрэ Продажи");
+
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+
+                        dialog.setScene(new Scene(root, 700, 220));
+
+                        Node source = (Node) event.getSource();
+                        Stage stage = (Stage) source.getScene().getWindow();
+
+                        dialog.initOwner(stage);
+                        dialog.initModality(Modality.APPLICATION_MODAL);
+                        dialog.showAndWait();
+
+                        if(Properties.statusPrinted){
+
+                            // Печать прошла успешно добавляем запись в бд
+                            Session session = HibernateSessionFactory.getSessionFactory().openSession();
+                            session.persist(checkEntity);
+                            session.close();
+
+                            // Закрываем чек
+                            cancelCheckMethod();
+
+
+
+                        }else {
+
+                            // Не удалось напечатать
+                        }
+
+                        // Очищаем переменные для корректной работы
+                        Properties.statusPrinted = false;
+                        Properties.checkObject = null;
+
+                    }
+
+                    // Подождать ответа от принетера
+                    // Если ошибка остонавоиться и показать ошибку
+                    // Если ошибки нет, то положить в бд и закрыть.
+
+                }
+            }
+        }
     }
 }
