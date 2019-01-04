@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "check", schema = "sale")
+@Table(name = "check", schema = "center")
 public class CheckEntity {
     private int id;
     private Double amountByPrice;

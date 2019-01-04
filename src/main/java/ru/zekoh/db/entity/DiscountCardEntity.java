@@ -3,7 +3,7 @@ package ru.zekoh.db.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "discount_for_employees", schema = "sale")
+@Table(name = "discount_for_employees", schema = "center")
 public class DiscountCardEntity {
     private int id;
     private long number;

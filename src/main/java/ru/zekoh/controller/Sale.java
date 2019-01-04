@@ -850,6 +850,13 @@ public class Sale {
                     dialog.initOwner(stage);
                     dialog.initModality(Modality.APPLICATION_MODAL);
                     dialog.showAndWait();
+
+
+                    if (Properties.isPayCard) {
+                        Properties.isPayCard = false;
+
+                        pay(false, actionEvent);
+                    }
                 }
             }
         }
@@ -859,7 +866,7 @@ public class Sale {
         cancelCheckMethod();
     }
 
-    private void cancelCheckMethod(){
+    private void cancelCheckMethod() {
         //Если есть хотя бы один созданный чек
         if (checkList.size() > 0) {
 
@@ -2317,9 +2324,9 @@ public class Sale {
                     //checkEntity.setPaymentState();
                     //checkEntity.setDiscountOnGoods();
                     //checkEntity.setDiscountOnCheck();
-                    if(isCash){
+                    if (isCash) {
                         checkEntity.setTypeOfPayment(1);
-                    }else {
+                    } else {
                         checkEntity.setTypeOfPayment(2);
                     }
 
@@ -2356,19 +2363,38 @@ public class Sale {
                         dialog.initModality(Modality.APPLICATION_MODAL);
                         dialog.showAndWait();
 
-                        if(Properties.statusPrinted){
+                        if (Properties.statusPrinted) {
 
                             // Печать прошла успешно добавляем запись в бд
                             Session session = HibernateSessionFactory.getSessionFactory().openSession();
                             session.persist(checkEntity);
+
+
+                            // Получаем id чека
+
+                            // Добавляем товары
+                            List<Goods> goods = checkObject.getGoodsList();
+
+                            for (int i = 0; i < goods.size(); i++) {
+                                GoodsEntity goodsEntity = new GoodsEntity();
+                                goodsEntity.setCheckId(checkEntity.getId());
+                                goodsEntity.setGeneralId(goods.get(i).getGeneralId());
+                                goodsEntity.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
+                                goodsEntity.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
+                                goodsEntity.setSellingPrice(goods.get(i).getSellingPrice());
+                                goodsEntity.setProductId(goods.get(i).getProductId());
+                                goodsEntity.setQuantity(goods.get(i).getCount());
+                                goodsEntity.setProductName(goods.get(i).getProductName());
+                                session.persist(goodsEntity);
+                            }
+
                             session.close();
 
                             // Закрываем чек
                             cancelCheckMethod();
 
 
-
-                        }else {
+                        } else {
 
                             // Не удалось напечатать
                         }

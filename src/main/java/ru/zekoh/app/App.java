@@ -17,7 +17,7 @@ import static ru.zekoh.core.Сatalog.generate;
 
 public class App extends Application {
 
-    private static Logger logger = LogManager.getLogger(App.class);
+    //private static Logger logger = LogManager.getLogger(App.class);
 
     @Override
     public void init() throws Exception {
@@ -28,7 +28,7 @@ public class App extends Application {
 
         //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
 
-        logger.info("Инициаизация связи с базой данных.");
+       // logger.info("Инициаизация связи с базой данных.");
 
         try {
             // Получаем список пользователей
@@ -43,7 +43,7 @@ public class App extends Application {
             Properties.initDataWithoutFile();
 
         } catch (Exception e) {
-            logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
+            //logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
         }
 
     }

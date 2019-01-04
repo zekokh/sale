@@ -28,8 +28,11 @@ public class Сatalog {
     private static Map<Integer, ArrayList<Folder>> generateFolders() {
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
-        session.close();
+        try{
+            List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
+
+
+          session.close();
 
         //Создаем список папок отсортированных по уровню
         Map<Integer, ArrayList<Folder>> folderListSortByLevel = new HashMap<Integer, ArrayList<Folder>>();
@@ -53,6 +56,10 @@ public class Сatalog {
         }
 
         return folderListSortByLevel;
+        } catch (Exception e) {
+            System.out.println("Ошибка! "+e.toString());
+            return null;
+        }
     }
 
     private static Map<Integer, ArrayList<Product>> generateProducts() {

@@ -3,7 +3,7 @@ package ru.zekoh.db.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user", schema = "sale")
+@Table(name = "user", schema = "center")
 public class UserEntity {
     private int id;
     private String name;

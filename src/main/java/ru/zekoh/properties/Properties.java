@@ -45,6 +45,8 @@ public class Properties {
 
     public static boolean statusPrinted = false;
 
+    public static boolean isPayCard = false;
+
     //Инициализация данных из проперти файла
     public static void initData(){
 
@@ -68,10 +70,10 @@ public class Properties {
 
     //Инициализация данных из проперти файла
     public static void initDataWithoutFile(){
-        HOST = "jdbc:mysql://localhost:3306/sale?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "Heroin160892";
         KKM = true;
-        PRINTER_PORT = 3;
+        PRINTER_PORT = 7;
     }
 }
