@@ -24,15 +24,22 @@ import javafx.scene.text.Font;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAO.DiscountForEmployeesDao;
+import ru.zekoh.db.DAOImpl.CardDao;
 import ru.zekoh.db.DAOImpl.DiscountForEmployeesDaoImpl;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.HibernateSessionFactory;
@@ -354,6 +361,60 @@ public class Sale {
                     }
                 }
 
+
+                // Промоушены
+                if(check.getDiscount() == null){
+
+                    CheckObject tempCheck = DiscountProgram.timeDiscount(check);
+
+                    // Акции которые не с чем не пересикаются
+                    // 6 эклеров по цене 5
+                    CheckObject tempCheck01 = DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
+                    if(tempCheck01 != null){
+                        check = tempCheck01;
+                    }
+
+                    // Флан натюр по кусочкам
+                    CheckObject tempCheck02 = DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+                    if(tempCheck02 != null){
+                        check = tempCheck02;
+                    }
+
+                    // Флан кокос и чернослив
+                    CheckObject tempCheck03 = DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+                    if(tempCheck03 != null){
+                        check = tempCheck03;
+                    }
+
+                    // Флан апельсин лимон ягодны шоколад
+                    CheckObject tempCheck04 = DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
+                    if(tempCheck04 != null){
+                        check = tempCheck04;
+                    }
+
+                    DiscountProgram.onAchmaAndTea(check);
+
+                    DiscountProgram.onPanini(check);
+
+                    DiscountProgram.onPaniniForPule(check);
+
+                    DiscountProgram.onCroissant(check);
+
+                    if(tempCheck == null){
+                        CheckObject tempCheck2 = DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+
+                        if(tempCheck2 == null){
+
+                        }else {
+                            check = tempCheck2;
+                        }
+
+                    }else {
+                        check = tempCheck;
+                    }
+
+
+                }
 
             }
 
@@ -1580,7 +1641,7 @@ public class Sale {
             } else {
 
                 currentNotUnitProduct = product;
-                // todo отобразить экран для ввода кол-во продукции если товар весовой
+                // Отобразить экран для ввода кол-во продукции если товар весовой
                 displayScreenForEnteringProductQuantities(true);
             }
         }
@@ -2196,6 +2257,9 @@ public class Sale {
 
                     Discount discount = new Discount();
 
+                    // Устанавливаем id
+                    discount.setId(card.get(0).getId());
+
                     // Устанавливаем роль аккаунта
                     discount.setDiscountRole(card.get(0).getRole());
 
@@ -2310,11 +2374,40 @@ public class Sale {
             //Текущий чек
             CheckObject checkObject = checkList.get(currentCheckIndex);
 
+
             //Если выбранный чек еще существует
             if (checkObject.isLive() && !checkObject.isBlockForSale()) {
 
                 //Если есть товары в чеке
                 if (checkObject.getGoodsList().size() > 0) {
+
+
+                    // todo костыль переделать
+
+                    if (checkObject.getDiscount() != null && checkObject.getDiscount().getDiscountRole() == 4) {
+                        // Проверяем лимит по балансу при оплате скидкой
+                        if (checkObject.getDiscount().getBalance() + checkObject.getSellingPrice() > checkObject.getDiscount().getBudget()) {
+                            // Отобразить модальное окно с инфой
+                            Stage dialog = new Stage();
+                            dialog.initStyle(StageStyle.UNDECORATED);
+                            dialog.setTitle("Жак-Андрэ Продажи");
+
+                            Parent root = FXMLLoader.load(getClass().getResource("/view/info.fxml"));
+
+                            dialog.setScene(new Scene(root, 700, 220));
+
+                            Node source = (Node) event.getSource();
+                            Stage stage = (Stage) source.getScene().getWindow();
+
+                            dialog.initOwner(stage);
+                            dialog.initModality(Modality.APPLICATION_MODAL);
+                            dialog.showAndWait();
+
+
+                            return;
+                        }
+                    }
+
 
                     // Сформировать чек
 
@@ -2364,31 +2457,56 @@ public class Sale {
                         dialog.showAndWait();
 
                         if (Properties.statusPrinted) {
+                            // if (true) {
+                            // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
 
                             // Печать прошла успешно добавляем запись в бд
-                            Session session = HibernateSessionFactory.getSessionFactory().openSession();
-                            session.persist(checkEntity);
+                            Session session = Properties.sessionFactory.openSession();
 
-
-                            // Получаем id чека
+                            Transaction t = session.beginTransaction();
 
                             // Добавляем товары
                             List<Goods> goods = checkObject.getGoodsList();
 
                             for (int i = 0; i < goods.size(); i++) {
                                 GoodsEntity goodsEntity = new GoodsEntity();
-                                goodsEntity.setCheckId(checkEntity.getId());
-                                goodsEntity.setGeneralId(goods.get(i).getGeneralId());
                                 goodsEntity.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
                                 goodsEntity.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
                                 goodsEntity.setSellingPrice(goods.get(i).getSellingPrice());
                                 goodsEntity.setProductId(goods.get(i).getProductId());
                                 goodsEntity.setQuantity(goods.get(i).getCount());
                                 goodsEntity.setProductName(goods.get(i).getProductName());
-                                session.persist(goodsEntity);
+                                checkEntity.addGoods(goodsEntity);
                             }
 
+                            int id = (int) session.save(checkEntity);
+                            t.commit();
                             session.close();
+
+                            // todo Запись покупки по скидки
+
+                            DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
+                            Session session1 = Properties.sessionFactory.openSession();
+                            Transaction t1 = session1.beginTransaction();
+                            session1.save(discountHistoryEntity);
+                            t1.commit();
+                            session1.close();
+
+
+                            if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
+
+                                try {
+                                    pushDataOnTheServer(checkObject, id);
+                                } catch (Exception e) {
+                                    logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
+                                }
+
+                            } else {
+                                CardDao cardDao = new CardDao();
+                                DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
+                                card.setBalance(card.getBalance() + checkObject.getSellingPrice());
+                                cardDao.update(card);
+                            }
 
                             // Закрываем чек
                             cancelCheckMethod();
@@ -2411,6 +2529,41 @@ public class Sale {
 
                 }
             }
+        }
+    }
+
+    // Отправляем данные на сервер и клиенту
+    private void pushDataOnTheServer(CheckObject check, int checkIdFromHibernate) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            String name = check.getDiscount().getName();
+            int id = check.getDiscount().getId();
+            int checkId = checkIdFromHibernate;
+            Double total = check.getSellingPrice();
+            Double amountPaidBonuses = check.getAmountBonus();
+
+/*            String dateString = check.getDateOfClosing();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date date = dateFormat.parse(dateString);
+            long unixTime = (long) date.getTime() / 1000;
+            System.out.println(unixTime);*/
+
+            HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
+            StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\"" + amountPaidBonuses + "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        } catch (Exception ex) {
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
         }
     }
 }

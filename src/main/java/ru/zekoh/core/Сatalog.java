@@ -76,6 +76,7 @@ public class Сatalog {
             product.setId(data.getId());
             product.setShortName(data.getShortName());
             product.setFullName(data.getFullName());
+            product.setClassifierId(data.getClassifier());
             product.setParentId(data.getParentId());
             product.setPrice(data.getPrice());
             product.setUnit(data.isUnit());

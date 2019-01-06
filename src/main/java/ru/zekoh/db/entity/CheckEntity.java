@@ -1,10 +1,11 @@
 package ru.zekoh.db.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "check", schema = "center")
+@Table(name = "check_list", schema = "center")
 public class CheckEntity {
     private int id;
     private Double amountByPrice;
@@ -14,9 +15,30 @@ public class CheckEntity {
     private String dateOfClosing;
     private Boolean returnStatus;
     private Double payWithBonus;
-    private Long dateOfClosingUnix;
+    private String dateOfClosingUnix;
+
+    private List<GoodsEntity> goodsEntities;
+
+    public CheckEntity() {
+        goodsEntities = new ArrayList<>();
+    }
+
+    public void addGoods(GoodsEntity goodsEntity) {
+        goodsEntity.setCheckEntity(this);
+        goodsEntities.add(goodsEntity);
+    }
+
+    @OneToMany(targetEntity = GoodsEntity.class, mappedBy = "checkEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<GoodsEntity> getGoodsEntity() {
+        return goodsEntities;
+    }
+
+    public void setGoodsEntity(List<GoodsEntity> goodsEntity) {
+        this.goodsEntities = goodsEntity;
+    }
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -98,11 +120,12 @@ public class CheckEntity {
 
     @Basic
     @Column(name = "date_of_closing_unix")
-    public Long getDateOfClosingUnix() {
+    public String getDateOfClosingUnix() {
         return dateOfClosingUnix;
     }
 
-    public void setDateOfClosingUnix(Long dateOfClosingUnix) {
+    public void setDateOfClosingUnix(String dateOfClosingUnix) {
         this.dateOfClosingUnix = dateOfClosingUnix;
     }
+
 }

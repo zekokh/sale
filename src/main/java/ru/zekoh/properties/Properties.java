@@ -1,6 +1,7 @@
 package ru.zekoh.properties;
 
 
+import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
@@ -46,6 +47,8 @@ public class Properties {
     public static boolean statusPrinted = false;
 
     public static boolean isPayCard = false;
+
+    public static SessionFactory sessionFactory = null;
 
     //Инициализация данных из проперти файла
     public static void initData(){

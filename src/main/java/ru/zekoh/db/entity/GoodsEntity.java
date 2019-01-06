@@ -1,16 +1,19 @@
 package ru.zekoh.db.entity;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+import ru.zekoh.db.Check;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "check", schema = "center")
+@Table(name = "goods", schema = "center")
 public class GoodsEntity {
 
+    private int id;
 
-    private int checkId;
+
+    private CheckEntity checkEntity;
+
     private int generalId;
     private int productId;
     private String productName;
@@ -19,14 +22,14 @@ public class GoodsEntity {
     private Double priceAfterDiscount;
     private Double sellingPrice;
 
-    @Basic
-    @Column(name = "check_id")
-    public int getCheckId() {
-        return checkId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "check_id")
+    public CheckEntity getCheckEntity() {
+        return checkEntity;
     }
 
-    public void setCheckId(int checkId) {
-        this.checkId = checkId;
+    public void setCheckEntity(CheckEntity checkEntity) {
+        this.checkEntity = checkEntity;
     }
 
     @Basic
@@ -97,5 +100,16 @@ public class GoodsEntity {
 
     public void setSellingPrice(Double sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

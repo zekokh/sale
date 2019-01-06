@@ -27,7 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ru.zekoh.core.DiscountProgram;
+import ru.zekoh.core.DiscountProgram2;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.Check;
@@ -630,15 +630,15 @@ public class SaleController {
 
         check.setDiscounСroissant(false);
         // 6 больших эклеров по цене 5
-        check.updateCheck(DiscountProgram.promotion6(check));
+        check.updateCheck(DiscountProgram2.promotion6(check));
 
         // Скидка на 5 и 10 круасанов
-        //check.updateCheck(DiscountProgram.promotion2(check));
+        //check.updateCheck(DiscountProgram2.promotion2(check));
 
         // Скидка 30% на выпечку после 7.20 вечера
-        check.updateCheck(DiscountProgram.discountOnBakes(check));
+        check.updateCheck(DiscountProgram2.discountOnBakes(check));
 
-        check.updateCheck(DiscountProgram.combo(check));
+        check.updateCheck(DiscountProgram2.combo(check));
     }
 
     // Скидка на чек для сотрудников и своих

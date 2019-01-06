@@ -9,6 +9,8 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
@@ -22,30 +24,24 @@ public class App extends Application {
     @Override
     public void init() throws Exception {
 
-        //todo Получаем данные о продуктах из БД и сортируем по уровню
-        //Инициализация данных из проперти файла
-        // Properties.initData();
-
         //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
 
-       // logger.info("Инициаизация связи с базой данных.");
+        // logger.info("Инициаизация связи с базой данных.");
 
         try {
             // Получаем список пользователей
-            Session session = HibernateSessionFactory.getSessionFactory().openSession();
-
+            Properties.sessionFactory  = HibernateSessionFactory.getSessionFactory();
+            Session session = Properties.sessionFactory.openSession();
             Properties.users = session.createQuery("SELECT a FROM UserEntity a", UserEntity.class).getResultList();
-
             session.close();
 
             generate();
 
             Properties.initDataWithoutFile();
-
         } catch (Exception e) {
+            System.out.println("Ошибка! "+e.toString());
             //logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
         }
-
     }
 
     @Override
