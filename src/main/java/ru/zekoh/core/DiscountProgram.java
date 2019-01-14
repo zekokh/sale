@@ -1,6 +1,5 @@
 package ru.zekoh.core;
 
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
 
@@ -12,8 +11,54 @@ import java.util.Date;
 
 public class DiscountProgram {
 
-    public static void init() {
-        // Проверяем скидку по времени, если она работает то остальные на круассаны не делаем
+    public static void initPaniniWithTimeLimit(CheckObject check) {
+
+        String startTime = "11:00:00";
+        String endTime = "15:00:00";
+
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date startTimeLimit = null;
+        try {
+            startTimeLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " " + startTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Сегодняшняя дата
+        Date dateToday1 = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateEndLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayStringEnd = formatForDateEndLimit.format(dateToday1);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date endTimeLimit = null;
+        try {
+            endTimeLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayStringEnd + " " + endTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (curentDate.after(startTimeLimit) && curentDate.before(endTimeLimit)) {
+
+            onPanini(check);
+            onPaniniForPule(check);
+        }
 
 
     }
@@ -26,7 +71,7 @@ public class DiscountProgram {
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "23:20:00";
+        String afterTime = "19:20:00";
         Double amountOfDiscount = 0.4;
         boolean flag = false;
 
@@ -214,7 +259,9 @@ public class DiscountProgram {
                     }
                 }
 
-                count = count * 2;
+                //count = count * 2;
+                countAchma = count;
+                countTea = count;
 
                 // Делаем скидку
                 for (int i = 0; i < check.getGoodsList().size(); i++) {
@@ -227,18 +274,22 @@ public class DiscountProgram {
 
                     // Нашли ачму
                     if (productId == 13) {
-                        goods.setPriceAfterDiscount(19.0);
+                        if (countAchma > 0) {
 
-                        //Количество товара
-                        Double countProduct = goods.getCount();
 
-                        //Считаем продажную цену умножая цену после скидки на кол-во товара
-                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                            goods.setPriceAfterDiscount(19.0);
 
-                        //Устанавливаем продажную цену товара
-                        goods.setSellingPrice(sellingPrice);
+                            //Количество товара
+                            Double countProduct = goods.getCount();
 
-                        count--;
+                            //Считаем продажную цену умножая цену после скидки на кол-во товара
+                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                            //Устанавливаем продажную цену товара
+                            goods.setSellingPrice(sellingPrice);
+
+                            countAchma--;
+                        }
                     }
 
                     //Классификатор товара
@@ -246,21 +297,25 @@ public class DiscountProgram {
 
                     // Нашли чай
                     if (classifier == 17) {
-                        goods.setPriceAfterDiscount(20.0);
 
-                        //Количество товара
-                        Double countProduct = goods.getCount();
+                        if (countTea > 0) {
 
-                        //Считаем продажную цену умножая цену после скидки на кол-во товара
-                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                            goods.setPriceAfterDiscount(20.0);
 
-                        //Устанавливаем продажную цену товара
-                        goods.setSellingPrice(sellingPrice);
+                            //Количество товара
+                            Double countProduct = goods.getCount();
 
-                        count--;
+                            //Считаем продажную цену умножая цену после скидки на кол-во товара
+                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                            //Устанавливаем продажную цену товара
+                            goods.setSellingPrice(sellingPrice);
+
+                            countTea--;
+                        }
                     }
 
-                    if (count == 0) {
+                    if (countAchma == 0 && countTea == 0) {
                         return;
                     }
                 }
@@ -272,6 +327,7 @@ public class DiscountProgram {
     public static void onPanini(CheckObject check) {
 
         if (check.getGoodsList().size() > 0) {
+
             // Считаю кол-во ачмы и кол-во чая нахожу минимальное значение и на это значение делаю скидку на ачму и чай
 
             int countPanini = 0;
@@ -320,6 +376,7 @@ public class DiscountProgram {
                 }
 
             }
+
             // Складываем кол-во американера и пальмие
             int countAmericanerAndPalmie = countAmericaner + countPalmie;
 
@@ -336,7 +393,29 @@ public class DiscountProgram {
                     count = countAmericanerAndPalmie;
                 }
 
-                count = count * 3;
+                //count = count * 3;
+
+                countPanini = count;
+                countTea = count;
+
+
+                /*if (count < countPalmie) {
+                    countPalmie = count;
+                }
+
+                if (count < countAmericaner) {
+                    countAmericaner = count;
+                }*/
+
+                if(count-countPalmie > 0) {
+                    countAmericaner = count-countPalmie;
+                }else {
+                    countAmericaner = 0;
+                }
+
+
+
+                int amountCount = count * 3;
 
                 // Делаем скидку равномерно на все три позиции
                 for (int y = 0; y < check.getGoodsList().size(); y++) {
@@ -352,95 +431,115 @@ public class DiscountProgram {
 
                     // Нашли панини
                     if (classifier == 15) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        if (countPanini > 0) {
 
-                            Double price = goods.getPriceFromThePriceList() - 15.0;
 
-                            goods.setPriceAfterDiscount(price);
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                Double price = goods.getPriceFromThePriceList() - 15.0;
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            count--;
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countPanini--;
+
+                                amountCount--;
+                            }
                         }
                     }
 
                     // Нашли чай
                     if (classifier == 17) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
+                        if (countTea > 0) {
 
-                            goods.setPriceAfterDiscount(price);
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
-                            count--;
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countTea--;
+                                amountCount--;
+                            }
                         }
+
                     }
 
                     // Нашли пальмие
                     if (productId == 23) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
+                        if (countPalmie > 0) {
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            goods.setPriceAfterDiscount(price);
+                                goods.setPriceAfterDiscount(price);
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
 
-                            count--;
+                                countPalmie--;
+                                amountCount--;
+                            }
                         }
                     }
 
-                    if (count == 0) {
+                    if (amountCount == 0) {
                         return;
                     }
 
                     // Американер
                     if (productId == 250) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
 
-                            goods.setPriceAfterDiscount(price);
+                        if (countAmericaner > 0) {
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            count--;
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countAmericaner--;
+                                amountCount--;
+                            }
                         }
                     }
 
-                    if (count == 0) {
+                    if (amountCount == 0) {
                         return;
                     }
                 }
 
             }
+
         }
     }
 
@@ -495,6 +594,7 @@ public class DiscountProgram {
                 }
 
             }
+
             // Складываем кол-во американера и пальмие
             int countAmericanerAndPalmie = countAmericaner + countPalmie;
 
@@ -511,7 +611,18 @@ public class DiscountProgram {
                     count = countAmericanerAndPalmie;
                 }
 
-                count = count * 3;
+                // count = count * 3;
+
+                countPanini = count;
+                countTea = count;
+
+                if(count-countPalmie > 0) {
+                    countAmericaner = count-countPalmie;
+                }else {
+                    countAmericaner = 0;
+                }
+
+                int amountCount = count * 3;
 
                 // Делаем скидку равномерно на все три позиции
                 for (int y = 0; y < check.getGoodsList().size(); y++) {
@@ -527,90 +638,104 @@ public class DiscountProgram {
 
                     // Нашли панини
                     if (classifier == 18) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            Double price = goods.getPriceFromThePriceList() - 5.0;
+                        if (countPanini > 0) {
 
-                            goods.setPriceAfterDiscount(price);
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                Double price = goods.getPriceFromThePriceList() - 5.0;
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            count--;
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countPanini--;
+                                amountCount--;
+                            }
                         }
                     }
 
                     // Нашли чай
                     if (classifier == 17) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
+                        if (countTea > 0) {
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            goods.setPriceAfterDiscount(price);
+                                goods.setPriceAfterDiscount(price);
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
 
-                            count--;
+                                countTea--;
+                                amountCount--;
+                            }
                         }
                     }
 
                     // Нашли пальмие
                     if (productId == 23) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
+                        if (countPalmie > 0) {
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            goods.setPriceAfterDiscount(price);
+                                goods.setPriceAfterDiscount(price);
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
 
-                            count--;
+                                countPalmie--;
+                                amountCount--;
+                            }
                         }
                     }
 
-                    if (count == 0) {
+                    if (amountCount == 0) {
                         return;
                     }
 
                     // Американер
                     if (productId == 250) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                            Double price = goods.getPriceFromThePriceList() - 5;
+                        if (countAmericaner > 0) {
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                Double price = goods.getPriceFromThePriceList() - 5;
 
-                            goods.setPriceAfterDiscount(price);
+                                goods.setPriceAfterDiscount(price);
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
 
-                            count--;
+                                countAmericaner--;
+                                amountCount--;
+                            }
                         }
                     }
 
-                    if (count == 0) {
+                    if (amountCount == 0) {
                         return;
                     }
                 }
@@ -665,7 +790,8 @@ public class DiscountProgram {
                     }
                 }
 
-                count = count * 2;
+                countCroissant = count;
+                countTea = count;
 
                 // Делаем скидку
                 for (int i = 0; i < check.getGoodsList().size(); i++) {
@@ -680,52 +806,59 @@ public class DiscountProgram {
                     // Нашли ачму
                     if (classifier == 4) {
 
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        if (countCroissant > 0) {
 
-                            Double price = goods.getPriceFromThePriceList()-3;
 
-                            goods.setPriceAfterDiscount(price);
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                Double price = goods.getPriceFromThePriceList() - 8;
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            count--;
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countCroissant--;
+                            }
                         }
                     }
 
 
                     // Нашли чай
                     if (classifier == 17) {
-                        if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            Double price = goods.getPriceFromThePriceList()-3;
+                        if (countTea > 0) {
 
-                            goods.setPriceAfterDiscount(price);
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                            //Количество товара
-                            Double countProduct = goods.getCount();
+                                Double price = goods.getPriceFromThePriceList() - 8;
 
-                            //Считаем продажную цену умножая цену после скидки на кол-во товара
-                            Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+                                goods.setPriceAfterDiscount(price);
 
-                            //Устанавливаем продажную цену товара
-                            goods.setSellingPrice(sellingPrice);
+                                //Количество товара
+                                Double countProduct = goods.getCount();
 
-                            count--;
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countTea--;
+                            }
                         }
                     }
 
-                    if (count == 0) {
+                    if (countCroissant == 0 && countTea == 0) {
                         return;
                     }
                 }
-
             }
         }
     }

@@ -37,6 +37,13 @@ public class Login {
         //todo проверка на подключение к БД
 
         users = Properties.users;
+
+        if(Properties.FPTR != null){
+            if(Properties.FPTR.isOpened()){
+                Properties.FPTR.close();
+            }
+        }
+
     }
 
     public void pushOnKey_1(ActionEvent actionEvent) {
@@ -142,6 +149,7 @@ public class Login {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
+
         System.exit(0);
     }
 }

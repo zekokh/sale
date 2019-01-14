@@ -22,6 +22,8 @@ public class KKMOFD {
 
     public static boolean initDriver(){
 
+        System.out.println("Инициализация драйвера ккт");
+
         try{
             // Инициализация драйвера
             IFptr fptr = new Fptr();
@@ -34,6 +36,7 @@ public class KKMOFD {
             fptr.applySingleSettings();
 
             Properties.FPTR = fptr;
+            Properties.FPTR.open();
 
         }catch (Exception e) {
 
@@ -50,7 +53,7 @@ public class KKMOFD {
 
             try{
                 // Открыть соединение
-                fptr.open();
+               // fptr.open();
 
                 if(fptr.isOpened()) {
 
@@ -91,28 +94,35 @@ public class KKMOFD {
                     fptr.receiptTotal();
 
                     // Закрыть чек
-                    int answer = fptr.closeReceipt();
+                    fptr.closeReceipt();
 
-                    if (answer >= 0) {
-                        if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
-                            // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
-                            fptr.cancelReceipt();
-                            return false;
-                        }
+                    System.out.println("Чек закрылся!");
 
-                        return true;
-                    }else {
-                        fptr.cancelReceipt();
-                        return false;
+                    while (fptr.checkDocumentClosed() < 0) {
+                        // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
+                        System.out.println("В while!");
+                        System.out.println(fptr.errorDescription());
+                        continue;
                     }
 
+                    if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
+                        // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                        fptr.cancelReceipt();
+                        System.out.println("Чек не закрылся!");
 
-                }else {
+                        System.out.println(fptr.errorDescription());
+                        return false;
+                    }else {
+                        System.out.println("Возвращаю тру!");
+                        return true;
+                    }
+
+                } else {
                     System.out.println("Соединение с ККМ не открыто!");
                     return false;
                 }
             }catch (Exception e){
-
+                System.out.println("Ошибка! "+e.toString());
                 return false;
             }
         }else {

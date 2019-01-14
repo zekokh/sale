@@ -51,6 +51,10 @@ public class MenuController {
     @FXML
     public Button update;
 
+    // Кнопка возвратов
+    @FXML
+    public Button returnBtn;
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -62,14 +66,15 @@ public class MenuController {
         blockBtn.setDisable(false);
         update.setDisable(false);
         xReport.setDisable(false);
+        returnBtn.setDisable(false);
 
 
         if (Properties.FPTR == null) {
             try {
                //Properties.FPTR = KKMOFD.create();
-               // KKMOFD.initDriver();
+              KKMOFD.initDriver();
             } catch (Exception e) {
-                logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage().toString());
+                logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
             }
         }
     }
@@ -143,6 +148,11 @@ public class MenuController {
     }
 
     public void updateData(ActionEvent actionEvent) {
-        generate();
+        //generate();
+    }
+
+
+    // Возвраты
+    public void returnCheck(ActionEvent event) {
     }
 }

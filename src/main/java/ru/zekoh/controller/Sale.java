@@ -157,7 +157,7 @@ public class Sale {
     //
     private Goods tempGoods = null;
 
-    //
+    // Индекс товара в чеке при выделении
     private int tempGoodsIndex = 0;
 
     //
@@ -363,56 +363,46 @@ public class Sale {
 
 
                 // Промоушены
-                if(check.getDiscount() == null){
+                if (check.getDiscount() == null) {
+
+                    // Вернуть ценны по прайсу
+                    List<Goods> goods = check.getGoodsList();
+
+                    for (int i = 0; i < goods.size(); i++) {
+
+                        goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
+                    }
 
                     CheckObject tempCheck = DiscountProgram.timeDiscount(check);
+                    if (tempCheck == null) {
+
+                        // 5 круаасан по цене 199р.
+                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+
+                        DiscountProgram.onCroissant(check);
+
+                        DiscountProgram.onAchmaAndTea(check);
+
+                    }
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
-                    CheckObject tempCheck01 = DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
-                    if(tempCheck01 != null){
-                        check = tempCheck01;
-                    }
+                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
+
 
                     // Флан натюр по кусочкам
-                    CheckObject tempCheck02 = DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
-                    if(tempCheck02 != null){
-                        check = tempCheck02;
-                    }
+                    DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+
 
                     // Флан кокос и чернослив
-                    CheckObject tempCheck03 = DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
-                    if(tempCheck03 != null){
-                        check = tempCheck03;
-                    }
+                    DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+
 
                     // Флан апельсин лимон ягодны шоколад
-                    CheckObject tempCheck04 = DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
-                    if(tempCheck04 != null){
-                        check = tempCheck04;
-                    }
+                    DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
 
-                    DiscountProgram.onAchmaAndTea(check);
-
-                    DiscountProgram.onPanini(check);
-
-                    DiscountProgram.onPaniniForPule(check);
-
-                    DiscountProgram.onCroissant(check);
-
-                    if(tempCheck == null){
-                        CheckObject tempCheck2 = DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
-
-                        if(tempCheck2 == null){
-
-                        }else {
-                            check = tempCheck2;
-                        }
-
-                    }else {
-                        check = tempCheck;
-                    }
-
+                    // Акция на панини комбо с 11:00 до 15:00
+                    DiscountProgram.initPaniniWithTimeLimit(check);
 
                 }
 
@@ -479,11 +469,11 @@ public class Sale {
             if (panelFindDiscount.isVisible()) {
                 // Если будет привязан к чеку надо отобразить инфу по скидке
                 if (check.isDiscountAccountExist()) {
-                    discountTitle.setText("К чеку применина скдика пользователя: ");
+                    discountTitle.setText("К чеку применена скидика пользователя: ");
                     labelForFindDiscount.setText(check.getDiscount().getName());
                     switchDiscountUserPanel(true);
                 } else {
-                    discountTitle.setText("Введите номер карты для актвивации скидки");
+                    discountTitle.setText("Введите номер карты для активации скидки");
                     labelForFindDiscount.setText("");
                     switchDiscountUserPanel(false);
 
@@ -923,8 +913,30 @@ public class Sale {
         }
     }
 
-    public void cancelCheck(ActionEvent actionEvent) {
-        cancelCheckMethod();
+    public void cancelCheck(ActionEvent actionEvent) throws IOException {
+        if (checkList.size() > 0) {
+
+            Stage dialog = new Stage();
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setTitle("Жак-Андрэ Продажи");
+
+            Parent root = FXMLLoader.load(getClass().getResource("/view/CancelModal.fxml"));
+
+            dialog.setScene(new Scene(root, 700, 300));
+
+            Node source = (Node) actionEvent.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            dialog.initOwner(stage);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.showAndWait();
+
+            if (Properties.cancelModalView) {
+                Properties.cancelModalView = false;
+                cancelCheckMethod();
+            }
+        }
+
     }
 
     private void cancelCheckMethod() {
@@ -1008,11 +1020,11 @@ public class Sale {
                 panelFindDiscount.setVisible(true);
 
                 if (checkObject.isDiscountAccountExist()) {
-                    discountTitle.setText("К чеку применина скдика пользователя: ");
+                    discountTitle.setText("К чеку применена скидика пользователя: ");
                     labelForFindDiscount.setText(checkList.get(currentCheckIndex).getDiscount().getName());
                     switchDiscountUserPanel(true);
                 } else {
-                    discountTitle.setText("Введите номер карты для актвивации скидки");
+                    discountTitle.setText("Введите номер карты для активации скидки");
                     labelForFindDiscount.setText("");
                     switchDiscountUserPanel(false);
 
@@ -1557,6 +1569,7 @@ public class Sale {
                             addItemToGoods(b, level);
                         }
 
+                        //reloadAll();
                     }
                 });
 
@@ -1644,6 +1657,8 @@ public class Sale {
                 // Отобразить экран для ввода кол-во продукции если товар весовой
                 displayScreenForEnteringProductQuantities(true);
             }
+
+            reloadAll();
         }
     }
 
@@ -1866,6 +1881,7 @@ public class Sale {
 
                         boolean flag = true;
                         int count = 0;
+                        int tempCount = 0;
 
                         for (int i = check.getGoodsList().size() - 1; i >= 0; i--) {
                             Goods goods = check.getGoodsList().get(i);
@@ -1873,20 +1889,34 @@ public class Sale {
                             double a = tempGoods.getPriceAfterDiscount();
                             double b = goods.getPriceAfterDiscount();
                             boolean isEq = Double.compare(a, b) == 0 ? true : false;
+
+                            // В случаи если товары отличаются по цене но с одним id во время промоакции то выделение снимается,
+                            // что не правильно. Поэтому добавляем такой вот костыль
+
+                            if (tempGoods.getProductId() == goods.getProductId()) {
+                                tempCount++;
+                            }
+
                             if (tempGoods.getProductId() == goods.getProductId() && isEq) {
 
                                 if (flag) {
                                     check.getGoodsList().remove(i);
+                                    tempCount--;
                                     flag = false;
                                 } else {
                                     count++;
 
                                 }
                             }
+
                         }
 
                         if (count == 0) {
-                            tempGoods = null;
+                            if (tempCount > 0) {
+                                // todo зарефакторить надо бы
+                            } else {
+                                tempGoods = null;
+                            }
                         }
                         reloadAll();
                     } else {
@@ -2150,7 +2180,7 @@ public class Sale {
         panelForButtons.setVisible(true);
         checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
 
-        discountTitle.setText("Введите номер карты для актвивации скидки");
+        discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -2204,7 +2234,7 @@ public class Sale {
             numberDiscountCardTextField.requestFocus();
         }
 
-        discountTitle.setText("Введите номер карты для актвивации скидки");
+        discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -2213,7 +2243,7 @@ public class Sale {
             numberDiscountCardTextField.clear();
             numberDiscountCardTextField.requestFocus();
 
-            discountTitle.setText("Введите номер карты для актвивации скидки");
+            discountTitle.setText("Введите номер карты для активации скидки");
             labelForFindDiscount.setText("");
         }
     }
@@ -2221,7 +2251,7 @@ public class Sale {
     private void typeToDiscountTextField(String text) {
         numberDiscountCardTextField.setText(numberDiscountCardTextField.getText() + text);
 
-        discountTitle.setText("Введите номер карты для актвивации скидки");
+        discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
     }
 
@@ -2277,7 +2307,7 @@ public class Sale {
 
                     check.setDiscount(discount);
 
-                    discountTitle.setText("К чеку применина скдика пользователя: ");
+                    discountTitle.setText("К чеку применена скидика пользователя: ");
                     labelForFindDiscount.setText(card.get(0).getName());
 
                     reloadAll();
@@ -2334,13 +2364,13 @@ public class Sale {
         panelForButtons.setVisible(true);
         checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
 
-        discountTitle.setText("Введите номер карты для актвивации скидки");
+        discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
     }
 
     // Удаления пользователя со скидкой из чека
     public void discountCancelAction(ActionEvent actionEvent) {
-        discountTitle.setText("Введите номер карты для актвивации скидки");
+        discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
         CheckObject checkObject = checkList.get(currentCheckIndex);
         checkObject.setDiscountAccountExist(false);
@@ -2419,8 +2449,10 @@ public class Sale {
                     //checkEntity.setDiscountOnCheck();
                     if (isCash) {
                         checkEntity.setTypeOfPayment(1);
+                        checkObject.setTypeOfPayment(1);
                     } else {
                         checkEntity.setTypeOfPayment(2);
+                        checkObject.setTypeOfPayment(2);
                     }
 
                     checkEntity.setDateOfCreation(checkObject.getDateOfCreation());
@@ -2457,7 +2489,7 @@ public class Sale {
                         dialog.showAndWait();
 
                         if (Properties.statusPrinted) {
-                            // if (true) {
+                        //    if (true) {
                             // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
 
                             // Печать прошла успешно добавляем запись в бд
@@ -2485,28 +2517,30 @@ public class Sale {
 
                             // todo Запись покупки по скидки
 
-                            DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
-                            Session session1 = Properties.sessionFactory.openSession();
-                            Transaction t1 = session1.beginTransaction();
-                            session1.save(discountHistoryEntity);
-                            t1.commit();
-                            session1.close();
+                            if (checkObject.getDiscount() != null) {
+                                DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
+                                Session session1 = Properties.sessionFactory.openSession();
+                                Transaction t1 = session1.beginTransaction();
+                                session1.save(discountHistoryEntity);
+                                t1.commit();
+                                session1.close();
 
+                                if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
 
-                            if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
+                                    try {
+                                        pushDataOnTheServer(checkObject, id);
+                                    } catch (Exception e) {
+                                        logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
+                                    }
 
-                                try {
-                                    pushDataOnTheServer(checkObject, id);
-                                } catch (Exception e) {
-                                    logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
+                                } else {
+                                    CardDao cardDao = new CardDao();
+                                    DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
+                                    card.setBalance(card.getBalance() + checkObject.getSellingPrice());
+                                    cardDao.update(card);
                                 }
-
-                            } else {
-                                CardDao cardDao = new CardDao();
-                                DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
-                                card.setBalance(card.getBalance() + checkObject.getSellingPrice());
-                                cardDao.update(card);
                             }
+
 
                             // Закрываем чек
                             cancelCheckMethod();

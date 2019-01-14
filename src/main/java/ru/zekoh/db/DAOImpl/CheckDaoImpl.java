@@ -13,8 +13,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CheckDaoImpl implements CheckDao {
@@ -143,8 +146,14 @@ public class CheckDaoImpl implements CheckDao {
         Double amountCard = 0.0;
 
         //Текущий день
-        String today = "" + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()) + "";
+         String today = "" + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()) + "";
 
+       /*DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss z");
+        Date date = dateFormat.parse(today );
+        long unixTime = (long) date.getTime()/1000;
+        System.out.println(unixTime );*/
+
+        // long unixTimestamp = Instant.now().getEpochSecond();
         //Получаем соединение с БД
         Connection connection = DataBase.getConnection();
 
@@ -154,12 +163,12 @@ public class CheckDaoImpl implements CheckDao {
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '0' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `return_status` = '0' AND FROM_UNIXTIME(date_of_creation) LIKE '%" + today + "%'");
                 while (rs.next()) {
                     numberOfChecks++;
                     soldPerDay = soldPerDay + rs.getDouble(3);
 
-                    if (rs.getInt(7) == 1) {
+                    if (rs.getInt(4) == 1) {
                         amountCash = amountCash + rs.getDouble(3);
                     } else {
                         amountCard = amountCard + rs.getDouble(3);
@@ -167,7 +176,7 @@ public class CheckDaoImpl implements CheckDao {
                 }
 
 
-                ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '1' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `return_status` = '1' AND FROM_UNIXTIME(date_of_creation) LIKE '%" + today + "%'");
                 while (rsReturn.next()) {
                     returnPerDay = returnPerDay + rsReturn.getDouble(3);
                 }
@@ -189,8 +198,6 @@ public class CheckDaoImpl implements CheckDao {
         } catch (Exception e) {
             logger.error(e.getStackTrace());
         } finally {
-
-            dailyReport = null;
 
             try {
                 connection.close();
@@ -233,7 +240,7 @@ public class CheckDaoImpl implements CheckDao {
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '0' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `is_a_live` = '0' AND `return_status` = '0' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
                 while (rs.next()) {
                     numberOfChecks++;
                     soldPerDay = soldPerDay + rs.getDouble(3);
@@ -246,7 +253,7 @@ public class CheckDaoImpl implements CheckDao {
                 }
 
 
-                ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK` WHERE `is_a_live` = '0' AND `return_status` = '1' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
+                ResultSet rsReturn = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `is_a_live` = '0' AND `return_status` = '1' AND `payment_state`='1' AND `date_of_creation` LIKE '%" + today + "%'");
                 while (rsReturn.next()) {
                     returnPerDay = returnPerDay + rsReturn.getDouble(3);
                 }

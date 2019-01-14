@@ -5,17 +5,19 @@ import javafx.scene.Node;
 import javafx.stage.Stage;
 import ru.zekoh.properties.Properties;
 
-public class PayCard {
-    public void ok(ActionEvent actionEvent) {
-        Properties.isPayCard = true;
+public class CancelModalView {
 
-        Node source = (Node) actionEvent.getSource();
+
+    public void exit(ActionEvent event) {
+        Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
-    public void exit(ActionEvent actionEvent) {
-        Node source = (Node) actionEvent.getSource();
+    public void ok(ActionEvent event) {
+        Properties.cancelModalView = true;
+
+        Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
