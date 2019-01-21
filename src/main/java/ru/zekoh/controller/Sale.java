@@ -374,6 +374,8 @@ public class Sale {
 
                             goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                         }
+
+                      //  amountBonus.setText("");
                     }
                 }
 
@@ -728,7 +730,7 @@ public class Sale {
                 goodsTemp.setCount(count);
 
                 //Продажная цена
-                Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
+                Double sellingPrice = goodsTemp.getCount() * goods.get(i).getPriceAfterDiscount();
                 Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 goodsTemp.setSellingPrice(sellingPriceDouble);
 
@@ -801,6 +803,10 @@ public class Sale {
         return goodsForDisplayList;
     }
 
+    public static boolean areEqualDouble(double a, double b, int precision) {
+        return Math.abs(a - b) <= Math.pow(10, -precision);
+    }
+
     //МЕтод который проверяет наличие в Листе и возвращает
     public int checkContain(List<GoodsForDisplay> goodsList, Goods goods) {
 
@@ -809,7 +815,7 @@ public class Sale {
             for (int i = 0; i < goodsList.size(); i++) {
 
                 //Если продукт уже есть в списке продуктов
-                if (goods.getProductId() == goodsList.get(i).getProductId()) {
+                if (goods.getProductId() == goodsList.get(i).getProductId() && areEqualDouble(goods.getPriceAfterDiscount(), goodsList.get(i).getPriceAfterDiscount(), 2)) {
 
                     //Возвращаем индекс в листе
                     return i;
@@ -2410,6 +2416,7 @@ public class Sale {
     public void appCancelAction(ActionEvent actionEvent) {
         checkList.get(currentCheckIndex).setDiscountAppExist(false);
         checkList.get(currentCheckIndex).setDiscount(null);
+        checkList.get(currentCheckIndex).setAmountBonus(0.0);
         switchPanelAppToUserInfo(false);
         reloadAll();
     }
