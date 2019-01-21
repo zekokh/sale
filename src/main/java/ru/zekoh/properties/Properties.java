@@ -52,6 +52,22 @@ public class Properties {
 
     public static boolean cancelModalView = false;
 
+    public static boolean returnStatusPassword = false;
+
+    public static boolean isSmall = false;
+
+    public static int heght = 0;
+
+    public static int width = 0;
+
+    public static int modalHeight = 0;
+
+    public static int modalWidth = 0;
+
+    public static String comPort = "3";
+
+
+
     //Инициализация данных из проперти файла
     public static void initData(){
 
@@ -81,5 +97,13 @@ public class Properties {
         KKM = true;
         statusPrinted = true;
         PRINTER_PORT = 7;
+
+
+        // Краснодар
+       // comPort = "3";
+
+        // Майкоп Первомайская 193
+        comPort = "7";
+
     }
 }

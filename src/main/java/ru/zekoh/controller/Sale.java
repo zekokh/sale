@@ -296,12 +296,23 @@ public class Sale {
             // todo Проверить промоушены и акции
             if (check.getGoodsList().size() > 0) {
 
+                // Вернуть ценны по прайсу
+                List<Goods> goods = check.getGoodsList();
+
+                for (int i = 0; i < goods.size(); i++) {
+
+                    goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
+                    Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
+                    temp = new BigDecimal(temp).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                    goods.get(i).setSellingPrice(temp);
+                }
+
                 if (check.isDiscountAccountExist()) {
 
                     if (check.getDiscount().getDiscountRole() == 4) {
 
                         // Вычесть из продажной цены сумму скидки на весь чек
-                        List<Goods> goods = check.getGoodsList();
+                        //List<Goods> goods = check.getGoodsList();
 
                         for (int i = 0; i < goods.size(); i++) {
 
@@ -319,7 +330,7 @@ public class Sale {
                         if (check.getDiscount().getDiscountRole() == 2) {
 
                             // Вычесть из продажной цены сумму скидки 20% на весь чек
-                            List<Goods> goods = check.getGoodsList();
+                           // List<Goods> goods = check.getGoodsList();
 
                             for (int i = 0; i < goods.size(); i++) {
 
@@ -328,6 +339,11 @@ public class Sale {
                                 priceAfterDiscount -= priceAfterDiscount * 0.2;
 
                                 goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+
+                                Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
+                                temp = new BigDecimal(temp).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+                                goods.get(i).setSellingPrice(temp);
                             }
 
                             // Рассчитать цену исходя из проджной
@@ -352,7 +368,7 @@ public class Sale {
                     } else {
 
                         // Вернуть ценны по прайсу
-                        List<Goods> goods = check.getGoodsList();
+                        //List<Goods> goods = check.getGoodsList();
 
                         for (int i = 0; i < goods.size(); i++) {
 
@@ -366,7 +382,7 @@ public class Sale {
                 if (check.getDiscount() == null) {
 
                     // Вернуть ценны по прайсу
-                    List<Goods> goods = check.getGoodsList();
+                   //List<Goods> goods = check.getGoodsList();
 
                     for (int i = 0; i < goods.size(); i++) {
 
@@ -548,15 +564,23 @@ public class Sale {
                     return;
                 }
 
-                Double priceAfterDiscount = goods.get(i).getPriceAfterDiscount();
+                Double priceAfterDiscount = goods.get(i).getSellingPrice();
                 if (amountBonuses >= priceAfterDiscount) {
                     goods.get(i).setPriceAfterDiscount(0.0);
 
                     goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
                     amountBonuses = amountBonuses - priceAfterDiscount;
                 } else {
-                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
-                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+
+                    if(goods.get(i).isUnit()){
+                        goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
+                        goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                    }else {
+                        Double temp = (priceAfterDiscount - amountBonuses)/ goods.get(i).getCount();
+                        goods.get(i).setPriceAfterDiscount(new BigDecimal(temp).setScale(5, RoundingMode.HALF_UP).doubleValue());
+                        goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
+                    }
+
                     amountBonuses = 0.0;
                 }
 
@@ -2489,7 +2513,7 @@ public class Sale {
                         dialog.showAndWait();
 
                         if (Properties.statusPrinted) {
-                        //    if (true) {
+                            // if (true) {
                             // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
 
                             // Печать прошла успешно добавляем запись в бд

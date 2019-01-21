@@ -72,7 +72,7 @@ public class MenuController {
         if (Properties.FPTR == null) {
             try {
                //Properties.FPTR = KKMOFD.create();
-              KKMOFD.initDriver();
+             KKMOFD.initDriver();
             } catch (Exception e) {
                 logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
             }
@@ -154,5 +154,15 @@ public class MenuController {
 
     // Возвраты
     public void returnCheck(ActionEvent event) {
+
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        try {
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/ReturnWindow.fxml"));
+            stage.getScene().setRoot(pageDate);
+            stage.requestFocus();
+        } catch (Exception e) {
+            logger.error("Не удается отобразить окно с возвратами!");
+        }
     }
 }

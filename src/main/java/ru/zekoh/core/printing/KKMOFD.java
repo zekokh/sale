@@ -4,9 +4,7 @@ import ru.atol.drivers10.fptr.Fptr;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
-import ru.zekoh.db.entity.CheckEntity;
-import ru.zekoh.db.entity.Goods;
-import ru.zekoh.db.entity.GoodsForDisplay;
+import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
 import java.math.BigDecimal;
@@ -18,7 +16,7 @@ import java.util.concurrent.ExecutionException;
 public class KKMOFD {
     public static String name = Properties.currentUser.getName();
     public static String inn = "";
-    public static String COM_PORT = "7";
+    public static String COM_PORT = Properties.comPort;
 
     public static boolean initDriver(){
 
@@ -91,6 +89,92 @@ public class KKMOFD {
 
                     // Зарегистрировать ИТОГ
                     fptr.setParam(IFptr.LIBFPTR_PARAM_SUM, check.getSellingPrice());
+                    fptr.receiptTotal();
+
+                    // Закрыть чек
+                    fptr.closeReceipt();
+
+                    System.out.println("Чек закрылся!");
+
+                    while (fptr.checkDocumentClosed() < 0) {
+                        // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
+                        System.out.println("В while!");
+                        System.out.println(fptr.errorDescription());
+                        continue;
+                    }
+
+                    if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
+                        // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                        fptr.cancelReceipt();
+                        System.out.println("Чек не закрылся!");
+
+                        System.out.println(fptr.errorDescription());
+                        return false;
+                    }else {
+                        System.out.println("Возвращаю тру!");
+                        return true;
+                    }
+
+                } else {
+                    System.out.println("Соединение с ККМ не открыто!");
+                    return false;
+                }
+            }catch (Exception e){
+                System.out.println("Ошибка! "+e.toString());
+                return false;
+            }
+        }else {
+
+            System.out.println("Драйвер принтера чека не инициализирован!");
+            return false;
+        }
+    }
+
+    public static boolean returnToKKM(List<TableGoods> goods, CheckEntity check){
+        if(Properties.FPTR != null){
+            IFptr fptr = Properties.FPTR;
+
+
+            try{
+                // Открыть соединение
+                // fptr.open();
+
+                if(fptr.isOpened()) {
+
+                    // Регистрация операции
+                    fptr.setParam(1021, name);
+                    fptr.setParam(1203, inn);
+                    fptr.operatorLogin();
+
+                    // Чек прихода
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL_RETURN);
+                    fptr.openReceipt();
+
+
+
+                    // Печать продукции
+                    for (int i = 0; i < goods.size(); i++) {
+                        fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goods.get(i).getName());
+                        fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goods.get(i).getPrice());
+                        fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goods.get(i).getCount());
+                        fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goods.get(i).getSellingPrice());
+                        fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
+                        fptr.registration();
+                    }
+
+                    // Закрыть чек и напечатать
+                    int typePaymaent = IFptr.LIBFPTR_PT_ELECTRONICALLY;
+
+                    if (check.getTypeOfPayment() == 1) {
+                        typePaymaent = IFptr.LIBFPTR_PT_CASH;
+                    }
+
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_SUM, check.getTotal());
+                    fptr.payment();
+
+                    // Зарегистрировать ИТОГ
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_SUM, check.getTotal());
                     fptr.receiptTotal();
 
                     // Закрыть чек
@@ -393,6 +477,8 @@ public class KKMOFD {
 
         return goodsForDisplayList;
     }
+
+
 
     //МЕтод который проверяет наличие в Листе и возвращает
     public static int checkContain(List<GoodsForDisplay> goodsList, Goods goods) {

@@ -22,7 +22,7 @@ public class GoodsEntity {
     private Double priceAfterDiscount;
     private Double sellingPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "check_id")
     public CheckEntity getCheckEntity() {
         return checkEntity;
