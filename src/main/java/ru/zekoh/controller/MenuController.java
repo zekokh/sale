@@ -84,7 +84,7 @@ public class MenuController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2Window.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2SmallWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
