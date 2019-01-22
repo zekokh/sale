@@ -110,7 +110,10 @@ public class DiscountProgram {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4) {
+                // 13 - выпечка и хлеб
+                // 4 - круассаны
+                // 32 - Багет провансаль, Ачма с овощами, Ачма с курицей, Греческий, Цезарь
+                if (classifier == 13 || classifier == 4 || classifier == 32) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;

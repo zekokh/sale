@@ -402,18 +402,18 @@ public class Sale {
                         //DiscountProgram.onAchmaAndTea(check);
 
                         // Эклер + чай
-                        DiscountProgram.twoProduct(check, 22,17, 9.0);
-
-                        // Флан + чай
-                        DiscountProgram.twoProduct(check, 23,17, 9.0);
+                        DiscountProgram.twoProduct(check, 5,17, 9.0);
                     }
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
-                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 21.16);
+                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 29.167);
 
                     // 10 макаронс
-                    DiscountProgram.discountOnCountProductInCheck(check, 21, 6, 22.5);
+                    DiscountProgram.discountOnCountProductInCheck(check, 21, 10, 22.5);
+
+                    // Флан + чай
+                    DiscountProgram.twoProduct(check, 9,17, 9.0);
 
 
                     // Флан натюр по кусочкам
