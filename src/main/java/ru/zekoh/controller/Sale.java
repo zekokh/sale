@@ -394,33 +394,41 @@ public class Sale {
                     CheckObject tempCheck = DiscountProgram.timeDiscount(check);
                     if (tempCheck == null) {
 
-                        // 5 круаасан по цене 199р.
-                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+                        // 5 круаасан по цене 188р.
+                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 37.6);
 
                         DiscountProgram.onCroissant(check);
 
-                        DiscountProgram.onAchmaAndTea(check);
+                        //DiscountProgram.onAchmaAndTea(check);
 
+                        // Эклер + чай
+                        DiscountProgram.twoProduct(check, 22,17, 9.0);
+
+                        // Флан + чай
+                        DiscountProgram.twoProduct(check, 23,17, 9.0);
                     }
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
-                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
+                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 21.16);
+
+                    // 10 макаронс
+                    DiscountProgram.discountOnCountProductInCheck(check, 21, 6, 22.5);
 
 
                     // Флан натюр по кусочкам
-                    DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
 
 
                     // Флан кокос и чернослив
-                    DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
 
 
                     // Флан апельсин лимон ягодны шоколад
-                    DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
 
                     // Акция на панини комбо с 11:00 до 15:00
-                    DiscountProgram.initPaniniWithTimeLimit(check);
+                   // DiscountProgram.initPaniniWithTimeLimit(check);
 
                 }
 

@@ -67,12 +67,12 @@ public class DiscountProgram {
         return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 
-    //Скидка 40% на выпечку после 8 вечера
+    //Скидка 30% на выпечку после 8 вечера
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "19:20:00";
-        Double amountOfDiscount = 0.4;
+        String afterTime = "20:00:00";
+        Double amountOfDiscount = 0.3;
         boolean flag = false;
 
         //Сегодняшняя дата
@@ -323,6 +323,7 @@ public class DiscountProgram {
             }
         }
     }
+
 
     public static void onPanini(CheckObject check) {
 
@@ -811,7 +812,7 @@ public class DiscountProgram {
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 8;
+                                Double price = goods.getPriceFromThePriceList() - 9;
 
                                 goods.setPriceAfterDiscount(price);
 
@@ -837,7 +838,126 @@ public class DiscountProgram {
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 8;
+                                Double price = goods.getPriceFromThePriceList() - 9;
+
+                                goods.setPriceAfterDiscount(price);
+
+                                //Количество товара
+                                Double countProduct = goods.getCount();
+
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countTea--;
+                            }
+                        }
+                    }
+
+                    if (countCroissant == 0 && countTea == 0) {
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    public static void twoProduct(CheckObject check, int classifire1, int classifire2, Double minusPrice) {
+
+        if (check.getGoodsList().size() > 0) {
+            // Считаю кол-во ачмы и кол-во чая нахожу минимальное значение и на это значение делаю скидку на ачму и чай
+
+            int countCroissant = 0;
+            int countTea = 0;
+            int count = 0;
+
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                // Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                // Нашли ачму
+                if (classifier == classifire1) {
+                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        countCroissant++;
+                    }
+                }
+
+                // Нашли чай
+                if (classifier == classifire2) {
+                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        countTea++;
+                    }
+                }
+            }
+
+            if (countCroissant > 0 && countTea > 0) {
+
+                // Нахожу что наименьшее
+                if (countCroissant == countTea) {
+                    count = countCroissant;
+                } else {
+
+                    count = countCroissant;
+
+                    if (count > countTea) {
+                        count = countTea;
+                    }
+                }
+
+                countCroissant = count;
+                countTea = count;
+
+                // Делаем скидку
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                    // Текущий товар
+                    Goods goods = check.getGoodsList().get(i);
+
+
+                    //Классификатор товара
+                    int classifier = goods.getClassifier();
+
+                    // Нашли ачму
+                    if (classifier == classifire1) {
+
+                        if (countCroissant > 0) {
+
+
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+
+                                Double price = goods.getPriceFromThePriceList() - minusPrice;
+
+                                goods.setPriceAfterDiscount(price);
+
+                                //Количество товара
+                                Double countProduct = goods.getCount();
+
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+                                countCroissant--;
+                            }
+                        }
+                    }
+
+
+                    // Нашли чай
+                    if (classifier == classifire2) {
+
+                        if (countTea > 0) {
+
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+
+                                Double price = goods.getPriceFromThePriceList() - minusPrice;
 
                                 goods.setPriceAfterDiscount(price);
 
