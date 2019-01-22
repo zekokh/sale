@@ -131,7 +131,7 @@ public class Sale {
 
 
     //Размер шрифта папок и продуктов
-    Double fontFolderAndProduct = 16.0;
+    Double fontFolderAndProduct = 28.0;
 
     //Переменная где содержится level для удобства доступа
     int levalProductForSerch = 0;
@@ -146,13 +146,13 @@ public class Sale {
     int amountFolderAndProduct = 0;
 
     //Количество папок и продуктов в строке
-    int countFolderAndProductInRow = 4;
+    int countFolderAndProductInRow = 5;
 
     //Ширина кнопок с папками и продуктами
-    int btnWigth = 145;
+    int btnWigth = 237;
 
     //Высота кнопок с папками и продуктами
-    int btnHight = 90;
+    int btnHight = 150;
 
     //
     private Goods tempGoods = null;
@@ -278,7 +278,7 @@ public class Sale {
         panelForButtons.getChildren().add(getGrid(level, 1));
 
         // Устанавливаем размер ячейки в списке товаров
-        goodsListView.setFixedCellSize(48);
+        goodsListView.setFixedCellSize(70);
     }
 
     public void addNewCheck(ActionEvent actionEvent) {
@@ -1764,7 +1764,7 @@ public class Sale {
             button.setStyle("-fx-font-size: 15");
             button.setText("" + checkObject.getSellingPrice());
 
-            button.setPrefSize(90, 60);
+            button.setPrefSize(160, 105);
             button.setBackground(new Background(new BackgroundFill(
                     Color.valueOf("#BBDEFB"), CornerRadii.EMPTY, Insets.EMPTY)));
             button.setBorder(new Border(new BorderStroke(Color.valueOf("#BBDEFB"),

@@ -10,34 +10,49 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1024.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1920.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnWindowController">
    <children>
-      <Button layoutX="20.0" layoutY="680.0" mnemonicParsing="false" onAction="#back" prefHeight="48.0" prefWidth="87.0" text="назад" />
-      <TextField fx:id="productLabel" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="260.0" promptText="Продукт в чеке" />
-      <Button layoutX="464.0" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="найти" />
-      <Button layoutX="542.0" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="очистить" />
+      <Button layoutX="30.0" layoutY="1090.0" mnemonicParsing="false" onAction="#back" prefHeight="90.0" prefWidth="190.0" text="назад">
+         <font>
+            <Font size="30.0" />
+         </font></Button>
+      <TextField fx:id="productLabel" layoutX="20.0" layoutY="20.0" prefHeight="60.0" prefWidth="308.0" promptText="Продукт в чеке">
+         <font>
+            <Font size="28.0" />
+         </font></TextField>
+      <Button layoutX="505.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="144.0" text="найти">
+         <font>
+            <Font size="28.0" />
+         </font></Button>
+      <Button layoutX="660.0" layoutY="20.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="207.0" text="очистить">
+         <font>
+            <Font size="28.0" />
+         </font></Button>
       <ListView fx:id="listView" layoutX="20.0" layoutY="60.0" prefHeight="610.0" prefWidth="650.0" visible="false" />
-      <TableView fx:id="tableView" layoutX="20.0" layoutY="60.0" onKeyReleased="#kbrClicked" onMouseClicked="#clicked" prefHeight="348.0" prefWidth="985.0">
+      <TableView fx:id="tableView" layoutX="10.0" layoutY="92.0" onKeyReleased="#kbrClicked" onMouseClicked="#clicked" prefHeight="715.0" prefWidth="1900.0">
         <columns>
-          <TableColumn fx:id="date" editable="false" prefWidth="75.0" text="Время" />
-          <TableColumn fx:id="total" editable="false" prefWidth="120.0" text="Продажная цена" />
-            <TableColumn fx:id="priceOfprice" editable="false" prefWidth="120.0" text="Цена по прайсу" />
-            <TableColumn fx:id="amountOfbonus" editable="false" prefWidth="123.27549743652344" text="Оплата бонусами" />
-            <TableColumn fx:id="typePayment" editable="false" prefWidth="132.83087158203125" text="Способ оплаты" />
-            <TableColumn fx:id="returnStatus" editable="false" prefWidth="132.83087158203125" text="Возврат" />
+          <TableColumn fx:id="date" editable="false" prefWidth="90.44109439849854" text="Время" />
+          <TableColumn fx:id="total" editable="false" prefWidth="203.12796020507812" text="Продажная цена" />
+            <TableColumn fx:id="priceOfprice" editable="false" prefWidth="633.8720092773438" text="Цена по прайсу" />
+            <TableColumn fx:id="amountOfbonus" editable="false" prefWidth="292.81134033203125" text="Оплата бонусами" />
+            <TableColumn fx:id="typePayment" editable="false" prefWidth="271.1885986328125" text="Способ оплаты" />
+            <TableColumn fx:id="returnStatus" editable="false" prefWidth="321.541015625" text="Возврат" />
         </columns>
       </TableView>
-      <ChoiceBox layoutX="294.0" layoutY="20.0" prefHeight="30.0" prefWidth="150.0" />
-      <TableView fx:id="goodTableView" layoutX="20.0" layoutY="414.0" prefHeight="256.0" prefWidth="985.0">
+      <ChoiceBox layoutX="342.0" layoutY="20.0" prefHeight="60.0" prefWidth="150.0" />
+      <TableView fx:id="goodTableView" layoutX="10.0" layoutY="815.0" prefHeight="256.0" prefWidth="1900.0">
         <columns>
-          <TableColumn fx:id="productName" editable="false" prefWidth="300.0" text="Название продукта" />
-          <TableColumn fx:id="price" minWidth="0.0" prefWidth="120.0" text="Прайс" />
-            <TableColumn fx:id="totalProduct" minWidth="0.0" prefWidth="120.0" text="Цена" />
-            <TableColumn fx:id="count" minWidth="0.0" prefWidth="120.0" text="Кол-во" />
-            <TableColumn fx:id="sellingPrice" minWidth="0.0" prefWidth="120.0" text="Итого" />
+          <TableColumn fx:id="productName" editable="false" prefWidth="272.0582971572876" text="Название продукта" />
+          <TableColumn fx:id="price" minWidth="0.0" prefWidth="173.40170288085938" text="Прайс" />
+            <TableColumn fx:id="totalProduct" minWidth="0.0" prefWidth="153.59832763671875" text="Цена" />
+            <TableColumn fx:id="count" minWidth="0.0" prefWidth="239.576171875" text="Кол-во" />
+            <TableColumn fx:id="sellingPrice" minWidth="0.0" prefWidth="237.1885986328125" text="Итого" />
         </columns>
       </TableView>
-      <Button fx:id="returnBtn" layoutX="835.0" layoutY="679.0" mnemonicParsing="false" onAction="#returnAction" prefHeight="48.0" prefWidth="155.0" text="оформить возврат" />
+      <Button fx:id="returnBtn" layoutX="1428.0" layoutY="1090.0" mnemonicParsing="false" onAction="#returnAction" prefHeight="90.0" prefWidth="462.0" text="оформить возврат">
+         <font>
+            <Font size="30.0" />
+         </font></Button>
       <Label fx:id="labelInfo" layoutX="673.0" layoutY="25.0" prefHeight="19.0" prefWidth="329.0">
          <font>
             <Font size="15.0" />

@@ -247,7 +247,7 @@ public class ReturnWindowController {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReturnModalInfo.fxml"));
 
-        dialog.setScene(new Scene(root, 700, 210));
+        dialog.setScene(new Scene(root, 1200, 410));
 
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
