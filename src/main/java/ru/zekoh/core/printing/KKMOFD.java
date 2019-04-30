@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class KKMOFD {
     public static String name = Properties.currentUser.getName();
@@ -21,6 +20,7 @@ public class KKMOFD {
     public static boolean initDriver(){
 
         System.out.println("Инициализация драйвера ккт");
+        System.out.println("COM: "+COM_PORT);
 
         try{
             // Инициализация драйвера
@@ -37,7 +37,7 @@ public class KKMOFD {
             Properties.FPTR.open();
 
         }catch (Exception e) {
-
+            System.out.println("В инициализация драйвера");
             System.out.println(e.getMessage());
         }
 
@@ -45,7 +45,11 @@ public class KKMOFD {
     }
 
     public static boolean sendToKKM(CheckObject check){
+
+        List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
+
         if(Properties.FPTR != null){
+
             IFptr fptr = Properties.FPTR;
 
 
@@ -64,7 +68,7 @@ public class KKMOFD {
                     fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL);
                     fptr.openReceipt();
 
-                    List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
+                   // List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
 
                     // Печать продукции
                     for (int i = 0; i < goodsForDisplays.size(); i++) {
@@ -467,7 +471,8 @@ public class KKMOFD {
                 goodsTemp.setCount(count);
 
                 //Продажная цена
-                Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
+               // Double sellingPrice = (goodsTemp.getCount() + goods.get(i).getCount()) * goods.get(i).getPriceAfterDiscount());
+                Double sellingPrice = goodsTemp.getCount() * goodsTemp.getPriceAfterDiscount();
                 Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 goodsTemp.setSellingPrice(sellingPriceDouble);
 
@@ -488,7 +493,7 @@ public class KKMOFD {
             for (int i = 0; i < goodsList.size(); i++) {
 
                 //Если продукт уже есть в списке продуктов
-                if (goods.getProductId() == goodsList.get(i).getProductId()) {
+                if (goods.getProductId() == goodsList.get(i).getProductId() && areEqualDouble(goods.getPriceAfterDiscount(), goodsList.get(i).getPriceAfterDiscount(), 2)) {
 
                     //Возвращаем индекс в листе
                     return i;
@@ -499,6 +504,10 @@ public class KKMOFD {
 
         //Если в листе для отображения пользователю нет такого товара отправляем 0
         return -1;
+    }
+
+    public static boolean areEqualDouble(double a, double b, int precision) {
+        return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 
 }

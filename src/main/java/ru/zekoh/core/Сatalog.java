@@ -13,51 +13,53 @@ import java.util.Map;
 public class Сatalog {
 
 
-    static List<Integer> arrayFolder = new ArrayList<Integer>();
+    static List<Integer> arrayFolder;
 
     // Количество на странице
-    static int amountElements = 23;
+    static int amountElements = 25;
 
     public static void generate() {
+        arrayFolder = new ArrayList<Integer>();
         Data.folders = generateFolders();
         Data.products = generateProducts();
 
         pagination();
 
     }
+
     private static Map<Integer, ArrayList<Folder>> generateFolders() {
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        try{
-            List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
+        try {
+            List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 AND a.live = true ORDER BY a.serialNumber asc ", DataEntity.class).getResultList();
 
 
-          session.close();
+            session.close();
 
-        //Создаем список папок отсортированных по уровню
-        Map<Integer, ArrayList<Folder>> folderListSortByLevel = new HashMap<Integer, ArrayList<Folder>>();
+            //Создаем список папок отсортированных по уровню
+            Map<Integer, ArrayList<Folder>> folderListSortByLevel = new HashMap<Integer, ArrayList<Folder>>();
 
-        for (DataEntity data : dataEntity) {
-            Folder folder = new Folder();
-            folder.setId(data.getId());
-            folder.setName(data.getShortName());
-            folder.setParentId(data.getParentId());
+            for (DataEntity data : dataEntity) {
+                Folder folder = new Folder();
+                folder.setId(data.getId());
+                folder.setName(data.getShortName());
+                folder.setParentId(data.getParentId());
 
-            int folderParentId = folder.getParentId();
+                int folderParentId = folder.getParentId();
 
-            if (folderListSortByLevel.containsKey(folderParentId)) {
-                folderListSortByLevel.get(folderParentId).add(folder);
-            } else {
-                ArrayList<Folder> folderList = new ArrayList<Folder>();
-                folderList.add(folder);
-                arrayFolder.add(folderParentId);
-                folderListSortByLevel.put(folderParentId, folderList);
+                if (folderListSortByLevel.containsKey(folderParentId)) {
+                    folderListSortByLevel.get(folderParentId).add(folder);
+                } else {
+                    ArrayList<Folder> folderList = new ArrayList<Folder>();
+                    folderList.add(folder);
+                    arrayFolder.add(folderParentId);
+                    folderListSortByLevel.put(folderParentId, folderList);
+                }
             }
-        }
 
-        return folderListSortByLevel;
+            return folderListSortByLevel;
         } catch (Exception e) {
-            System.out.println("Ошибка! "+e.toString());
+            System.out.println("Ошибка! " + e.toString());
             return null;
         }
     }
@@ -88,7 +90,7 @@ public class Сatalog {
             } else {
                 ArrayList<Product> productList = new ArrayList<Product>();
                 productList.add(product);
-                if(!arrayFolder.contains(productParentId)){
+                if (!arrayFolder.contains(productParentId)) {
                     arrayFolder.add(productParentId);
                 }
 
@@ -100,9 +102,9 @@ public class Сatalog {
     }
 
     private static void pagination() {
-        Map<Integer,ArrayList<PageFolder>> arrayFolderMap = new HashMap<Integer, ArrayList<PageFolder>>();
+        Map<Integer, ArrayList<PageFolder>> arrayFolderMap = new HashMap<Integer, ArrayList<PageFolder>>();
 
-        Map<Integer, List<PageProduct>> arrayProductMap = new HashMap<Integer,  List<PageProduct>>();
+        Map<Integer, List<PageProduct>> arrayProductMap = new HashMap<Integer, List<PageProduct>>();
 
 
         if (Data.folders.size() > 0) {
@@ -116,16 +118,15 @@ public class Сatalog {
 
                     try {
                         sumFolders = Data.folders.get(i).size();
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
 
                     try {
                         sumProducts = Data.products.get(i).size();
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                     }
-
 
 
                     int sum = sumFolders + sumProducts;
@@ -141,7 +142,7 @@ public class Сatalog {
 
                             if (arrayFolderMap.containsKey(i)) {
                                 arrayFolderMap.get(i).add(new PageFolder(1, folders));
-                            }else {
+                            } else {
                                 ArrayList<PageFolder> list = new ArrayList<PageFolder>();
                                 list.add(new PageFolder(1, folders));
                                 arrayFolderMap.put(i, list);
@@ -150,10 +151,9 @@ public class Сatalog {
                         }
 
 
-
                         //-----
 
-                        if(Data.products.get(i) != null) {
+                        if (Data.products.get(i) != null) {
                             List<Product> products = new ArrayList<Product>();
 
                             for (Product product : Data.products.get(i)) {
@@ -162,14 +162,12 @@ public class Сatalog {
 
                             if (arrayProductMap.containsKey(i)) {
                                 arrayProductMap.get(i).add(new PageProduct(1, products));
-                            }else {
+                            } else {
                                 List<PageProduct> list = new ArrayList<PageProduct>();
                                 list.add(new PageProduct(1, products));
                                 arrayProductMap.put(i, list);
                             }
                         }
-
-
 
 
                     } else {
@@ -178,6 +176,24 @@ public class Сatalog {
                         if (sumFolders > amountElements) {
 
                         } else {
+
+                            // Если в папке больше папок чем кол-во страниц то работать не будет
+                            if (Data.folders.get(i) != null) {
+                                ArrayList<Folder> folders = new ArrayList<Folder>();
+
+                                for (Folder folder : Data.folders.get(i)) {
+                                    folders.add(folder);
+                                }
+
+                                if (arrayFolderMap.containsKey(i)) {
+                                    arrayFolderMap.get(i).add(new PageFolder(1, folders));
+                                } else {
+                                    ArrayList<PageFolder> list = new ArrayList<PageFolder>();
+                                    list.add(new PageFolder(1, folders));
+                                    arrayFolderMap.put(i, list);
+                                }
+                            }
+
                             if (sumProducts > amountElements) {
 
                                 int page = 1;
@@ -206,7 +222,7 @@ public class Сatalog {
 
                                     if (arrayProductMap.containsKey(i)) {
                                         arrayProductMap.get(i).add(new PageProduct(page, products));
-                                    }else {
+                                    } else {
                                         List<PageProduct> list = new ArrayList<PageProduct>();
                                         list.add(new PageProduct(page, products));
                                         arrayProductMap.put(i, list);
@@ -215,12 +231,12 @@ public class Сatalog {
                                     if (page <= count) {
                                         page++;
 
-                                        start = amountElements * (page-1);
+                                        start = amountElements * (page - 1);
 
-                                        if(countElementLastPage == 0){
-                                            finish = amountElements * page-1;
-                                        }else {
-                                            finish = (amountElements * (page-1))+countElementLastPage -1;
+                                        if (countElementLastPage == 0) {
+                                            finish = amountElements * page - 1;
+                                        } else {
+                                            finish = (amountElements * (page - 1)) + countElementLastPage - 1;
                                         }
 
 
@@ -242,9 +258,6 @@ public class Сatalog {
                         }
                     }
                 }
-
-
-
             }
 
         } else if (Data.products.size() > 0) {

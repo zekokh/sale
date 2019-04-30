@@ -36,7 +36,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAO.DiscountForEmployeesDao;
 import ru.zekoh.db.DAOImpl.CardDao;
@@ -46,7 +45,6 @@ import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -54,7 +52,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.Math.toIntExact;
@@ -131,13 +128,13 @@ public class Sale {
 
 
     //Размер шрифта папок и продуктов
-    Double fontFolderAndProduct = 28.0;
+    Double fontFolderAndProduct = 16.0;
 
     //Переменная где содержится level для удобства доступа
     int levalProductForSerch = 0;
 
     // Переменная пагинации
-    int currentPage = 1;
+    int currentPage = 2;
 
     //Считаем количество рядов папок и кнопок для расчета высоты panel
     int numberOfLinesForFolderAndProduct = 0;
@@ -146,13 +143,13 @@ public class Sale {
     int amountFolderAndProduct = 0;
 
     //Количество папок и продуктов в строке
-    int countFolderAndProductInRow = 5;
+    int countFolderAndProductInRow = 4;
 
     //Ширина кнопок с папками и продуктами
-    int btnWigth = 237;
+    int btnWigth = 145;
 
     //Высота кнопок с папками и продуктами
-    int btnHight = 150;
+    int btnHight = 90;
 
     //
     private Goods tempGoods = null;
@@ -278,7 +275,7 @@ public class Sale {
         panelForButtons.getChildren().add(getGrid(level, 1));
 
         // Устанавливаем размер ячейки в списке товаров
-        goodsListView.setFixedCellSize(70);
+        goodsListView.setFixedCellSize(48);
     }
 
     public void addNewCheck(ActionEvent actionEvent) {
@@ -330,7 +327,7 @@ public class Sale {
                         if (check.getDiscount().getDiscountRole() == 2) {
 
                             // Вычесть из продажной цены сумму скидки 20% на весь чек
-                           // List<Goods> goods = check.getGoodsList();
+                            // List<Goods> goods = check.getGoodsList();
 
                             for (int i = 0; i < goods.size(); i++) {
 
@@ -375,7 +372,7 @@ public class Sale {
                             goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                         }
 
-                      //  amountBonus.setText("");
+                        //  amountBonus.setText("");
                     }
                 }
 
@@ -384,7 +381,7 @@ public class Sale {
                 if (check.getDiscount() == null) {
 
                     // Вернуть ценны по прайсу
-                   //List<Goods> goods = check.getGoodsList();
+                    //List<Goods> goods = check.getGoodsList();
 
                     for (int i = 0; i < goods.size(); i++) {
 
@@ -394,38 +391,32 @@ public class Sale {
                     CheckObject tempCheck = DiscountProgram.timeDiscount(check);
                     if (tempCheck == null) {
 
-                        // 5 круаасан по цене 188р.
-                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 37.6);
+                        // 5 круаасан по цене 199р.
+                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
 
                         DiscountProgram.onCroissant(check);
 
-                        //DiscountProgram.onAchmaAndTea(check);
+                        DiscountProgram.onAchmaAndTea(check);
 
-                        // Эклер + чай
-                        DiscountProgram.twoProduct(check, 5,17, 9.0);
+                        DiscountProgram.onBrioshAndTea(check);
+
                     }
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
-                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 29.167);
-
-                    // 10 макаронс
-                    DiscountProgram.discountOnCountProductInCheck(check, 21, 10, 22.5);
-
-                    // Флан + чай
-                    DiscountProgram.twoProduct(check, 9,17, 9.0);
+                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
 
 
                     // Флан натюр по кусочкам
-                    //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+                    DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
 
 
                     // Флан кокос и чернослив
-                    //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+                    DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
 
 
                     // Флан апельсин лимон ягодны шоколад
-                    //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
+                    DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
 
                     // Акция на панини комбо с 11:00 до 15:00
                    // DiscountProgram.initPaniniWithTimeLimit(check);
@@ -582,11 +573,11 @@ public class Sale {
                     amountBonuses = amountBonuses - priceAfterDiscount;
                 } else {
 
-                    if(goods.get(i).isUnit()){
+                    if (goods.get(i).isUnit()) {
                         goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
                         goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
-                    }else {
-                        Double temp = (priceAfterDiscount - amountBonuses)/ goods.get(i).getCount();
+                    } else {
+                        Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
                         goods.get(i).setPriceAfterDiscount(new BigDecimal(temp).setScale(5, RoundingMode.HALF_UP).doubleValue());
                         goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
                     }
@@ -1748,7 +1739,7 @@ public class Sale {
     }
 
     private void createNewCheck() {
-        if (checkList.size() <= 9) {
+        if (checkList.size() <= 10) {
 
             // Обнуляем выбранный товар
             tempGoods = null;
@@ -1764,7 +1755,7 @@ public class Sale {
             button.setStyle("-fx-font-size: 15");
             button.setText("" + checkObject.getSellingPrice());
 
-            button.setPrefSize(160, 105);
+            button.setPrefSize(99, 60);
             button.setBackground(new Background(new BackgroundFill(
                     Color.valueOf("#BBDEFB"), CornerRadii.EMPTY, Insets.EMPTY)));
             button.setBorder(new Border(new BorderStroke(Color.valueOf("#BBDEFB"),
@@ -2500,6 +2491,7 @@ public class Sale {
                     Date date = new Date();
                     String currentDate = "" + date.getTime() / 1000 + "";
                     checkEntity.setDateOfClosing(currentDate);
+                    checkObject.setDateOfClosing(currentDate);
                     //checkEntity.setDateOfClosingUnix();
                     checkEntity.setReturnStatus(false);
                     //checkEntity.setIsALive();
@@ -2511,6 +2503,8 @@ public class Sale {
 
                         // Открыть модальное окно для печати чека
                         Properties.checkObject = checkObject;
+
+
 
                         Stage dialog = new Stage();
                         dialog.initStyle(StageStyle.UNDECORATED);
@@ -2528,62 +2522,74 @@ public class Sale {
                         dialog.showAndWait();
 
                         if (Properties.statusPrinted) {
+                       // if (true) {
+
+                            System.out.println("Статуст успешной печати: " + Properties.statusPrinted);
+                            System.out.println("Объект checkObkect сумма чека: " + Properties.checkObject.getAmountByPrice());
                             // if (true) {
                             // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
 
-                            // Печать прошла успешно добавляем запись в бд
-                            Session session = Properties.sessionFactory.openSession();
+                            System.out.println("Cоздаем транзакцию!");
 
-                            Transaction t = session.beginTransaction();
+                            try {
 
-                            // Добавляем товары
-                            List<Goods> goods = checkObject.getGoodsList();
 
-                            for (int i = 0; i < goods.size(); i++) {
-                                GoodsEntity goodsEntity = new GoodsEntity();
-                                goodsEntity.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
-                                goodsEntity.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
-                                goodsEntity.setSellingPrice(goods.get(i).getSellingPrice());
-                                goodsEntity.setProductId(goods.get(i).getProductId());
-                                goodsEntity.setQuantity(goods.get(i).getCount());
-                                goodsEntity.setProductName(goods.get(i).getProductName());
-                                checkEntity.addGoods(goodsEntity);
-                            }
+                                // Печать прошла успешно добавляем запись в бд
+                                Session session = Properties.sessionFactory.openSession();
 
-                            int id = (int) session.save(checkEntity);
-                            t.commit();
-                            session.close();
+                                Transaction t = session.beginTransaction();
 
-                            // todo Запись покупки по скидки
+                                // Добавляем товары
+                                List<Goods> goods = checkObject.getGoodsList();
 
-                            if (checkObject.getDiscount() != null) {
-                                DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
-                                Session session1 = Properties.sessionFactory.openSession();
-                                Transaction t1 = session1.beginTransaction();
-                                session1.save(discountHistoryEntity);
-                                t1.commit();
-                                session1.close();
-
-                                if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
-
-                                    try {
-                                        pushDataOnTheServer(checkObject, id);
-                                    } catch (Exception e) {
-                                        logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
-                                    }
-
-                                } else {
-                                    CardDao cardDao = new CardDao();
-                                    DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
-                                    card.setBalance(card.getBalance() + checkObject.getSellingPrice());
-                                    cardDao.update(card);
+                                for (int i = 0; i < goods.size(); i++) {
+                                    GoodsEntity goodsEntity = new GoodsEntity();
+                                    goodsEntity.setPriceAfterDiscount(goods.get(i).getPriceAfterDiscount());
+                                    goodsEntity.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
+                                    goodsEntity.setSellingPrice(goods.get(i).getSellingPrice());
+                                    goodsEntity.setProductId(goods.get(i).getProductId());
+                                    goodsEntity.setQuantity(goods.get(i).getCount());
+                                    goodsEntity.setProductName(goods.get(i).getProductName());
+                                    checkEntity.addGoods(goodsEntity);
                                 }
+
+                                int id = (int) session.save(checkEntity);
+                                t.commit();
+                                session.close();
+                                System.out.println("Транзакция прошла успешно!");
+
+                                // todo Запись покупки по скидки
+
+                                if (checkObject.getDiscount() != null) {
+                                    DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
+                                    Session session1 = Properties.sessionFactory.openSession();
+                                    Transaction t1 = session1.beginTransaction();
+                                    session1.save(discountHistoryEntity);
+                                    t1.commit();
+                                    session1.close();
+
+                                    if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
+
+                                        try {
+                                            pushDataOnTheServer(checkObject, id);
+                                        } catch (Exception e) {
+                                            logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
+                                        }
+
+                                    } else {
+                                        CardDao cardDao = new CardDao();
+                                        DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
+                                        card.setBalance(card.getBalance() + checkObject.getSellingPrice());
+                                        cardDao.update(card);
+                                    }
+                                }
+
+
+                                // Закрываем чек
+                                cancelCheckMethod();
+                            } catch (Exception e) {
+                                System.out.println("Ошибка при добавлении в бд!" + e.getMessage());
                             }
-
-
-                            // Закрываем чек
-                            cancelCheckMethod();
-
 
                         } else {
 
@@ -2593,6 +2599,7 @@ public class Sale {
                         // Очищаем переменные для корректной работы
                         Properties.statusPrinted = false;
                         Properties.checkObject = null;
+
 
                     }
 

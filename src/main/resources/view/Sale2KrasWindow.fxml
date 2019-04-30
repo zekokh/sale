@@ -5,13 +5,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1920.0" style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.Sale">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.Sale">
    <children>
-      <HBox fx:id="panelForCheckBtns" layoutX="136.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="105.0" prefWidth="1648.0" />
-      <ListView fx:id="goodsListView" layoutY="108.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#itemAction" prefHeight="649.0" prefWidth="735.0" />
-      <Button id="addCheckId" fx:id="newCheckBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewCheck" prefHeight="105.0" prefWidth="135.0" text="+" textFill="WHITE">
+      <HBox fx:id="panelForCheckBtns" layoutX="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="1108.0" />
+      <ListView fx:id="goodsListView" layoutY="62.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#itemAction" prefHeight="388.0" prefWidth="442.0" />
+      <Button id="addCheckId" fx:id="newCheckBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewCheck" prefHeight="60.0" prefWidth="80.0" text="+" textFill="WHITE">
          <font>
-            <Font name="Helvetica Light" size="45.0" />
+            <Font name="Helvetica Light" size="25.0" />
          </font>
       </Button>
       <Pane fx:id="panelWithNumber" layoutX="675.0" layoutY="81.0" prefHeight="610.0" prefWidth="319.0" visible="false">
@@ -98,21 +98,21 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelWithControlBtn" layoutY="968.0" prefHeight="227.0" prefWidth="735.0">
+      <Pane fx:id="panelWithControlBtn" layoutX="1.0" layoutY="572.0" prefHeight="170.0" prefWidth="442.0">
          <children>
-            <Button id="cashBtn" layoutY="5.0" mnemonicParsing="false" onAction="#payCash" prefHeight="105.0" prefWidth="160.0" text="наличка">
+            <Button id="cashBtn" mnemonicParsing="false" onAction="#payCash" prefHeight="80.0" prefWidth="123.0" text="наличка">
                <font>
-                  <Font name="Helvetica Light" size="28.0" />
+                  <Font name="Helvetica Light" size="24.0" />
                </font>
             </Button>
-            <Button id="cardBtn" layoutX="164.0" layoutY="5.0" mnemonicParsing="false" onAction="#payCard" prefHeight="105.0" prefWidth="160.0" text="картой">
+            <Button id="cardBtn" layoutX="128.0" mnemonicParsing="false" onAction="#payCard" prefHeight="80.0" prefWidth="123.0" text="картой">
                <font>
-                  <Font name="Helvetica Light" size="28.0" />
+                  <Font name="Helvetica Light" size="24.0" />
                </font>
             </Button>
-            <Button id="greyBtn" alignment="CENTER" layoutY="115.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="105.0" prefWidth="160.0" text="отмена чека" textAlignment="CENTER" wrapText="true">
+            <Button id="greyBtn" alignment="CENTER" layoutY="85.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="80.0" prefWidth="147.0" text="отмена чека" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Helvetica Light" size="28.0" />
+                  <Font name="Helvetica Light" size="20.0" />
                </font>
             </Button>
             <Label fx:id="discountInfoLabel" layoutY="486.0" prefHeight="85.0" prefWidth="318.0">
@@ -120,29 +120,29 @@
                   <Font name="Helvetica Light" size="15.0" />
                </font>
             </Label>
-            <Button id="greyBtn" fx:id="discountBtn" layoutX="164.0" layoutY="115.0" mnemonicParsing="false" onAction="#cardDiscount" prefHeight="105.0" prefWidth="160.0" text="\%">
+            <Button id="greyBtn" fx:id="discountBtn" layoutX="151.0" layoutY="85.0" mnemonicParsing="false" onAction="#cardDiscount" prefHeight="80.0" prefWidth="90.0" text="\%">
                <font>
-                  <Font name="Helvetica Light" size="42.0" />
+                  <Font name="Helvetica Light" size="30.0" />
                </font>
             </Button>
-            <Button id="greyBtn" fx:id="appBtn" layoutX="328.0" layoutY="115.0" mnemonicParsing="false" onAction="#appDiscount" prefHeight="105.0" prefWidth="140.0" text="App">
+            <Button id="greyBtn" fx:id="appBtn" layoutX="246.0" layoutY="85.0" mnemonicParsing="false" onAction="#appDiscount" prefHeight="80.0" prefWidth="100.0" text="App">
                <font>
-                  <Font name="Helvetica Light" size="40.0" />
+                  <Font name="Helvetica Light" size="21.0" />
                </font>
             </Button>
-            <Button id="cancelCheckId" layoutX="328.0" layoutY="5.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="105.0" prefWidth="140.0" text="X">
+            <Button id="cancelCheckId" layoutX="256.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="80.0" prefWidth="90.0" text="X">
                <font>
-                  <Font name="Helvetica Light" size="49.0" />
+                  <Font name="Helvetica Light" size="20.0" />
                </font>
             </Button>
-            <Button id="greyBtn" layoutX="472.0" layoutY="5.0" mnemonicParsing="false" onAction="#addItem" prefHeight="105.0" prefWidth="130.0" text="+">
+            <Button id="greyBtn" layoutX="351.0" mnemonicParsing="false" onAction="#addItem" prefHeight="80.0" prefWidth="90.0" text="+">
                <font>
-                  <Font name="Helvetica Light" size="55.0" />
+                  <Font name="Helvetica Light" size="38.0" />
                </font>
             </Button>
-            <Button id="greyBtn" layoutX="472.0" layoutY="115.0" mnemonicParsing="false" onAction="#removeItem" prefHeight="105.0" prefWidth="130.0" text="-">
+            <Button id="greyBtn" layoutX="351.0" layoutY="85.0" mnemonicParsing="false" onAction="#removeItem" prefHeight="80.0" prefWidth="90.0" text="-">
                <font>
-                  <Font name="Helvetica Light" size="55.0" />
+                  <Font name="Helvetica Light" size="38.0" />
                </font>
             </Button>
             <Button fx:id="closeCheckBtn" alignment="CENTER" layoutX="1.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="80.0" prefWidth="250.0" style="-fx-background-color: FFFDE7;" text="закрыть чек" textAlignment="CENTER" visible="false" wrapText="true">
@@ -150,84 +150,84 @@
                   <Font name="Helvetica Light" size="24.0" />
                </font>
             </Button>
-            <Button id="greyBtn" fx:id="upInListView" layoutX="606.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#upListGoods" prefHeight="105.0" prefWidth="125.0">
-               <font>
-                  <Font name="Helvetica Light" size="42.0" />
-               </font>
-            </Button>
-            <Button id="greyBtn" fx:id="downInListView" layoutX="606.0" layoutY="115.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#downListGoods" prefHeight="105.0" prefWidth="125.0">
-               <font>
-                  <Font name="Helvetica Light" size="42.0" />
-               </font>
-            </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelForButtons" layoutX="733.0" layoutY="107.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="956.0" prefWidth="1185.0" />
-      <Button id="greyBtn" layoutX="1785.0" mnemonicParsing="false" onAction="#exit" prefHeight="105.0" prefWidth="135.0" text="выход">
+      <Pane fx:id="panelForButtons" layoutX="443.0" layoutY="63.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="592.0" prefWidth="830.0" />
+      <Button id="greyBtn" layoutX="1190.0" mnemonicParsing="false" onAction="#exit" prefHeight="60.0" prefWidth="90.0" text="выход">
          <font>
-            <Font name="Helvetica Light" size="30.0" />
+            <Font name="Helvetica Light" size="18.0" />
          </font>
       </Button>
-      <Pane layoutX="6.0" layoutY="765.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="203.0" prefWidth="601.0">
+      <Pane layoutY="450.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="118.0" prefWidth="250.0">
          <children>
-            <Label layoutX="5.0" text="Итого:">
+            <Label layoutX="5.0" layoutY="7.0" text="Итого:">
                <font>
-                  <Font size="40.0" />
+                  <Font size="23.0" />
                </font>
             </Label>
-            <Label layoutX="5.0" layoutY="54.0" text="Скидка:">
+            <Label layoutX="5.0" layoutY="38.0" text="Скидка:">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="5.0" layoutY="99.0" text="Бонусы:">
+            <Label layoutX="5.0" layoutY="65.0" text="Бонусы:">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Label layoutX="5.0" layoutY="144.0" text="Без скидки:">
+            <Label layoutX="5.0" layoutY="92.0" text="Без скидки:">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="sellingPrice" layoutX="155.0" text="0 р">
+            <Label fx:id="sellingPrice" layoutX="100.0" layoutY="7.0" text="0 р">
                <font>
-                  <Font size="40.0" />
+                  <Font size="23.0" />
                </font>
             </Label>
-            <Label fx:id="amountDiscount" layoutX="155.0" layoutY="54.0" text="0 р">
+            <Label fx:id="amountDiscount" layoutX="100.0" layoutY="38.0" text="0 р">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="amountBonus" layoutX="155.0" layoutY="99.0" text="0 р">
+            <Label fx:id="amountBonus" layoutX="100.0" layoutY="65.0" text="0 р">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
-            <Label fx:id="whithoutDiscount" layoutX="220.0" layoutY="144.0" text="0 р">
+            <Label fx:id="whithoutDiscount" layoutX="130.0" layoutY="92.0" text="0 р">
                <font>
-                  <Font size="35.0" />
+                  <Font size="20.0" />
                </font>
             </Label>
          </children>
       </Pane>
-      <Button id="greyBtn" fx:id="libraBtn" layoutX="627.0" layoutY="846.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#libraAction" prefHeight="80.0" prefWidth="90.0" visible="false">
+      <Button id="greyBtn" fx:id="libraBtn" layoutX="352.0" layoutY="487.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#libraAction" prefHeight="80.0" prefWidth="90.0">
          <font>
             <Font name="Helvetica Light" size="42.0" />
          </font>
       </Button>
-      <Button fx:id="rightPagination" layoutX="1780.0" layoutY="1084.0" mnemonicParsing="false" onAction="#rightPaginationAction" prefHeight="105.0" prefWidth="130.0" style="-fx-background-color: EEEEEE;" text="&gt;" visible="false">
+      <Button fx:id="rightPagination" layoutX="1180.0" layoutY="650.0" mnemonicParsing="false" onAction="#rightPaginationAction" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: EEEEEE;" text="&gt;" visible="false">
          <font>
             <Font name="Helvetica Light" size="42.0" />
          </font>
       </Button>
-      <Button fx:id="leftPagination" layoutX="1640.0" layoutY="1084.0" mnemonicParsing="false" onAction="#leftPaginationAction" prefHeight="105.0" prefWidth="130.0" style="-fx-background-color: EEEEEE;" text="&lt;" visible="false">
+      <Button fx:id="leftPagination" layoutX="1070.0" layoutY="650.0" mnemonicParsing="false" onAction="#leftPaginationAction" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: EEEEEE;" text="&lt;" visible="false">
          <font>
             <Font name="Helvetica Light" size="42.0" />
          </font>
       </Button>
-      <Pane fx:id="panelFindDiscount" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+      <Button id="greyBtn" fx:id="upInListView" layoutX="450.0" layoutY="657.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#upListGoods" prefHeight="80.0" prefWidth="90.0">
+         <font>
+            <Font name="Helvetica Light" size="42.0" />
+         </font>
+      </Button>
+      <Button id="greyBtn" fx:id="downInListView" layoutX="550.0" layoutY="657.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#downListGoods" prefHeight="80.0" prefWidth="90.0">
+         <font>
+            <Font name="Helvetica Light" size="42.0" />
+         </font>
+      </Button>
+      <Pane fx:id="panelFindDiscount" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">
          <children>
             <TextField fx:id="numberDiscountCardTextField" layoutX="161.0" layoutY="110.0" prefHeight="40.0" prefWidth="259.0">
                <font>
@@ -341,7 +341,7 @@
             </Button>
          </children>
       </Pane>
-      <Pane fx:id="panelForApp" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+      <Pane fx:id="panelForApp" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button id="greyBtn" layoutX="229.0" layoutY="586.0" mnemonicParsing="false" onAction="#closePanelForApp" prefHeight="80.0" prefWidth="123.0" text="закрыть">
                <font>
@@ -351,7 +351,7 @@
             <Pane fx:id="panelWithUsersFromApp" prefHeight="581.0" prefWidth="579.0" />
          </children>
       </Pane>
-      <Pane fx:id="panelForAppWithInfo" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+      <Pane fx:id="panelForAppWithInfo" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button id="cancelCheckId" layoutX="290.0" layoutY="146.0" mnemonicParsing="false" onAction="#appCancelAction" prefHeight="80.0" prefWidth="123.0" text="отмена">
                <font>
@@ -375,7 +375,7 @@
             </Label>
          </children>
       </Pane>
-      <Pane fx:id="panelWithNumberForCash" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="580.0" style="-fx-background-color: white;" visible="false">
+      <Pane fx:id="panelWithNumberForCash" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">
          <children>
             <Button id="greyBtn" layoutX="165.0" layoutY="145.0" mnemonicParsing="false" onAction="#kbrd_1_cash" prefHeight="90.0" prefWidth="100.0" text="1">
                <font>
@@ -429,7 +429,7 @@
             </Button>
             <Button id="greyBtn" layoutX="165.0" layoutY="427.0" mnemonicParsing="false" onAction="#kbrd_dote_cash" prefHeight="90.0" prefWidth="100.0" text=".">
                <font>
-                  <Font name="Helvetica Bold" size="44.0" />
+                  <Font name="Helvetica Bold" size="40.0" />
                </font>
             </Button>
             <Button id="greyBtn" layoutX="371.0" layoutY="427.0" mnemonicParsing="false" onAction="#removeLastSymbol_cash" prefHeight="90.0" prefWidth="100.0" text="&lt;">

@@ -17,6 +17,24 @@ public class DataEntity {
     private int serialNumber;
     private boolean unit;
 
+    public DataEntity(){
+
+    }
+
+    public DataEntity(int id, String shortName, String fullName, Double price, int folder, int parentId, int generalId, boolean live, int classifier, int serialNumber, boolean unit) {
+        this.id = id;
+        this.shortName = shortName;
+        this.fullName = fullName;
+        this.price = price;
+        this.folder = folder;
+        this.parentId = parentId;
+        this.generalId = generalId;
+        this.live = live;
+        this.classifier = classifier;
+        this.serialNumber = serialNumber;
+        this.unit = unit;
+    }
+
     @Id
     @Column(name = "id")
     public int getId() {

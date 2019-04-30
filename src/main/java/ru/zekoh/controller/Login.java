@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.hibernate.Session;
+import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.HibernateSessionFactory;
 
 import ru.zekoh.db.entity.UserEntity;
@@ -41,6 +42,7 @@ public class Login {
         if(Properties.FPTR != null){
             if(Properties.FPTR.isOpened()){
                 Properties.FPTR.close();
+                Properties.FPTR = null;
             }
         }
 

@@ -56,6 +56,8 @@ public class Properties {
 
     public static boolean isSmall = false;
 
+    public static boolean updateDataFromServer = false;
+
     public static int heght = 0;
 
     public static int width = 0;
@@ -64,12 +66,11 @@ public class Properties {
 
     public static int modalWidth = 0;
 
-    public static String comPort = "3";
-
+    public static String comPort = "6";
 
 
     //Инициализация данных из проперти файла
-    public static void initData(){
+    public static void initData() {
 
         FileInputStream file;
         java.util.Properties property = new java.util.Properties();
@@ -90,20 +91,25 @@ public class Properties {
     }
 
     //Инициализация данных из проперти файла
-    public static void initDataWithoutFile(){
+    public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 7;
+        PRINTER_PORT = 6;
 
+        // Майкоп Первомайская 193 min screen
+        comPort = "6";
+
+        // Восход
+        //comPort = "4";
 
         // Краснодар
        // comPort = "3";
 
         // Майкоп Первомайская 193
-        comPort = "7";
+        //comPort = "7";
 
     }
 }

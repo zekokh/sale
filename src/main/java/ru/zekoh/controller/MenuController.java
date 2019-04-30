@@ -14,6 +14,7 @@ import javafx.stage.StageStyle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.zekoh.core.UpdateFoldersAndProducts;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.properties.Properties;
 
@@ -72,8 +73,9 @@ public class MenuController {
         if (Properties.FPTR == null) {
             try {
                //Properties.FPTR = KKMOFD.create();
-             KKMOFD.initDriver();
+              KKMOFD.initDriver();
             } catch (Exception e) {
+                System.out.println("Не удалось создать объект драйвера ККТ!" + e.getMessage());
                 logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
             }
         }
@@ -84,7 +86,7 @@ public class MenuController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2SmallWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2Window.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
@@ -147,8 +149,22 @@ public class MenuController {
 
     }
 
-    public void updateData(ActionEvent actionEvent) {
-        //generate();
+    public void updateData(ActionEvent actionEvent) throws IOException {
+
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setTitle("Жак-Андрэ Продажи");
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhileUpdateDataFromServer.fxml"));
+
+        dialog.setScene(new Scene(root, 700, 220));
+
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
     }
 
 

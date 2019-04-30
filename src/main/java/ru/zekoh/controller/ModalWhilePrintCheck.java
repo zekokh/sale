@@ -28,6 +28,7 @@ public class ModalWhilePrintCheck {
             task = new Task<Void>() {
                 @Override public Void call() {
                     if (KKMOFD.sendToKKM(Properties.checkObject)) {
+                        System.out.println("C принтера пришло true!");
                         Properties.statusPrinted = true;
 
                         Platform.runLater(new Runnable() {
@@ -38,6 +39,7 @@ public class ModalWhilePrintCheck {
                         });
 
                     } else {
+                        System.out.println("C принтера пришло false!");
                         Properties.checkObject = null;
                         Platform.runLater(new Runnable() {
                             @Override public void run() {
