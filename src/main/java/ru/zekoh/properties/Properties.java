@@ -97,10 +97,10 @@ public class Properties {
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 6;
+        PRINTER_PORT = 7;
 
         // Майкоп Первомайская 193 min screen
-        comPort = "6";
+        //comPort = "6";
 
         // Восход
         //comPort = "4";
@@ -109,7 +109,7 @@ public class Properties {
        // comPort = "3";
 
         // Майкоп Первомайская 193
-        //comPort = "7";
+        comPort = "7";
 
     }
 }

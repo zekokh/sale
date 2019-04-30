@@ -315,7 +315,13 @@ public class Sale {
 
                             Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
 
-                            priceAfterDiscount -= (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+
+
+                            if (goods.get(i).getClassifier() == 19) {
+                                priceAfterDiscount -= (priceAfterDiscount * 20.0) / 100;
+                            } else {
+                                priceAfterDiscount -= (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+                            }
 
                             goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
                         }
@@ -404,7 +410,7 @@ public class Sale {
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
-                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 36.667);
+                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
 
 
                     // Флан натюр по кусочкам
