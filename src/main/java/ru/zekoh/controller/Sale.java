@@ -402,11 +402,15 @@ public class Sale {
 
                         DiscountProgram.onCroissant(check);
 
-                        DiscountProgram.onAchmaAndTea(check);
+                        //DiscountProgram.cappuccinoAndCroissant(check);
 
-                        DiscountProgram.onBrioshAndTea(check);
 
                     }
+
+
+                    DiscountProgram.onAchmaAndTea(check);
+
+                    DiscountProgram.onBrioshAndTea(check);
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
