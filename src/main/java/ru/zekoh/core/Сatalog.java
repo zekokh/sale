@@ -44,6 +44,7 @@ public class Сatalog {
                 folder.setId(data.getId());
                 folder.setName(data.getShortName());
                 folder.setParentId(data.getParentId());
+                folder.setAdministrativeAccess(data.isAdministrativeAccess());
 
                 int folderParentId = folder.getParentId();
 

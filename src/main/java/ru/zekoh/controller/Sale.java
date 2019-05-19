@@ -1509,14 +1509,64 @@ public class Sale {
                     public void handle(ActionEvent event) {
 
 
-                        b.setBackground(new Background(new BackgroundFill(
-                                Color.valueOf("#E0E0E0"), CornerRadii.EMPTY, Insets.EMPTY)));
-                        levelPath.add(Integer.parseInt(b.getId()));
 
-                        //удаляем старую Grid
-                        panelForButtons.getChildren().clear();
-                        //заполняем элементами
-                        panelForButtons.getChildren().add(getGrid(Integer.parseInt(b.getId()), 1));
+
+
+
+
+                        // Реализиуем запароленную папку
+                        // отображаем модальное окно с вводом пароля
+                        // если все правильно то открываем папку, если нет ошибкаи остается все как есть
+                        if(Integer.parseInt(b.getId()) == 370) {
+
+                            // Отобразить модального окно
+                            Stage dialog = new Stage();
+                            dialog.initStyle(StageStyle.UNDECORATED);
+                            dialog.setTitle("Жак-Андрэ Продажи");
+
+                            Parent root = null;
+                            try {
+                                root = FXMLLoader.load(getClass().getResource("/view/PasswordEntryToAccessTheFolderWindow.fxml"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            dialog.setScene(new Scene(root, 600, 700));
+
+                            Node source = (Node) event.getSource();
+                            Stage stage = (Stage) source.getScene().getWindow();
+
+                            dialog.initOwner(stage);
+                            dialog.initModality(Modality.APPLICATION_MODAL);
+                            dialog.showAndWait();
+
+                            if (Properties.correctPasswordEntryToAccessTheFolder) {
+
+                                Properties.correctPasswordEntryToAccessTheFolder = false;
+
+                                levelPath.add(Integer.parseInt(b.getId()));
+
+                                //удаляем старую Grid
+                                panelForButtons.getChildren().clear();
+                                //заполняем элементами
+                                panelForButtons.getChildren().add(getGrid(Integer.parseInt(b.getId()), 1));
+                            }
+
+
+
+                        }else {
+
+                            b.setBackground(new Background(new BackgroundFill(
+                                    Color.valueOf("#E0E0E0"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+                            levelPath.add(Integer.parseInt(b.getId()));
+
+                            //удаляем старую Grid
+                            panelForButtons.getChildren().clear();
+                            //заполняем элементами
+                            panelForButtons.getChildren().add(getGrid(Integer.parseInt(b.getId()), 1));
+                        }
+
 
 
                     }

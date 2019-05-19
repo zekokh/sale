@@ -17,6 +17,9 @@ public class Folder {
     //Статус жизни
     private boolean isALive;
 
+    // Доступ к папке только администратора
+    private boolean administrativeAccess;
+
     public int getId() {
         return id;
     }
@@ -55,5 +58,13 @@ public class Folder {
 
     public void setALive(boolean ALive) {
         isALive = ALive;
+    }
+
+    public boolean isAdministrativeAccess() {
+        return administrativeAccess;
+    }
+
+    public void setAdministrativeAccess(boolean administrativeAccess) {
+        this.administrativeAccess = administrativeAccess;
     }
 }

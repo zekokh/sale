@@ -16,12 +16,13 @@ public class DataEntity {
     private int classifier;
     private int serialNumber;
     private boolean unit;
+    private boolean administrativeAccess;
 
     public DataEntity(){
 
     }
 
-    public DataEntity(int id, String shortName, String fullName, Double price, int folder, int parentId, int generalId, boolean live, int classifier, int serialNumber, boolean unit) {
+    public DataEntity(int id, String shortName, String fullName, Double price, int folder, int parentId, int generalId, boolean live, int classifier, int serialNumber, boolean unit, boolean administrativeAccess) {
         this.id = id;
         this.shortName = shortName;
         this.fullName = fullName;
@@ -33,6 +34,7 @@ public class DataEntity {
         this.classifier = classifier;
         this.serialNumber = serialNumber;
         this.unit = unit;
+        this.administrativeAccess = administrativeAccess;
     }
 
     @Id
@@ -143,5 +145,15 @@ public class DataEntity {
 
     public void setUnit(boolean unit) {
         this.unit = unit;
+    }
+
+    @Basic
+    @Column(name = "administrative_access")
+    public boolean isAdministrativeAccess() {
+        return administrativeAccess;
+    }
+
+    public void setAdministrativeAccess(boolean administrative_access) {
+        this.administrativeAccess = administrative_access;
     }
 }

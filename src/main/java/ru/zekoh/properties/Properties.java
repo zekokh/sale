@@ -66,6 +66,8 @@ public class Properties {
 
     public static int modalWidth = 0;
 
+    public static boolean correctPasswordEntryToAccessTheFolder = false;
+
     public static String comPort = "6";
 
 

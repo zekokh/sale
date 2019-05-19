@@ -72,6 +72,11 @@ public class UpdateFoldersAndProducts {
                             unit = true;
                         }
 
+                        boolean administrativeAccess = false;
+                       // if(json.getInt("administrative_access") == 1){
+                         //   administrativeAccess = true;
+                       // }
+
                         DataEntity dataEntity = new DataEntity(json.getInt("product_id"),
                                 json.getString("short_name"),
                                 json.getString("full_name"),
@@ -82,7 +87,8 @@ public class UpdateFoldersAndProducts {
                                 json.getBoolean("live"),
                                 json.getInt("classifier"),
                                 json.getInt("serial_number"),
-                                unit);
+                                unit,
+                                false);
 
 
                         session.save(dataEntity);
