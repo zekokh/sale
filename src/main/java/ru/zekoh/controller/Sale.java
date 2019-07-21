@@ -418,15 +418,15 @@ public class Sale {
 
 
                     // Флан натюр по кусочкам
-                    DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
 
 
                     // Флан кокос и чернослив
-                    DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
 
 
                     // Флан апельсин лимон ягодны шоколад
-                    DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
+                    //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
 
                     // Акция на панини комбо с 11:00 до 15:00
                    // DiscountProgram.initPaniniWithTimeLimit(check);

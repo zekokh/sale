@@ -26,8 +26,8 @@ import static ru.zekoh.core.Сatalog.generate;
 
 public class UpdateFoldersAndProducts {
 
-    static String url = "http://jacques-andre-center.herokuapp.com/changes/get";
-    static String urlAnswer = "http://jacques-andre-center.herokuapp.com/changes/check";
+    static String url = "https://center.jacq.ru/changes/get";
+    static String urlAnswer = "https://center.jacq.ru/changes/check";
 
     // static String url = "http://localhost:3000/changes/get";
     // static String urlAnswer = "http://localhost:3000/changes/check";

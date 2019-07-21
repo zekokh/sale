@@ -101,7 +101,7 @@ public class Properties {
         statusPrinted = true;
         PRINTER_PORT = 6;
 
-        // Майкоп Первомайская 193 min screen
+        // Майкоп Первомайская 193 актуальный порт
         comPort = "6";
 
         // Восход
