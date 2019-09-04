@@ -94,24 +94,27 @@ public class Properties {
 
     //Инициализация данных из проперти файла
     public static void initDataWithoutFile() {
-        HOST = "jdbc:mysql://localhost:3306/centerCenter?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "Heroin160892";
+        PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 6;
+        PRINTER_PORT = 3;
 
         // Майкоп Первомайская 193 актуальный порт
-        comPort = "6";
+        //comPort = "6";
 
         // Восход
         //comPort = "4";
 
         // Краснодар
-       // comPort = "3";
+        comPort = "3";
 
         // Майкоп Первомайская 193
         //comPort = "7";
+
+        // Краснодар Шифрина
+        //comPort = "5";
 
     }
 }

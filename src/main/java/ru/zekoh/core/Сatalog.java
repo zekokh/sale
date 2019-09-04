@@ -84,6 +84,7 @@ public class Сatalog {
             product.setPrice(data.getPrice());
             product.setUnit(data.isUnit());
 
+
             int productParentId = product.getParentId();
 
             if (productListSortByLevel.containsKey(productParentId)) {

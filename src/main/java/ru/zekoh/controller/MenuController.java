@@ -73,7 +73,7 @@ public class MenuController {
         if (Properties.FPTR == null) {
             try {
                //Properties.FPTR = KKMOFD.create();
-              //KKMOFD.initDriver();
+              KKMOFD.initDriver();
             } catch (Exception e) {
                 System.out.println("Не удалось создать объект драйвера ККТ!" + e.getMessage());
                 logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
@@ -86,7 +86,7 @@ public class MenuController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2Window.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/Sale2KrasWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {

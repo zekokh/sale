@@ -71,8 +71,8 @@ public class DiscountProgram {
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "19:20:00";
-        Double amountOfDiscount = 0.4;
+        String afterTime = "20:00:00";
+        Double amountOfDiscount = 0.3;
         boolean flag = false;
 
         //Сегодняшняя дата
@@ -98,7 +98,7 @@ public class DiscountProgram {
         //Сравниваем текщую дату с лимитом
         if (curentDate.after(dateLimit)) {
 
-            //Делаем 40% скидку на выпечку
+            //Делаем 30% скидку на выпечку
             for (int i = 0; i < check.getGoodsList().size(); i++) {
 
                 //Текущий товар
