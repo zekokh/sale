@@ -68,7 +68,7 @@ public class Properties {
 
     public static boolean correctPasswordEntryToAccessTheFolder = false;
 
-    public static String comPort = "6";
+    public static String comPort = "4";
 
 
     //Инициализация данных из проперти файла
@@ -99,13 +99,13 @@ public class Properties {
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 6;
+        PRINTER_PORT = 4;
 
         // Майкоп Первомайская 193 актуальный порт
-        comPort = "6";
+        //comPort = "6";
 
         // Восход
-        //comPort = "4";
+        comPort = "4";
 
         // Краснодар
        // comPort = "3";
