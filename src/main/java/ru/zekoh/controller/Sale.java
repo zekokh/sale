@@ -52,6 +52,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.SQLOutput;
+import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Math.toIntExact;
@@ -300,7 +302,7 @@ public class Sale {
 
                     goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                     Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
-                    temp = new BigDecimal(temp).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                    temp = roundUp(temp);
                     goods.get(i).setSellingPrice(temp);
                 }
 
@@ -320,7 +322,10 @@ public class Sale {
                             if (goods.get(i).getClassifier() == 19) {
                                 priceAfterDiscount -= (priceAfterDiscount * 20.0) / 100;
                             } else {
-                                priceAfterDiscount -= (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+                                Double discount = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+                                discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                priceAfterDiscount -= discount;
+
                             }
 
                             goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
@@ -344,7 +349,8 @@ public class Sale {
                                 goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
 
                                 Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
-                                temp = new BigDecimal(temp).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                temp = roundUp(temp);
+
 
                                 goods.get(i).setSellingPrice(temp);
                             }
@@ -446,7 +452,7 @@ public class Sale {
 
             // Устанавливаем сумму скидки
             Double tempAmountDiscount = check.getAmountByPrice() - check.getSellingPrice();
-            tempAmountDiscount = new BigDecimal(tempAmountDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+            tempAmountDiscount = roundUp(tempAmountDiscount);
             amountDiscount.setText(generateRubleFromDouble(tempAmountDiscount));
 
             // Устанавливаем сумму бонусов которыми клиент планирует оплатить часть покупки
@@ -558,7 +564,7 @@ public class Sale {
             }
         }
 
-        amountThatCanBePaidWithBonuses = new BigDecimal(amountThatCanBePaidWithBonuses * 0.3).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        amountThatCanBePaidWithBonuses = roundUp(amountThatCanBePaidWithBonuses * 0.3);
 
         if (amountThatCanBePaidWithBonuses >= check.getDiscount().getBonus()) {
             check.setAmountBonus(check.getDiscount().getBonus());
@@ -588,7 +594,7 @@ public class Sale {
                         goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
                     } else {
                         Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
-                        goods.get(i).setPriceAfterDiscount(new BigDecimal(temp).setScale(5, RoundingMode.HALF_UP).doubleValue());
+                        goods.get(i).setPriceAfterDiscount(roundUp(temp));
                         goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
                     }
 
@@ -617,7 +623,8 @@ public class Sale {
 
     // Создаем строку с постфиксом р. из числа
     private String generateRubleFromDouble(Double price) {
-        return "" + price + " р.";
+        String text = toHundredths(price);
+        return "" + text + " р.";
     }
 
     // Рассчитываем итоговые суммы чека на основе содержащихся товарных позиций
@@ -639,8 +646,8 @@ public class Sale {
                 tempAmountByPrice += temp;
             }
 
-            tempSellingPrice = new BigDecimal(tempSellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
-            tempAmountByPrice = new BigDecimal(tempAmountByPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+            tempSellingPrice = roundUp(tempSellingPrice);
+            tempAmountByPrice = roundUp(tempAmountByPrice);
 
             // Устанавливаем в чеке продажную цену
             check.setSellingPrice(tempSellingPrice);
@@ -721,7 +728,8 @@ public class Sale {
                 goodsForDisplay.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
 
                 //Сумма за позици
-                Double sellingPriceDouble = new BigDecimal(goods.get(i).getSellingPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double sellingPriceDouble = roundUp(goods.get(i).getSellingPrice());
+                sellingPriceDouble = roundUp(sellingPriceDouble);
                 goodsForDisplay.setSellingPrice(sellingPriceDouble);
 
                 //Цена после скидки
@@ -740,7 +748,8 @@ public class Sale {
 
                 //Продажная цена
                 Double sellingPrice = goodsTemp.getCount() * goods.get(i).getPriceAfterDiscount();
-                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double sellingPriceDouble = roundUp(sellingPrice);
+                sellingPriceDouble = roundUp(sellingPriceDouble);
                 goodsTemp.setSellingPrice(sellingPriceDouble);
 
 
@@ -783,7 +792,7 @@ public class Sale {
                 goodsForDisplay.setPriceFromThePriceList(goods.get(i).getPriceFromThePriceList());
 
                 //Сумма за позици
-                Double sellingPriceDouble = new BigDecimal(goods.get(i).getSellingPrice()).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double sellingPriceDouble = roundUp(goods.get(i).getSellingPrice());
                 goodsForDisplay.setSellingPrice(sellingPriceDouble);
 
                 //Цена после скидки
@@ -802,7 +811,7 @@ public class Sale {
 
                 //Продажная цена
                 Double sellingPrice = goodsTemp.getSellingPrice() + (goods.get(i).getCount() * goods.get(i).getSellingPrice());
-                Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                Double sellingPriceDouble = roundUp(sellingPrice);
                 goodsTemp.setSellingPrice(sellingPriceDouble);
 
 
@@ -2122,7 +2131,7 @@ public class Sale {
     public void reloadCashBack() {
         Double moneyFromCustomer = Double.parseDouble(moneyFromCustomerLabel.getText());
         Double cashBack = moneyFromCustomer - checkList.get(currentCheckIndex).getSellingPrice();
-        cashBack = new BigDecimal(cashBack).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        cashBack = roundUp(cashBack);
         cashBackToCustomerLabel.setText("Сдача: " + cashBack + " р.");
     }
 
@@ -2705,5 +2714,21 @@ public class Sale {
             //Deprecated
             //httpClient.getConnectionManager().shutdown();
         }
+    }
+
+    // Метод округления
+    private Double roundUp(Double numeral){
+
+        numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
+    }
+
+    // Подготовка к отображения до сотых после запятой
+    private String toHundredths(Double numeral){
+
+        String text = String.format("%.2f", numeral);
+
+        return text;
     }
 }

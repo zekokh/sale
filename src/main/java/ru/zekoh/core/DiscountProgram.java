@@ -118,7 +118,7 @@ public class DiscountProgram {
                     //Цена на товар со скидкой
                     Double priceAfterDiscount = priceFromThePriceList - discountAmount;
 
-                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+                    priceAfterDiscount = roundUp(priceAfterDiscount);
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);
@@ -128,6 +128,9 @@ public class DiscountProgram {
 
                     //Считаем продажную цену умножая цену после скидки на кол-во товара
                     Double sellingPrice = count * priceAfterDiscount;
+
+                    // Округляем продажную цену
+                    sellingPrice = roundUp(sellingPrice);
 
                     //Устанавливаем продажную цену товара
                     goods.setSellingPrice(sellingPrice);
@@ -199,6 +202,9 @@ public class DiscountProgram {
 
                         //Считаем продажную цену умножая цену после скидки на кол-во товара
                         Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                        // Округляем результат до десятых
+                        sellingPrice = roundUp(sellingPrice);
 
                         //Устанавливаем продажную цену товара
                         goods.setSellingPrice(sellingPrice);
@@ -284,6 +290,9 @@ public class DiscountProgram {
 
                             //Считаем продажную цену умножая цену после скидки на кол-во товара
                             Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                            // Округляем результат
+                            sellingPrice = roundUp(sellingPrice);
 
                             //Устанавливаем продажную цену товара
                             goods.setSellingPrice(sellingPrice);
@@ -446,6 +455,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -471,6 +483,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -494,6 +509,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -523,6 +541,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -653,6 +674,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -676,6 +700,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -698,6 +725,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -725,6 +755,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -821,6 +854,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -846,6 +882,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -942,6 +981,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -966,6 +1008,9 @@ public class DiscountProgram {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -1061,6 +1106,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -1087,6 +1135,9 @@ public class DiscountProgram {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -1101,5 +1152,13 @@ public class DiscountProgram {
                 }
             }
         }
+    }
+
+    // Метод округления
+    private static Double roundUp(Double numeral){
+
+        numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
     }
 }

@@ -112,7 +112,7 @@
             </Button>
             <Button id="greyBtn" alignment="CENTER" layoutY="85.0" mnemonicParsing="false" onAction="#cancelCheck" prefHeight="80.0" prefWidth="147.0" text="отмена чека" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Helvetica Light" size="24.0" />
+                  <Font name="Helvetica Light" size="18.0" />
                </font>
             </Button>
             <Label fx:id="discountInfoLabel" layoutY="486.0" prefHeight="85.0" prefWidth="318.0">
