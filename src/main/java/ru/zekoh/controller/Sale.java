@@ -126,7 +126,7 @@ public class Sale {
     private int currentCheckIndex = 0;
 
     // id пекарни
-    int bakeryId = 1;
+    int bakeryId = 3;
 
 
     //Размер шрифта папок и продуктов
