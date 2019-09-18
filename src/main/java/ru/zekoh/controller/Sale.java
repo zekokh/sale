@@ -408,7 +408,7 @@ public class Sale {
 
                         DiscountProgram.onCroissant(check);
 
-                        //DiscountProgram.cappuccinoAndCroissant(check);
+                        DiscountProgram.cappuccinoAndCroissant(check);
 
 
                     }
