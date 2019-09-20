@@ -7,7 +7,7 @@ import ru.zekoh.db.entity.DiscountCardEntity;
 
 public class CardDao {
 
-    public DiscountCardEntity findById(int id) {
+    public DiscountCardEntity findById(Long id) {
         return HibernateSessionFactory.getSessionFactory().openSession().get(DiscountCardEntity.class, id);
     }
 

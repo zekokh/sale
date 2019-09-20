@@ -8,14 +8,14 @@ public class DiscountHistoryEntity {
 
     private int id;
     private int checkId;
-    private int employerId;
+    private long employerId;
     private String date;
 
     // 1 - скидка с помощью карты скидочной
     // 2 - скидка с помощью приложения
     private int typeDiscount;
 
-    public DiscountHistoryEntity(int checkId, int employerId, int typeDiscount, String date) {
+    public DiscountHistoryEntity(int checkId, long employerId, int typeDiscount, String date) {
         this.checkId = checkId;
         this.employerId = employerId;
         this.typeDiscount = typeDiscount;
@@ -48,11 +48,11 @@ public class DiscountHistoryEntity {
 
     @Basic
     @Column(name = "employer_id")
-    public int getEmployerId() {
+    public long getEmployerId() {
         return employerId;
     }
 
-    public void setEmployerId(int employerId) {
+    public void setEmployerId(long employerId) {
         this.employerId = employerId;
     }
 

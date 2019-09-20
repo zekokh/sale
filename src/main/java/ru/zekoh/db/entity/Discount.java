@@ -3,7 +3,7 @@ package ru.zekoh.db.entity;
 public class Discount {
 
     // id пользователя
-    private int id;
+    private Long id;
 
     // Имя
     private String name;
@@ -25,11 +25,11 @@ public class Discount {
 
     private boolean payWithBonus = false;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

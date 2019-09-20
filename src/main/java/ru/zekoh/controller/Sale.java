@@ -36,6 +36,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.core.DiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
+import ru.zekoh.core.loyalty.Customer;
+import ru.zekoh.core.loyalty.Employee;
+import ru.zekoh.core.loyalty.Loyalty;
+import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAO.DiscountForEmployeesDao;
 import ru.zekoh.db.DAOImpl.CardDao;
@@ -1278,7 +1282,7 @@ public class Sale {
                                         // Имя пользователя со скидкой
                                         discount.setName(currentUserFromBonus.getMail());
 
-                                        discount.setId(toIntExact(currentUserFromBonus.getId()));
+                                        discount.setId(currentUserFromBonus.getId());
 
                                         check.setDiscount(discount);
 
@@ -2353,11 +2357,71 @@ public class Sale {
         labelForFindDiscount.setText("");
     }
 
+    // Поиск карты лояльности
     public void findMemberByCodeNumber(ActionEvent actionEvent) {
 
         // Отправить запрос на поиск
         if (numberDiscountCardTextField.getLength() > 0) {
 
+            StoreCard storeCard = Loyalty.searchByNumber(numberDiscountCardTextField.getText());
+            Discount discount = new Discount();
+            if (storeCard != null) {
+                // Определяем тип карты лояльности и применяем условия к чеку.
+                System.out.println("Класс" + storeCard.getClass().toString());
+
+
+                if (storeCard instanceof Employee) {
+
+                    Employee employee = (Employee) storeCard;
+
+                    // Устанавливаем id
+                    discount.setId(employee.getId());
+
+                    // Устанавливаем роль аккаунта
+                    discount.setDiscountRole(4);
+
+                    // Баланс
+                    discount.setBalance(employee.getBalance());
+
+                    // Бюджет
+                    discount.setBudget(employee.getLimit());
+
+                    // Прцент скидки
+                    discount.setPercentDiscount(employee.getDiscount());
+
+                    // Имя пользователя со скидкой
+                    discount.setName(employee.getName());
+
+                } else if(storeCard instanceof Customer){
+
+                }else {
+
+                }
+
+                CheckObject check = checkList.get(currentCheckIndex);
+
+                // Если существует скидка по карте то отменяем ее
+                if (check.isDiscountAppExist()) {
+                    check.setDiscountAppExist(false);
+                    check.setDiscount(null);
+                }
+
+                // Устанавливаем что есть скидка
+                check.setDiscountAccountExist(true);
+
+                check.setDiscount(discount);
+
+                discountTitle.setText("К чеку применена скидика пользователя: ");
+                labelForFindDiscount.setText(discount.getName());
+
+                reloadAll();
+
+            } else {
+                System.out.println("Данных нет!");
+                labelForFindDiscount.setText("Карта не найдена!");
+            }
+        }
+/*
             long numberMember = new Long(numberDiscountCardTextField.getText());
             DiscountForEmployeesDao discountForEmployeesDao = new DiscountForEmployeesDaoImpl();
             try {
@@ -2420,7 +2484,7 @@ public class Sale {
                 labelForFindDiscount.setText("Карта не найдена!");
             }
         }
-
+*/
         // Обработать ответ
 
         // Отобразить ответ
@@ -2574,7 +2638,7 @@ public class Sale {
                         Properties.checkObject = checkObject;
 
 
-
+/*
                         Stage dialog = new Stage();
                         dialog.initStyle(StageStyle.UNDECORATED);
                         dialog.setTitle("Жак-Андрэ Продажи");
@@ -2589,9 +2653,9 @@ public class Sale {
                         dialog.initOwner(stage);
                         dialog.initModality(Modality.APPLICATION_MODAL);
                         dialog.showAndWait();
-
-                        if (Properties.statusPrinted) {
-                       // if (true) {
+*/
+                        //if (Properties.statusPrinted) {
+                        if (true) {
 
                             System.out.println("Статуст успешной печати: " + Properties.statusPrinted);
                             System.out.println("Объект checkObkect сумма чека: " + Properties.checkObject.getAmountByPrice());
@@ -2646,10 +2710,16 @@ public class Sale {
                                         }
 
                                     } else {
+
+                                        // Отправка данных на сервер по карте лояльности сотрудника
+                                        pushDataAboutEmployeeDiscount(checkObject, id);
+/*
                                         CardDao cardDao = new CardDao();
                                         DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
                                         card.setBalance(card.getBalance() + checkObject.getSellingPrice());
                                         cardDao.update(card);
+
+ */
                                     }
                                 }
 
@@ -2687,7 +2757,7 @@ public class Sale {
 
         try {
             String name = check.getDiscount().getName();
-            int id = check.getDiscount().getId();
+            Long id = check.getDiscount().getId();
             int checkId = checkIdFromHibernate;
             Double total = check.getSellingPrice();
             Double amountPaidBonuses = check.getAmountBonus();
@@ -2700,6 +2770,35 @@ public class Sale {
 
             HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
             StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\"" + amountPaidBonuses + "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        } catch (Exception ex) {
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    private void pushDataAboutEmployeeDiscount(CheckObject check, int checkIdFromHibernate) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            String name = check.getDiscount().getName();
+            Long id = check.getDiscount().getId();
+            int checkId = checkIdFromHibernate;
+            Double total = check.getSellingPrice();
+            Double amountPaidBonuses = check.getAmountBonus();
+
+
+            HttpPost request = new HttpPost("http://localhost:3000/customer/check/add");
+            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);
