@@ -67,7 +67,7 @@ public class DiscountProgram {
         return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 
-    //Скидка 40% на выпечку после 8 вечера
+    //Скидка 30% на выпечку после 8 вечера
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
@@ -111,6 +111,83 @@ public class DiscountProgram {
                 int classifier = goods.getClassifier();
 
                 if (classifier == 13 || classifier == 4) {
+
+                    //Сумма скидки
+                    Double discountAmount = priceFromThePriceList * amountOfDiscount;
+
+                    //Цена на товар со скидкой
+                    Double priceAfterDiscount = priceFromThePriceList - discountAmount;
+
+                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+                    //Устанавливаем цену со скидкой
+                    goods.setPriceAfterDiscount(priceAfterDiscount);
+
+                    //Количество товара
+                    Double count = goods.getCount();
+
+                    //Считаем продажную цену умножая цену после скидки на кол-во товара
+                    Double sellingPrice = count * priceAfterDiscount;
+
+                    //Устанавливаем продажную цену товара
+                    goods.setSellingPrice(sellingPrice);
+
+                    flag = true;
+                }
+            }
+        }
+
+        if (flag) {
+            return check;
+        } else {
+            return null;
+        }
+    }
+
+    //Скидка 20% на ачму, салат, провонсаль после 19:00 вечера
+    //Список классификаторов
+    public static CheckObject timeDiscountAfterSeven(CheckObject check) {
+
+        String afterTime = "19:00:00";
+        Double amountOfDiscount = 0.2;
+        boolean flag = false;
+
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date dateLimit = null;
+        try {
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " " + afterTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (curentDate.after(dateLimit)) {
+
+            //Делаем 20% скидку на выпечку
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Цена на текущий товар по прайсу
+                Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if (classifier == 32) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
