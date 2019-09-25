@@ -2694,17 +2694,15 @@ public class Sale {
                                 // todo Запись покупки по скидки
 
                                 if (checkObject.getDiscount() != null) {
-                                    DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation());
-                                    Session session1 = Properties.sessionFactory.openSession();
-                                    Transaction t1 = session1.beginTransaction();
-                                    session1.save(discountHistoryEntity);
-                                    t1.commit();
-                                    session1.close();
+
+                                    // Статус отправки на сервер
+                                    boolean onServer = false;
 
                                     if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
 
                                         try {
                                             pushDataOnTheServer(checkObject, id);
+                                            onServer = true;
                                         } catch (Exception e) {
                                             logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
                                         }
@@ -2712,15 +2710,28 @@ public class Sale {
                                     } else {
 
                                         // Отправка данных на сервер по карте лояльности сотрудника
-                                        pushDataAboutEmployeeDiscount(checkObject, id);
+                                        try {
+                                            pushDataAboutEmployeeDiscount(checkObject, id);
+                                            onServer = true;
+                                        } catch (Exception e) {
+                                            logger.error("Не удалось отправить данные при покупке с карты лояльности. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
+                                        }
+
 /*
                                         CardDao cardDao = new CardDao();
                                         DiscountCardEntity card = cardDao.findById(checkObject.getDiscount().getId());
                                         card.setBalance(card.getBalance() + checkObject.getSellingPrice());
                                         cardDao.update(card);
-
- */
+*/
                                     }
+
+                                    // Сохранить в журнале скидок
+                                    DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation(), onServer);
+                                    Session session1 = Properties.sessionFactory.openSession();
+                                    Transaction t1 = session1.beginTransaction();
+                                    session1.save(discountHistoryEntity);
+                                    t1.commit();
+                                    session1.close();
                                 }
 
 

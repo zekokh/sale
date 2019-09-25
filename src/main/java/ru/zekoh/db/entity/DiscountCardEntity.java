@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "discount_for_employees", schema = "center")
 public class DiscountCardEntity {
-    private int id;
+    private long id;
     private long number;
     private String name;
     private Double budgetForTheMonth;
@@ -16,11 +16,11 @@ public class DiscountCardEntity {
 
     @Id
     @Column(name = "id")
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
     @Basic

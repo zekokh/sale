@@ -10,12 +10,13 @@ public class DiscountHistoryEntity {
     private int checkId;
     private long employerId;
     private String date;
+    private boolean onServer;
 
     // 1 - скидка с помощью карты скидочной
     // 2 - скидка с помощью приложения
     private int typeDiscount;
 
-    public DiscountHistoryEntity(int checkId, long employerId, int typeDiscount, String date) {
+    public DiscountHistoryEntity(int checkId, long employerId, int typeDiscount, String date, boolean onServer) {
         this.checkId = checkId;
         this.employerId = employerId;
         this.typeDiscount = typeDiscount;
@@ -74,5 +75,15 @@ public class DiscountHistoryEntity {
 
     public void setTypeDiscount(int typeDiscount) {
         this.typeDiscount = typeDiscount;
+    }
+
+    @Basic
+    @Column(name = "on_server")
+    public boolean isOnServer() {
+        return onServer;
+    }
+
+    public void setOnServer(boolean onServer) {
+        this.onServer = onServer;
     }
 }
