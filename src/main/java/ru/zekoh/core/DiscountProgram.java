@@ -1242,4 +1242,21 @@ public class DiscountProgram {
             }
         }
     }
+
+    // Скидка на продукт в чеке
+    private static void productDiscount(Goods good, Double newPrice) {
+
+        Double price = newPrice;
+
+        good.setPriceAfterDiscount(price);
+
+        //Количество товара
+        Double countProduct = good.getCount();
+
+        //Считаем продажную цену умножая цену после скидки на кол-во товара
+        Double sellingPrice = countProduct * good.getPriceAfterDiscount();
+
+        //Устанавливаем продажную цену товара
+        good.setSellingPrice(sellingPrice);
+    }
 }

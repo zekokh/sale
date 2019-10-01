@@ -412,6 +412,7 @@ public class SaleShifrinaController {
 
                     DiscountProgram.timeDiscountAfterSeven(check);
 
+                    DiscountProgram.coffeeGift(check);
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
