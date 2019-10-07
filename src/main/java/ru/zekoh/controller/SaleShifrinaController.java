@@ -399,6 +399,8 @@ public class SaleShifrinaController {
                     CheckObject tempCheck = DiscountProgram.timeDiscount(check);
                     if (tempCheck == null) {
 
+                        DiscountProgram.coffeeGift(check);
+
                         // 5 круаасан по цене 188р.
                         DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 37.6);
 
@@ -407,12 +409,14 @@ public class SaleShifrinaController {
                         //DiscountProgram.cappuccinoAndCroissant(check);
 
 
+                    } else {
+                        DiscountProgram.coffeeGift(check);
                     }
 
 
                     DiscountProgram.timeDiscountAfterSeven(check);
 
-                    DiscountProgram.coffeeGift(check);
+
 
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5

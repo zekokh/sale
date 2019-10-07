@@ -242,7 +242,7 @@ public class DiscountProgram {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == classificatorForPromo) {
+                if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
                     count++;
                 }
 
@@ -266,7 +266,7 @@ public class DiscountProgram {
                     if (countProductWhichNeedDiscount == 0) {
                         return null;
                     }
-                    if (classifier == classificatorForPromo) {
+                    if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
 
                         //Устанавливаем цену со скидкой
                         goods.setPriceAfterDiscount(price);
