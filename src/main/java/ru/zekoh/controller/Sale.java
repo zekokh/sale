@@ -2569,7 +2569,7 @@ public class Sale {
 
                     // Отправить на принтер
                     if (Properties.KKM) {
-
+/*
                         // Открыть модальное окно для печати чека
                         Properties.checkObject = checkObject;
 
@@ -2588,13 +2588,13 @@ public class Sale {
 
                         dialog.initOwner(stage);
                         dialog.initModality(Modality.APPLICATION_MODAL);
-                        dialog.showAndWait();
+                        dialog.showAndWait(); */
 
-                        if (Properties.statusPrinted) {
-                       // if (true) {
+                        //if (Properties.statusPrinted) {
+                        if (true) {
 
-                            System.out.println("Статуст успешной печати: " + Properties.statusPrinted);
-                            System.out.println("Объект checkObkect сумма чека: " + Properties.checkObject.getAmountByPrice());
+                           // System.out.println("Статуст успешной печати: " + Properties.statusPrinted);
+                           // System.out.println("Объект checkObkect сумма чека: " + Properties.checkObject.getAmountByPrice());
                             // if (true) {
                             // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
 
