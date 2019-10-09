@@ -29,6 +29,12 @@ public class Product {
     //Статус жизни
     private boolean isALive;
 
+    // Участвует ли продукт в промоакциях
+    private boolean participatesInpromotions = false;
+
+    // Максимальная скидка которая может быть установлена на продукт
+    private Double maxDiscount = 50.0;
+
     public int getId() {
         return id;
     }
@@ -101,5 +107,19 @@ public class Product {
         this.fullName = fullName;
     }
 
+    public boolean isParticipatesInpromotions() {
+        return participatesInpromotions;
+    }
 
+    public void setParticipatesInpromotions(boolean participatesInpromotions) {
+        this.participatesInpromotions = participatesInpromotions;
+    }
+
+    public Double getMaxDiscount() {
+        return maxDiscount;
+    }
+
+    public void setMaxDiscount(Double maxDiscount) {
+        this.maxDiscount = maxDiscount;
+    }
 }

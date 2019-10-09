@@ -68,6 +68,9 @@ public class Check {
 
     private boolean discounСroissant = false;
 
+    // Статус печати на ккт
+    private boolean printStatus = false;
+
     public void updateCheck(Check check){
      setId(check.getId());
      setGoodsList(check.getGoodsList());
@@ -85,6 +88,7 @@ public class Check {
      setContainGoods(check.isContainGoods());
      setPromocod(check.getPromocod());
      setDateOfClosingUnix(check.getDateOfClosingUnix());
+     setPrintStatus(check.isPrintStatus());
     }
 
     public int getId() {
@@ -261,5 +265,13 @@ public class Check {
 
     public void setDiscounСroissant(boolean discounСroissant) {
         this.discounСroissant = discounСroissant;
+    }
+
+    public boolean isPrintStatus() {
+        return printStatus;
+    }
+
+    public void setPrintStatus(boolean printStatus) {
+        this.printStatus = printStatus;
     }
 }

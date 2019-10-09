@@ -35,6 +35,12 @@ public class Goods {
     // id классификатора
     private int parentId;
 
+    // Участвует ли продукт в промоакциях
+    private boolean participatesInpromotions = false;
+
+    // Максимальная скидка которая может быть установлена на продукт
+    private Double maxDiscount = 50.0;
+
     public Goods() {
 
     }
@@ -138,5 +144,21 @@ public class Goods {
 
     public void setParentId(int parentId) {
         this.parentId = parentId;
+    }
+
+    public boolean isParticipatesInpromotions() {
+        return participatesInpromotions;
+    }
+
+    public void setParticipatesInpromotions(boolean participatesInpromotions) {
+        this.participatesInpromotions = participatesInpromotions;
+    }
+
+    public Double getMaxDiscount() {
+        return maxDiscount;
+    }
+
+    public void setMaxDiscount(Double maxDiscount) {
+        this.maxDiscount = maxDiscount;
     }
 }

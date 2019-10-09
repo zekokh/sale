@@ -16,6 +16,7 @@ public class CheckEntity {
     private Boolean returnStatus;
     private Double payWithBonus;
     private String dateOfClosingUnix;
+    private boolean printStatus;
 
     private List<GoodsEntity> goodsEntities;
 
@@ -128,4 +129,13 @@ public class CheckEntity {
         this.dateOfClosingUnix = dateOfClosingUnix;
     }
 
+    @Basic
+    @Column(name = "print_status")
+    public boolean isPrintStatus() {
+        return printStatus;
+    }
+
+    public void setPrintStatus(boolean printStatus) {
+        this.printStatus = printStatus;
+    }
 }
