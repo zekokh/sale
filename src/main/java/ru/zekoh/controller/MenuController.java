@@ -24,7 +24,7 @@ import static ru.zekoh.core.Сatalog.generate;
 
 public class MenuController {
 
-    private static Logger logger = LogManager.getLogger(MenuController.class);
+    private static final Logger logger = LogManager.getLogger(MenuController.class);
 
     //Кнопка для перехда в окно продаж
     @FXML
@@ -73,7 +73,7 @@ public class MenuController {
         if (Properties.FPTR == null) {
             try {
                //Properties.FPTR = KKMOFD.create();
-             // KKMOFD.initDriver();
+             KKMOFD.initDriver();
             } catch (Exception e) {
                 System.out.println("Не удалось создать объект драйвера ККТ!" + e.getMessage());
                 logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
@@ -107,7 +107,11 @@ public class MenuController {
         }
     }
 
+    // Закрыть смену
     public void report(ActionEvent actionEvent) throws IOException {
+
+        //todo Проверяем если есть не допечатанные чеки, сообщаем об этом
+
 
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UNDECORATED);

@@ -24,7 +24,8 @@
                 <TableColumn fx:id="priceOfprice" editable="false" prefWidth="120.0" text="Цена по прайсу" />
                 <TableColumn fx:id="amountOfbonus" editable="false" prefWidth="123.27549743652344" text="Оплата бонусами" />
                 <TableColumn fx:id="typePayment" editable="false" prefWidth="132.83087158203125" text="Способ оплаты" />
-                <TableColumn fx:id="returnStatus" editable="false" prefWidth="132.83087158203125" text="Возврат" />
+                <TableColumn fx:id="printStatus" editable="false" prefWidth="132.83087158203125" text="Чек напечатан" />
+            <TableColumn fx:id="returnStatus" editable="false" prefWidth="132.83087158203125" text="Возврат" />
             </columns>
         </TableView>
         <ChoiceBox layoutX="294.0" layoutY="20.0" prefHeight="30.0" prefWidth="150.0" />
@@ -43,5 +44,6 @@
                 <Font size="15.0" />
             </font>
         </Label>
+      <Button fx:id="printBtn" layoutX="925.0" layoutY="679.0" mnemonicParsing="false" onAction="#printAction" prefHeight="48.0" prefWidth="155.0" text="напечатать" />
     </children>
 </Pane>

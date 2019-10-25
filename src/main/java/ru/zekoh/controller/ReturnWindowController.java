@@ -20,6 +20,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.Check;
+import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -80,6 +82,9 @@ public class ReturnWindowController {
     public TableColumn sellingPrice;
 
     @FXML
+    public TableColumn printStatus;
+
+    @FXML
     public TableColumn returnStatus;
 
     @FXML
@@ -87,6 +92,9 @@ public class ReturnWindowController {
 
     @FXML
     public Label labelInfo;
+
+    @FXML
+    public Button printBtn;
 
     List<CheckEntity> checkEntityList = null;
 
@@ -107,6 +115,7 @@ public class ReturnWindowController {
         priceOfprice.setCellValueFactory(new PropertyValueFactory<TableCheck, Double>("priceOfprice"));
         typePayment.setCellValueFactory(new PropertyValueFactory<TableCheck, String>("typePayment"));
         amountOfbonus.setCellValueFactory(new PropertyValueFactory<TableCheck, Double>("amountOfbonus"));
+        printStatus.setCellValueFactory(new PropertyValueFactory<TableCheck, String>("printStatus"));
         returnStatus.setCellValueFactory(new PropertyValueFactory<TableCheck, String>("returnStatus"));
 
         tableView.setItems(tableChecks);
@@ -120,6 +129,7 @@ public class ReturnWindowController {
         goodTableView.setItems(goodsEntities);
 
         returnBtn.setVisible(false);
+        printBtn.setVisible(false);
 
     }
 
@@ -167,7 +177,12 @@ public class ReturnWindowController {
                 returnStatus = "Оформлен возврат";
             }
 
-            tableChecks.add(new TableCheck(checkEntityList.get(i).getId(), formattedDate, checkEntityList.get(i).getTotal(), checkEntityList.get(i).getAmountByPrice(), checkEntityList.get(i).getPayWithBonus(), pay, returnStatus));
+            String printStatus = "нет";
+            if (checkEntityList.get(i).isPrintStatus() == true) {
+                printStatus = "да";
+            }
+
+            tableChecks.add(new TableCheck(checkEntityList.get(i).getId(), formattedDate, checkEntityList.get(i).getTotal(), checkEntityList.get(i).getAmountByPrice(), checkEntityList.get(i).getPayWithBonus(), pay, printStatus, returnStatus));
         }
     }
 
@@ -192,9 +207,14 @@ public class ReturnWindowController {
         if (tableView.getSelectionModel().getSelectedItem() != null) {
             TableCheck tableCheck = (TableCheck) tableView.getSelectionModel().getSelectedItem();
             if (tableCheck.getReturnStatus() == "Оформлен возврат") {
-                returnBtn.setVisible(true);
+                returnBtn.setVisible(false);
             } else {
                 returnBtn.setVisible(true);
+            }
+            if (tableCheck.getPrintStatus() == "да" || tableCheck.getReturnStatus() == "Оформлен возврат") {
+                printBtn.setVisible(false);
+            } else {
+                printBtn.setVisible(true);
             }
 
             // Поиск
@@ -247,7 +267,7 @@ public class ReturnWindowController {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReturnModalInfo.fxml"));
 
-        dialog.setScene(new Scene(root, 1200, 410));
+        dialog.setScene(new Scene(root, 700, 210));
 
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -265,38 +285,73 @@ public class ReturnWindowController {
                 TableCheck tableCheck = (TableCheck) tableView.getSelectionModel().getSelectedItem();
 
                 CheckEntity checkEntity = findCheck(tableCheck);
-                if (checkEntity != null) {
+                if (checkEntity != null && !checkEntity.getReturnStatus()) {
 
-                    // отображаем принтер всплывающее окно с печатью и если все хорошо то ок
-                    if(KKMOFD.returnToKKM(goodsEntities, checkEntity)){
-                    //if(true){
-                        checkEntity.setReturnStatus(true);
-                        Session session = Properties.sessionFactory.openSession();
-                        Transaction t = session.beginTransaction();
-                        session.update(checkEntity);
-                        t.commit();
-                        session.close();
+                    if (checkEntity.isPrintStatus()) {
+                        // отображаем принтер всплывающее окно с печатью и если все хорошо то ок
+                        if (KKMOFD.returnToKKM(goodsEntities, checkEntity)) {
+                            //if(true){
+                            checkEntity.setReturnStatus(true);
+                            Session session = Properties.sessionFactory.openSession();
+                            Transaction t = session.beginTransaction();
+                            session.update(checkEntity);
+                            t.commit();
+                            session.close();
 
-                        ReturnHistory returnHistory = new ReturnHistory();
-                        returnHistory.setCheckId(checkEntity.getId());
-                        returnHistory.setWho(Properties.currentUser.getName());
-                        returnHistory.setUserId(Properties.currentUser.getId());
-                        Date date = new Date();
-                        String currentDate = "" + date.getTime() / 1000 + "";
-                        returnHistory.setDate(currentDate);
-                        returnHistory.setStatus(false);
-                        Session session1 = Properties.sessionFactory.openSession();
-                        Transaction t1 = session1.beginTransaction();
-                        session1.save(returnHistory);
-                        t1.commit();
-                        session1.close();
+                            ReturnHistory returnHistory = new ReturnHistory();
+                            returnHistory.setCheckId(checkEntity.getId());
+                            returnHistory.setWho(Properties.currentUser.getName());
+                            returnHistory.setUserId(Properties.currentUser.getId());
+                            Date date = new Date();
+                            String currentDate = "" + date.getTime() / 1000 + "";
+                            returnHistory.setDate(currentDate);
+                            returnHistory.setStatus(false);
+                            Session session1 = Properties.sessionFactory.openSession();
+                            Transaction t1 = session1.beginTransaction();
+                            session1.save(returnHistory);
+                            t1.commit();
+                            session1.close();
 
-                        initData();
+                            initData();
+                            tableView.refresh();
+                        } else {
+                            labelInfo.setText("Не удалось напечатать чек!");
+                        }
+                    } else {
 
-                        tableView.refresh();
-                    }else {
-                        labelInfo.setText("Не удалось напечатать чек!");
+                        // Если чек только в бд и не напечатан
+                        try {
+                            checkEntity.setReturnStatus(true);
+                            Session session = Properties.sessionFactory.openSession();
+                            Transaction t = session.beginTransaction();
+                            session.update(checkEntity);
+                            t.commit();
+                            session.close();
+
+                            ReturnHistory returnHistory = new ReturnHistory();
+                            returnHistory.setCheckId(checkEntity.getId());
+                            returnHistory.setWho(Properties.currentUser.getName());
+                            returnHistory.setUserId(Properties.currentUser.getId());
+                            Date date = new Date();
+                            String currentDate = "" + date.getTime() / 1000 + "";
+                            returnHistory.setDate(currentDate);
+                            returnHistory.setStatus(false);
+                            Session session1 = Properties.sessionFactory.openSession();
+                            Transaction t1 = session1.beginTransaction();
+                            session1.save(returnHistory);
+                            t1.commit();
+                            session1.close();
+
+                            initData();
+                            tableView.refresh();
+                        } catch (Exception e) {
+                            labelInfo.setText("Не удалось напечатать чек!");
+                        }
                     }
+
+
+                }else {
+                    labelInfo.setText("Чек уже вернули!");
                 }
             }
 
@@ -315,4 +370,96 @@ public class ReturnWindowController {
         return null;
     }
 
+    // Напечатать чек если он не был напечатан
+    public void printAction(ActionEvent actionEvent) throws IOException {
+
+        // Берем текущий чек и допечатываем если он не был напечатан
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            TableCheck tableCheck = (TableCheck) tableView.getSelectionModel().getSelectedItem();
+
+            CheckEntity checkEntity = findCheck(tableCheck);
+
+            if (checkEntity.isPrintStatus()){
+                // Чек напечатан его не нужно допечатывать
+                labelInfo.setText("Чек уже был напечатан!");
+            }else {
+                // Открыть модальное окно для печати чека
+                CheckObject checkObject = new CheckObject();
+
+                checkObject.setSellingPrice(checkEntity.getTotal());
+                checkObject.setAmountByPrice(checkEntity.getAmountByPrice());
+                checkObject.setAmountBonus(checkEntity.getPayWithBonus());
+                checkObject.setPaymentState(true);
+                checkObject.setTypeOfPayment(checkEntity.getTypeOfPayment());
+                checkObject.setDateOfCreation(checkEntity.getDateOfCreation());
+                checkObject.setDateOfClosing(checkEntity.getDateOfClosing());
+
+                List<Goods> goodsList = new ArrayList<Goods>();
+                for (int i = 0; i < checkEntity.getGoodsEntity().size(); i++) {
+
+                    GoodsEntity goodsEntity = checkEntity.getGoodsEntity().get(i);
+
+                    Goods goods = new Goods();
+                    goods.setCheckId(checkEntity.getId());
+                    goods.setProductId(goodsEntity.getProductId());
+                    goods.setGeneralId(goodsEntity.getGeneralId());
+                    goods.setClassifier(0);
+                    goods.setProductName(goodsEntity.getProductName());
+                    goods.setPriceFromThePriceList(goodsEntity.getPriceFromThePriceList());
+                    goods.setSellingPrice(goodsEntity.getSellingPrice());
+                    goods.setPriceAfterDiscount(goodsEntity.getPriceAfterDiscount());
+                    goods.setCount(goodsEntity.getQuantity());
+
+                    goodsList.add(goods);
+
+                }
+
+                checkObject.setGoodsList(goodsList);
+
+
+                Properties.checkObject = checkObject;
+                Stage dialog = new Stage();
+                dialog.initStyle(StageStyle.UNDECORATED);
+                dialog.setTitle("Жак-Андрэ Продажи");
+
+                Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+
+                dialog.setScene(new Scene(root, 700, 220));
+
+                Node source = (Node) actionEvent.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+
+                dialog.initOwner(stage);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.showAndWait();
+
+                if (Properties.statusPrinted) {
+
+
+                    // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
+
+                    System.out.println("Обновляем данные о печати в БД!");
+
+                    // Обновить статус фискализации в чеке
+                    Session session2 = Properties.sessionFactory.openSession();
+                    Transaction t2 = session2.beginTransaction();
+
+
+                    CheckEntity check = (CheckEntity) session2.get(CheckEntity.class, checkEntity.getId());
+                    check.setPrintStatus(true);
+                    session2.save(check);
+                    t2.commit();
+                    session2.close();
+
+                    initData();
+                    tableView.refresh();
+                }
+
+                // Очищаем переменные для корректной работы
+                Properties.statusPrinted = false;
+                Properties.checkObject = null;
+            }
+
+        }
+    }
 }

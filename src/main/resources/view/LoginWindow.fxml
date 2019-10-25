@@ -97,5 +97,10 @@
             <Font size="26.0" />
          </font>
       </Label>
+      <Label layoutX="66.0" layoutY="692.0" text="v2.0 Beta">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
    </children>
 </Pane>

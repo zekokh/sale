@@ -16,7 +16,7 @@ public class CheckEntity {
     private Boolean returnStatus;
     private Double payWithBonus;
     private String dateOfClosingUnix;
-    private boolean printStatus;
+    private boolean printStatus = false;
 
     private List<GoodsEntity> goodsEntities;
 

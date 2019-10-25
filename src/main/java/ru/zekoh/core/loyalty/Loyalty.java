@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Loyalty {
     public static StoreCard searchByNumber(String number) {
-        String url = "http://localhost:3000/customer/search/"+number;
+        String url = "https://loyalty.jacq.ru/customer/search/"+number;
         StoreCard storeCard = null;
         // Запрашиваю на сервере информацию
         try {

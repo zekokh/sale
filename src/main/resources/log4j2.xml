@@ -1,39 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="debug" name="RoutingTest" packages="org.apache.logging.log4j.test">
-    <Properties>
-        <Property name="filename">target/rolling1/rollingtest-$${sd:type}.log</Property>
-    </Properties>
-    <ThresholdFilter level="debug"/>
-
-    <Appenders>
-        <Console name="STDOUT">
-            <PatternLayout pattern="%m%n"/>
-            <ThresholdFilter level="debug"/>
+<configuration status="WARN">
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <Routing name="Routing">
-            <Routes pattern="$${sd:type}">
-                <Route>
-                    <RollingFile name="Rolling-${sd:type}" fileName="${filename}"
-                                 filePattern="target/rolling1/test1-${sd:type}.%i.log.gz">
-                        <PatternLayout>
-                            <pattern>%d %p %c{1.} [%t] %m%n</pattern>
-                        </PatternLayout>
-                        <SizeBasedTriggeringPolicy size="500" />
-                    </RollingFile>
-                </Route>
-                <Route ref="STDOUT" key="Audit"/>
-            </Routes>
-        </Routing>
-    </Appenders>
 
-    <Loggers>
-        <Logger name="EventLogger" level="debug" additivity="false">
-            <AppenderRef ref="Routing"/>
-        </Logger>
+        <File name="MyFile" fileName="C:\\Users\\ен\\Desktop\\sell\\app.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" charset="UTF-8"/>
+        </File>
+    </appenders>
 
-        <Root level="debug">
-            <AppenderRef ref="STDOUT"/>
-        </Root>
-    </Loggers>
-
-</Configuration>
+    <loggers>
+        <root level="debug">
+            <appender-ref ref="Console" level="info"/>
+            <appender-ref ref="MyFile" level="info"/>
+        </root>
+    </loggers>
+</configuration>

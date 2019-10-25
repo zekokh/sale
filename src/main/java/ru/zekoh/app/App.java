@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import ru.zekoh.controller.Login;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
@@ -18,19 +19,16 @@ import ru.zekoh.properties.Properties;
 import static ru.zekoh.core.Сatalog.generate;
 
 public class App extends Application {
+    private static final Logger logger = LogManager.getLogger(App.class);
 
-    //private static Logger logger = LogManager.getLogger(App.class);
 
     @Override
-    public void init() throws Exception {
-
-        //todo Если сегодня 1 ое число месяца то обновляем баланс сотрудникво
-
-        // logger.info("Инициаизация связи с базой данных.");
-
+    public void init() {
         try {
+            logger.info("Запуск системы продаж.");
+
             // Получаем список пользователей
-            Properties.sessionFactory  = HibernateSessionFactory.getSessionFactory();
+            Properties.sessionFactory = HibernateSessionFactory.getSessionFactory();
             Session session = Properties.sessionFactory.openSession();
             Properties.users = session.createQuery("SELECT a FROM UserEntity a", UserEntity.class).getResultList();
             session.close();
@@ -39,8 +37,7 @@ public class App extends Application {
 
             Properties.initDataWithoutFile();
         } catch (Exception e) {
-            System.out.println("Ошибка! "+e.toString());
-            //logger.error("Произошла ошибка при попытки подключения к БД! \n" + e.toString());
+            logger.error("Ошибка! " + e.toString());
         }
     }
 
@@ -55,20 +52,4 @@ public class App extends Application {
         primaryStage.setScene(new Scene(root, 1280, 760));
         primaryStage.show();
     }
-
-    /*            session.beginTransaction();
-
-            UserEntity userEntity = new UserEntity();
-
-            userEntity.setLogin("testFrom Hybernate");
-            userEntity.setMail("misterTest@mail.ru");
-            userEntity.setName("Test testovich");
-            userEntity.setPassword("1235");
-            userEntity.setRoleId(1);
-
-            session.save(userEntity);
-            session.getTransaction().commit();
-            session.close();
-
-            */
 }

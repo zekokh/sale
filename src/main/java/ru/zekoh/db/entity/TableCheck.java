@@ -7,15 +7,17 @@ public class TableCheck {
     private Double priceOfprice;
     private Double amountOfbonus;
     private String typePayment;
+    private String printStatus;
     private String returnStatus;
 
-    public TableCheck(int id, String date, Double total, Double priceOfprice, Double amountOfbonus, String typePayment, String returnStatus) {
+    public TableCheck(int id, String date, Double total, Double priceOfprice, Double amountOfbonus, String typePayment, String printStatus, String returnStatus) {
         this.id = id;
         this.date = date;
         this.total = total;
         this.priceOfprice = priceOfprice;
         this.amountOfbonus = amountOfbonus;
         this.typePayment = typePayment;
+        this.printStatus = printStatus;
         this.returnStatus = returnStatus;
     }
 
@@ -65,6 +67,14 @@ public class TableCheck {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPrintStatus() {
+        return printStatus;
+    }
+
+    public void setPrintStatus(String printStatus) {
+        this.printStatus = printStatus;
     }
 
     public String getReturnStatus() {

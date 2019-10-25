@@ -1,7 +1,10 @@
 package ru.zekoh.core.printing;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import ru.atol.drivers10.fptr.Fptr;
 import ru.atol.drivers10.fptr.IFptr;
+import ru.zekoh.controller.MenuController;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.*;
@@ -16,13 +19,14 @@ public class KKMOFD {
     public static String name = Properties.currentUser.getName();
     public static String inn = "";
     public static String COM_PORT = Properties.comPort;
+    private static final Logger logger = LogManager.getLogger(KKMOFD.class);
 
-    public static boolean initDriver(){
+    public static boolean initDriver() {
 
         System.out.println("Инициализация драйвера ккт");
-        System.out.println("COM: "+COM_PORT);
+        System.out.println("COM: " + COM_PORT);
 
-        try{
+        try {
             // Инициализация драйвера
             IFptr fptr = new Fptr();
 
@@ -36,7 +40,7 @@ public class KKMOFD {
             Properties.FPTR = fptr;
             Properties.FPTR.open();
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("В инициализация драйвера");
             System.out.println(e.getMessage());
         }
@@ -44,20 +48,16 @@ public class KKMOFD {
         return false;
     }
 
-    public static boolean sendToKKM(CheckObject check){
+    public static boolean sendToKKM(CheckObject check) {
 
         List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
 
-        if(Properties.FPTR != null){
+        if (Properties.FPTR != null) {
 
             IFptr fptr = Properties.FPTR;
 
-
-            try{
-                // Открыть соединение
-               // fptr.open();
-
-                if(fptr.isOpened()) {
+            try {
+                if (fptr.isOpened()) {
 
                     // Регистрация операции
                     fptr.setParam(1021, name);
@@ -68,7 +68,7 @@ public class KKMOFD {
                     fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL);
                     fptr.openReceipt();
 
-                   // List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
+                    // List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
 
                     // Печать продукции
                     for (int i = 0; i < goodsForDisplays.size(); i++) {
@@ -78,6 +78,7 @@ public class KKMOFD {
                         fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goodsForDisplays.get(i).getSellingPrice());
                         fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
                         fptr.registration();
+                        logger.info("Товар: "+ goodsForDisplays.get(i).getName()+" "+goodsForDisplays.get(i).getPriceFromThePriceList()+" "+ goodsForDisplays.get(i).getCount() +" "+goodsForDisplays.get(i).getSellingPrice());
                     }
 
                     // Закрыть чек и напечатать
@@ -95,55 +96,78 @@ public class KKMOFD {
                     fptr.setParam(IFptr.LIBFPTR_PARAM_SUM, check.getSellingPrice());
                     fptr.receiptTotal();
 
-                    // Закрыть чек
+                    logger.info("Закрываем чек: " + check.getSellingPrice() + " " + check.getDateOfClosing());
+
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
                     fptr.closeReceipt();
 
-                    System.out.println("Чек закрылся!");
-
+                    int temp = 0;
                     while (fptr.checkDocumentClosed() < 0) {
                         // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
                         System.out.println("В while!");
+                        logger.error("Чек " + check.getSellingPrice() + " " + check.getDateOfClosing() + " Зашел в петлю нет связи с принтером чека!");
+                        logger.error(fptr.errorDescription());
                         System.out.println(fptr.errorDescription());
+                        if (temp == 3) {
+                            fptr.cancelReceipt();
+                            System.out.println("Чек не закрылся!");
+                            return false;
+                        }
+                        temp++;
                         continue;
                     }
 
                     if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
                         // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
+                        logger.error("Чек " + check.getSellingPrice() + " " + check.getDateOfClosing() + " Документ не закрылся требуектся отменить и пробить заного!");
                         fptr.cancelReceipt();
                         System.out.println("Чек не закрылся!");
 
                         System.out.println(fptr.errorDescription());
                         return false;
-                    }else {
-                        System.out.println("Возвращаю тру!");
-                        return true;
+                    }
+
+                    // Документ закрылся в ФН требуется его допечатать
+                    if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_PRINTED)) {
+                        // Можно сразу вызвать метод допечатывания документа, он завершится с ошибкой, если это невозможно
+                        while (fptr.continuePrint() < 0) {
+                            logger.error("Чек " + check.getSellingPrice() + " " + check.getDateOfClosing() + " Документ закрылся в ФН и не допечатался!");
+                            logger.error(fptr.errorDescription());
+                            // Если не удалось допечатать документ - показать пользователю ошибку и попробовать еще раз.
+                            System.out.println(String.format("Не удалось напечатать документ (Ошибка \"%s\"). Устраните неполадку и повторите.", fptr.errorDescription()));
+                            continue;
+                        }
                     }
 
                 } else {
-                    System.out.println("Соединение с ККМ не открыто!");
+                    logger.error("Соединение с ККМ не открыто!");
                     return false;
                 }
-            }catch (Exception e){
-                System.out.println("Ошибка! "+e.toString());
+
+                logger.info("Чек закрылся успешно!");
+                return true;
+
+            } catch (Exception e) {
+                logger.error("Ошибка! " + e.toString());
                 return false;
             }
-        }else {
+        } else {
 
-            System.out.println("Драйвер принтера чека не инициализирован!");
+            logger.error("Драйвер принтера чека не инициализирован!");
             return false;
         }
     }
 
-    public static boolean returnToKKM(List<TableGoods> goods, CheckEntity check){
-        if(Properties.FPTR != null){
+    public static boolean returnToKKM(List<TableGoods> goods, CheckEntity check) {
+        if (Properties.FPTR != null) {
             IFptr fptr = Properties.FPTR;
 
 
-            try{
+            try {
                 // Открыть соединение
                 // fptr.open();
 
-                if(fptr.isOpened()) {
+                if (fptr.isOpened()) {
 
                     // Регистрация операции
                     fptr.setParam(1021, name);
@@ -153,7 +177,6 @@ public class KKMOFD {
                     // Чек прихода
                     fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL_RETURN);
                     fptr.openReceipt();
-
 
 
                     // Печать продукции
@@ -182,40 +205,42 @@ public class KKMOFD {
                     fptr.receiptTotal();
 
                     // Закрыть чек
+                    fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
                     fptr.closeReceipt();
 
-                    System.out.println("Чек закрылся!");
+                    logger.info("Чек закрылся!");
 
                     while (fptr.checkDocumentClosed() < 0) {
                         // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
-                        System.out.println("В while!");
-                        System.out.println(fptr.errorDescription());
+                        logger.info("В while!");
+                        logger.info(fptr.errorDescription());
                         continue;
                     }
 
                     if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
+                        logger.error("Чек не закрыт в ФН нужно отменить его и заного пробить");
                         // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
                         fptr.cancelReceipt();
-                        System.out.println("Чек не закрылся!");
 
-                        System.out.println(fptr.errorDescription());
+
+                        logger.error(fptr.errorDescription());
                         return false;
-                    }else {
-                        System.out.println("Возвращаю тру!");
+                    } else {
+                        logger.info("Возврат чека закрылся и напечатался!");
                         return true;
                     }
 
                 } else {
-                    System.out.println("Соединение с ККМ не открыто!");
+                    logger.error("Соединение с ККМ не открыто!");
                     return false;
                 }
-            }catch (Exception e){
-                System.out.println("Ошибка! "+e.toString());
+            } catch (Exception e) {
+                logger.error("Ошибка! " + e.toString());
                 return false;
             }
-        }else {
+        } else {
 
-            System.out.println("Драйвер принтера чека не инициализирован!");
+            logger.error("Драйвер принтера чека не инициализирован!");
             return false;
         }
     }
@@ -269,7 +294,7 @@ public class KKMOFD {
 
                 if (answer >= 0) {
 
-                }else {
+                } else {
 
                 }
 
@@ -312,7 +337,7 @@ public class KKMOFD {
     // Инициализация драйвера
     public static IFptr create() {
 
-        try{
+        try {
             // Инициализация драйвера
             IFptr fptr = new Fptr();
 
@@ -328,7 +353,7 @@ public class KKMOFD {
             System.out.println("Соединение с ККТ: " + fptr.isOpened());
 
             return fptr;
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("Ошибка создания объекта драйвера!");
             System.out.println(e.getMessage().toString());
         }
@@ -338,18 +363,17 @@ public class KKMOFD {
 
     //Закрытие драйвера
     public static boolean close(IFptr fptr) {
-        try{
+        try {
             fptr.close();
             fptr.destroy();
             System.out.println("Объект драйвера удален!");
-        }catch (Exception e){
-            System.out.println("Не смог удалить объект драйвера!"+e.getMessage().toString());
+        } catch (Exception e) {
+            System.out.println("Не смог удалить объект драйвера!" + e.getMessage().toString());
             return false;
         }
 
         return true;
     }
-
 
 
     // Допечатать документ
@@ -375,7 +399,7 @@ public class KKMOFD {
 
     //Закрыть смену и сделать Z-Отчет
     public static boolean closeShift(IFptr fptr) {
-        if(fptr != null){
+        if (fptr != null) {
             fptr.setParam(1021, name);
             fptr.setParam(1203, inn);
             fptr.operatorLogin();
@@ -383,8 +407,8 @@ public class KKMOFD {
             fptr.setParam(IFptr.LIBFPTR_PARAM_REPORT_TYPE, IFptr.LIBFPTR_RT_CLOSE_SHIFT);
             fptr.report();
 
-            System.out.println("Закрытие смены: "+fptr.checkDocumentClosed());
-        }else {
+            System.out.println("Закрытие смены: " + fptr.checkDocumentClosed());
+        } else {
             System.out.println("Не удалось закрыть смену!");
             System.out.println("Драйвер пустой! Нужно сперва создать объект драйвера ККТ!");
             return false;
@@ -471,7 +495,7 @@ public class KKMOFD {
                 goodsTemp.setCount(count);
 
                 //Продажная цена
-               // Double sellingPrice = (goodsTemp.getCount() + goods.get(i).getCount()) * goods.get(i).getPriceAfterDiscount());
+                // Double sellingPrice = (goodsTemp.getCount() + goods.get(i).getCount()) * goods.get(i).getPriceAfterDiscount());
                 Double sellingPrice = goodsTemp.getCount() * goodsTemp.getPriceAfterDiscount();
                 Double sellingPriceDouble = new BigDecimal(sellingPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
                 goodsTemp.setSellingPrice(sellingPriceDouble);
@@ -482,7 +506,6 @@ public class KKMOFD {
 
         return goodsForDisplayList;
     }
-
 
 
     //МЕтод который проверяет наличие в Листе и возвращает

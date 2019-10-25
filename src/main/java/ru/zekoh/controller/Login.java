@@ -7,6 +7,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.HibernateSessionFactory;
@@ -20,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Login {
-
+    private static final Logger logger = LogManager.getLogger(Login.class);
 
     @FXML
     Label labelInfo;
@@ -32,6 +34,8 @@ public class Login {
     String hidePassword = "";
 
     List<UserEntity> users = null;
+
+
 
     @FXML
     void initialize() {
@@ -104,6 +108,7 @@ public class Login {
             for (int i = 0; i < users.size(); i++) {
                if (password.equals(users.get(i).getShortPassword())){
                    Properties.currentUser = users.get(i);
+                   KKMOFD.name = Properties.currentUser.getName();
                    goToMenu();
                }
             }

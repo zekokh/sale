@@ -21,6 +21,7 @@ public class DiscountHistoryEntity {
         this.employerId = employerId;
         this.typeDiscount = typeDiscount;
         this.date = date;
+        this.onServer = onServer;
     }
 
     public DiscountHistoryEntity() {

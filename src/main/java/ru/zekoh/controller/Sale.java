@@ -40,6 +40,7 @@ import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
 import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
+import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAO.DiscountForEmployeesDao;
 import ru.zekoh.db.DAOImpl.CardDao;
@@ -350,7 +351,6 @@ public class Sale {
                             for (int i = 0; i < goods.size(); i++) {
 
 
-
                                 Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
 
                                 priceAfterDiscount -= priceAfterDiscount * 0.2;
@@ -363,9 +363,6 @@ public class Sale {
 
                                 goods.get(i).setSellingPrice(temp);
                             }
-
-                            // Рассчитать цену исходя из проджной
-                            // calculationPrice(check);
 
                             if (check.getDiscount().isPayWithBonus()) {
 
@@ -397,15 +394,9 @@ public class Sale {
                     }
                 }
 
-
                 // Промоушены
                 if (check.getDiscount() == null) {
-
-                    // Вернуть ценны по прайсу
-                    //List<Goods> goods = check.getGoodsList();
-
                     for (int i = 0; i < goods.size(); i++) {
-
                         goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                     }
 
@@ -414,40 +405,16 @@ public class Sale {
 
                         // 5 круаасан по цене 199р.
                         DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
-
                         DiscountProgram.onCroissant(check);
-
                         DiscountProgram.cappuccinoAndCroissant(check);
-
-
                     }
 
-
                     DiscountProgram.onAchmaAndTea(check);
-
                     DiscountProgram.onBrioshAndTea(check);
-
                     // Акции которые не с чем не пересикаются
                     // 6 эклеров по цене 5
                     DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
-
-
-                    // Флан натюр по кусочкам
-                    //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
-
-
-                    // Флан кокос и чернослив
-                    //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
-
-
-                    // Флан апельсин лимон ягодны шоколад
-                    //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
-
-                    // Акция на панини комбо с 11:00 до 15:00
-                    // DiscountProgram.initPaniniWithTimeLimit(check);
-
                 }
-
             }
 
             // Рассчитать цену исходя из проджной
@@ -470,7 +437,6 @@ public class Sale {
             //Меняем сумму чека в табе для чеков
             Button btn = (Button) panelForCheckBtns.getChildren().get(currentCheckIndex);
             btn.setText("" + check.getSellingPrice());
-
 
             List<GoodsForDisplay> goodsForDisplayList = convert(check.getGoodsList());
             items = FXCollections.observableArrayList(goodsForDisplayList);
@@ -972,6 +938,14 @@ public class Sale {
 
     public void cancelCheck(ActionEvent actionEvent) throws IOException {
         if (checkList.size() > 0) {
+
+            // Логирование при отмене чека
+            CheckObject check = checkList.get(currentCheckIndex);
+            logger.warn("Cancel check Отмена чека: " + check.getSellingPrice() + " " + check.getDateOfClosing());
+            logger.info("Пользователь: "+Properties.currentUser);
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                logger.info(check.getGoodsList().get(i).getProductId()+" "+check.getGoodsList().get(i).getProductName()+" Количество: "+check.getGoodsList().get(i).getCount()+" Цена со скидкой "+check.getGoodsList().get(i).getPriceAfterDiscount()+" Цена без скидки "+check.getGoodsList().get(i).getPriceFromThePriceList()+" Итог "+check.getGoodsList().get(i).getSellingPrice());
+            }
 
             Stage dialog = new Stage();
             dialog.initStyle(StageStyle.UNDECORATED);
@@ -2565,13 +2539,12 @@ public class Sale {
             //Текущий чек
             CheckObject checkObject = checkList.get(currentCheckIndex);
 
-
             //Если выбранный чек еще существует
             if (checkObject.isLive() && !checkObject.isBlockForSale()) {
 
                 //Если есть товары в чеке
                 if (checkObject.getGoodsList().size() > 0) {
-
+                    int id = 0;
 
                     // todo костыль переделать
 
@@ -2583,23 +2556,16 @@ public class Sale {
                             Stage dialog = new Stage();
                             dialog.initStyle(StageStyle.UNDECORATED);
                             dialog.setTitle("Жак-Андрэ Продажи");
-
                             Parent root = FXMLLoader.load(getClass().getResource("/view/info.fxml"));
-
                             dialog.setScene(new Scene(root, 700, 220));
-
                             Node source = (Node) event.getSource();
                             Stage stage = (Stage) source.getScene().getWindow();
-
                             dialog.initOwner(stage);
                             dialog.initModality(Modality.APPLICATION_MODAL);
                             dialog.showAndWait();
-
-
                             return;
                         }
                     }
-
 
                     // Формируем чек
                     CheckEntity checkEntity = new CheckEntity();
@@ -2624,9 +2590,8 @@ public class Sale {
                     checkEntity.setPayWithBonus(checkObject.getAmountBonus());
                     checkEntity.setPrintStatus(false);
 
-
                     // Добавляем чек в БД со статусом не напечатанно в ККТ
-                    // В таблице checks стобец printStatus
+                    // В таблице check_list стобец printStatus
                     try {
                         Session session = Properties.sessionFactory.openSession();
 
@@ -2646,7 +2611,7 @@ public class Sale {
                             checkEntity.addGoods(goodsEntity);
                         }
 
-                        int id = (int) session.save(checkEntity);
+                        id = (int) session.save(checkEntity);
                         t.commit();
                         session.close();
                         System.out.println("Транзакция прошла успешно!");
@@ -2683,11 +2648,20 @@ public class Sale {
                                 DiscountCardEntity card = null;
                                 try {
                                     card = cardDao.findById(checkObject.getDiscount().getId());
+                                    card.setName(checkObject.getDiscount().getName());
+                                    card.setBudgetForTheMonth(checkObject.getDiscount().getBudget());
+                                    card.setAmountOfDiscount(checkObject.getDiscount().getPercentDiscount());
                                     card.setBalance(card.getBalance() + checkObject.getSellingPrice());
+                                    card.setRole(checkObject.getDiscount().getDiscountRole());
                                     cardDao.update(card);
-                                }catch (Exception e){
+                                } catch (Exception e) {
+                                    card = new DiscountCardEntity();
                                     card.setId(checkObject.getDiscount().getId());
-                                    card.setBalance(checkObject.getDiscount().getBalance());
+                                    card.setName(checkObject.getDiscount().getName());
+                                    card.setBalance(checkObject.getDiscount().getBalance() + checkObject.getSellingPrice());
+                                    card.setBudgetForTheMonth(checkObject.getDiscount().getBudget());
+                                    card.setAmountOfDiscount(checkObject.getDiscount().getPercentDiscount());
+                                    card.setRole(checkObject.getDiscount().getDiscountRole());
                                     cardDao.create(card);
                                 }
                             }
@@ -2702,56 +2676,86 @@ public class Sale {
                         }
 
 
-                        // Закрываем чек
-                        cancelCheckMethod();
                     } catch (Exception e) {
                         System.out.println("Ошибка при добавлении в бд!" + e.getMessage());
 
                         //todo Отобразить ошибку в модальном окне и выйти из метода
+
+                        // Отобразить модальное окно с инфой
+                        Stage dialog = new Stage();
+                        dialog.initStyle(StageStyle.UNDECORATED);
+                        dialog.setTitle("Жак-Андрэ Продажи");
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWindow.fxml"));
+                        dialog.setScene(new Scene(root, 700, 250));
+                        Node source = (Node) event.getSource();
+                        Stage stage = (Stage) source.getScene().getWindow();
+                        dialog.initOwner(stage);
+                        dialog.initModality(Modality.APPLICATION_MODAL);
+                        dialog.showAndWait();
+                        return;
                     }
 
 
                     //________________________________
-/*
+
                     // Отправить на принтер
                     if (Properties.KKM) {
 
-                        // Открыть модальное окно для печати чека
-                        Properties.checkObject = checkObject;
-                        Stage dialog = new Stage();
-                        dialog.initStyle(StageStyle.UNDECORATED);
-                        dialog.setTitle("Жак-Андрэ Продажи");
+                        // Если чек добавлен в бд печатаем его на принтере ккт
+                        if (id > 0) {
 
-                        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+                            // Открыть модальное окно для печати чека
+                            Properties.checkObject = checkObject;
+                            Stage dialog = new Stage();
+                            dialog.initStyle(StageStyle.UNDECORATED);
+                            dialog.setTitle("Жак-Андрэ Продажи");
 
-                        dialog.setScene(new Scene(root, 700, 220));
+                            Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
 
-                        Node source = (Node) event.getSource();
-                        Stage stage = (Stage) source.getScene().getWindow();
+                            dialog.setScene(new Scene(root, 700, 220));
 
-                        dialog.initOwner(stage);
-                        dialog.initModality(Modality.APPLICATION_MODAL);
-                        dialog.showAndWait();
+                            Node source = (Node) event.getSource();
+                            Stage stage = (Stage) source.getScene().getWindow();
 
-                        if (Properties.statusPrinted) {
+                            dialog.initOwner(stage);
+                            dialog.initModality(Modality.APPLICATION_MODAL);
+                            dialog.showAndWait();
 
-                            System.out.println("Статуст успешной печати: " + Properties.statusPrinted);
-                            System.out.println("Объект checkObkect сумма чека: " + Properties.checkObject.getAmountByPrice());
-                            // if (true) {
-                            // todo перед тем как класть в бд проверять товары и групировать по кол-ву с одинаковой продажной ценой
+                            if (Properties.statusPrinted) {
 
-                            System.out.println("Cоздаем транзакцию!");
+                                logger.info("Обновляем данные о печати в БД!");
+
+                                // Обновить статус фискализации в чеке
+                                Session session2 = Properties.sessionFactory.openSession();
+                                Transaction t2 = session2.beginTransaction();
+
+
+                                CheckEntity check = (CheckEntity) session2.get(CheckEntity.class, id);
+                                check.setPrintStatus(true);
+                                session2.save(check);
+                                t2.commit();
+                                session2.close();
+
+
+                            } else {
+
+                                // Не удалось напечатать
+                            }
 
                         } else {
-
-                            // Не удалось напечатать
+                            //todo обработать случай когда "Чек был добавлен но id не сохранен"
+                            logger.error("Чек добавлен но id не удалось сохранить!");
                         }
 
                         // Очищаем переменные для корректной работы
                         Properties.statusPrinted = false;
                         Properties.checkObject = null;
+
+
                     }
-*/
+
+                    // Закрываем чек
+                    cancelCheckMethod();
                     // Подождать ответа от принетера
                     // Если ошибка остонавоиться и показать ошибку
                     // Если ошибки нет, то положить в бд и закрыть.
@@ -2806,7 +2810,7 @@ public class Sale {
             Double amountPaidBonuses = check.getAmountBonus();
 
 
-            HttpPost request = new HttpPost("http://localhost:3000/customer/check/add");
+            HttpPost request = new HttpPost("https://loyalty.jacq.ru/customer/check/add");
             StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
