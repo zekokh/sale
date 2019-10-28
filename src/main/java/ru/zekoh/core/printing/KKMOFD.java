@@ -1,5 +1,12 @@
 package ru.zekoh.core.printing;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.atol.drivers10.fptr.Fptr;
@@ -103,6 +110,7 @@ public class KKMOFD {
 
                     int temp = 0;
                     while (fptr.checkDocumentClosed() < 0) {
+
                         // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
                         System.out.println("В while!");
                         logger.error("Чек " + check.getSellingPrice() + " " + check.getDateOfClosing() + " Зашел в петлю нет связи с принтером чека!");
@@ -111,6 +119,8 @@ public class KKMOFD {
                         if (temp == 3) {
                             fptr.cancelReceipt();
                             System.out.println("Чек не закрылся!");
+                            Properties.errorKKT = 1;
+                            Properties.errorKKTString = fptr.errorDescription();
                             return false;
                         }
                         temp++;
@@ -120,10 +130,8 @@ public class KKMOFD {
                     if (!fptr.getParamBool(IFptr.LIBFPTR_PARAM_DOCUMENT_CLOSED)) {
                         // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
                         logger.error("Чек " + check.getSellingPrice() + " " + check.getDateOfClosing() + " Документ не закрылся требуектся отменить и пробить заного!");
+                        logger.error(fptr.errorDescription());
                         fptr.cancelReceipt();
-                        System.out.println("Чек не закрылся!");
-
-                        System.out.println(fptr.errorDescription());
                         return false;
                     }
 
@@ -210,10 +218,15 @@ public class KKMOFD {
 
                     logger.info("Чек закрылся!");
 
+                    // Данная ошибка возникает при потери связи с принтером
                     while (fptr.checkDocumentClosed() < 0) {
                         // Не удалось проверить состояние документа. Вывести пользователю текст ошибки, попросить устранить неполадку и повторить запрос
                         logger.info("В while!");
                         logger.info(fptr.errorDescription());
+
+
+                        // Отобразить окно с ошибкой и предложить устранить проблему и нажать повтороить
+                        // Если ошибка не устраняется?
                         continue;
                     }
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.KKTInfo">
+    <children>
+          <Button id="btn" fx:id="okBtn" layoutX="95.0" layoutY="486.0" mnemonicParsing="false" onAction="#ok" prefHeight="90.0" prefWidth="160.0" text="ОК">
+              <font>
+                  <Font size="40.0" />
+              </font>
+          </Button>
+      <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="12.0" prefHeight="93.0" prefWidth="671.0" text="Чек сохранен в базе данных, но при печати возникли проблемы." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Helvetica Bold" size="28.0" />
+         </font>
+      </Label>
+      <Button id="btn" fx:id="repeatBtn" layoutX="314.0" layoutY="486.0" mnemonicParsing="false" onAction="#repeat" prefHeight="90.0" prefWidth="318.0" text="ПОВТОРИТЬ">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorLabel" layoutX="12.0" layoutY="127.0" prefHeight="109.0" prefWidth="677.0" text="Ошибка" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label alignment="TOP_LEFT" layoutX="13.0" layoutY="251.0" prefHeight="225.0" prefWidth="668.0" text="Проверьте подключен ли кабель от принтера чека к компьютеру. Проверьте наличие чековой ленты. Попробуйте выключить и включить принтер чека. После восстановления связи с принтером чека нажмите &quot;продолжить&quot;. Если восстановить связь не удалось и выхотите прекратить попытку нажмите &quot;отменить печать&quot;." wrapText="true">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+    </children>
+</Pane>

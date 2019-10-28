@@ -50,6 +50,9 @@ public class CheckObject {
     // Блокировка продажи
     private boolean blockForSale = false;
 
+    // Сохранен в базе данных
+    private boolean saveInDB = false;
+
 
     public List<Goods> getGoodsList() {
         return goodsList;
@@ -161,5 +164,13 @@ public class CheckObject {
 
     public void setDiscountAppExist(boolean discountAppExist) {
         this.discountAppExist = discountAppExist;
+    }
+
+    public boolean isSaveInDB() {
+        return saveInDB;
+    }
+
+    public void setSaveInDB(boolean saveInDB) {
+        this.saveInDB = saveInDB;
     }
 }

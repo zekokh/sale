@@ -46,6 +46,14 @@ public class Properties {
 
     public static boolean statusPrinted = false;
 
+    // Тип ошибки пришедшей с ккт
+    // 0 - по умолчанию
+    // 1 - потеря связи принтера чека
+    public static int errorKKT = 0;
+
+    // Ошибка с ККТ
+    public static String errorKKTString = "";
+
     public static boolean isPayCard = false;
 
     public static SessionFactory sessionFactory = null;

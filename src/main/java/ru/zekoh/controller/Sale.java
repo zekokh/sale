@@ -2706,6 +2706,7 @@ public class Sale {
 
                             // Открыть модальное окно для печати чека
                             Properties.checkObject = checkObject;
+                            Properties.checkObject.setSaveInDB(true);
                             Stage dialog = new Stage();
                             dialog.initStyle(StageStyle.UNDECORATED);
                             dialog.setTitle("Жак-Андрэ Продажи");
@@ -2729,7 +2730,6 @@ public class Sale {
                                 Session session2 = Properties.sessionFactory.openSession();
                                 Transaction t2 = session2.beginTransaction();
 
-
                                 CheckEntity check = (CheckEntity) session2.get(CheckEntity.class, id);
                                 check.setPrintStatus(true);
                                 session2.save(check);
@@ -2739,7 +2739,26 @@ public class Sale {
 
                             } else {
 
-                                // Не удалось напечатать
+                                // Не удалось напечатать из-за потери связи с принтером чека
+                                if (Properties.errorKKT == 1){
+
+                                    // Открыть модальное окно с информацией
+                                    Properties.checkObject = checkObject;
+                                    Stage dialog1 = new Stage();
+                                    dialog.initStyle(StageStyle.UNDECORATED);
+                                    dialog.setTitle("Жак-Андрэ Продажи");
+
+                                    Parent root1 = FXMLLoader.load(getClass().getResource("/view/ModalkktInfo.fxml.fxml"));
+
+                                    dialog1.setScene(new Scene(root1, 700, 220));
+
+                                    Node source1 = (Node) event.getSource();
+                                    Stage stage1 = (Stage) source1.getScene().getWindow();
+
+                                    dialog.initOwner(stage1);
+                                    dialog.initModality(Modality.APPLICATION_MODAL);
+                                    dialog.showAndWait();
+                                }
                             }
 
                         } else {
