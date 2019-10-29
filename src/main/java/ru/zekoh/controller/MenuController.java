@@ -72,10 +72,8 @@ public class MenuController {
 
         if (Properties.FPTR == null) {
             try {
-               //Properties.FPTR = KKMOFD.create();
-             KKMOFD.initDriver();
+                KKMOFD.initDriver();
             } catch (Exception e) {
-                System.out.println("Не удалось создать объект драйвера ККТ!" + e.getMessage());
                 logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
             }
         }
@@ -90,7 +88,7 @@ public class MenuController {
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
-          logger.error("Не удалось построить интерфейс экрана продаж! \n"+e.toString());
+            logger.error("Не удалось построить интерфейс экрана продаж! \n" + e.toString());
         }
     }
 
@@ -103,7 +101,7 @@ public class MenuController {
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
-            logger.error("Не удалось построить интерфейс экрана аутентификации! \n" +e.toString());
+            logger.error("Не удалось построить интерфейс экрана аутентификации! \n" + e.toString());
         }
     }
 
@@ -148,7 +146,6 @@ public class MenuController {
         dialog.initOwner(stage);
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.showAndWait();
-
 
 
     }

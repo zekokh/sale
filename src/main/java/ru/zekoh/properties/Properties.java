@@ -3,6 +3,7 @@ package ru.zekoh.properties;
 
 import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
+import ru.zekoh.core.KKTError;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.*;
@@ -46,13 +47,12 @@ public class Properties {
 
     public static boolean statusPrinted = false;
 
-    // Тип ошибки пришедшей с ккт
-    // 0 - по умолчанию
-    // 1 - потеря связи принтера чека
-    public static int errorKKT = 0;
 
     // Ошибка с ККТ
-    public static String errorKKTString = "";
+    public static KKTError kktError = null;
+    public static int KKTErrorInfoAction = 0;
+    public  static boolean ModalWhilePrintCheckBool = true;
+
 
     public static boolean isPayCard = false;
 

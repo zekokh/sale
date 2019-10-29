@@ -2,27 +2,64 @@ package ru.zekoh.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.properties.Properties;
 
 public class KKTInfo {
+    private static final Logger logger = LogManager.getLogger(KKTInfo.class);
 
-    // Label для описания ошибки с ККТ
     public Label errorLabel;
-    public Button okBtn;
     public Label info;
-    public Button repeatBtn;
+    public Button reconnectBtn;
+    public Button continueBtn;
+    public Button upToPrintBtn;
 
     // Инициализация
     @FXML
     public void initialize() {
-        errorLabel.setText(Properties.errorKKTString);
+        errorLabel.setText(Properties.kktError.getDescription());
     }
 
-    public void repeat(ActionEvent actionEvent) {
+    public void reconnect(ActionEvent event) {
+        if (Properties.FPTR != null) {
+            if (Properties.FPTR.isOpened()) {
+                Properties.FPTR.close();
+                Properties.FPTR = null;
+            }
+        }
+
+        try {
+            KKMOFD.initDriver();
+        } catch (Exception e) {
+            logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
+        }
+
+        // 1 - отправить чек заного на печать
+        Properties.KKTErrorInfoAction = 1;
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 
-    public void ok(ActionEvent actionEvent) {
+    public void continueAction(ActionEvent event) {
+        // 2 - закрыть и пользователь сам потом допечатает
+        Properties.KKTErrorInfoAction = 2;
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+    public void upToPrintAction(ActionEvent event) {
+        // 3 - попробовать допечатать
+        Properties.KKTErrorInfoAction = 3;
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 }

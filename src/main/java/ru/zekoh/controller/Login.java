@@ -9,15 +9,9 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Session;
 import ru.zekoh.core.printing.KKMOFD;
-import ru.zekoh.db.HibernateSessionFactory;
-
 import ru.zekoh.db.entity.UserEntity;
 import ru.zekoh.properties.Properties;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.io.IOException;
 import java.util.List;
 

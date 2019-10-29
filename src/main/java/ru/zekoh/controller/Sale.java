@@ -42,11 +42,8 @@ import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
-import ru.zekoh.db.DAO.DiscountForEmployeesDao;
 import ru.zekoh.db.DAOImpl.CardDao;
-import ru.zekoh.db.DAOImpl.DiscountForEmployeesDaoImpl;
 import ru.zekoh.db.Data;
-import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
@@ -57,8 +54,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.sql.SQLOutput;
-import java.text.DecimalFormat;
 import java.util.*;
 
 import static java.lang.Math.toIntExact;
@@ -942,9 +937,9 @@ public class Sale {
             // Логирование при отмене чека
             CheckObject check = checkList.get(currentCheckIndex);
             logger.warn("Cancel check Отмена чека: " + check.getSellingPrice() + " " + check.getDateOfClosing());
-            logger.info("Пользователь: "+Properties.currentUser);
+            logger.info("Пользователь: " + Properties.currentUser);
             for (int i = 0; i < check.getGoodsList().size(); i++) {
-                logger.info(check.getGoodsList().get(i).getProductId()+" "+check.getGoodsList().get(i).getProductName()+" Количество: "+check.getGoodsList().get(i).getCount()+" Цена со скидкой "+check.getGoodsList().get(i).getPriceAfterDiscount()+" Цена без скидки "+check.getGoodsList().get(i).getPriceFromThePriceList()+" Итог "+check.getGoodsList().get(i).getSellingPrice());
+                logger.info(check.getGoodsList().get(i).getProductId() + " " + check.getGoodsList().get(i).getProductName() + " Количество: " + check.getGoodsList().get(i).getCount() + " Цена со скидкой " + check.getGoodsList().get(i).getPriceAfterDiscount() + " Цена без скидки " + check.getGoodsList().get(i).getPriceFromThePriceList() + " Итог " + check.getGoodsList().get(i).getSellingPrice());
             }
 
             Stage dialog = new Stage();
@@ -2542,6 +2537,10 @@ public class Sale {
             //Если выбранный чек еще существует
             if (checkObject.isLive() && !checkObject.isBlockForSale()) {
 
+                if (checkObject.isSaveInDB()) {
+                    logger.error("Повторно отправили на печать, но чек уже был добавлени в Базу!" + checkObject.getSellingPrice() + " " + checkObject.getDateOfClosing());
+                }
+
                 //Если есть товары в чеке
                 if (checkObject.getGoodsList().size() > 0) {
                     int id = 0;
@@ -2699,87 +2698,134 @@ public class Sale {
                     //________________________________
 
                     // Отправить на принтер
-                    if (Properties.KKM) {
-
-                        // Если чек добавлен в бд печатаем его на принтере ккт
-                        if (id > 0) {
-
-                            // Открыть модальное окно для печати чека
-                            Properties.checkObject = checkObject;
-                            Properties.checkObject.setSaveInDB(true);
-                            Stage dialog = new Stage();
-                            dialog.initStyle(StageStyle.UNDECORATED);
-                            dialog.setTitle("Жак-Андрэ Продажи");
-
-                            Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
-
-                            dialog.setScene(new Scene(root, 700, 220));
-
-                            Node source = (Node) event.getSource();
-                            Stage stage = (Stage) source.getScene().getWindow();
-
-                            dialog.initOwner(stage);
-                            dialog.initModality(Modality.APPLICATION_MODAL);
-                            dialog.showAndWait();
-
-                            if (Properties.statusPrinted) {
-
-                                logger.info("Обновляем данные о печати в БД!");
-
-                                // Обновить статус фискализации в чеке
-                                Session session2 = Properties.sessionFactory.openSession();
-                                Transaction t2 = session2.beginTransaction();
-
-                                CheckEntity check = (CheckEntity) session2.get(CheckEntity.class, id);
-                                check.setPrintStatus(true);
-                                session2.save(check);
-                                t2.commit();
-                                session2.close();
+                    printCheckOnKKT(id, checkObject, event);
 
 
-                            } else {
-
-                                // Не удалось напечатать из-за потери связи с принтером чека
-                                if (Properties.errorKKT == 1){
-
-                                    // Открыть модальное окно с информацией
-                                    Properties.checkObject = checkObject;
-                                    Stage dialog1 = new Stage();
-                                    dialog.initStyle(StageStyle.UNDECORATED);
-                                    dialog.setTitle("Жак-Андрэ Продажи");
-
-                                    Parent root1 = FXMLLoader.load(getClass().getResource("/view/ModalkktInfo.fxml.fxml"));
-
-                                    dialog1.setScene(new Scene(root1, 700, 220));
-
-                                    Node source1 = (Node) event.getSource();
-                                    Stage stage1 = (Stage) source1.getScene().getWindow();
-
-                                    dialog.initOwner(stage1);
-                                    dialog.initModality(Modality.APPLICATION_MODAL);
-                                    dialog.showAndWait();
-                                }
-                            }
-
-                        } else {
-                            //todo обработать случай когда "Чек был добавлен но id не сохранен"
-                            logger.error("Чек добавлен но id не удалось сохранить!");
-                        }
-
-                        // Очищаем переменные для корректной работы
-                        Properties.statusPrinted = false;
-                        Properties.checkObject = null;
-
-
-                    }
-
-                    // Закрываем чек
-                    cancelCheckMethod();
                     // Подождать ответа от принетера
                     // Если ошибка остонавоиться и показать ошибку
                     // Если ошибки нет, то положить в бд и закрыть.
                 }
             }
+        }
+    }
+
+    protected void printCheckOnKKT(int id, CheckObject checkObject, ActionEvent event) throws IOException {
+        if (Properties.KKM) {
+
+            // Если чек добавлен в бд печатаем его на принтере ккт
+            if (id > 0) {
+
+                // Открыть модальное окно для печати чека
+                Properties.checkObject = checkObject;
+                Properties.checkObject.setSaveInDB(true);
+                Stage dialog = new Stage();
+                dialog.initStyle(StageStyle.UNDECORATED);
+                dialog.setTitle("Жак-Андрэ Продажи");
+
+                Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+
+                dialog.setScene(new Scene(root, 700, 220));
+
+                Node source = (Node) event.getSource();
+                Stage stage = (Stage) source.getScene().getWindow();
+
+                dialog.initOwner(stage);
+                dialog.initModality(Modality.APPLICATION_MODAL);
+                dialog.showAndWait();
+
+                Properties.ModalWhilePrintCheckBool = true;
+
+                if (Properties.statusPrinted) {
+
+                    logger.info("Обновляем данные о печати в БД!");
+
+                    // Обновить статус фискализации в чеке
+                    Session session2 = Properties.sessionFactory.openSession();
+                    Transaction t2 = session2.beginTransaction();
+
+                    CheckEntity check = (CheckEntity) session2.get(CheckEntity.class, id);
+                    check.setPrintStatus(true);
+                    session2.save(check);
+                    t2.commit();
+                    session2.close();
+
+
+                } else {
+                    switch (Properties.kktError.getNumber()) {
+                        case (0):
+                            // todo отообразить модальное окно со справкой о возможных проблемах и просьбе устранить и проверить связь
+                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+
+                            break;
+                        case (1):
+                            // todo отообразить модальное окно со справкой чек пробит но не фискализирован требуется допечатать сейчас или потом из меню "возвраты"
+                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+                            break;
+                        case (2):
+                            // необходимо допечатать
+                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+                            break;
+
+                        default:
+                            logger.error("С ККТ пришла неведомая ошибка!!! Срочно разобраться!");
+                            break;
+                    }
+
+                    switch (Properties.KKTErrorInfoAction) {
+                        case (1):
+                            printCheckOnKKT(id, checkObject, event);
+                            break;
+                        case (2):
+                            logger.info("Закрываем чек пользователь сам допечатает чек!");
+                            break;
+                        case (3):
+                            // Попробовать допечатать
+                            logger.info("Пробуем допечатать чек!");
+                            Properties.ModalWhilePrintCheckBool = false;
+                            printCheckOnKKT(id, checkObject, event);
+                            break;
+                        default:
+                            logger.error("Не ведомая ошибка при попытки разобрать действие от пользователя посте потери связи с ККТ!");
+                            break;
+                    }
+
+                }
+
+            } else {
+                //todo обработать случай когда "Чек был добавлен но id не сохранен"
+                logger.error("Чек добавлен но id не удалось сохранить!");
+            }
+
+            // Очищаем переменные для корректной работы
+            Properties.statusPrinted = false;
+            Properties.checkObject = null;
+
+
+        }
+
+        // Закрываем чек
+        cancelCheckMethod();
+    }
+
+    public void generateModalWindow(ActionEvent event, String path, int width, int height) {
+        try {
+            // Открыть модальное окно с информацией
+            Stage dialog = new Stage();
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setTitle("Жак-Андрэ Продажи");
+
+            Parent root = FXMLLoader.load(getClass().getResource(path));
+
+            dialog.setScene(new Scene(root, width, height));
+
+            Node source1 = (Node) event.getSource();
+            Stage stage1 = (Stage) source1.getScene().getWindow();
+
+            dialog.initOwner(stage1);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.showAndWait();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
         }
     }
 
