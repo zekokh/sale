@@ -59,9 +59,6 @@ public class ModalWhilePrintCheck {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-
-
-
                                 info.setText("Ошибка при печати. Чек пробит но не фискализирован! " + Properties.kktError.getDescription());
                                 okBtn.setVisible(true);
                                 repeatBtn.setVisible(true);
