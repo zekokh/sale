@@ -1780,7 +1780,7 @@ public class Sale {
 
     private void createNewCheck() {
         if (checkList.size() <= 10) {
-
+            logger.info("Создаем новый чек.");
             // Обнуляем выбранный товар
             tempGoods = null;
 
