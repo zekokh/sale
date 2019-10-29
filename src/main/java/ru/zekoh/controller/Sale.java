@@ -130,8 +130,8 @@ public class Sale {
     // Index текущего чека
     private int currentCheckIndex = 0;
 
-    // id пекарни
-    int bakeryId = 3;
+    // id пекарни Шифрина
+    int bakeryId = 4;
 
 
     //Размер шрифта папок и продуктов
@@ -942,9 +942,9 @@ public class Sale {
             // Логирование при отмене чека
             CheckObject check = checkList.get(currentCheckIndex);
             logger.warn("Cancel check Отмена чека: " + check.getSellingPrice() + " " + check.getDateOfClosing());
-            logger.info("Пользователь: "+Properties.currentUser);
+            logger.info("Пользователь: " + Properties.currentUser);
             for (int i = 0; i < check.getGoodsList().size(); i++) {
-                logger.info(check.getGoodsList().get(i).getProductId()+" "+check.getGoodsList().get(i).getProductName()+" Количество: "+check.getGoodsList().get(i).getCount()+" Цена со скидкой "+check.getGoodsList().get(i).getPriceAfterDiscount()+" Цена без скидки "+check.getGoodsList().get(i).getPriceFromThePriceList()+" Итог "+check.getGoodsList().get(i).getSellingPrice());
+                logger.info(check.getGoodsList().get(i).getProductId() + " " + check.getGoodsList().get(i).getProductName() + " Количество: " + check.getGoodsList().get(i).getCount() + " Цена со скидкой " + check.getGoodsList().get(i).getPriceAfterDiscount() + " Цена без скидки " + check.getGoodsList().get(i).getPriceFromThePriceList() + " Итог " + check.getGoodsList().get(i).getSellingPrice());
             }
 
             Stage dialog = new Stage();
@@ -2713,7 +2713,7 @@ public class Sale {
 
                             Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
 
-                            dialog.setScene(new Scene(root, 700, 220));
+                            dialog.setScene(new Scene(root, 700, 285));
 
                             Node source = (Node) event.getSource();
                             Stage stage = (Stage) source.getScene().getWindow();
@@ -2738,7 +2738,7 @@ public class Sale {
 
 
                             } else {
-
+/*
                                 // Не удалось напечатать из-за потери связи с принтером чека
                                 if (Properties.errorKKT == 1){
 
@@ -2759,6 +2759,7 @@ public class Sale {
                                     dialog.initModality(Modality.APPLICATION_MODAL);
                                     dialog.showAndWait();
                                 }
+                                */
                             }
 
                         } else {

@@ -10,19 +10,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ModalWhilePrintCheck">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="285.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ModalWhilePrintCheck">
     <children>
-          <Button id="btn" fx:id="okBtn" layoutX="102.0" layoutY="112.0" mnemonicParsing="false" onAction="#ok" prefHeight="90.0" prefWidth="160.0" text="ОК">
+          <Button id="btn" fx:id="okBtn" layoutX="92.0" layoutY="171.0" mnemonicParsing="false" onAction="#ok" prefHeight="90.0" prefWidth="160.0" text="ОК">
               <font>
                   <Font size="40.0" />
               </font>
           </Button>
-      <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" layoutX="220.0" layoutY="45.0" text="Идет печать чека..." textAlignment="CENTER" wrapText="true">
+      <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" layoutX="33.0" layoutY="14.0" prefHeight="139.0" prefWidth="621.0" text="Идет печать чека..." textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Helvetica Light" size="30.0" />
          </font>
       </Label>
-      <Button id="btn" fx:id="repeatBtn" layoutX="321.0" layoutY="112.0" mnemonicParsing="false" onAction="#repeat" prefHeight="90.0" prefWidth="318.0" text="ПОВТОРИТЬ">
+      <Button id="btn" fx:id="repeatBtn" layoutX="330.0" layoutY="171.0" mnemonicParsing="false" onAction="#repeat" prefHeight="90.0" prefWidth="318.0" text="ПОВТОРИТЬ">
          <font>
             <Font size="40.0" />
          </font>

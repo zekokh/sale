@@ -81,12 +81,9 @@ public class ModalWhilePrintCheck {
         Properties.statusPrinted = false;
         okBtn.setVisible(false);
         repeatBtn.setVisible(false);
+        info.setText("Идет печать...");
 
         new Thread(task).start();
-
-        Node source = (Node) actionEvent.getSource();
-        Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
     }
 
     public void exit(ActionEvent actionEvent) {

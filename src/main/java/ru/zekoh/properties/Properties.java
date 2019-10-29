@@ -107,13 +107,13 @@ public class Properties {
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 4;
+        PRINTER_PORT = 5;
 
         // Майкоп Первомайская 193 актуальный порт
         //comPort = "6";
 
         // Восход
-        comPort = "4";
+        //comPort = "4";
 
         // Краснодар
        // comPort = "3";
@@ -121,5 +121,7 @@ public class Properties {
         // Майкоп Первомайская 193
         //comPort = "7";
 
+        // Генерала Шифрина
+        comPort = "5";
     }
 }
