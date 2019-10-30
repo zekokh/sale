@@ -34,13 +34,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ru.zekoh.core.DiscountProgram;
+import ru.zekoh.core.DiscountInterface;
+import ru.zekoh.core.VoshodDiscountProgram;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
 import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAOImpl.CardDao;
 import ru.zekoh.db.Data;
@@ -390,26 +390,29 @@ public class Sale {
                 }
 
                 // Промоушены
-                if (check.getDiscount() == null) {
-                    for (int i = 0; i < goods.size(); i++) {
-                        goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
-                    }
-
-                    CheckObject tempCheck = DiscountProgram.timeDiscount(check);
-                    if (tempCheck == null) {
-
-                        // 5 круаасан по цене 199р.
-                        DiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
-                        DiscountProgram.onCroissant(check);
-                        DiscountProgram.cappuccinoAndCroissant(check);
-                    }
-
-                    DiscountProgram.onAchmaAndTea(check);
-                    DiscountProgram.onBrioshAndTea(check);
-                    // Акции которые не с чем не пересикаются
-                    // 6 эклеров по цене 5
-                    DiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
+                DiscountInterface discount;
+                switch (Properties.bakaryId) {
+                    case (1):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    case (2):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    case (3):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    case (4):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    case (5):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    default:
+                        discount = new VoshodDiscountProgram();
+                        break;
                 }
+                discount.applyDiscounts(check, goods);
+
             }
 
             // Рассчитать цену исходя из проджной
@@ -2414,7 +2417,7 @@ public class Sale {
                     // Устанавливаем что есть скидка
                     check.setDiscountAccountExist(true);
 
-                    Discount discount = new Discount();
+                    DiscountInterface discount = new DiscountInterface();
 
                     // Устанавливаем id
                     discount.setId(card.get(0).getId());

@@ -48,7 +48,7 @@ public class Properties {
     // Ошибка с ККТ
     public static KKTError kktError = null;
     public static int KKTErrorInfoAction = 0;
-    public  static boolean ModalWhilePrintCheckBool = true;
+    public static boolean ModalWhilePrintCheckBool = true;
 
 
     public static boolean isPayCard = false;
@@ -75,11 +75,14 @@ public class Properties {
 
     public static String comPort = "4";
 
+    // id пекарни
+    // 1 - Майкоп, Первомайская
+    // 2 - Краснодар, Российская
+    // 3 - Майкоп, Восход, Шоссейная
+    // 4 - Краснодар, Генерела Шифрина
     public static int bakaryId = 3;
 
     public static String updateUrl = "";
-
-
 
 
     //Инициализация данных из проперти файла
@@ -110,12 +113,21 @@ public class Properties {
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
+
+        switch (bakaryId) {
+            case (1):
+                break;
+            case (3):
+                initDataVoshod();
+                break;
+            case (4):
+                initDataShifrina();
+                break;
+        }
     }
 
     //Инициализация данных для пекарни Восход
     public static void initDataVoshod() {
-        initDataWithoutFile();
-
         comPort = "4";
         updateUrl = "https://voshod.jacq.ru";
 
@@ -123,9 +135,8 @@ public class Properties {
 
     //Инициализация данных для пекарни на Шифрина
     public static void initDataShifrina() {
-        initDataWithoutFile();
         comPort = "5";
-        updateUrl = "";
+        updateUrl = "https://shifrina.jacq.ru";
 
     }
 

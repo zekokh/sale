@@ -8,8 +8,9 @@ import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
-public class DiscountProgram {
+public class VoshodDiscountProgram implements DiscountInterface {
 
     public static void initPaniniWithTimeLimit(CheckObject check) {
 
@@ -1160,5 +1161,30 @@ public class DiscountProgram {
         numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
 
         return numeral;
+    }
+
+    @Override
+    public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        // Промоушены
+        if (check.getDiscount() == null) {
+            for (int i = 0; i < goodsList.size(); i++) {
+                goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
+            }
+
+            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
+            if (tempCheck == null) {
+
+                // 5 круаасан по цене 199р.
+                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+                VoshodDiscountProgram.onCroissant(check);
+                VoshodDiscountProgram.cappuccinoAndCroissant(check);
+            }
+
+            VoshodDiscountProgram.onAchmaAndTea(check);
+            VoshodDiscountProgram.onBrioshAndTea(check);
+            // Акции которые не с чем не пересикаются
+            // 6 эклеров по цене 5
+            VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
+        }
     }
 }
