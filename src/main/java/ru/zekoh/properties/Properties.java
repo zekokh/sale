@@ -34,7 +34,7 @@ public class Properties {
     public static String PASSWORD;
 
     //Печать на ККМ
-    public static Boolean KKM;
+    public static boolean KKM;
 
     // Драйвер принтера
     public static IFptr FPTR = null;
@@ -113,7 +113,6 @@ public class Properties {
         LOGIN = "root";
         PASSWORD = "heroin";
         KKM = true;
-        statusPrinted = true;
 
         switch (bakaryId) {
             case (1):
