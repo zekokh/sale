@@ -404,14 +404,13 @@ public class Sale {
                         discount = new ShifrinaDiscountProgram();
                         break;
                     case (5):
-                        discount = new VoshodDiscountProgram();
+                        discount = new NalchikDiscountProgram();
                         break;
                     default:
-                        discount = new VoshodDiscountProgram();
+                        discount = new DefaultDiscountProgram();
                         break;
                 }
                 discount.applyDiscounts(check, goods);
-
             }
 
             // Рассчитать цену исходя из проджной
