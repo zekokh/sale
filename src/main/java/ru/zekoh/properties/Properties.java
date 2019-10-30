@@ -16,6 +16,14 @@ import java.util.Map;
 
 public class Properties {
 
+    // id пекарни
+    // 1 - Майкоп, Первомайская, 193
+    // 2 - Краснодар, Российская, 74
+    // 3 - Майкоп, Восход, Шоссейная, 1В
+    // 4 - Краснодар, Генерела Шифрина, 1
+    // 5 - Нальчик, Московская, 6
+    public static int bakaryId = 4;
+
     //Адрес для подключения к БД
     public static String HOST;
 
@@ -75,13 +83,6 @@ public class Properties {
 
     public static String comPort = "4";
 
-    // id пекарни
-    // 1 - Майкоп, Первомайская
-    // 2 - Краснодар, Российская
-    // 3 - Майкоп, Восход, Шоссейная
-    // 4 - Краснодар, Генерела Шифрина
-    public static int bakaryId = 3;
-
     public static String updateUrl = "";
 
 
@@ -115,7 +116,8 @@ public class Properties {
         statusPrinted = true;
 
         switch (bakaryId) {
-            case (1):
+            case (2):
+                initDataRossiyskaya();
                 break;
             case (3):
                 initDataVoshod();
@@ -124,6 +126,13 @@ public class Properties {
                 initDataShifrina();
                 break;
         }
+    }
+
+    //Инициализация данных для пекарни на Шифрина
+    public static void initDataRossiyskaya() {
+        comPort = "3";
+        updateUrl = "https://krasnodar.jacq.ru";
+
     }
 
     //Инициализация данных для пекарни Восход
@@ -143,12 +152,5 @@ public class Properties {
     // Майкоп Первомайская 193 актуальный порт
     //comPort = "6";
 
-    // Краснодар
-    // comPort = "3";
 
-    // Майкоп Первомайская 193
-    //comPort = "7";
-
-    // Генерала Шифрина 1
-    //comPort = "5";
 }

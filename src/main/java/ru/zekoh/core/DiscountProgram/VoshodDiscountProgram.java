@@ -1,4 +1,4 @@
-package ru.zekoh.core;
+package ru.zekoh.core.DiscountProgram;
 
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
@@ -10,7 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ShifrinaDiscountProgram implements DiscountInterface {
+public class VoshodDiscountProgram implements DiscountInterface {
+
     public static void initPaniniWithTimeLimit(CheckObject check) {
 
         String startTime = "11:00:00";
@@ -67,12 +68,12 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
         return Math.abs(a - b) <= Math.pow(10, -precision);
     }
 
-    //Скидка 30% на выпечку после 8 вечера
+    //Скидка 40% на выпечку после 8 вечера
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "20:00:00";
-        Double amountOfDiscount = 0.3;
+        String afterTime = "19:20:00";
+        Double amountOfDiscount = 0.4;
         boolean flag = false;
 
         //Сегодняшняя дата
@@ -98,7 +99,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
         //Сравниваем текщую дату с лимитом
         if (curentDate.after(dateLimit)) {
 
-            //Делаем 30% скидку на выпечку
+            //Делаем 40% скидку на выпечку
             for (int i = 0; i < check.getGoodsList().size(); i++) {
 
                 //Текущий товар
@@ -118,7 +119,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                     //Цена на товар со скидкой
                     Double priceAfterDiscount = priceFromThePriceList - discountAmount;
 
-                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+                    priceAfterDiscount = roundUp(priceAfterDiscount);
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);
@@ -129,81 +130,8 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                     //Считаем продажную цену умножая цену после скидки на кол-во товара
                     Double sellingPrice = count * priceAfterDiscount;
 
-                    //Устанавливаем продажную цену товара
-                    goods.setSellingPrice(sellingPrice);
-
-                    flag = true;
-                }
-            }
-        }
-
-        if (flag) {
-            return check;
-        } else {
-            return null;
-        }
-    }
-
-    // Скидка 30% на салат, багет провонцаль и ачму с курицей или овощами
-    public static CheckObject timeDiscountonSalad(CheckObject check) {
-
-        String afterTime = "19:00:00";
-        Double amountOfDiscount = 0.3;
-        boolean flag = false;
-
-        //Сегодняшняя дата
-        Date dateToday = new Date();
-
-        //Формат для сегодняшней даты
-        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
-
-        //Сохранем отформатированную сегодняшнюю дату в переменной
-        String dateTodayString = formatForDateLimit.format(dateToday);
-
-        //Создаем лимит после какой даты и врмени можно будет сделать скидку
-        Date dateLimit = null;
-        try {
-            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " " + afterTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        //Создаем текущее дату и время
-        Date curentDate = new Date();
-
-        //Сравниваем текщую дату с лимитом
-        if (curentDate.after(dateLimit)) {
-
-            //Делаем 30% скидку на выпечку
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                //Текущий товар
-                Goods goods = check.getGoodsList().get(i);
-
-                //Цена на текущий товар по прайсу
-                Double priceFromThePriceList = goods.getPriceFromThePriceList();
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                if (classifier == 32) {
-
-                    //Сумма скидки
-                    Double discountAmount = priceFromThePriceList * amountOfDiscount;
-
-                    //Цена на товар со скидкой
-                    Double priceAfterDiscount = priceFromThePriceList - discountAmount;
-
-                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
-
-                    //Устанавливаем цену со скидкой
-                    goods.setPriceAfterDiscount(priceAfterDiscount);
-
-                    //Количество товара
-                    Double count = goods.getCount();
-
-                    //Считаем продажную цену умножая цену после скидки на кол-во товара
-                    Double sellingPrice = count * priceAfterDiscount;
+                    // Округляем продажную цену
+                    sellingPrice = roundUp(sellingPrice);
 
                     //Устанавливаем продажную цену товара
                     goods.setSellingPrice(sellingPrice);
@@ -241,7 +169,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
+                if (classifier == classificatorForPromo) {
                     count++;
                 }
 
@@ -265,7 +193,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                     if (countProductWhichNeedDiscount == 0) {
                         return null;
                     }
-                    if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
+                    if (classifier == classificatorForPromo) {
 
                         //Устанавливаем цену со скидкой
                         goods.setPriceAfterDiscount(price);
@@ -275,6 +203,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                         //Считаем продажную цену умножая цену после скидки на кол-во товара
                         Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                        // Округляем результат до десятых
+                        sellingPrice = roundUp(sellingPrice);
 
                         //Устанавливаем продажную цену товара
                         goods.setSellingPrice(sellingPrice);
@@ -360,6 +291,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                             //Считаем продажную цену умножая цену после скидки на кол-во товара
                             Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                            // Округляем результат
+                            sellingPrice = roundUp(sellingPrice);
 
                             //Устанавливаем продажную цену товара
                             goods.setSellingPrice(sellingPrice);
@@ -483,11 +417,12 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                     countAmericaner = count;
                 }*/
 
-                if (count - countPalmie > 0) {
-                    countAmericaner = count - countPalmie;
-                } else {
+                if(count-countPalmie > 0) {
+                    countAmericaner = count-countPalmie;
+                }else {
                     countAmericaner = 0;
                 }
+
 
 
                 int amountCount = count * 3;
@@ -521,6 +456,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -546,6 +484,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -569,6 +510,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -598,6 +542,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -691,9 +638,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                 countPanini = count;
                 countTea = count;
 
-                if (count - countPalmie > 0) {
-                    countAmericaner = count - countPalmie;
-                } else {
+                if(count-countPalmie > 0) {
+                    countAmericaner = count-countPalmie;
+                }else {
                     countAmericaner = 0;
                 }
 
@@ -728,6 +675,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -751,6 +701,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -773,6 +726,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -800,6 +756,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -896,6 +855,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -921,6 +883,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -964,6 +929,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                         countBriosh++;
                     }
                 }
+
 
 
                 // Нашли чай
@@ -1016,6 +982,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -1023,6 +992,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                             }
                         }
                     }
+
 
 
                     // Нашли чай
@@ -1039,6 +1009,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
 
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
@@ -1134,6 +1107,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -1160,6 +1136,9 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                                 //Считаем продажную цену умножая цену после скидки на кол-во товара
                                 Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
 
+                                // Округляем до десятых
+                                sellingPrice = roundUp(sellingPrice);
+
                                 //Устанавливаем продажную цену товара
                                 goods.setSellingPrice(sellingPrice);
 
@@ -1176,238 +1155,36 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
         }
     }
 
+    // Метод округления
+    private static Double roundUp(Double numeral){
 
+        numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
 
-    // Промоакция кофе + выпечка
-    // К любому кофе от 90 руб. в подарок круассан или выпечка не превышающая 47 руб.
-    public static void coffeeGift(CheckObject check) {
-        // В чеке должен быть хотя бы один товар
-        if (check.getGoodsList().size() > 0) {
-
-            // Количество кофеных напитков соответствующих условию промоакции
-            // Классификатор 35
-            int numberOfCoffee = 0;
-
-            // Вычисляю количество кофейных напитков попадающих под акцию
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                // Товар
-                Goods goods = check.getGoodsList().get(i);
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                // Вычисляю количество кофейных напитков соответствующих условию промоакции
-                if (classifier == 35) {
-                    numberOfCoffee++;
-                }
-            }
-
-            // Если в чеке есть кофейные напитки соответствующих условию промоакции
-            if (numberOfCoffee > 0) {
-
-                // Повторяем скидку на выпечку количество раз равную количество кофейных напитков
-                // соответствующих условию промоакции
-                for (int x = 0; x < numberOfCoffee; x++) {
-
-                    // Ищем выпечку соответствующих условию промоакции
-                    for (int n = 0; n < check.getGoodsList().size(); n++) {
-
-                        // Товар
-                        Goods g = check.getGoodsList().get(n);
-
-                        // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
-                        // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
-                        if (g.getClassifier() == 4) {
-
-                            // Проверяем действия акции на товар
-                            if (g.getPriceAfterDiscount() > 0.0) {
-                                productDiscount(g, 0.0);
-
-                                numberOfCoffee--;
-                                if (x == numberOfCoffee) {
-                                    return;
-                                }
-                            } else {
-                                numberOfCoffee--;
-                                if (x == numberOfCoffee) {
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
-    public static void teaAndProduct(CheckObject check) {
-
-        if (check.getGoodsList().size() > 0) {
-            // Считаю кол-во ачмы и кол-во чая нахожу минимальное значение и на это значение делаю скидку на ачму и чай
-
-            int countBriosh = 0;
-            int countTea = 0;
-            int count = 0;
-
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                // Текущий товар
-                Goods goods = check.getGoodsList().get(i);
-
-                // id товара
-                int productId = goods.getProductId();
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                // Нашли бриошь
-                if (classifier == 4 || classifier == 5 || classifier == 9) {
-                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                        countBriosh++;
-                    }
-                }
-
-
-                // Нашли чай
-                if (classifier == 17) {
-                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                        countTea++;
-                    }
-                }
-            }
-
-            if (countBriosh > 0 && countTea > 0) {
-
-                // Нахожу что наименьшее
-                if (countBriosh == countTea) {
-                    count = countBriosh;
-                } else {
-
-                    count = countBriosh;
-
-                    if (count > countTea) {
-                        count = countTea;
-                    }
-                }
-
-                //count = count * 2;
-                countBriosh = count;
-                countTea = count;
-
-                // Делаем скидку
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                    // Текущий товар
-                    Goods goods = check.getGoodsList().get(i);
-
-                    // id товара
-                    int productId = goods.getProductId();
-
-                    //Классификатор товара
-                    int classifier = goods.getClassifier();
-
-                    // Нашли бриошь
-                    if (classifier == 4 || classifier == 5 || classifier == 9) {
-                        if (countBriosh > 0) {
-                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                                goods.setPriceAfterDiscount(19.0);
-/*
-                                //Количество товара
-                                Double countProduct = goods.getCount();
-
-                                //Считаем продажную цену умножая цену после скидки на кол-во товара
-                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
-
-                                //Устанавливаем продажную цену товара
-                                goods.setSellingPrice(sellingPrice);
-
- */
-                                Double price = goods.getPriceFromThePriceList() - 9;
-                                productDiscount(goods, price);
-
-                                countBriosh--;
-                            }
-                        }
-                    }
-
-
-                    // Нашли чай
-                    if (classifier == 17) {
-
-                        if (countTea > 0) {
-
-                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-
-                                Double price = goods.getPriceFromThePriceList() - 9;
-                                productDiscount(goods, price);
-
-                                countTea--;
-                            }
-                        }
-                    }
-
-                    if (countBriosh == 0 && countTea == 0) {
-                        return;
-                    }
-                }
-
-            }
-        }
-    }
-
-    // Скидка на продукт в чеке
-    private static void productDiscount(Goods good, Double newPrice) {
-
-        Double price = newPrice;
-
-        good.setPriceAfterDiscount(price);
-
-        //Количество товара
-        Double countProduct = good.getCount();
-
-        //Считаем продажную цену умножая цену после скидки на кол-во товара
-        Double sellingPrice = countProduct * good.getPriceAfterDiscount();
-
-        //Устанавливаем продажную цену товара
-        good.setSellingPrice(sellingPrice);
+        return numeral;
     }
 
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
         // Промоушены
         if (check.getDiscount() == null) {
-
-            // Вернуть ценны по прайсу
-            //List<Goods> goods = check.getGoodsList();
-
             for (int i = 0; i < goodsList.size(); i++) {
-
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
-            coffeeGift(check);
-            CheckObject tempCheck = timeDiscount(check);
+            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
             if (tempCheck == null) {
 
                 // 5 круаасан по цене 199р.
-                discountOnCountProductInCheck(check, 4, 5, 39.8);
-
-                onCroissant(check);
+                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+                VoshodDiscountProgram.onCroissant(check);
+                VoshodDiscountProgram.cappuccinoAndCroissant(check);
             }
 
-
-            onAchmaAndTea(check);
-
-            onBrioshAndTea(check);
-
+            VoshodDiscountProgram.onAchmaAndTea(check);
+            VoshodDiscountProgram.onBrioshAndTea(check);
             // Акции которые не с чем не пересикаются
             // 6 эклеров по цене 5
-            discountOnCountProductInCheck(check, 5, 6, 40.833);
-
-            teaAndProduct(check);
-
+            VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
         }
     }
 }

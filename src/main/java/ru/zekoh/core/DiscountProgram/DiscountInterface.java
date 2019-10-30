@@ -1,4 +1,4 @@
-package ru.zekoh.core;
+package ru.zekoh.core.DiscountProgram;
 
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
