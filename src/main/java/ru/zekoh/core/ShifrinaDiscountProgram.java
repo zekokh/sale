@@ -1387,6 +1387,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
+            coffeeGift(check);
             CheckObject tempCheck = timeDiscount(check);
             if (tempCheck == null) {
 
@@ -1404,6 +1405,8 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
             // Акции которые не с чем не пересикаются
             // 6 эклеров по цене 5
             discountOnCountProductInCheck(check, 5, 6, 40.833);
+
+            teaAndProduct(check);
 
         }
     }
