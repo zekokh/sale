@@ -1312,18 +1312,6 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
                     if (classifier == 4 || classifier == 5 || classifier == 9) {
                         if (countBriosh > 0) {
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                                goods.setPriceAfterDiscount(19.0);
-/*
-                                //Количество товара
-                                Double countProduct = goods.getCount();
-
-                                //Считаем продажную цену умножая цену после скидки на кол-во товара
-                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
-
-                                //Устанавливаем продажную цену товара
-                                goods.setSellingPrice(sellingPrice);
-
- */
                                 Double price = goods.getPriceFromThePriceList() - 9;
                                 productDiscount(goods, price);
 
@@ -1374,6 +1362,83 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
         good.setSellingPrice(sellingPrice);
     }
 
+    //Скидка 20% на ачму, салат, провонсаль после 19:00 вечера
+    //Список классификаторов
+    public static CheckObject timeDiscountAfterSeven(CheckObject check) {
+
+        String afterTime = "19:00:00";
+        Double amountOfDiscount = 0.2;
+        boolean flag = false;
+
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date dateLimit = null;
+        try {
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " " + afterTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (curentDate.after(dateLimit)) {
+
+            //Делаем 20% скидку на выпечку
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Цена на текущий товар по прайсу
+                Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if (classifier == 32) {
+
+                    //Сумма скидки
+                    Double discountAmount = priceFromThePriceList * amountOfDiscount;
+
+                    //Цена на товар со скидкой
+                    Double priceAfterDiscount = priceFromThePriceList - discountAmount;
+
+                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+                    //Устанавливаем цену со скидкой
+                    goods.setPriceAfterDiscount(priceAfterDiscount);
+
+                    //Количество товара
+                    Double count = goods.getCount();
+
+                    //Считаем продажную цену умножая цену после скидки на кол-во товара
+                    Double sellingPrice = count * priceAfterDiscount;
+
+                    //Устанавливаем продажную цену товара
+                    goods.setSellingPrice(sellingPrice);
+
+                    flag = true;
+                }
+            }
+        }
+
+        if (flag) {
+            return check;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
         // Промоушены
@@ -1393,22 +1458,22 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                 coffeeGift(check);
 
-                // 5 круаасан по цене 199р.
-                discountOnCountProductInCheck(check, 4, 5, 39.8);
+                // 5 круаасан по цене 188р.
+                discountOnCountProductInCheck(check, 4, 5, 37.6);
 
                 onCroissant(check);
             }else {
                 coffeeGift(check);
             }
 
-
-            onAchmaAndTea(check);
-
-            onBrioshAndTea(check);
+            timeDiscountAfterSeven(check);
 
             // Акции которые не с чем не пересикаются
             // 6 эклеров по цене 5
-            discountOnCountProductInCheck(check, 5, 6, 40.833);
+            discountOnCountProductInCheck(check, 5, 6, 29.167);
+
+            // 10 макаронс по цене 225
+            discountOnCountProductInCheck(check, 21, 10, 26.1);
 
             teaAndProduct(check);
 

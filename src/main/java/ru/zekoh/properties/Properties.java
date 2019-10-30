@@ -22,7 +22,7 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
-    public static int bakaryId = 2;
+    public static int bakaryId = 4;
 
     //Адрес для подключения к БД
     public static String HOST;
