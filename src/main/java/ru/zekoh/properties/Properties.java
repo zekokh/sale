@@ -106,7 +106,7 @@ public class Properties {
         }
     }
 
-    //Инициализация данных из проперти файла
+    //Инициализация данных при запуске программы
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
