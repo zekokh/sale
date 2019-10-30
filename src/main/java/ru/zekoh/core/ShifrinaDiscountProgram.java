@@ -1376,6 +1376,35 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        // Промоушены
+        if (check.getDiscount() == null) {
 
+            // Вернуть ценны по прайсу
+            //List<Goods> goods = check.getGoodsList();
+
+            for (int i = 0; i < goodsList.size(); i++) {
+
+                goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
+            }
+
+            CheckObject tempCheck = timeDiscount(check);
+            if (tempCheck == null) {
+
+                // 5 круаасан по цене 199р.
+                discountOnCountProductInCheck(check, 4, 5, 39.8);
+
+                onCroissant(check);
+            }
+
+
+            onAchmaAndTea(check);
+
+            onBrioshAndTea(check);
+
+            // Акции которые не с чем не пересикаются
+            // 6 эклеров по цене 5
+            discountOnCountProductInCheck(check, 5, 6, 40.833);
+
+        }
     }
 }
