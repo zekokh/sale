@@ -197,7 +197,6 @@ public class KKMOFD {
                         // Документ не закрылся. Требуется его отменить (если это чек) и сформировать заново
                         fptr.cancelReceipt();
 
-
                         logger.error(fptr.errorDescription());
                         return false;
                     } else {
