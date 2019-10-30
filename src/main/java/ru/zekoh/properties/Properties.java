@@ -22,7 +22,7 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
-    public static int bakaryId = 4;
+    public static int bakaryId = 3;
 
     //Адрес для подключения к БД
     public static String HOST;
@@ -116,6 +116,9 @@ public class Properties {
         statusPrinted = true;
 
         switch (bakaryId) {
+            case (1):
+                initDataCenter();
+                break;
             case (2):
                 initDataRossiyskaya();
                 break;
@@ -128,7 +131,14 @@ public class Properties {
         }
     }
 
-    //Инициализация данных для пекарни на Шифрина
+    //Инициализация данных для пекарни на Российская
+    public static void initDataCenter() {
+        comPort = "6";
+        updateUrl = "https://center.jacq.ru";
+
+    }
+
+    //Инициализация данных для пекарни на Российская
     public static void initDataRossiyskaya() {
         comPort = "3";
         updateUrl = "https://krasnodar.jacq.ru";
@@ -148,9 +158,6 @@ public class Properties {
         updateUrl = "https://shifrina.jacq.ru";
 
     }
-
-    // Майкоп Первомайская 193 актуальный порт
-    //comPort = "6";
 
 
 }

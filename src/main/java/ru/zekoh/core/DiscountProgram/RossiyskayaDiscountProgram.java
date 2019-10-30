@@ -1243,6 +1243,121 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
         }
     }
 
+    public static void teaAndProduct(CheckObject check) {
+
+        if (check.getGoodsList().size() > 0) {
+            // Считаю кол-во ачмы и кол-во чая нахожу минимальное значение и на это значение делаю скидку на ачму и чай
+
+            int countBriosh = 0;
+            int countTea = 0;
+            int count = 0;
+
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                // Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                // id товара
+                int productId = goods.getProductId();
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                // Нашли бриошь
+                if (classifier == 4 || classifier == 5 || classifier == 9) {
+                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        countBriosh++;
+                    }
+                }
+
+
+                // Нашли чай
+                if (classifier == 17) {
+                    if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                        countTea++;
+                    }
+                }
+            }
+
+            if (countBriosh > 0 && countTea > 0) {
+
+                // Нахожу что наименьшее
+                if (countBriosh == countTea) {
+                    count = countBriosh;
+                } else {
+
+                    count = countBriosh;
+
+                    if (count > countTea) {
+                        count = countTea;
+                    }
+                }
+
+                //count = count * 2;
+                countBriosh = count;
+                countTea = count;
+
+                // Делаем скидку
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                    // Текущий товар
+                    Goods goods = check.getGoodsList().get(i);
+
+                    // id товара
+                    int productId = goods.getProductId();
+
+                    //Классификатор товара
+                    int classifier = goods.getClassifier();
+
+                    // Нашли бриошь
+                    if (classifier == 4 || classifier == 5 || classifier == 9) {
+                        if (countBriosh > 0) {
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+                                goods.setPriceAfterDiscount(19.0);
+/*
+                                //Количество товара
+                                Double countProduct = goods.getCount();
+
+                                //Считаем продажную цену умножая цену после скидки на кол-во товара
+                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                                //Устанавливаем продажную цену товара
+                                goods.setSellingPrice(sellingPrice);
+
+ */
+                                Double price = goods.getPriceFromThePriceList() - 9;
+                                productDiscount(goods, price);
+
+                                countBriosh--;
+                            }
+                        }
+                    }
+
+
+                    // Нашли чай
+                    if (classifier == 17) {
+
+                        if (countTea > 0) {
+
+                            if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
+
+                                Double price = goods.getPriceFromThePriceList() - 9;
+                                productDiscount(goods, price);
+
+                                countTea--;
+                            }
+                        }
+                    }
+
+                    if (countBriosh == 0 && countTea == 0) {
+                        return;
+                    }
+                }
+
+            }
+        }
+    }
+
     // Скидка на продукт в чеке
     private static void productDiscount(Goods good, Double newPrice) {
 
@@ -1293,6 +1408,8 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
             // 10 макаронс по цене 225
             discountOnCountProductInCheck(check, 21, 10, 26.1);
+
+            teaAndProduct(check);
 
         }
     }

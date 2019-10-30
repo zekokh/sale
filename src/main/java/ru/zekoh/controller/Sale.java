@@ -34,9 +34,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import ru.zekoh.core.DiscountProgram.DiscountInterface;
-import ru.zekoh.core.DiscountProgram.ShifrinaDiscountProgram;
-import ru.zekoh.core.DiscountProgram.VoshodDiscountProgram;
+import ru.zekoh.core.DiscountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
@@ -394,10 +392,10 @@ public class Sale {
                 DiscountInterface discount;
                 switch (Properties.bakaryId) {
                     case (1):
-                        discount = new VoshodDiscountProgram();
+                        discount = new CenterDiscountProgram();
                         break;
                     case (2):
-                        discount = new VoshodDiscountProgram();
+                        discount = new RossiyskayaDiscountProgram();
                         break;
                     case (3):
                         discount = new VoshodDiscountProgram();
