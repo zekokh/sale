@@ -376,15 +376,11 @@ public class Sale {
                         }
                     } else {
 
-                        // Вернуть ценны по прайсу
-                        //List<Goods> goods = check.getGoodsList();
 
                         for (int i = 0; i < goods.size(); i++) {
 
                             goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
                         }
-
-                        //  amountBonus.setText("");
                     }
                 }
 
