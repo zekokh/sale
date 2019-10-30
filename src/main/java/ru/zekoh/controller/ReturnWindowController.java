@@ -19,7 +19,6 @@ import javafx.stage.StageStyle;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.zekoh.core.printing.KKMOFD;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
@@ -138,7 +137,7 @@ public class ReturnWindowController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/MenuWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/MenuWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
@@ -265,7 +264,7 @@ public class ReturnWindowController {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setTitle("Жак-Андрэ Продажи");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ReturnModalInfo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ReturnModalInfo.fxml"));
 
         dialog.setScene(new Scene(root, 700, 210));
 
@@ -350,7 +349,7 @@ public class ReturnWindowController {
                     }
 
 
-                }else {
+                } else {
                     labelInfo.setText("Чек уже вернули!");
                 }
             }
@@ -379,10 +378,10 @@ public class ReturnWindowController {
 
             CheckEntity checkEntity = findCheck(tableCheck);
 
-            if (checkEntity.isPrintStatus()){
+            if (checkEntity.isPrintStatus()) {
                 // Чек напечатан его не нужно допечатывать
                 labelInfo.setText("Чек уже был напечатан!");
-            }else {
+            } else {
                 // Открыть модальное окно для печати чека
                 CheckObject checkObject = new CheckObject();
 
@@ -422,7 +421,7 @@ public class ReturnWindowController {
                 dialog.initStyle(StageStyle.UNDECORATED);
                 dialog.setTitle("Жак-Андрэ Продажи");
 
-                Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalWhilePrintCheck.fxml"));
 
                 dialog.setScene(new Scene(root, 700, 220));
 

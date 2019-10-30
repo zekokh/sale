@@ -10,9 +10,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="700.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.CancelModalView">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="700.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ZReportController">
     <children>
-          <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="111.0" layoutY="36.0" text="Вы действительно хотите отменить" textAlignment="CENTER" wrapText="true">
+          <Label fx:id="label" alignment="CENTER" contentDisplay="CENTER" layoutX="61.0" layoutY="65.0" text="Вы действительно хотите закрыть смену?" textAlignment="CENTER" wrapText="true">
               <font>
                   <Font name="Helvetica Light" size="30.0" />
               </font>
@@ -27,10 +27,5 @@
             <Font size="40.0" />
          </font>
       </Button>
-      <Label fx:id="label1" alignment="CENTER" contentDisplay="CENTER" layoutX="320.0" layoutY="78.0" text="чек?" textAlignment="CENTER" wrapText="true">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
     </children>
 </Pane>

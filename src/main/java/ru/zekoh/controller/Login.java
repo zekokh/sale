@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.entity.UserEntity;
 import ru.zekoh.properties.Properties;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -30,15 +31,14 @@ public class Login {
     List<UserEntity> users = null;
 
 
-
     @FXML
     void initialize() {
         //todo проверка на подключение к БД
 
         users = Properties.users;
 
-        if(Properties.FPTR != null){
-            if(Properties.FPTR.isOpened()){
+        if (Properties.FPTR != null) {
+            if (Properties.FPTR.isOpened()) {
                 Properties.FPTR.close();
                 Properties.FPTR = null;
             }
@@ -100,11 +100,11 @@ public class Login {
             labelInfo.setText("");
 
             for (int i = 0; i < users.size(); i++) {
-               if (password.equals(users.get(i).getShortPassword())){
-                   Properties.currentUser = users.get(i);
-                   KKMOFD.name = Properties.currentUser.getName();
-                   goToMenu();
-               }
+                if (password.equals(users.get(i).getShortPassword())) {
+                    Properties.currentUser = users.get(i);
+                    KKMOFD.name = Properties.currentUser.getName();
+                    goToMenu();
+                }
             }
 
             labelInfo.setText("Нет такого пользователя!");
@@ -137,7 +137,7 @@ public class Login {
         //Если пользователь найден в системе и пароль совпадает то переходим на окно меню.
         Stage stage = (Stage) labelInfo.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/MenuWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/MenuWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {

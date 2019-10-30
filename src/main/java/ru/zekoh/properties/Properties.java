@@ -22,7 +22,10 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
-    public static int bakaryId = 4;
+    public static int bakaryId = 1;
+
+    // Путь до файлов fxml
+    public static String pathToFXML = "small";
 
     //Адрес для подключения к БД
     public static String HOST;
@@ -112,7 +115,7 @@ public class Properties {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
-        KKM = true;
+        KKM = false;
 
         switch (bakaryId) {
             case (1):
@@ -134,6 +137,7 @@ public class Properties {
     public static void initDataCenter() {
         comPort = "6";
         updateUrl = "https://center.jacq.ru";
+        pathToFXML = "center";
 
     }
 

@@ -14,13 +14,10 @@ import javafx.stage.StageStyle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.zekoh.core.UpdateFoldersAndProducts;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.properties.Properties;
 
 import java.io.IOException;
-
-import static ru.zekoh.core.Сatalog.generate;
 
 public class MenuController {
 
@@ -70,7 +67,7 @@ public class MenuController {
         returnBtn.setDisable(false);
 
 
-        if(Properties.KKM) {
+        if (Properties.KKM) {
             if (Properties.FPTR == null) {
                 try {
                     KKMOFD.initDriver();
@@ -86,7 +83,7 @@ public class MenuController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/SaleSmallWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/SaleSmallWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
@@ -99,7 +96,7 @@ public class MenuController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/LoginWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/LoginWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {
@@ -117,7 +114,7 @@ public class MenuController {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setTitle("Жак-Андрэ Продажи");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/zReportWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/zReportWindow.fxml"));
 
         dialog.setScene(new Scene(root, 700, 300));
 
@@ -138,7 +135,7 @@ public class MenuController {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setTitle("Жак-Андрэ Продажи");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/xReportWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/xReportWindow.fxml"));
 
         dialog.setScene(new Scene(root, 400, 400));
 
@@ -158,7 +155,7 @@ public class MenuController {
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setTitle("Жак-Андрэ Продажи");
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhileUpdateDataFromServer.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalWhileUpdateDataFromServer.fxml"));
 
         dialog.setScene(new Scene(root, 700, 220));
 
@@ -177,7 +174,7 @@ public class MenuController {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/ReturnWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ReturnWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {

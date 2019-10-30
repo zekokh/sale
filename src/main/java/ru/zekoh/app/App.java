@@ -9,9 +9,6 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import ru.zekoh.controller.Login;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
@@ -47,9 +44,9 @@ public class App extends Application {
         //Отмена перетаскивания окно и скрытие кнопок изменения вида окна
         primaryStage.initStyle(StageStyle.UNDECORATED);
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/LoginWindow.fxml"));
         primaryStage.setTitle("Жак-Андрэ Продажи");
-        primaryStage.setScene(new Scene(root, 1280, 760));
+        primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }
 }

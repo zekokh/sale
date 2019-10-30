@@ -180,7 +180,7 @@ public class SettingController {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         try {
-            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/LoginWindow.fxml"));
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/small/LoginWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {

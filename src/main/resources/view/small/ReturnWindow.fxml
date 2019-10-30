@@ -10,7 +10,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnWindowController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnWindowController">
     <children>
         <Button layoutX="20.0" layoutY="680.0" mnemonicParsing="false" onAction="#back" prefHeight="48.0" prefWidth="87.0" text="назад" />
         <TextField fx:id="productLabel" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="260.0" promptText="Продукт в чеке" />

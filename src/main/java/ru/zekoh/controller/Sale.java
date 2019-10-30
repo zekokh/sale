@@ -910,9 +910,9 @@ public class Sale {
                     dialog.initStyle(StageStyle.UNDECORATED);
                     dialog.setTitle("Жак-Андрэ Продажи");
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/view/PayCardWindow.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/PayCardWindow.fxml"));
 
-                    dialog.setScene(new Scene(root, 700, 300));
+                    dialog.setScene(new Scene(root));
 
                     Node source = (Node) actionEvent.getSource();
                     Stage stage = (Stage) source.getScene().getWindow();
@@ -947,9 +947,9 @@ public class Sale {
             dialog.initStyle(StageStyle.UNDECORATED);
             dialog.setTitle("Жак-Андрэ Продажи");
 
-            Parent root = FXMLLoader.load(getClass().getResource("/view/CancelModal.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/CancelModal.fxml"));
 
-            dialog.setScene(new Scene(root, 700, 300));
+            dialog.setScene(new Scene(root));
 
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
@@ -1008,10 +1008,10 @@ public class Sale {
         if (checkList.size() > 0) {
             Stage stage = new Stage();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/view/ModalInfoWindow.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalInfoWindow.fxml"));
                 stage.setTitle("Оплата");
-                stage.setMinHeight(150);
-                stage.setMinWidth(300);
+/*                stage.setMinHeight(150);
+                stage.setMinWidth(300);*/
                 stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(new Scene(root));
                 stage.initModality(Modality.WINDOW_MODAL);
@@ -1025,7 +1025,7 @@ public class Sale {
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             try {
-                Parent pageDate = FXMLLoader.load(getClass().getResource("/view/MenuWindow.fxml"));
+                Parent pageDate = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/MenuWindow.fxml"));
                 stage.getScene().setRoot(pageDate);
                 stage.requestFocus();
             } catch (Exception e) {
@@ -1509,12 +1509,12 @@ public class Sale {
 
                             Parent root = null;
                             try {
-                                root = FXMLLoader.load(getClass().getResource("/view/PasswordEntryToAccessTheFolderWindow.fxml"));
+                                root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/PasswordEntryToAccessTheFolderWindow.fxml"));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
-                            dialog.setScene(new Scene(root, 600, 700));
+                            dialog.setScene(new Scene(root));
 
                             Node source = (Node) event.getSource();
                             Stage stage = (Stage) source.getScene().getWindow();
@@ -2556,8 +2556,8 @@ public class Sale {
                             Stage dialog = new Stage();
                             dialog.initStyle(StageStyle.UNDECORATED);
                             dialog.setTitle("Жак-Андрэ Продажи");
-                            Parent root = FXMLLoader.load(getClass().getResource("/view/info.fxml"));
-                            dialog.setScene(new Scene(root, 700, 220));
+                            Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/info.fxml"));
+                            dialog.setScene(new Scene(root));
                             Node source = (Node) event.getSource();
                             Stage stage = (Stage) source.getScene().getWindow();
                             dialog.initOwner(stage);
@@ -2687,8 +2687,8 @@ public class Sale {
                         Stage dialog = new Stage();
                         dialog.initStyle(StageStyle.UNDECORATED);
                         dialog.setTitle("Жак-Андрэ Продажи");
-                        Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWindow.fxml"));
-                        dialog.setScene(new Scene(root, 700, 250));
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalWindow.fxml"));
+                        dialog.setScene(new Scene(root));
                         Node source = (Node) event.getSource();
                         Stage stage = (Stage) source.getScene().getWindow();
                         dialog.initOwner(stage);
@@ -2725,9 +2725,9 @@ public class Sale {
                 dialog.initStyle(StageStyle.UNDECORATED);
                 dialog.setTitle("Жак-Андрэ Продажи");
 
-                Parent root = FXMLLoader.load(getClass().getResource("/view/ModalWhilePrintCheck.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalWhilePrintCheck.fxml"));
 
-                dialog.setScene(new Scene(root, 700, 220));
+                dialog.setScene(new Scene(root));
 
                 Node source = (Node) event.getSource();
                 Stage stage = (Stage) source.getScene().getWindow();
@@ -2757,16 +2757,16 @@ public class Sale {
                     switch (Properties.kktError.getNumber()) {
                         case (0):
                             // todo отообразить модальное окно со справкой о возможных проблемах и просьбе устранить и проверить связь
-                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
 
                             break;
                         case (1):
                             // todo отообразить модальное окно со справкой чек пробит но не фискализирован требуется допечатать сейчас или потом из меню "возвраты"
-                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
                             break;
                         case (2):
                             // необходимо допечатать
-                            generateModalWindow(event, "/view/ModalkktInfoError0.fxml", 1000, 650);
+                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
                             break;
 
                         default:
@@ -2810,7 +2810,7 @@ public class Sale {
         cancelCheckMethod();
     }
 
-    public void generateModalWindow(ActionEvent event, String path, int width, int height) {
+    public void generateModalWindow(ActionEvent event, String path) {
         try {
             // Открыть модальное окно с информацией
             Stage dialog = new Stage();
@@ -2819,7 +2819,7 @@ public class Sale {
 
             Parent root = FXMLLoader.load(getClass().getResource(path));
 
-            dialog.setScene(new Scene(root, width, height));
+            dialog.setScene(new Scene(root));
 
             Node source1 = (Node) event.getSource();
             Stage stage1 = (Stage) source1.getScene().getWindow();

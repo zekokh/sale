@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="700.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.Info">
+    <children>
+          <Button id="btn" layoutX="270.0" layoutY="112.0" mnemonicParsing="false" onAction="#ok" prefHeight="90.0" prefWidth="160.0" text="ОК">
+              <font>
+                  <Font size="40.0" />
+              </font>
+          </Button>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="46.0" text="Лимит по скидке превышен." textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font name="Helvetica Light" size="30.0" />
+         </font>
+      </Label>
+    </children>
+</Pane>
