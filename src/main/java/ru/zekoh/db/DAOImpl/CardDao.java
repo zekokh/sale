@@ -35,7 +35,7 @@ public class CardDao {
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
                 Double numeral = new BigDecimal(card.getBalance()).setScale(1, RoundingMode.HALF_UP).doubleValue();
-                stmt.execute("INSERT INTO `discount_for_employees` (id, name, balance, budget_for_the_month, amount_of_discount, role) VALUE ('"+card.getId()+"', '"+card.getName()+"', '"+numeral+"', '"+card.getBudgetForTheMonth()+"', '"+card.getAmountOfDiscount()+"', '"+card.getRole()+"')");
+                stmt.execute("INSERT INTO `discount_for_employees` (id, number_card,  name, balance, budget_for_the_month, amount_of_discount, role) VALUE ('"+card.getId()+"', '0', '"+card.getName()+"', '"+numeral+"', '"+card.getBudgetForTheMonth()+"', '"+card.getAmountOfDiscount()+"', '"+card.getRole()+"')");
                 stmt.close();
             }
 
