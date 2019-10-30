@@ -126,7 +126,7 @@ public class Sale {
     private int currentCheckIndex = 0;
 
     // id пекарни
-    int bakeryId = 3;
+    int bakeryId = Properties.bakaryId;
 
 
     //Размер шрифта папок и продуктов
@@ -2652,6 +2652,7 @@ public class Sale {
                                     card.setAmountOfDiscount(checkObject.getDiscount().getPercentDiscount());
                                     card.setBalance(card.getBalance() + checkObject.getSellingPrice());
                                     card.setRole(checkObject.getDiscount().getDiscountRole());
+                                    card.setNumber(1);
                                     cardDao.update(card);
                                 } catch (Exception e) {
                                     card = new DiscountCardEntity();
@@ -2661,6 +2662,7 @@ public class Sale {
                                     card.setBudgetForTheMonth(checkObject.getDiscount().getBudget());
                                     card.setAmountOfDiscount(checkObject.getDiscount().getPercentDiscount());
                                     card.setRole(checkObject.getDiscount().getDiscountRole());
+                                    card.setNumber(1);
                                     cardDao.create(card);
                                 }
                             }

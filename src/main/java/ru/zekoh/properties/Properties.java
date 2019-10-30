@@ -28,9 +28,6 @@ public class Properties {
     //Печать на ККМ
     public static Boolean KKM;
 
-    //Порт для подключения ККМ
-    public static int PRINTER_PORT;
-
     // Драйвер принтера
     public static IFptr FPTR = null;
 
@@ -78,6 +75,12 @@ public class Properties {
 
     public static String comPort = "4";
 
+    public static int bakaryId = 3;
+
+    public static String updateUrl = "";
+
+
+
 
     //Инициализация данных из проперти файла
     public static void initData() {
@@ -93,7 +96,7 @@ public class Properties {
             LOGIN = property.getProperty("db.login");
             PASSWORD = property.getProperty("db.password");
             KKM = Boolean.valueOf(property.getProperty("kkm"));
-            PRINTER_PORT = Integer.parseInt(property.getProperty("kkm.port"));
+            comPort = String.valueOf(Integer.parseInt(property.getProperty("kkm.port")));
 
         } catch (IOException e) {
             System.err.println("ОШИБКА: Файл свойств отсуствует!");
@@ -107,19 +110,34 @@ public class Properties {
         PASSWORD = "heroin";
         KKM = true;
         statusPrinted = true;
-        PRINTER_PORT = 4;
+    }
 
-        // Майкоп Первомайская 193 актуальный порт
-        //comPort = "6";
+    //Инициализация данных для пекарни Восход
+    public static void initDataVoshod() {
+        initDataWithoutFile();
 
-        // Восход
         comPort = "4";
-
-        // Краснодар
-       // comPort = "3";
-
-        // Майкоп Первомайская 193
-        //comPort = "7";
+        updateUrl = "https://voshod.jacq.ru";
 
     }
+
+    //Инициализация данных для пекарни на Шифрина
+    public static void initDataShifrina() {
+        initDataWithoutFile();
+        comPort = "5";
+        updateUrl = "";
+
+    }
+
+    // Майкоп Первомайская 193 актуальный порт
+    //comPort = "6";
+
+    // Краснодар
+    // comPort = "3";
+
+    // Майкоп Первомайская 193
+    //comPort = "7";
+
+    // Генерала Шифрина 1
+    //comPort = "5";
 }

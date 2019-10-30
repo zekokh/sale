@@ -26,8 +26,8 @@ import static ru.zekoh.core.Сatalog.generate;
 
 public class UpdateFoldersAndProducts {
 
-    static String url = "https://voshod.jacq.ru/changes/get";
-    static String urlAnswer = "https://voshod.jacq.ru/changes/check";
+    static String url = Properties.updateUrl+"/changes/get";
+    static String urlAnswer = Properties.updateUrl+"/changes/check";
 
     // static String url = "http://localhost:3000/changes/get";
     // static String urlAnswer = "http://localhost:3000/changes/check";

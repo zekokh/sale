@@ -35,7 +35,7 @@ public class App extends Application {
 
             generate();
 
-            Properties.initDataWithoutFile();
+            Properties.initDataVoshod();
         } catch (Exception e) {
             logger.error("Ошибка! " + e.toString());
         }
