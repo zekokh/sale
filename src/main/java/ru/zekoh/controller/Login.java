@@ -102,7 +102,9 @@ public class Login {
             for (int i = 0; i < users.size(); i++) {
                 if (password.equals(users.get(i).getShortPassword())) {
                     Properties.currentUser = users.get(i);
-                    KKMOFD.name = Properties.currentUser.getName();
+                    if(Properties.KKM){
+                        KKMOFD.name = Properties.currentUser.getName();
+                    }
                     goToMenu();
                 }
             }

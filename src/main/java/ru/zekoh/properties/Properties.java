@@ -22,7 +22,7 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
-    public static int bakaryId = 5;
+    public static int bakaryId = 1;
 
     // Путь до файлов fxml
     public static String pathToFXML = "small";
@@ -115,7 +115,7 @@ public class Properties {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
-        KKM = false;
+        KKM = true;
 
         switch (bakaryId) {
             case (1):
@@ -131,7 +131,7 @@ public class Properties {
                 initDataShifrina();
                 break;
             case (5):
-                initDataShifrina();
+                initDataNalchik();
                 break;
         }
     }
@@ -141,36 +141,29 @@ public class Properties {
         comPort = "6";
         updateUrl = "https://center.jacq.ru";
         pathToFXML = "center";
-
     }
 
     // Инициализация данных для пекарни на Российская
     public static void initDataRossiyskaya() {
         comPort = "3";
         updateUrl = "https://krasnodar.jacq.ru";
-
     }
 
     // Инициализация данных для пекарни Восход
     public static void initDataVoshod() {
         comPort = "4";
         updateUrl = "https://voshod.jacq.ru";
-
     }
 
     // Инициализация данных для пекарни на Шифрина
     public static void initDataShifrina() {
         comPort = "5";
         updateUrl = "https://shifrina.jacq.ru";
-
     }
 
     // Инициализация данных для пекарни в Нальчике
     public static void initDataNalchik() {
         comPort = "5";
-        updateUrl = "https://alchik.jacq.ru";
-
+        updateUrl = "https://nalchik.jacq.ru";
     }
-
-
 }
