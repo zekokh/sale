@@ -129,7 +129,7 @@ public class Sale {
 
 
     //Размер шрифта папок и продуктов
-    Double fontFolderAndProduct = 17.5;
+    Double fontFolderAndProduct = Properties.fontFolderAndProduct;
 
     //Переменная где содержится level для удобства доступа
     int levalProductForSerch = 0;
@@ -144,13 +144,13 @@ public class Sale {
     int amountFolderAndProduct = 0;
 
     //Количество папок и продуктов в строке
-    int countFolderAndProductInRow = 5;
+    int countFolderAndProductInRow = Properties.countFolderAndProductInRow;
 
     //Ширина кнопок с папками и продуктами
-    int btnWigth = 165;
+    int btnWigth = Properties.btnWigth;
 
     //Высота кнопок с папками и продуктами
-    int btnHight = 98;
+    int btnHight = Properties.btnHight;
 
     //
     private Goods tempGoods = null;

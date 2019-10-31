@@ -88,6 +88,17 @@ public class Properties {
 
     public static String updateUrl = "";
 
+    // Размер шрифта
+    public static Double fontFolderAndProduct = 17.5;
+
+    //Количество папок и продуктов в строке
+    public static int countFolderAndProductInRow = 5;
+
+    //Ширина кнопок с папками и продуктами
+    public static int btnWigth = 165;
+
+    //Высота кнопок с папками и продуктами
+    public static int btnHight = 98;
 
     //Инициализация данных из проперти файла
     public static void initData() {
@@ -141,6 +152,10 @@ public class Properties {
         comPort = "6";
         updateUrl = "https://center.jacq.ru";
         pathToFXML = "center";
+        fontFolderAndProduct = 16.0;
+        countFolderAndProductInRow = 4;
+        btnWigth = 145;
+        btnHight = 90;
     }
 
     // Инициализация данных для пекарни на Российская
