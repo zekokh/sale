@@ -55,6 +55,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
+import static java.lang.Math.log;
 import static java.lang.Math.toIntExact;
 
 public class Sale {
@@ -895,6 +896,7 @@ public class Sale {
     public void payCash(ActionEvent actionEvent) {
         if (checkList.size() > 0) {
             if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
+                logger.info("Нажата кнопка оплатить наличными.");
                 if (!panelWithNumberForCash.isVisible()) {
                     switchToCashKbr(true);
                 }
@@ -905,12 +907,13 @@ public class Sale {
     public void payCard(ActionEvent actionEvent) throws IOException {
         if (checkList.size() > 0) {
             if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
+                logger.info("Нажата кнопка оплатить картой.");
                 if (!panelWithNumberForCash.isVisible()) {
                     Stage dialog = new Stage();
                     dialog.initStyle(StageStyle.UNDECORATED);
                     dialog.setTitle("Жак-Андрэ Продажи");
 
-                    Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/PayCardWindow.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/PayCardWindow.fxml"));
 
                     dialog.setScene(new Scene(root));
 
@@ -947,7 +950,7 @@ public class Sale {
             dialog.initStyle(StageStyle.UNDECORATED);
             dialog.setTitle("Жак-Андрэ Продажи");
 
-            Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/CancelModal.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/CancelModal.fxml"));
 
             dialog.setScene(new Scene(root));
 
@@ -1008,7 +1011,7 @@ public class Sale {
         if (checkList.size() > 0) {
             Stage stage = new Stage();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalInfoWindow.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalInfoWindow.fxml"));
                 stage.setTitle("Оплата");
 /*                stage.setMinHeight(150);
                 stage.setMinWidth(300);*/
@@ -1025,7 +1028,7 @@ public class Sale {
             Node source = (Node) actionEvent.getSource();
             Stage stage = (Stage) source.getScene().getWindow();
             try {
-                Parent pageDate = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/MenuWindow.fxml"));
+                Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/MenuWindow.fxml"));
                 stage.getScene().setRoot(pageDate);
                 stage.requestFocus();
             } catch (Exception e) {
@@ -1509,7 +1512,7 @@ public class Sale {
 
                             Parent root = null;
                             try {
-                                root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/PasswordEntryToAccessTheFolderWindow.fxml"));
+                                root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/PasswordEntryToAccessTheFolderWindow.fxml"));
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -1714,15 +1717,16 @@ public class Sale {
             if (product.isUnit()) {
 
                 check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId()));
-
+                logger.info("Добавляем товар: " + product.getShortName() + "(id: " + product.getId() + ")");
                 // Проверка на скидки и оновление всех данных
+                // todo разобраться и убрать двойное вычисление цен
                 reloadAll();
 
                 b.setBackground(new Background(new BackgroundFill(
                         Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
 
             } else {
-
+                logger.info("Добавляем товар: " + product.getShortName() + "(id: " + product.getId() + ")");
                 currentNotUnitProduct = product;
                 // Отобразить экран для ввода кол-во продукции если товар весовой
                 displayScreenForEnteringProductQuantities(true);
@@ -1871,7 +1875,7 @@ public class Sale {
 
                 // Если товар выбран
                 if (tempGoods != null) {
-
+                    int times = 0;
                     for (int i = 0; i < check.getGoodsList().size(); i++) {
                         Goods goods = check.getGoodsList().get(i);
 
@@ -1879,11 +1883,12 @@ public class Sale {
                         double b = goods.getPriceAfterDiscount();
                         boolean isEq = Double.compare(a, b) == 0 ? true : false;
                         if (tempGoods.getProductId() == goods.getProductId() && isEq) {
+                            times++;
                             check.getGoodsList().remove(i);
                             i = -1;
                         }
                     }
-
+                    logger.info("Удаляем позицию в чеке: " + tempGoods.getProductName() + " (id: " + tempGoods.getProductId() + ") Кол-во: " + times + " Цена после скидки: " + tempGoods.getPriceAfterDiscount() + " Цена по прайсу: " + tempGoods.getPriceFromThePriceList() + " Продажная цена: " + tempGoods.getSellingPrice());
                     tempGoods = null;
                     reloadAll();
                 }
@@ -2556,7 +2561,7 @@ public class Sale {
                             Stage dialog = new Stage();
                             dialog.initStyle(StageStyle.UNDECORATED);
                             dialog.setTitle("Жак-Андрэ Продажи");
-                            Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/info.fxml"));
+                            Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/info.fxml"));
                             dialog.setScene(new Scene(root));
                             Node source = (Node) event.getSource();
                             Stage stage = (Stage) source.getScene().getWindow();
@@ -2687,7 +2692,7 @@ public class Sale {
                         Stage dialog = new Stage();
                         dialog.initStyle(StageStyle.UNDECORATED);
                         dialog.setTitle("Жак-Андрэ Продажи");
-                        Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalWindow.fxml"));
+                        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalWindow.fxml"));
                         dialog.setScene(new Scene(root));
                         Node source = (Node) event.getSource();
                         Stage stage = (Stage) source.getScene().getWindow();
@@ -2725,7 +2730,7 @@ public class Sale {
                 dialog.initStyle(StageStyle.UNDECORATED);
                 dialog.setTitle("Жак-Андрэ Продажи");
 
-                Parent root = FXMLLoader.load(getClass().getResource("/view/"+Properties.pathToFXML+"/ModalWhilePrintCheck.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalWhilePrintCheck.fxml"));
 
                 dialog.setScene(new Scene(root));
 
@@ -2757,16 +2762,16 @@ public class Sale {
                     switch (Properties.kktError.getNumber()) {
                         case (0):
                             // todo отообразить модальное окно со справкой о возможных проблемах и просьбе устранить и проверить связь
-                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
+                            generateModalWindow(event, "/view/" + Properties.pathToFXML + "/ModalkktInfoError0.fxml");
 
                             break;
                         case (1):
                             // todo отообразить модальное окно со справкой чек пробит но не фискализирован требуется допечатать сейчас или потом из меню "возвраты"
-                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
+                            generateModalWindow(event, "/view/" + Properties.pathToFXML + "/ModalkktInfoError0.fxml");
                             break;
                         case (2):
                             // необходимо допечатать
-                            generateModalWindow(event, "/view/"+Properties.pathToFXML+"/ModalkktInfoError0.fxml");
+                            generateModalWindow(event, "/view/" + Properties.pathToFXML + "/ModalkktInfoError0.fxml");
                             break;
 
                         default:
