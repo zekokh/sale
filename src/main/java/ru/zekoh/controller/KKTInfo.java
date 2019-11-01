@@ -28,6 +28,18 @@ public class KKTInfo {
 
     public void reconnect(ActionEvent event) {
         if (Properties.FPTR != null) {
+
+            try {
+                int answer = Properties.FPTR.cancelReceipt();
+                String text = "Не удалось отменить чек!";
+                if (answer == 0) {
+                    text = "Чек успешно отменен в ККТ";
+                }
+                logger.info("Отменяем чек при повторной печати: " + text);
+            } catch (Exception e) {
+                logger.error("Ошибка при отмене повторной печати чека с ккт!" + e.getMessage());
+            }
+
             if (Properties.FPTR.isOpened()) {
                 Properties.FPTR.close();
                 Properties.FPTR = null;

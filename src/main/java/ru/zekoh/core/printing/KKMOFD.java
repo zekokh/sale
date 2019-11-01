@@ -531,7 +531,11 @@ public class KKMOFD {
             logger.error("Ошибка с ккт" + fptr.errorDescription());
             try {
                 int answer = fptr.cancelReceipt();
-                logger.info("Отменяем чек: " + answer);
+                String text = "Не удалось отменить чек!";
+                if (answer == 0) {
+                    text = "Чек успешно отменен в ККТ";
+                }
+                logger.info("Отменяем чек: " + text);
             } catch (Exception e) {
                 logger.error("Ошибка при отмене чека с ккт!" + e.getMessage());
             }

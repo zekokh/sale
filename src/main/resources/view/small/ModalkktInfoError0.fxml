@@ -7,9 +7,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.KKTInfo">
     <children>
-          <Button id="btn" fx:id="reconnectBtn" layoutX="14.0" layoutY="536.0" mnemonicParsing="false" onAction="#reconnect" prefHeight="90.0" prefWidth="381.0" text="переподключиться к ККТ" textAlignment="CENTER" textFill="#f88b17" wrapText="true">
+          <Button id="btn" fx:id="reconnectBtn" layoutX="14.0" layoutY="536.0" mnemonicParsing="false" onAction="#reconnect" prefHeight="90.0" prefWidth="381.0" text="переподключиться к ККТ и повторить печать" textAlignment="CENTER" textFill="#f88b17" wrapText="true">
               <font>
-                  <Font name="Helvetica" size="28.0" />
+                  <Font name="Helvetica" size="25.0" />
               </font>
           </Button>
       <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="5.0" prefHeight="93.0" prefWidth="951.0" text="Чек сохранен в базе данных, но при печати возникли проблемы." textAlignment="CENTER" wrapText="true">
@@ -47,12 +47,12 @@
             <Font name="Helvetica Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="366.0" prefHeight="52.0" prefWidth="935.0" text="Если восстановить связь не удалось попробуйте создать новый объект связи нажав &quot;переподключиться к ККТ&quot;!" wrapText="true">
+      <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="366.0" prefHeight="69.0" prefWidth="935.0" text="Если восстановить связь не удалось попробуйте создать новый объект связи нажав &quot;переподключиться к ККТ и повторить печать&quot;!" wrapText="true">
          <font>
             <Font name="Helvetica Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="428.0" prefHeight="52.0" prefWidth="944.0" text="Если хотите продолжить не напечатав нажмите &quot;продолжить&quot; и допечатайте чек позже из раздела &quot;возвраты&quot;." wrapText="true">
+      <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="434.0" prefHeight="52.0" prefWidth="944.0" text="Если хотите продолжить не напечатав нажмите &quot;продолжить&quot; и допечатайте чек позже из раздела &quot;возвраты&quot;." wrapText="true">
          <font>
             <Font name="Helvetica Bold" size="20.0" />
          </font>

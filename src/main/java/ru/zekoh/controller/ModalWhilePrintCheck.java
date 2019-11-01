@@ -18,7 +18,6 @@ public class ModalWhilePrintCheck {
     private static final Logger logger = LogManager.getLogger(ModalWhilePrintCheck.class);
 
     public Button okBtn;
-    public Button repeatBtn;
     public Label info;
     Task task = null;
 
@@ -27,7 +26,6 @@ public class ModalWhilePrintCheck {
     public void initialize() {
         Properties.statusPrinted = false;
         okBtn.setVisible(false);
-        repeatBtn.setVisible(false);
 
         if (Properties.checkObject != null) {
 
@@ -49,14 +47,13 @@ public class ModalWhilePrintCheck {
 
                     } else {
                         Properties.kktError = status;
-                        Properties.statusPrinted = true;
+                        Properties.statusPrinted = false;
 
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 info.setText("Ошибка при печати. Чек пробит но не фискализирован! " + Properties.kktError.getDescription());
                                 okBtn.setVisible(true);
-                                repeatBtn.setVisible(true);
                             }
                         });
                     }
@@ -77,20 +74,6 @@ public class ModalWhilePrintCheck {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
-    }
-
-    public void repeat(ActionEvent actionEvent) {
-        if (task != null) {
-            task.cancel();
-        }
-
-        Properties.kktError = null;
-        Properties.statusPrinted = false;
-        info.setText("Идет печать...");
-        okBtn.setVisible(false);
-        repeatBtn.setVisible(false);
-
-        new Thread(task).start();
     }
 
     public void exit(ActionEvent actionEvent) {
