@@ -66,53 +66,64 @@ public class KKMOFD {
             try {
                 if (fptr.isOpened()) {
 
-                    if (print) {
-
-                        // Регистрация операции
-                        fptr.setParam(1021, name);
-                        fptr.setParam(1203, inn);
-                        fptr.operatorLogin();
-
-                        // Чек прихода
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL);
-                        fptr.openReceipt();
-
-                        // List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
-
-                        // Печать продукции
-                        for (int i = 0; i < goodsForDisplays.size(); i++) {
-                            fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goodsForDisplays.get(i).getName());
-                            fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goodsForDisplays.get(i).getPriceFromThePriceList());
-                            fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goodsForDisplays.get(i).getCount());
-                            fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goodsForDisplays.get(i).getSellingPrice());
-                            fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
-                            fptr.registration();
-                            logger.info("Товар: " + goodsForDisplays.get(i).getName() + " " + goodsForDisplays.get(i).getPriceFromThePriceList() + " " + goodsForDisplays.get(i).getCount() + " " + goodsForDisplays.get(i).getSellingPrice());
+                    // Печать в нальчике
+                    if (Properties.bakaryId == 5) {
+                        if (nonfiscalPrinting(fptr, check, goodsForDisplays)){
+                            return new KKTError(true, 1, "Чек напечатан.");
+                        } else {
+                            return new KKTError(false, 0, "Соединение с ККМ не открыто!!");
                         }
+                    } else {
+                        if (print) {
 
-                        // Закрыть чек и напечатать
-                        int typePaymaent = IFptr.LIBFPTR_PT_ELECTRONICALLY;
 
-                        if (check.getTypeOfPayment() == 1) {
-                            typePaymaent = IFptr.LIBFPTR_PT_CASH;
+                            // Печать в остальных
+
+                            // Регистрация операции
+                            fptr.setParam(1021, name);
+                            fptr.setParam(1203, inn);
+                            fptr.operatorLogin();
+
+                            // Чек прихода
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_RECEIPT_TYPE, IFptr.LIBFPTR_RT_SELL);
+                            fptr.openReceipt();
+
+                            // List<GoodsForDisplay> goodsForDisplays = convert(check.getGoodsList());
+
+                            // Печать продукции
+                            for (int i = 0; i < goodsForDisplays.size(); i++) {
+                                fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goodsForDisplays.get(i).getName());
+                                fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goodsForDisplays.get(i).getPriceFromThePriceList());
+                                fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goodsForDisplays.get(i).getCount());
+                                fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goodsForDisplays.get(i).getSellingPrice());
+                                fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
+                                fptr.registration();
+                                logger.info("Товар: " + goodsForDisplays.get(i).getName() + " " + goodsForDisplays.get(i).getPriceFromThePriceList() + " " + goodsForDisplays.get(i).getCount() + " " + goodsForDisplays.get(i).getSellingPrice());
+                            }
+
+                            // Закрыть чек и напечатать
+                            int typePaymaent = IFptr.LIBFPTR_PT_ELECTRONICALLY;
+
+                            if (check.getTypeOfPayment() == 1) {
+                                typePaymaent = IFptr.LIBFPTR_PT_CASH;
+                            }
+
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_SUM, check.getSellingPrice());
+                            fptr.payment();
+
+                            // Зарегистрировать ИТОГ
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_SUM, check.getSellingPrice());
+                            fptr.receiptTotal();
+
+                            logger.info("Закрываем чек: " + check.getSellingPrice() + " " + check.getDateOfClosing());
+
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
+                            fptr.closeReceipt();
+
                         }
-
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_SUM, check.getSellingPrice());
-                        fptr.payment();
-
-                        // Зарегистрировать ИТОГ
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_SUM, check.getSellingPrice());
-                        fptr.receiptTotal();
-
-                        logger.info("Закрываем чек: " + check.getSellingPrice() + " " + check.getDateOfClosing());
-
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_PAYMENT_TYPE, typePaymaent);
-                        fptr.closeReceipt();
-
+                        return checkPrintedStatus(fptr, check);
                     }
-                    return checkPrintedStatus(fptr, check);
-
                 } else {
                     logger.error("Соединение с ККМ не открыто!");
                     return new KKTError(false, 0, "Соединение с ККМ не открыто!!");
@@ -126,6 +137,52 @@ public class KKMOFD {
             logger.error("Драйвер принтера чека не инициализирован!");
             return new KKTError(false, 0, "Драйвер принтера чека не инициализирован!");
         }
+
+
+    }
+
+    private static boolean nonfiscalPrinting(IFptr fptr, CheckObject check, List<GoodsForDisplay> goodsForDisplays) {
+        try {
+            printTextTitle(fptr, "Жак-Андрэ");
+            printTextTitle(fptr, "французская пекарня");
+            printTextTitle(fptr, "");
+            printText(fptr, "Дата: ");
+            for (int i = 0; i < goodsForDisplays.size(); i++) {
+                String text = goodsForDisplays.get(i).getCount() + " * " +
+                        goodsForDisplays.get(i).getPriceFromThePriceList() + " р." + " = " +
+                        goodsForDisplays.get(i).getSellingPrice() + " р.";
+
+                printText(fptr, goodsForDisplays.get(i).getName());
+                //printTextTitle(fptr, goodsForDisplays.get(i).getName(), com.atol.drivers.fptr.IFptr.ALIGNMENT_LEFT, com.atol.drivers.fptr.IFptr.WRAP_WORD);
+                printText(fptr, text);
+            }
+
+            printText(fptr, "Итого: " + check.getSellingPrice() + " р.");
+
+            //Печать пустых строк
+            printText(fptr, "");
+            printText(fptr, "жак-андрэ.рф");
+            printText(fptr, "г.Нальчик, ул.Московска, 6");
+            printText(fptr, "ИНН: ");
+            printText(fptr, "");
+            printText(fptr, "");
+        } catch (Exception e) {
+            logger.error("Ошибка при печати нефискального документа");
+            return false;
+        }
+        return true;
+    }
+
+    private static void printTextTitle(IFptr fptr, String s) {
+        fptr.setParam(IFptr.LIBFPTR_PARAM_TEXT, s);
+        fptr.setParam(IFptr.LIBFPTR_PARAM_ALIGNMENT, IFptr.LIBFPTR_ALIGNMENT_CENTER);
+        fptr.printText();
+    }
+
+    private static void printText(IFptr fptr, String s) {
+        fptr.setParam(IFptr.LIBFPTR_PARAM_TEXT, s);
+        fptr.setParam(IFptr.LIBFPTR_PARAM_ALIGNMENT, IFptr.LIBFPTR_ALIGNMENT_LEFT);
+        fptr.printText();
     }
 
     public static boolean returnToKKM(List<TableGoods> goods, CheckEntity check) {
@@ -478,7 +535,25 @@ public class KKMOFD {
             }
         }
 
+        // Округляем
+        //roundingGoods(goodsForDisplayList);
         return goodsForDisplayList;
+    }
+
+    // Метод округления продажной цены
+    protected static void roundingGoods(List<GoodsForDisplay> goodsForDisplays){
+       for(int i = 0; i < goodsForDisplays.size(); i++){
+           Double priceAfterRounding = roundUp(goodsForDisplays.get(i).getPriceAfterDiscount());
+           goodsForDisplays.get(i).setPriceAfterDiscount(priceAfterRounding);
+       }
+    }
+
+    // Метод округления
+    private static Double roundUp(Double numeral) {
+
+        numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
     }
 
 
@@ -562,5 +637,4 @@ public class KKMOFD {
         logger.info("Чек закрылся успешно!");
         return new KKTError(true, 1, "Соединение с ККМ не открыто!!");
     }
-
 }

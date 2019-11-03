@@ -22,7 +22,7 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
-    public static int bakaryId = 4;
+    public static int bakaryId = 2;
 
     // Путь до файлов fxml
     public static String pathToFXML = "small";
@@ -178,7 +178,7 @@ public class Properties {
 
     // Инициализация данных для пекарни в Нальчике
     public static void initDataNalchik() {
-        comPort = "5";
+        comPort = "8";
         updateUrl = "https://nalchik.jacq.ru";
     }
 }
