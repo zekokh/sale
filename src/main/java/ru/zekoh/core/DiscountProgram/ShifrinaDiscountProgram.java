@@ -1367,7 +1367,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
     public static CheckObject timeDiscountAfterSeven(CheckObject check) {
 
         String afterTime = "19:00:00";
-        Double amountOfDiscount = 0.2;
+        Double amountOfDiscount = 0.3;
         boolean flag = false;
 
         //Сегодняшняя дата

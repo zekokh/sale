@@ -22,7 +22,14 @@ public class Properties {
     // 3 - Майкоп, Восход, Шоссейная, 1В
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
+    // 6 - Майкоп, Пролетарская, 449
     public static int bakaryId = 2;
+
+    // Путь до шрифта
+    public static String fontPath = "";
+
+    // Адрес системы лояльности
+    public static String loyaltyUrl = "";
 
     // Путь до файлов fxml
     public static String pathToFXML = "small";
@@ -100,6 +107,9 @@ public class Properties {
     //Высота кнопок с папками и продуктами
     public static int btnHight = 98;
 
+    // id запароленной папки
+    public static int protectedFolder = 370;
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -144,6 +154,9 @@ public class Properties {
             case (5):
                 initDataNalchik();
                 break;
+            case (6):
+                initDataPhenix();
+                break;
         }
     }
 
@@ -156,29 +169,46 @@ public class Properties {
         countFolderAndProductInRow = 4;
         btnWigth = 145;
         btnHight = 90;
+        protectedFolder = 370;
+        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни на Российская
     public static void initDataRossiyskaya() {
         comPort = "3";
         updateUrl = "https://krasnodar.jacq.ru";
+        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни Восход
     public static void initDataVoshod() {
         comPort = "4";
         updateUrl = "https://voshod.jacq.ru";
+        protectedFolder = 402;
+        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни на Шифрина
     public static void initDataShifrina() {
         comPort = "5";
         updateUrl = "https://shifrina.jacq.ru";
+        fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
+        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни в Нальчике
     public static void initDataNalchik() {
         comPort = "8";
         updateUrl = "https://nalchik.jacq.ru";
+        fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
+        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+    }
+
+    // Инициализация данных для пекарни на Фениксе
+    public static void initDataPhenix() {
+        comPort = "3";
+        updateUrl = "https://phenix.jacq.ru";
+        fontPath = "C:\\Users\\Администратор\\Desktop\\sell\\fonts\\Exo.ttf";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 }

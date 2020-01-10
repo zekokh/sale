@@ -16,6 +16,7 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import ru.zekoh.properties.Properties;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,8 +46,9 @@ public class MyPreloader extends Preloader {
         //Добавляем шрифт
         Label label = new Label("ZEKOH TECHNOLOGY");
         try {
+
             //final String urlFont = getClass().getResource("/fonts/Exo.ttf").getFile();
-            final String urlFont = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
+            final String urlFont = Properties.fontPath;
             final Font f = Font.loadFont(new FileInputStream(new File(urlFont)), 49);
             label.setFont(f); // use this font with our label
             label.setTextFill(Color.WHITE);

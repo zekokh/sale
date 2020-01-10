@@ -88,7 +88,8 @@ public class UpdateFoldersAndProducts {
                                 json.getInt("classifier"),
                                 json.getInt("serial_number"),
                                 unit,
-                                false);
+                                false,
+                                json.getBoolean("in_promo"));
 
 
                         session.save(dataEntity);
@@ -118,6 +119,7 @@ public class UpdateFoldersAndProducts {
                         dataEntity.setLive(json.getBoolean("live"));
                         dataEntity.setClassifier(json.getInt("classifier"));
                         dataEntity.setSerialNumber(json.getInt("serial_number"));
+                        dataEntity.setParticipatesInpromotions(json.getBoolean("in_promo"));
 
                         boolean unit = false;
                         if(json.getInt("unit") == 1){

@@ -53,6 +53,10 @@ public class MenuController {
     @FXML
     public Button returnBtn;
 
+    // Кнопка перехода к меню настроек
+    @FXML
+    public Button settingBtn;
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -65,6 +69,7 @@ public class MenuController {
         update.setDisable(false);
         xReport.setDisable(false);
         returnBtn.setDisable(false);
+        settingBtn.setDisable(false);
 
 
         if (Properties.KKM) {
@@ -175,6 +180,18 @@ public class MenuController {
         Stage stage = (Stage) source.getScene().getWindow();
         try {
             Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ReturnWindow.fxml"));
+            stage.getScene().setRoot(pageDate);
+            stage.requestFocus();
+        } catch (Exception e) {
+            logger.error("Не удается отобразить окно с возвратами!");
+        }
+    }
+
+    public void goToSetting(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+        try {
+            Parent pageDate = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/SettingWindow.fxml"));
             stage.getScene().setRoot(pageDate);
             stage.requestFocus();
         } catch (Exception e) {

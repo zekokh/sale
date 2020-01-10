@@ -12,7 +12,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1280.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.MenuController">
     <children>
-        <VBox alignment="CENTER" prefHeight="760.0" prefWidth="1280.0" stylesheets="@../../css/main.css">
+        <VBox alignment="CENTER" layoutY="-25.0" prefHeight="770.0" prefWidth="1280.0" stylesheets="@../../css/main.css">
             <children>
                 <Label fx:id="errorLabel" textFill="#b90000">
                     <font>
@@ -47,6 +47,11 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
+            <Button id="btn" fx:id="settingBtn" disable="true" mnemonicParsing="false" onAction="#goToSetting" prefHeight="100.0" prefWidth="610.0" text="Настройки">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Button>
                 <Button id="btn" fx:id="blockBtn" disable="true" mnemonicParsing="false" onAction="#goToLoginWindow" prefHeight="100.0" prefWidth="610.0" text="Блокировка">
                     <font>
                         <Font size="45.0" />

@@ -1,7 +1,11 @@
 package ru.zekoh.core.loyalty;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.zekoh.controller.Sale;
+import ru.zekoh.properties.Properties;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -10,8 +14,11 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class Loyalty {
+
+    private static Logger logger = LogManager.getLogger(Loyalty.class);
+
     public static StoreCard searchByNumber(String number) {
-        String url = "https://loyalty.jacq.ru/customer/search/"+number;
+        String url = Properties.loyaltyUrl + number;
         StoreCard storeCard = null;
         // Запрашиваю на сервере информацию
         try {
@@ -33,14 +40,22 @@ public class Loyalty {
                 int customerTypeId = json.getInt("customer_type_id");
 
                 if (customerTypeId == 1) {
-
+                    StoreCard customer = new Customer(json.getLong("id"),
+                            json.getString("mail"),
+                            json.getString("name"),
+                            json.getDouble("balance"),
+                            json.getDouble("discount"),
+                            json.getString("grace_period"),
+                            json.getInt("level")
+                    );
+                    storeCard = customer;
                 } else if (customerTypeId == 2) {
                     StoreCard employee = new Employee(json.getLong("id"),
-                                                      json.getString("name"),
-                                                      json.getDouble("balance"),
-                                                      json.getDouble("discount"),
-                                                      json.getDouble("limit"),
-                                                      json.getString("grace_period")
+                            json.getString("name"),
+                            json.getDouble("balance"),
+                            json.getDouble("discount"),
+                            json.getDouble("limit"),
+                            json.getString("grace_period")
                     );
                     storeCard = employee;
                 } else {
@@ -49,8 +64,10 @@ public class Loyalty {
             } else {
 
             }
-        }catch (Exception e) {
-
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            System.out.println("Ошибка при запросе");
+            System.out.println(e.getMessage());
         }
         // Нет ошибок, возвращаю сущность
 

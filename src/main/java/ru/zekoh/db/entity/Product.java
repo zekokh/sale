@@ -30,7 +30,7 @@ public class Product {
     private boolean isALive;
 
     // Участвует ли продукт в промоакциях
-    private boolean participatesInpromotions = false;
+    private boolean participatesInpromotions = true;
 
     // Максимальная скидка которая может быть установлена на продукт
     private Double maxDiscount = 50.0;

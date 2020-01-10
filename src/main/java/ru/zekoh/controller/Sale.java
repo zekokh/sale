@@ -315,22 +315,23 @@ public class Sale {
                         //List<Goods> goods = check.getGoodsList();
 
                         for (int i = 0; i < goods.size(); i++) {
-
                             // Проверяем возможно ли сделать скидку на продукт
+                            if (goods.get(i).isParticipatesInpromotions()) {
+                                Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
+                                Double discount = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+                                discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                priceAfterDiscount -= discount;
+                                goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+                            }
 
-                            Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
-
-
-                            if (goods.get(i).getClassifier() == 19) {
+                          /*  if (goods.get(i).getClassifier() == 19) {
                                 priceAfterDiscount -= (priceAfterDiscount * 20.0) / 100;
                             } else {
                                 Double discount = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
                                 discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                 priceAfterDiscount -= discount;
 
-                            }
-
-                            goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+                            } */
                         }
                     }
                 } else {
@@ -345,18 +346,17 @@ public class Sale {
 
                             for (int i = 0; i < goods.size(); i++) {
 
+                                if (goods.get(i).isParticipatesInpromotions()) {
+                                    Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
 
-                                Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
+                                    priceAfterDiscount -= priceAfterDiscount * 0.2;
 
-                                priceAfterDiscount -= priceAfterDiscount * 0.2;
+                                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
 
-                                goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
-
-                                Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
-                                temp = roundUp(temp);
-
-
-                                goods.get(i).setSellingPrice(temp);
+                                    Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
+                                    temp = roundUp(temp);
+                                    goods.get(i).setSellingPrice(temp);
+                                }
                             }
 
                             if (check.getDiscount().isPayWithBonus()) {
@@ -406,6 +406,9 @@ public class Sale {
                         break;
                     case (5):
                         discount = new NalchikDiscountProgram();
+                        break;
+                    case (6):
+                        discount = new PhenixDiscountProgram();
                         break;
                     default:
                         discount = new DefaultDiscountProgram();
@@ -531,7 +534,7 @@ public class Sale {
             Goods currentGoods = goodsForBonus.get(i);
 
             // Если это не багет, то можно оплатить бонусными баллами
-            if (currentGoods.getClassifier() != 11) {
+            if (currentGoods.getClassifier() != 11 || currentGoods.isParticipatesInpromotions()) {
                 amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
             }
         }
@@ -1503,7 +1506,7 @@ public class Sale {
                         // Реализиуем запароленную папку
                         // отображаем модальное окно с вводом пароля
                         // если все правильно то открываем папку, если нет ошибкаи остается все как есть
-                        if (Integer.parseInt(b.getId()) == 370) {
+                        if (Integer.parseInt(b.getId()) == Properties.protectedFolder) {
 
                             // Отобразить модального окно
                             Stage dialog = new Stage();
@@ -1716,7 +1719,7 @@ public class Sale {
 
             if (product.isUnit()) {
 
-                check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId()));
+                check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId(), product.isParticipatesInpromotions()));
                 logger.info("Добавляем товар: " + product.getShortName() + "(id: " + product.getId() + ")");
                 // Проверка на скидки и оновление всех данных
                 // todo разобраться и убрать двойное вычисление цен
@@ -1775,7 +1778,7 @@ public class Sale {
             //Добавляем товар в чек
             CheckObject check = checkList.get(currentCheckIndex);
 
-            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), count, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId()));
+            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), count, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId(), product.isParticipatesInpromotions()));
 
             // Проверка на скидки и оновление всех данных
             reloadAll();
@@ -1915,7 +1918,7 @@ public class Sale {
                             Goods goods = check.getGoodsList().get(i);
                             if (tempGoods.getProductId() == goods.getProductId()) {
 
-                                Goods newGoods = new Goods(goods.getProductId(), goods.getGeneralId(), goods.getProductName(), goods.getClassifier(), goods.getCount(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.isUnit(), goods.getParentId());
+                                Goods newGoods = new Goods(goods.getProductId(), goods.getGeneralId(), goods.getProductName(), goods.getClassifier(), goods.getCount(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.isUnit(), goods.getParentId(), goods.isParticipatesInpromotions());
                                 check.getGoodsList().add(newGoods);
                                 break;
                             }
@@ -2367,6 +2370,23 @@ public class Sale {
 
                 } else if (storeCard instanceof Customer) {
 
+                    Customer customer = (Customer) storeCard;
+
+                    // Устанавливаем id
+                    discount.setId(customer.getId());
+
+                    // Устанавливаем роль аккаунта
+                    discount.setDiscountRole(1);
+
+                    // Баланс
+                    discount.setBalance(customer.getBalance());
+
+                    // Прцент скидки
+                    discount.setPercentDiscount(customer.getDiscount());
+
+                    // Имя пользователя со скидкой
+                    discount.setName(customer.getMail());
+
                 } else {
 
                 }
@@ -2631,7 +2651,8 @@ public class Sale {
                             if (checkObject.getDiscount().getDiscountRole() == 2 || checkObject.getDiscount().getDiscountRole() == 1) {
 
                                 try {
-                                    pushDataOnTheServer(checkObject, id);
+                                    pushDataAboutCustomerDiscount(checkObject, id);
+                                    //pushDataOnTheServer(checkObject, id);
                                     onServer = true;
                                 } catch (Exception e) {
                                     logger.error("Не удалось отправить данные при покупке с приложения. Чек: " + id + " Пользователь: " + checkObject.getDiscount().getName() + " " + checkObject.getDiscount().getId());
@@ -2784,6 +2805,14 @@ public class Sale {
                             printCheckOnKKT(id, checkObject, event);
                             break;
                         case (2):
+                            try {
+                                int answer = Properties.FPTR.cancelReceipt();
+                                if (answer < 0) {
+                                    logger.error("Пользователь планиурет сам допечатает чек, произошла ошибка при попытки продолжить! " + answer);
+                                }
+                            } catch (Exception e) {
+                                logger.error("Пользователь планиурет сам допечатает чек, произошла ошибка при попытки продолжить! " + e.getMessage());
+                            }
                             logger.info("Закрываем чек пользователь сам допечатает чек!");
                             break;
                         case (3):
@@ -2856,6 +2885,69 @@ public class Sale {
 
             HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
             StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\"" + amountPaidBonuses + "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        } catch (Exception ex) {
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    private void pushDataOnTheServerPast(CheckObject check, int checkIdFromHibernate) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            String name = check.getDiscount().getName();
+            Long id = check.getDiscount().getId();
+            int checkId = checkIdFromHibernate;
+            Double total = check.getSellingPrice();
+            Double amountPaidBonuses = check.getAmountBonus();
+
+/*            String dateString = check.getDateOfClosing();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date date = dateFormat.parse(dateString);
+            long unixTime = (long) date.getTime() / 1000;
+            System.out.println(unixTime);*/
+
+            HttpPost request = new HttpPost("http://5.188.41.134:8080/api/v1/sales");
+            StringEntity params = new StringEntity("{\"customerId\":\"" + id + "\",\"bakeryId\":\"" + bakeryId + "\",\"amountPaidBonuses\":\"" + amountPaidBonuses + "\",\"checkId\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        } catch (Exception ex) {
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
+        }
+    }
+
+    private void pushDataAboutCustomerDiscount(CheckObject check, int checkIdFromHibernate) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+            String name = check.getDiscount().getName();
+            Long id = check.getDiscount().getId();
+            int checkId = checkIdFromHibernate;
+            Double total = check.getSellingPrice();
+            Double amountPaidBonuses = check.getAmountBonus();
+
+
+            HttpPost request = new HttpPost("https://club.jacques-andre.ru/customer/check/add");
+            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);

@@ -36,7 +36,7 @@ public class Goods {
     private int parentId;
 
     // Участвует ли продукт в промоакциях
-    private boolean participatesInpromotions = false;
+    private boolean participatesInpromotions = true;
 
     // Максимальная скидка которая может быть установлена на продукт
     private Double maxDiscount = 50.0;
@@ -45,7 +45,7 @@ public class Goods {
 
     }
 
-    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit, int parentId) {
+    public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit, int parentId, boolean participatesInpromotions) {
         this.productId = productId;
         this.generalId = generalId;
         this.productName = productName;
@@ -56,6 +56,7 @@ public class Goods {
         this.sellingPrice = sellingPrice;
         this.unit = unit;
         this.parentId = parentId;
+        this.participatesInpromotions = participatesInpromotions;
     }
 
     public int getCheckId() {

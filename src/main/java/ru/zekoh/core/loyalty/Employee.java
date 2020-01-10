@@ -17,6 +17,7 @@ public class Employee implements StoreCard {
     // Лимит
     private Double limit;
 
+
     // Истекает
     private String gracePeriod;
 

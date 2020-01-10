@@ -17,12 +17,13 @@ public class DataEntity {
     private int serialNumber;
     private boolean unit;
     private boolean administrativeAccess;
+    private boolean participatesInpromotions;
 
     public DataEntity(){
 
     }
 
-    public DataEntity(int id, String shortName, String fullName, Double price, int folder, int parentId, int generalId, boolean live, int classifier, int serialNumber, boolean unit, boolean administrativeAccess) {
+    public DataEntity(int id, String shortName, String fullName, Double price, int folder, int parentId, int generalId, boolean live, int classifier, int serialNumber, boolean unit, boolean administrativeAccess, boolean participatesInpromotions) {
         this.id = id;
         this.shortName = shortName;
         this.fullName = fullName;
@@ -35,6 +36,7 @@ public class DataEntity {
         this.serialNumber = serialNumber;
         this.unit = unit;
         this.administrativeAccess = administrativeAccess;
+        this.participatesInpromotions = participatesInpromotions;
     }
 
     @Id
@@ -155,5 +157,15 @@ public class DataEntity {
 
     public void setAdministrativeAccess(boolean administrative_access) {
         this.administrativeAccess = administrative_access;
+    }
+
+    @Basic
+    @Column(name = "in_promo")
+    public boolean isParticipatesInpromotions() {
+        return participatesInpromotions;
+    }
+
+    public void setParticipatesInpromotions(boolean participatesInpromotions) {
+        this.participatesInpromotions = participatesInpromotions;
     }
 }

@@ -83,6 +83,7 @@ public class Сatalog {
             product.setParentId(data.getParentId());
             product.setPrice(data.getPrice());
             product.setUnit(data.isUnit());
+            product.setParticipatesInpromotions(data.isParticipatesInpromotions());
 
             int productParentId = product.getParentId();
 

@@ -62,6 +62,8 @@ public class KKTInfo {
     public void continueAction(ActionEvent event) {
         // 2 - закрыть и пользователь сам потом допечатает
         Properties.KKTErrorInfoAction = 2;
+        // Отключить отправку документов на печать принтера чека
+        Properties.KKM = false;
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
