@@ -99,8 +99,14 @@ public class NalchikDiscountProgram implements DiscountInterface {
 
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        boolean discount_flag = false;
+        if (check.getDiscount() != null) {
+            if (check.getDiscount().getDiscountRole() == 1){
+                discount_flag = true;
+            }
+        }
         // Промоушены
-        if (check.getDiscount() == null) {
+        if (check.getDiscount() == null || discount_flag) {
             for (int i = 0; i < goodsList.size(); i++) {
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }

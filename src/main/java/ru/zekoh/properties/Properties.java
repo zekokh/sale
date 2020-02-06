@@ -23,7 +23,7 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 2;
+    public static int bakaryId = 6;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -170,14 +170,16 @@ public class Properties {
         btnWigth = 145;
         btnHight = 90;
         protectedFolder = 370;
-        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни на Российская
     public static void initDataRossiyskaya() {
         comPort = "3";
         updateUrl = "https://krasnodar.jacq.ru";
-        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни Восход
@@ -185,7 +187,8 @@ public class Properties {
         comPort = "4";
         updateUrl = "https://voshod.jacq.ru";
         protectedFolder = 402;
-        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни на Шифрина
@@ -193,7 +196,8 @@ public class Properties {
         comPort = "5";
         updateUrl = "https://shifrina.jacq.ru";
         fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
-        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни в Нальчике
@@ -201,7 +205,8 @@ public class Properties {
         comPort = "8";
         updateUrl = "https://nalchik.jacq.ru";
         fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
-        loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
     }
 
     // Инициализация данных для пекарни на Фениксе

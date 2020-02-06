@@ -105,3 +105,10 @@
 #yellowBtnId:pressed {
     -fx-background-color: #e6d3a1;
 }
+#applyBonus {
+ -fx-background-color: #fafa00;
+}
+
+#applyBonus:pressed {
+    -fx-background-color: #edb600;
+}

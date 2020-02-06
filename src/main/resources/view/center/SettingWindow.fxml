@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
@@ -10,68 +10,21 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1280.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.SettingController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1024.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.SettingMenuController">
     <children>
-          <Button id="exitBtn" layoutX="1060.0" layoutY="20.0" mnemonicParsing="false" onAction="#goToLoginWindow" prefHeight="80.0" prefWidth="200.0" text="назад">
-              <font>
-                  <Font name="Helvetica Light" size="30.0" />
-              </font>
-          </Button>
-      <Label layoutX="76.0" layoutY="77.0" text="Host">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <TextField fx:id="hostLabel" layoutX="236.0" layoutY="71.0" prefHeight="50.0" prefWidth="600.0">
-         <font>
-            <Font name="Helvetica Light" size="25.0" />
-         </font>
-      </TextField>
-      <TextField fx:id="loginLabel" layoutX="236.0" layoutY="158.0" prefHeight="50.0" prefWidth="600.0">
-         <font>
-            <Font name="Helvetica Light" size="25.0" />
-         </font>
-      </TextField>
-      <Label layoutX="76.0" layoutY="164.0" text="Login">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <TextField fx:id="passwordLabel" layoutX="236.0" layoutY="244.0" prefHeight="50.0" prefWidth="600.0">
-         <font>
-            <Font name="Helvetica Light" size="25.0" />
-         </font>
-      </TextField>
-      <Label layoutX="76.0" layoutY="250.0" text="Password">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <ChoiceBox fx:id="kkmChoiceBox" layoutX="236.0" layoutY="329.0" prefHeight="50.0" prefWidth="250.0" />
-      <Label layoutX="76.0" layoutY="337.0" text="ККМ">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <Label fx:id="errorLabel" layoutX="76.0" layoutY="540.0" textFill="#8a0000">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <Button id="saveBtn" layoutX="1060.0" layoutY="130.0" mnemonicParsing="false" onAction="#saveProperties" prefHeight="80.0" prefWidth="200.0" text="сохранить">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Button>
-      <Label layoutX="76.0" layoutY="424.0" text="Port">
-         <font>
-            <Font name="Helvetica Light" size="30.0" />
-         </font>
-      </Label>
-      <TextField fx:id="portLabel" layoutX="236.0" layoutY="420.0" prefHeight="50.0" prefWidth="600.0">
-         <font>
-            <Font name="Helvetica Light" size="25.0" />
-         </font>
-      </TextField>
+        <VBox alignment="CENTER" layoutY="-25.0" prefHeight="760.0" prefWidth="1024.0" stylesheets="@../../css/main.css">
+         <children>
+            <Button id="btn" fx:id="kktBtn" mnemonicParsing="false" onAction="#toggle" prefHeight="136.0" prefWidth="612.0" text="Включить ккт">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+            <Button id="btn" mnemonicParsing="false" onAction="#back" prefHeight="136.0" prefWidth="612.0" text="Назад">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Button>
+         </children>
+        </VBox>
     </children>
 </Pane>

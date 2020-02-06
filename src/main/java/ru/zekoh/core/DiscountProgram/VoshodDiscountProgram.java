@@ -1165,8 +1165,14 @@ public class VoshodDiscountProgram implements DiscountInterface {
 
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        boolean discount_flag = false;
+        if (check.getDiscount() != null) {
+            if (check.getDiscount().getDiscountRole() == 1){
+                discount_flag = true;
+            }
+        }
         // Промоушены
-        if (check.getDiscount() == null) {
+        if (check.getDiscount() == null || discount_flag) {
             for (int i = 0; i < goodsList.size(); i++) {
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
@@ -1180,6 +1186,12 @@ public class VoshodDiscountProgram implements DiscountInterface {
                 VoshodDiscountProgram.cappuccinoAndCroissant(check);
             }
 
+            // Скидка на 3 кусков пирога
+            discountOnCountProductInCheck(check, 32, 3, 43.34);
+            // Скидка на 6 кусков пирагов
+            discountOnCountProductInCheck(check, 32, 6, 42.5);
+            // Скидка на 12 кусков пирагов
+            discountOnCountProductInCheck(check, 32, 12, 41.58);
             VoshodDiscountProgram.onAchmaAndTea(check);
             VoshodDiscountProgram.onBrioshAndTea(check);
             // Акции которые не с чем не пересикаются

@@ -40,6 +40,7 @@ import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
 import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
+import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAOImpl.CardDao;
 import ru.zekoh.db.Data;
@@ -115,6 +116,12 @@ public class Sale {
 
     // Панель с пользователями из приложения
     public Pane panelWithUsersFromApp;
+
+    // Кнопка списание бонусов
+    public Button applyBonusBtn;
+
+    // Label с информацией о количестве бонусов или балансе карты сотрудника
+    public Label storeCardBalanceLabel;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -306,6 +313,7 @@ public class Sale {
                     goods.get(i).setSellingPrice(temp);
                 }
 
+                /*
                 if (check.isDiscountAccountExist()) {
 
                     // Скидка по карте сотрудника
@@ -331,7 +339,7 @@ public class Sale {
                                 discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
                                 priceAfterDiscount -= discount;
 
-                            } */
+                            } *//*
                         }
                     }
                 } else {
@@ -388,6 +396,7 @@ public class Sale {
                         //  amountBonus.setText("");
                     }
                 }
+                */
 
                 // Промоушены
                 DiscountInterface discount;
@@ -415,7 +424,44 @@ public class Sale {
                         break;
                 }
                 discount.applyDiscounts(check, goods);
+
+
+                // Скидки по карте лояльности если есть
+                if (check.isDiscountAccountExist()) {
+                    if (check.getDiscount() != null) {
+                        // Если активирована скидка сотрудника
+                        if (check.getDiscount().getDiscountRole() == 2) {
+                            for (int i = 0; i < goods.size(); i++) {
+                                // Проверяем возможно ли сделать скидку на продукт
+                                if (goods.get(i).isParticipatesInpromotions()) {
+                                    Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
+                                    Double discount_double = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
+                                    discount_double = new BigDecimal(discount_double).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    priceAfterDiscount -= discount_double;
+                                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
+                                }
+                            }
+                            // Скидка клиента системы лояльности
+                        } else if (check.getDiscount().getDiscountRole() == 1) {
+                            // Расчитать скидку
+                            Double amountPayBonus = calculateTotalPayWithBonus(check, check.getDiscount());
+
+                            // Обновить данные на панели отображения скидок
+                            storeCardBalanceLabel.setText("Всего бонусов: " + check.getDiscount().getBalance() + "\n" + "Вы можете оплатить бонусами: " + amountPayBonus);
+
+                            // Применить скидку (применять только на товары которые могут принимать участие в скидках)
+                            if(check.getDiscount().isPayWithBonus()){
+                                check.setAmountBonus(amountPayBonus);
+                                payBonus(check);
+                            }
+
+                        }
+                    }
+                }
+
             }
+
+
 
             // Рассчитать цену исходя из проджной
             calculationPrice(check);
@@ -524,6 +570,34 @@ public class Sale {
         }
     }
 
+    // Расчитать сумму которую можно оплатить бонусами
+    private Double calculateTotalPayWithBonus(CheckObject check, Discount discount) {
+        // Список товаров в чеке
+        List<Goods> goodsForBonus = check.getGoodsList();
+        // Сумма которую можно оплатить бонусами
+        Double amountThatCanBePaidWithBonuses = 0.0;
+
+        for (int i = 0; i < goodsForBonus.size(); i++) {
+
+            Goods currentGoods = goodsForBonus.get(i);
+
+            // Если это не багет, то можно оплатить бонусными баллами
+            if (currentGoods.isParticipatesInpromotions()) {
+                amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
+            }
+        }
+
+        amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses * 0.3;
+
+        // Если сумма больше чем количество бонусов у клиента, то оставляем сумму равную кол-ву бонусов у клиента
+        if (amountThatCanBePaidWithBonuses >= discount.getBalance()) {
+            amountThatCanBePaidWithBonuses = discount.getBalance();
+        }
+
+        // Если сумма меньше чем количество бонусов у клиента, то даем возможность оплатить всю сумму
+        return amountThatCanBePaidWithBonuses;
+    }
+/*
     private void payBonus(CheckObject check) {
 
         List<Goods> goodsForBonus = check.getGoodsList();
@@ -576,6 +650,44 @@ public class Sale {
                     amountBonuses = 0.0;
                 }
 
+            }
+        }
+
+    }
+
+ */
+
+    // Метод оплаты бонусами с помощью карты лояльности
+    private void payBonus(CheckObject check) {
+        if (check.getDiscount().isPayWithBonus()) {
+            Double amountBonuses = check.getAmountBonus();
+            List<Goods> goods = check.getGoodsList();
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+                if (amountBonuses == 0.0) {
+                    return;
+                }
+
+                if (goods.get(i).isParticipatesInpromotions()){
+                    Double priceAfterDiscount = goods.get(i).getSellingPrice();
+                    if (amountBonuses >= priceAfterDiscount) {
+                        goods.get(i).setPriceAfterDiscount(0.0);
+
+                        goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                        amountBonuses = amountBonuses - priceAfterDiscount;
+                    } else {
+
+                        if (goods.get(i).isUnit()) {
+                            goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
+                            goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
+                        } else {
+                            Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
+                            goods.get(i).setPriceAfterDiscount(roundUp(temp));
+                            goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
+                        }
+
+                        amountBonuses = 0.0;
+                    }
+                }
             }
         }
 
@@ -1129,6 +1241,8 @@ public class Sale {
         }
     }
 
+    // Deprecated
+    // Убрали приложение из системы только карты лояльности
     private void getUsersFromApp() {
         try {
             String url = "http://5.188.41.134:8080/api/v1/bakery/" + bakeryId + "";
@@ -2338,6 +2452,7 @@ public class Sale {
 
         // Отправить запрос на поиск
         if (numberDiscountCardTextField.getLength() > 0) {
+            CheckObject check = checkList.get(currentCheckIndex);
 
             StoreCard storeCard = Loyalty.searchByNumber(numberDiscountCardTextField.getText());
             Discount discount = new Discount();
@@ -2345,7 +2460,7 @@ public class Sale {
                 // Определяем тип карты лояльности и применяем условия к чеку.
                 System.out.println("Класс" + storeCard.getClass().toString());
 
-
+                String showTextBalance = "Нет данных о балансе пользователя.";
                 if (storeCard instanceof Employee) {
 
                     Employee employee = (Employee) storeCard;
@@ -2354,7 +2469,7 @@ public class Sale {
                     discount.setId(employee.getId());
 
                     // Устанавливаем роль аккаунта
-                    discount.setDiscountRole(4);
+                    discount.setDiscountRole(2);
 
                     // Баланс
                     discount.setBalance(employee.getBalance());
@@ -2367,6 +2482,10 @@ public class Sale {
 
                     // Имя пользователя со скидкой
                     discount.setName(employee.getName());
+
+                    // Отобразить информацию о балансе
+                    Double limit = discount.getBudget() - discount.getBalance();
+                    showTextBalance = "Ваш лимит: " + limit + " руб.";
 
                 } else if (storeCard instanceof Customer) {
 
@@ -2387,16 +2506,19 @@ public class Sale {
                     // Имя пользователя со скидкой
                     discount.setName(customer.getMail());
 
+                    // Отобразить информацию о балансе
+                    showTextBalance = "Всего бонусов: " + discount.getBalance() + "\n" + "Вы можете оплатить бонусами: " + calculateTotalPayWithBonus(check, discount);
+
                 } else {
 
                 }
 
-                CheckObject check = checkList.get(currentCheckIndex);
 
                 // Если существует скидка по карте то отменяем ее
                 if (check.isDiscountAppExist()) {
                     check.setDiscountAppExist(false);
                     check.setDiscount(null);
+                    check.setAmountBonus(0.0);
                 }
 
                 // Устанавливаем что есть скидка
@@ -2406,6 +2528,8 @@ public class Sale {
 
                 discountTitle.setText("К чеку применена скидика пользователя: ");
                 labelForFindDiscount.setText(discount.getName());
+                storeCardBalanceLabel.setVisible(true);
+                storeCardBalanceLabel.setText(showTextBalance);
 
                 reloadAll();
 
@@ -2490,6 +2614,14 @@ public class Sale {
             // Отобразить кнопки ок и отмена и скрыть все остальное
             discountOkBtn.setVisible(true);
             discountCancelBtn.setVisible(true);
+            Discount discount = checkList.get(currentCheckIndex).getDiscount();
+            if (discount.getDiscountRole() == 1) {
+                if (discount.getBalance() > 0.0) {
+                    applyBonusBtn.setVisible(true);
+                }
+            }
+
+            storeCardBalanceLabel.setVisible(true);
 
             numberDiscountCardTextField.setVisible(false);
             panelWithBtnForDiscountCard.setVisible(false);
@@ -2502,6 +2634,8 @@ public class Sale {
         } else {
             discountOkBtn.setVisible(false);
             discountCancelBtn.setVisible(false);
+            applyBonusBtn.setVisible(false);
+            storeCardBalanceLabel.setVisible(false);
 
             numberDiscountCardTextField.setVisible(true);
             panelWithBtnForDiscountCard.setVisible(true);
@@ -2517,10 +2651,27 @@ public class Sale {
     public void discountOkAction(ActionEvent actionEvent) {
         panelFindDiscount.setVisible(false);
         panelForButtons.setVisible(true);
-        checkList.get(currentCheckIndex).setPanelForFindDiscountCard(false);
+        CheckObject checkObject = checkList.get(currentCheckIndex);
+        checkObject.setPanelForFindDiscountCard(false);
+        checkObject.getDiscount().setPayWithBonus(false);
+        checkObject.setAmountBonus(0.0);
 
         discountTitle.setText("Введите номер карты для активации скидки");
         labelForFindDiscount.setText("");
+        reloadAll();
+    }
+
+    // Действие на нажатие кнопки СПИАТЬ БОНУСЫ когда пользоватеь для скидки найден
+    public void applyBonusAction(ActionEvent event) {
+        panelFindDiscount.setVisible(false);
+        panelForButtons.setVisible(true);
+        CheckObject checkObject =  checkList.get(currentCheckIndex);
+        checkObject.setPanelForFindDiscountCard(false);
+        checkObject.getDiscount().setPayWithBonus(true);
+
+        discountTitle.setText("Введите номер карты для активации скидки");
+        labelForFindDiscount.setText("");
+        reloadAll();
     }
 
     // Удаления пользователя со скидкой из чека
@@ -2529,6 +2680,7 @@ public class Sale {
         labelForFindDiscount.setText("");
         CheckObject checkObject = checkList.get(currentCheckIndex);
         checkObject.setDiscountAccountExist(false);
+        checkObject.setAmountBonus(0.0);
         checkObject.setDiscount(null);
         reloadAll();
     }
@@ -2947,7 +3099,7 @@ public class Sale {
 
 
             HttpPost request = new HttpPost("https://club.jacques-andre.ru/customer/check/add");
-            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\",\"time\":\"" + check.getDateOfClosing() + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);
@@ -2975,8 +3127,8 @@ public class Sale {
             Double amountPaidBonuses = check.getAmountBonus();
 
 
-            HttpPost request = new HttpPost("https://loyalty.jacq.ru/customer/check/add");
-            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\"} ");
+            HttpPost request = new HttpPost("https://club.jacques-andre.ru/customer/check/add");
+            StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\",\"time\":\"" + check.getDateOfClosing() + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
             org.apache.http.HttpResponse response = httpClient.execute(request);

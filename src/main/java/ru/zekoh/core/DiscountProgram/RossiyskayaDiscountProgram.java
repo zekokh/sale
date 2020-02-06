@@ -110,7 +110,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4) {
+                if (classifier == 13 || classifier == 4 || classifier == 36) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
@@ -1220,7 +1220,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
                         // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
                         // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
-                        if (g.getClassifier() == 4) {
+                        if (g.getClassifier() == 4 || g.getClassifier() == 36) {
 
                             // Проверяем действия акции на товар
                             if (g.getPriceAfterDiscount() > 0.0) {
@@ -1377,8 +1377,14 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        boolean discount_flag = false;
+        if (check.getDiscount() != null) {
+            if (check.getDiscount().getDiscountRole() == 1){
+                discount_flag = true;
+            }
+        }
         // Промоушены
-        if (check.getDiscount() == null) {
+        if (check.getDiscount() == null || discount_flag) {
 
             // Вернуть ценны по прайсу
             //List<Goods> goods = check.getGoodsList();
