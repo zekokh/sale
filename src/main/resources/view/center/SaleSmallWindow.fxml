@@ -329,6 +329,16 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
+            <Button id="applyBonus" fx:id="applyBonusBtn" layoutX="304.0" layoutY="108.0" mnemonicParsing="false" onAction="#applyBonusAction" prefHeight="80.0" prefWidth="197.0" text="списать бонусы" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Button>
+            <Label fx:id="storeCardBalanceLabel" layoutX="45.0" layoutY="246.0" text="Баланс" visible="false">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
             <Button id="cardBtn" fx:id="discountOkBtn" layoutX="42.0" layoutY="108.0" mnemonicParsing="false" onAction="#discountOkAction" prefHeight="80.0" prefWidth="123.0" text="ок" visible="false">
                <font>
                   <Font size="21.0" />
