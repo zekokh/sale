@@ -4,6 +4,7 @@ package ru.zekoh.properties;
 import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.core.KKTError;
+import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.*;
@@ -23,13 +24,19 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 5;
+    public static int bakaryId = 4;
 
     // Путь до шрифта
     public static String fontPath = "";
 
     // Адрес системы лояльности
     public static String loyaltyUrl = "";
+
+    // Адрес обновление карты в системе лояльности
+    public static String loyaltyUrlUpdate = "";
+
+    // Сообщение при обновлении
+    public static String loyaltyUrlUpdateMsg = "";
 
     // Путь до файлов fxml
     public static String pathToFXML = "small";
@@ -110,6 +117,11 @@ public class Properties {
     // id запароленной папки
     public static int protectedFolder = 370;
 
+    // Переменная для передачи карты клиента через модальное окно
+    public static StoreCard modalStoreCard = null;
+
+    public static String modalNumberCard = null;
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -172,23 +184,27 @@ public class Properties {
         protectedFolder = 370;
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 
     // Инициализация данных для пекарни на Российская
     public static void initDataRossiyskaya() {
-        comPort = "3";
+        comPort = "4";
         updateUrl = "https://krasnodar.jacq.ru";
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 
     // Инициализация данных для пекарни Восход
     public static void initDataVoshod() {
         comPort = "4";
+        //comPort = "5";
         updateUrl = "https://voshod.jacq.ru";
         protectedFolder = 402;
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 
     // Инициализация данных для пекарни на Шифрина
@@ -198,6 +214,7 @@ public class Properties {
         fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 
     // Инициализация данных для пекарни в Нальчике
@@ -207,13 +224,15 @@ public class Properties {
         fontPath = "C:\\Users\\ен\\Desktop\\sell\\fonts\\Exo.ttf";
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 
     // Инициализация данных для пекарни на Фениксе
     public static void initDataPhenix() {
         comPort = "3";
         updateUrl = "https://phenix.jacq.ru";
-        fontPath = "C:\\Users\\Администратор\\Desktop\\sell\\fonts\\Exo.ttf";
+        fontPath = "C:\\Users\\a\\Desktop\\sell\\fonts\\Exo.ttf";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
     }
 }

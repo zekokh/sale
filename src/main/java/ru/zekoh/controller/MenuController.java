@@ -72,15 +72,16 @@ public class MenuController {
         settingBtn.setDisable(false);
 
 
-        if (Properties.KKM) {
-            if (Properties.FPTR == null) {
-                try {
-                    KKMOFD.initDriver();
-                } catch (Exception e) {
-                    logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
+            if (Properties.KKM) {
+                if (Properties.FPTR == null) {
+                    try {
+                        KKMOFD.initDriver();
+                    } catch (Exception e) {
+                        System.out.println("Не удалось создать объект драйвера ККТ!" + e.getMessage());
+                        logger.error("Не удалось создать объект драйвера ККТ!" + e.getMessage());
+                    }
                 }
             }
-        }
     }
 
     //Переход в окно продаж

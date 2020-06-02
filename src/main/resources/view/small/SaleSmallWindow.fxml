@@ -349,6 +349,10 @@
                   <Font size="21.0" />
                </font>
             </Label>
+            <Button id="greyBtn" fx:id="updateLoyaltyCardBtn" layoutX="144.0" layoutY="612.0" mnemonicParsing="false" onAction="#updateLoyaltyCard" prefHeight="60.0" prefWidth="197.0" text="Обновить карту">
+               <font>
+                  <Font size="17.0" />
+               </font></Button>
          </children>
       </Pane>
       <Pane fx:id="panelForApp" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">

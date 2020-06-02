@@ -22,5 +22,6 @@
             <Font name="Helvetica Light" size="30.0" />
          </font>
       </Label>
+      <ProgressIndicator fx:id="loadingAnimation" layoutX="324.0" layoutY="166.0" />
     </children>
 </Pane>

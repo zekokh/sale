@@ -11,10 +11,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -122,6 +119,9 @@ public class Sale {
 
     // Label с информацией о количестве бонусов или балансе карты сотрудника
     public Label storeCardBalanceLabel;
+
+    // Кнопка для обновления карты клиента
+    public Button updateLoyaltyCardBtn;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -285,6 +285,7 @@ public class Sale {
 
         // Устанавливаем размер ячейки в списке товаров
         goodsListView.setFixedCellSize(48);
+
     }
 
     public void addNewCheck(ActionEvent actionEvent) {
@@ -2448,13 +2449,34 @@ public class Sale {
     }
 
     // Поиск карты лояльности
-    public void findMemberByCodeNumber(ActionEvent actionEvent) {
+    public void findMemberByCodeNumber(ActionEvent actionEvent) throws IOException {
 
         // Отправить запрос на поиск
         if (numberDiscountCardTextField.getLength() > 0) {
             CheckObject check = checkList.get(currentCheckIndex);
 
-            StoreCard storeCard = Loyalty.searchByNumber(numberDiscountCardTextField.getText());
+            // todo поиск
+
+            Properties.modalNumberCard = numberDiscountCardTextField.getText();
+            Stage dialog = new Stage();
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setTitle("Жак-Андрэ Продажи");
+
+            Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalSearchCustomer.fxml"));
+
+            dialog.setScene(new Scene(root));
+
+            Node source = (Node) actionEvent.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            dialog.initOwner(stage);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.showAndWait();
+            Properties.modalNumberCard = null;
+
+
+
+            StoreCard storeCard = Properties.modalStoreCard;
             Discount discount = new Discount();
             if (storeCard != null) {
                 // Определяем тип карты лояльности и применяем условия к чеку.
@@ -3159,5 +3181,37 @@ public class Sale {
         String text = String.format("%.2f", numeral);
 
         return text;
+    }
+
+    // Метод оновления карты клиента
+    public void updateLoyaltyCard(ActionEvent event) throws IOException {
+        // Отправить запрос на поиск
+        if (numberDiscountCardTextField.getLength() > 0) {
+            CheckObject check = checkList.get(currentCheckIndex);
+
+            // todo поиск
+
+            Properties.modalNumberCard = numberDiscountCardTextField.getText();
+            Stage dialog = new Stage();
+            dialog.initStyle(StageStyle.UNDECORATED);
+            dialog.setTitle("Жак-Андрэ Продажи");
+
+            Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalUpdateLoyaltyCard.fxml"));
+
+            dialog.setScene(new Scene(root));
+
+            Node source = (Node) event.getSource();
+            Stage stage = (Stage) source.getScene().getWindow();
+
+            dialog.initOwner(stage);
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.showAndWait();
+
+            discountTitle.setText(Properties.loyaltyUrlUpdateMsg);
+            labelForFindDiscount.setText("");
+            numberDiscountCardTextField.clear();
+            numberDiscountCardTextField.requestFocus();
+            Properties.loyaltyUrlUpdateMsg = "";
+        }
     }
 }

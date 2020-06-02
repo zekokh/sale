@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,7 @@ public class ModalWhilePrintCheck {
 
     public Button okBtn;
     public Label info;
+    public ProgressIndicator loadingAnimation;
     Task task = null;
 
     // Инициализация
@@ -52,6 +54,7 @@ public class ModalWhilePrintCheck {
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
+                                loadingAnimation.setVisible(false);
                                 info.setText("Ошибка при печати. Чек пробит но не фискализирован! " + Properties.kktError.getDescription());
                                 okBtn.setVisible(true);
                             }

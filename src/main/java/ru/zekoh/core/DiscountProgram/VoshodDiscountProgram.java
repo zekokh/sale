@@ -11,6 +11,47 @@ import java.util.Date;
 import java.util.List;
 
 public class VoshodDiscountProgram implements DiscountInterface {
+    @Override
+    public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
+        boolean discount_flag = false;
+        if (check.getDiscount() != null) {
+            if (check.getDiscount().getDiscountRole() == 1){
+                discount_flag = true;
+            }
+        }
+        // Промоушены
+        if (check.getDiscount() == null || discount_flag) {
+            for (int i = 0; i < goodsList.size(); i++) {
+                goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
+            }
+
+            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
+            if (tempCheck == null) {
+
+                // 5 круаасан по цене 199р.
+                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+                VoshodDiscountProgram.onCroissant(check);
+                VoshodDiscountProgram.cappuccinoAndCroissant(check);
+
+                // Скидка на 3 кусков пирога
+                discountOnCountProductInCheck(check, 32, 3, 43.34);
+                // Скидка на 6 кусков пирагов
+                discountOnCountProductInCheck(check, 32, 6, 42.5);
+                // Скидка на 12 кусков пирагов
+                discountOnCountProductInCheck(check, 32, 12, 41.58);
+            }
+
+            VoshodDiscountProgram.onAchmaAndTea(check);
+            VoshodDiscountProgram.onBrioshAndTea(check);
+            // Акции которые не с чем не пересикаются
+            // 6 эклеров по цене 5
+            //VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
+            discountOneFree(check, 36,6, 5);
+            discountOneFree(check, 5,6, 5);
+            discountOneFree(check, 37,6, 12);
+            discountOneFree(check, 12,6, 12);
+        }
+    }
 
     public static void initPaniniWithTimeLimit(CheckObject check) {
 
@@ -111,7 +152,7 @@ public class VoshodDiscountProgram implements DiscountInterface {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4) {
+                if (classifier == 13 || classifier == 4 || classifier == 32) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
@@ -147,7 +188,6 @@ public class VoshodDiscountProgram implements DiscountInterface {
             return null;
         }
     }
-
 
     // Скидка по кол-ву продукции в чеке
     public static CheckObject discountOnCountProductInCheck(CheckObject check, int classificatorSet, int countInTheCheckSet, Double priceSet) {
@@ -1163,40 +1203,71 @@ public class VoshodDiscountProgram implements DiscountInterface {
         return numeral;
     }
 
-    @Override
-    public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
-        boolean discount_flag = false;
-        if (check.getDiscount() != null) {
-            if (check.getDiscount().getDiscountRole() == 1){
-                discount_flag = true;
+    // Берешь опредленное количество и один в подарок
+    public static CheckObject discountOneFree(CheckObject check, int classificatorSet, int countInTheCheckSet, int presentClassifier) {
+        if (check.getGoodsList().size() > 0) {
+
+            int count = 0;
+
+            // Считаем общее число товара нужного нам классификатора
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if (classifier == classificatorSet) {
+                    count++;
+                }
+
+            }
+
+            // Если проукта в чеке больше то применяем акцию
+            if (count >= countInTheCheckSet) {
+
+                // Считаем к скольки продуктам надо применить эту акциюю
+                int countProductWhichNeedDiscount = count / countInTheCheckSet;
+
+                // Считаем общее число товара нужного нам классификатора
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                    //Текущий товар
+                    Goods goods = check.getGoodsList().get(i);
+
+                    //Классификатор товара
+                    int classifier = goods.getClassifier();
+
+                    if (countProductWhichNeedDiscount == 0) {
+                        return null;
+                    }
+                    if (classifier == classificatorSet || classifier == presentClassifier) {
+
+                        //Устанавливаем цену со скидкой
+                        goods.setPriceAfterDiscount(0.0);
+
+                        //Количество товара
+                        Double countProduct = goods.getCount();
+
+                        //Считаем продажную цену умножая цену после скидки на кол-во товара
+                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                        // Округляем результат до десятых
+                        sellingPrice = roundUp(sellingPrice);
+
+                        //Устанавливаем продажную цену товара
+                        goods.setSellingPrice(sellingPrice);
+
+                        countProductWhichNeedDiscount--;
+                    }
+
+                }
+
             }
         }
-        // Промоушены
-        if (check.getDiscount() == null || discount_flag) {
-            for (int i = 0; i < goodsList.size(); i++) {
-                goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
-            }
 
-            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
-            if (tempCheck == null) {
-
-                // 5 круаасан по цене 199р.
-                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
-                VoshodDiscountProgram.onCroissant(check);
-                VoshodDiscountProgram.cappuccinoAndCroissant(check);
-            }
-
-            // Скидка на 3 кусков пирога
-            discountOnCountProductInCheck(check, 32, 3, 43.34);
-            // Скидка на 6 кусков пирагов
-            discountOnCountProductInCheck(check, 32, 6, 42.5);
-            // Скидка на 12 кусков пирагов
-            discountOnCountProductInCheck(check, 32, 12, 41.58);
-            VoshodDiscountProgram.onAchmaAndTea(check);
-            VoshodDiscountProgram.onBrioshAndTea(check);
-            // Акции которые не с чем не пересикаются
-            // 6 эклеров по цене 5
-            VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
-        }
+        return check;
     }
+
 }

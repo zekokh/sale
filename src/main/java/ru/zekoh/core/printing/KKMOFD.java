@@ -35,22 +35,32 @@ public class KKMOFD {
         System.out.println("COM: " + COM_PORT);
 
         try {
+            System.out.println("строка 1");
             // Инициализация драйвера
             IFptr fptr = new Fptr();
+            System.out.println("строка 2");
 
-
-            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_MODEL, String.valueOf(IFptr.LIBFPTR_MODEL_ATOL_20F));
+            fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_MODEL, String.valueOf(IFptr.LIBFPTR_MODEL_ATOL_30F));
+            System.out.println("строка 3");
             fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_PORT, String.valueOf(IFptr.LIBFPTR_PORT_COM));
+            System.out.println("строка 4");
             fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_COM_FILE, COM_PORT);
+            System.out.println("строка 5");
             fptr.setSingleSetting(IFptr.LIBFPTR_SETTING_BAUDRATE, String.valueOf(IFptr.LIBFPTR_PORT_BR_115200));
+            System.out.println("строка 6");
             fptr.applySingleSettings();
 
+            System.out.println("строка 7");
             Properties.FPTR = fptr;
+            System.out.println("строка 8");
             Properties.FPTR.open();
 
         } catch (Exception e) {
+            System.out.println("Ошибка инициализации драйвера ККТ: " + e.getMessage());
             logger.error("Ошибка инициализации драйвера ККТ: " + e.getMessage());
         }
+        System.out.println("Стартуем");
+        logger.info("Стартуем");
 
         return false;
     }

@@ -147,7 +147,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
     // Скидка 30% на салат, багет провонцаль и ачму с курицей или овощами
     public static CheckObject timeDiscountonSalad(CheckObject check) {
 
-        String afterTime = "19:00:00";
+        String afterTime = "18:00:00";
         Double amountOfDiscount = 0.3;
         boolean flag = false;
 
@@ -1363,7 +1363,7 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
         good.setSellingPrice(sellingPrice);
     }
 
-    //Скидка 20% на ачму, салат, провонсаль после 19:00 вечера
+    //Скидка 30% на ачму, салат, провонсаль после 19:00 вечера
     //Список классификаторов
     public static CheckObject timeDiscountAfterSeven(CheckObject check) {
 
