@@ -122,6 +122,9 @@ public class Properties {
 
     public static String modalNumberCard = null;
 
+    // id багета для того что бы оплатить покупку бонусами
+    public static int bagetId = 0;
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -194,6 +197,7 @@ public class Properties {
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bagetId = 133;
     }
 
     // Инициализация данных для пекарни Восход
@@ -215,6 +219,7 @@ public class Properties {
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bagetId = 133;
     }
 
     // Инициализация данных для пекарни в Нальчике

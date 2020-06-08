@@ -582,8 +582,9 @@ public class Sale {
 
             Goods currentGoods = goodsForBonus.get(i);
 
-            // Если это не багет, то можно оплатить бонусными баллами
-            if (currentGoods.isParticipatesInpromotions()) {
+            // Все что можно оплатить бонусами + багет
+            // тут надо быть внимательным id багета может меняться
+            if (currentGoods.isParticipatesInpromotions() || currentGoods.getProductId() == Properties.bagetId) {
                 amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
             }
         }
@@ -668,7 +669,7 @@ public class Sale {
                     return;
                 }
 
-                if (goods.get(i).isParticipatesInpromotions()){
+                if (goods.get(i).isParticipatesInpromotions() || goods.get(i).getProductId() == Properties.bagetId){
                     Double priceAfterDiscount = goods.get(i).getSellingPrice();
                     if (amountBonuses >= priceAfterDiscount) {
                         goods.get(i).setPriceAfterDiscount(0.0);
