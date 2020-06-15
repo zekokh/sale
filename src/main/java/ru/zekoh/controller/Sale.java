@@ -683,7 +683,7 @@ public class Sale {
                             goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
                         } else {
                             Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
-                            goods.get(i).setPriceAfterDiscount(roundUp(temp));
+                            goods.get(i).setPriceAfterDiscount(round(temp));
                             goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
                         }
 
@@ -3172,6 +3172,14 @@ public class Sale {
     private Double roundUp(Double numeral) {
 
         numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
+    }
+
+    // Метод округления
+    private Double round(Double numeral) {
+
+        numeral = new BigDecimal(numeral).setScale(6, RoundingMode.HALF_UP).doubleValue();
 
         return numeral;
     }

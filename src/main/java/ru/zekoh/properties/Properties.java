@@ -8,6 +8,7 @@ import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.*;
+import ru.zekoh.subtotal.Subtotal;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 4;
+    public static int bakaryId = 2;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -125,6 +126,15 @@ public class Properties {
     // id багета для того что бы оплатить покупку бонусами
     public static int bagetId = 0;
 
+    // Электронный адрес от учетной записи subtotal
+    public static String subtotalMail;
+
+    // Пароль от учетной записи subtotal
+    public static String subtotalPassword;
+
+    // Глобальный объект для взаимодействия с серверами subtotal
+    public static Subtotal subtotal = null;
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -150,7 +160,7 @@ public class Properties {
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "heroin";
+        PASSWORD = "Heroin160892";
         KKM = true;
 
         switch (bakaryId) {

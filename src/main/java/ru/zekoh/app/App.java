@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import ru.zekoh.db.HibernateSessionFactory;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
+import ru.zekoh.subtotal.Subtotal;
 
 import static ru.zekoh.core.Сatalog.generate;
 
@@ -30,6 +31,11 @@ public class App extends Application {
             Properties.users = session.createQuery("SELECT a FROM UserEntity a", UserEntity.class).getResultList();
             session.close();
 
+            // Аутентификация в subtotal
+            Properties.subtotal = Subtotal.getInstance();
+            if (Properties.subtotal == null) {
+                logger.error("Ошибка создания объекта для взаимодействия с сервером subtotal");
+            }
             generate();
 
             Properties.initDataWithoutFile();
