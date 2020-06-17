@@ -17,11 +17,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.zekoh.db.DAO.SynchronizeDao;
+import ru.zekoh.db.DAOImpl.SynchronizeDaoImpl;
 import ru.zekoh.db.DataBase;
-import ru.zekoh.db.entity.DataEntity;
-import ru.zekoh.db.entity.Folder;
-import ru.zekoh.db.entity.FolderSubtotal;
-import ru.zekoh.db.entity.ProductSubtotal;
+import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
 import java.io.IOException;
@@ -70,6 +69,121 @@ public class Subtotal {
 
     // Передать список сущностей и добавить/обновить в бд данные
     public boolean updateGoodsInDataBase() {
+        // Пробуем получить список продуктов и папок
+        List<ProductSubtotal> productSubtotals = new ArrayList<>();
+        List<FolderSubtotal> folderSubtotals = new ArrayList<>();
+        Session session = Properties.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            boolean flag = true;
+            int page_numner = 1;
+            while (flag) {
+                String path = "https://app.subtotal.ru/id50538/data/store_goods.php?store=123994&good_type=all&favourite_goods=0&page_num=" + page_numner + "&page_size=5000&return_suggestions=false&search=&tags=&ch_from=0";
+                page_numner++;
+                HttpGet httpGet = new HttpGet(path);
+                CloseableHttpResponse response = httpСlient.execute(httpGet, context);
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    HttpEntity entity = response.getEntity();
+                    Header encodingHeader = entity.getContentEncoding();
+
+                    // you need to know the encoding to parse correctly
+                    Charset encoding = encodingHeader == null ? StandardCharsets.UTF_8 :
+                            Charsets.toCharset(encodingHeader.getValue());
+
+                    // use org.apache.http.util.EntityUtils to read json as string
+                    String json = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+
+                    JSONObject jsonObject = new JSONObject(json);
+                    JSONArray goods = (JSONArray) jsonObject.get("goods");
+
+                    if (goods.length() > 0) {
+                        for (int i = 0; i < goods.length(); i++) {
+                            JSONObject good = (JSONObject) goods.get(i);
+                            System.out.println();
+                            ProductSubtotal product = new ProductSubtotal();
+                            product.setId((int) good.get("id"));
+                            product.setName((String) good.get("name"));
+                            product.setPrice((Double) good.get("price"));
+                            product.setUnit((String) good.get("unit_code"));
+                            product.setUnit_name((String) good.get("unit_name"));
+                            JSONArray tagsArray = (JSONArray) good.get("tags");
+                            if (tagsArray.length() > 0) {
+                                product.setFolder_name((String) tagsArray.get(0));
+                                FolderSubtotal folderSubtotal = new FolderSubtotal();
+                                folderSubtotals.add(folderSubtotal);
+                            } else {
+                                product.setFolder_name("Корневая папка");
+                            }
+                            productSubtotals.add(product);
+                        }
+                    } else {
+                        break;
+                    }
+                } else {
+                    // Попытаться пройти аутентификацию еще раз
+                    if (autontification()) {
+                        updateGoodsInDataBase();
+                    } else {
+                        logger.error("Ошибка при аутентификации на сервере Subtotal!");
+                        return false;
+                    }
+                }
+            }
+
+            if (productSubtotals.size() > 0) {
+                // Добавить в базу данных
+                // Проверка группы
+                List<DataEntity> dataFolderEntities = new ArrayList<>();
+
+                session.createSQLQuery("truncate table product").executeUpdate();
+                for (ProductSubtotal product : productSubtotals) {
+                    if(product.getFolder_name().length() > 0){
+                        int folderId = checkFolderInDataEntity(dataFolderEntities, product.getFolder_name());
+                        if (folderId == 0) {
+                            DataEntity newFolder = new DataEntity();
+                            newFolder.setFullName(product.getFolder_name());
+                            newFolder.setShortName(product.getFolder_name());
+                            newFolder.setFolder(1);
+                            newFolder.setLive(true);
+                            newFolder.setPrice(0.0);
+                            newFolder.setParentId(1);
+                            folderId = (int) session.save(newFolder);
+                            product.setFolder_id(folderId);
+
+                            DataEntity d = new DataEntity();
+                            d.setFullName(product.getFolder_name());
+                            d.setId(folderId);
+                            dataFolderEntities.add(d);
+                        } else {
+                            product.setFolder_id(folderId);
+                        }
+                    }
+
+                    boolean unit = false;
+                    if (product.getUnit().equalsIgnoreCase("шт.")) {
+                        unit = true;
+                    }
+
+                    DataEntity dataEntity = new DataEntity(product.getName(), product.getName(), product.getPrice(), 0, product.getFolder_id(), product.getId(), true, 0, 0, unit, false, true);
+                    session.save(dataEntity);
+                }
+
+                transaction.commit();
+                session.close();
+            }
+
+            generate();
+            return true;
+        } catch (IOException e) {
+            session.close();
+            logger.error(e.toString());
+            return false;
+        }
+    }
+
+
+    // Передать список сущностей и добавить/обновить в бд данные
+    public boolean updateGoodsInDataBasePat() {
         // Пробуем получить список продуктов и папок
         List<ProductSubtotal> productSubtotals = new ArrayList<>();
         List<FolderSubtotal> folderSubtotals = new ArrayList<>();
@@ -138,6 +252,7 @@ public class Subtotal {
 
                 Session session = Properties.sessionFactory.openSession();
                 Transaction productTransaction = session.beginTransaction();
+                session.createQuery("UPDATE DataEntity SET live = false WHERE live = true");
                 for (ProductSubtotal product : productSubtotals) {
                     if(product.getFolder_name().length() > 0){
                         int folderId = checkFolderInDataEntity(dataFolderEntities, product.getFolder_name());
@@ -171,7 +286,7 @@ public class Subtotal {
                         unit = true;
                     }
 
-                    DataEntity dataEntity = new DataEntity(product.getId(), product.getName(), product.getName(), product.getPrice(), 0, 0, 0, true, product.getFolder_id(), 0, unit, false, false);
+                    DataEntity dataEntity = new DataEntity(product.getName(), product.getName(), product.getPrice(), 0, 0, product.getId(), true, product.getFolder_id(), 0, unit, false, false);
                     session.save(dataEntity);
                 }
 
@@ -229,5 +344,19 @@ public class Subtotal {
             }
         }
         return 0;
+    }
+
+    public boolean sendSalesToSubtotal(){
+        // Получить последнию дату успешно синхронизированного чека
+        String timeFrom = "";
+        SynchronizeDao synchronizeDao = new SynchronizeDaoImpl();
+        Synchronize lastSynchronize = synchronizeDao.getLast();
+        if (lastSynchronize != null){
+            timeFrom = lastSynchronize.getDateCloseOfLastCheck();
+        }
+        // Если таблица синхронизации пуста, то берем все чеки
+        // По одному отправляем чек в subtotal и если чек успешно сохранен то
+        // Сохраняем информацию об этом в таблице синхронизаций
+        return false;
     }
 }

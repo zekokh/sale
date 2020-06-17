@@ -1,12 +1,15 @@
 package ru.zekoh.db.DAOImpl;
 
+import com.mchange.v2.c3p0.stmt.GooGooStatementCache;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import ru.zekoh.controller.Sale;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DataBase;
+import ru.zekoh.db.entity.CheckSubtotal;
 import ru.zekoh.db.entity.DailyReport;
+import ru.zekoh.db.entity.GoodSubtotal;
 import ru.zekoh.db.entity.Goods;
 
 import java.sql.Connection;
@@ -16,6 +19,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -310,5 +314,46 @@ public class CheckDaoImpl implements CheckDao {
     @Override
     public boolean deleteCheck(Check check) {
         return false;
+    }
+
+    @Override
+    public List<CheckSubtotal> getChecksFrom(String timeFrom) {
+        if(timeFrom.length() < 3){
+            timeFrom = "1592415075";
+        }
+
+        List<CheckSubtotal> listCheckSubtotal = new ArrayList<>();
+        try{
+
+            //Получаем соединение с БД
+            Connection connection = DataBase.getConnection();
+            if (connection != null) {
+                Statement stmt = null;
+                connection.setAutoCommit(false);
+                stmt = connection.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `return_status` = '0' AND `date_of_creation` > '%" + timeFrom + "%'");
+                while (rs.next()) {
+                    // Создаем чек
+                    CheckSubtotal checkSubtotal = new CheckSubtotal(rs.getInt(1),
+                            rs.getDouble(2),
+                            rs.getDouble(3),
+                            rs.getInt(4),
+                            rs.getString(5),
+                            rs.getString(6),
+                            rs.getBoolean(7),
+                            rs.getDouble(8),
+                            rs.getBoolean(10));
+
+                    // Запрашиваем список товаров
+                    Statement getGoodsStatement = connection.createStatement();
+                    ResultSet listGoodsFromDB = stmt.executeQuery("SELECT * FROM `GOODS` WHERE `check_id` = '" + checkSubtotal.getId() + "%'");
+                    List<GoodSubtotal> listGoodSubtotal = new ArrayList<>();
+                }
+            }
+        }catch (Exception e){
+            logger.error("Ошибка при получении списка чеков из БД: "+e.toString());
+        }
+
+        return null;
     }
 }

@@ -256,6 +256,56 @@ public class Сatalog {
                                 }
 
 
+                            } else {
+                                // Разделить по страницам
+                                int page = 1;
+
+                                int sumProductsAndFolders = sumProducts+sumFolders;
+                                int count = sumProductsAndFolders / amountElements;
+
+                                int mod = sumProductsAndFolders % amountElements;
+
+                                int countElementLastPage = 0;
+
+                                if (mod > 0) {
+                                    countElementLastPage = mod;
+                                }
+
+                                boolean flag = true;
+                                int start = 0;
+                                int finish = sumProducts - 1;
+
+                                while (flag) {
+
+                                    List<Product> products = new ArrayList<Product>();
+
+                                    for (int m = start; m <= finish; m++) {
+                                        products.add(Data.products.get(i).get(m));
+                                    }
+
+                                    if (arrayProductMap.containsKey(i)) {
+                                        arrayProductMap.get(i).add(new PageProduct(page, products));
+                                    } else {
+                                        List<PageProduct> list = new ArrayList<PageProduct>();
+                                        list.add(new PageProduct(page, products));
+                                        arrayProductMap.put(i, list);
+                                    }
+
+                                    if (page <= count) {
+                                        page++;
+
+                                        start = (sumProducts * (page - 1))-1;
+
+                                        if (countElementLastPage == 0) {
+                                            finish = sumProducts * page - 1;
+                                        } else {
+                                            finish = (sumProducts * (page - 1))-1 + countElementLastPage - 1;
+                                        }
+                                    } else {
+                                        flag = false;
+                                    }
+                                }
+
                             }
                         }
                     }

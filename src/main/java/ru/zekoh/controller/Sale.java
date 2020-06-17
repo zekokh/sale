@@ -599,65 +599,6 @@ public class Sale {
         // Если сумма меньше чем количество бонусов у клиента, то даем возможность оплатить всю сумму
         return amountThatCanBePaidWithBonuses;
     }
-/*
-    private void payBonus(CheckObject check) {
-
-        List<Goods> goodsForBonus = check.getGoodsList();
-        Double amountThatCanBePaidWithBonuses = 0.0;
-
-        for (int i = 0; i < goodsForBonus.size(); i++) {
-
-            Goods currentGoods = goodsForBonus.get(i);
-
-            // Если это не багет, то можно оплатить бонусными баллами
-            if (currentGoods.getClassifier() != 11 || currentGoods.isParticipatesInpromotions()) {
-                amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
-            }
-        }
-
-        amountThatCanBePaidWithBonuses = roundUp(amountThatCanBePaidWithBonuses * 0.3);
-
-        if (amountThatCanBePaidWithBonuses >= check.getDiscount().getBonus()) {
-            check.setAmountBonus(check.getDiscount().getBonus());
-        } else {
-            check.setAmountBonus(amountThatCanBePaidWithBonuses);
-        }
-
-
-        if (check.getDiscount().isPayWithBonus()) {
-            Double amountBonuses = check.getAmountBonus();
-            List<Goods> goods = check.getGoodsList();
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                if (amountBonuses == 0.0) {
-                    return;
-                }
-
-                Double priceAfterDiscount = goods.get(i).getSellingPrice();
-                if (amountBonuses >= priceAfterDiscount) {
-                    goods.get(i).setPriceAfterDiscount(0.0);
-
-                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
-                    amountBonuses = amountBonuses - priceAfterDiscount;
-                } else {
-
-                    if (goods.get(i).isUnit()) {
-                        goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
-                        goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
-                    } else {
-                        Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
-                        goods.get(i).setPriceAfterDiscount(roundUp(temp));
-                        goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
-                    }
-
-                    amountBonuses = 0.0;
-                }
-
-            }
-        }
-
-    }
-
- */
 
     // Метод оплаты бонусами с помощью карты лояльности
     private void payBonus(CheckObject check) {

@@ -1,8 +1,11 @@
 package ru.zekoh.db.DAO;
 
 import ru.zekoh.db.Check;
+import ru.zekoh.db.entity.CheckSubtotal;
 import ru.zekoh.db.entity.DailyReport;
 import ru.zekoh.db.entity.Goods;
+
+import java.util.List;
 
 public interface CheckDao {
 
@@ -34,5 +37,6 @@ public interface CheckDao {
     //Удалить чек
     public boolean deleteCheck(Check check);
 
-
+    // Получить список чеков с периода больше чем в timeFrom
+    public List<CheckSubtotal> getChecksFrom(String timeFrom);
 }
