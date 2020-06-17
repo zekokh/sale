@@ -137,7 +137,6 @@ public class Properties {
 
     //Инициализация данных из проперти файла
     public static void initData() {
-
         FileInputStream file;
         java.util.Properties property = new java.util.Properties();
 
@@ -161,7 +160,9 @@ public class Properties {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "Heroin160892";
-        KKM = true;
+        KKM = false;
+
+
 
         switch (bakaryId) {
             case (1):

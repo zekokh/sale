@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import ru.zekoh.core.UpdateFoldersAndProducts;
 import ru.zekoh.properties.Properties;
+import ru.zekoh.subtotal.Subtotal;
 
 public class ModalWhileUpdateData {
 
@@ -25,7 +26,7 @@ public class ModalWhileUpdateData {
 
                 task = new Task<Void>() {
                     @Override public Void call() {
-                        if (UpdateFoldersAndProducts.start()) {
+                        if (Properties.subtotal.updateGoodsInDataBase()) {
 
                             Properties.updateDataFromServer = true;
 

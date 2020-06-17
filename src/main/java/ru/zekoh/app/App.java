@@ -32,6 +32,8 @@ public class App extends Application {
             session.close();
 
             // Аутентификация в subtotal
+            Properties.subtotalMail = "zekokh@icloud.com";
+            Properties.subtotalPassword = "7n5le3LWNH";
             Properties.subtotal = Subtotal.getInstance();
             if (Properties.subtotal == null) {
                 logger.error("Ошибка создания объекта для взаимодействия с сервером subtotal");
