@@ -26,6 +26,7 @@
         <mapping class="ru.zekoh.db.entity.DiscountCardEntity"/>
         <mapping class="ru.zekoh.db.entity.DiscountHistoryEntity"/>
         <mapping class="ru.zekoh.db.entity.ReturnHistory"/>
+        <mapping class="ru.zekoh.db.entity.Synchronize"/>
 
     </session-factory>
 </hibernate-configuration>

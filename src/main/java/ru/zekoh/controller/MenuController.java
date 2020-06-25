@@ -57,6 +57,10 @@ public class MenuController {
     @FXML
     public Button settingBtn;
 
+    // Кнопка отправки данных в subtotal
+    @FXML
+    public Button sendToSubtotal;
+
     //Инициализация
     @FXML
     public void initialize() {
@@ -70,7 +74,7 @@ public class MenuController {
         xReport.setDisable(false);
         returnBtn.setDisable(false);
         settingBtn.setDisable(false);
-
+        sendToSubtotal.setDisable(false);
 
             if (Properties.KKM) {
                 if (Properties.FPTR == null) {
@@ -198,5 +202,23 @@ public class MenuController {
         } catch (Exception e) {
             logger.error("Не удается отобразить окно с возвратами!");
         }
+    }
+
+    // Отправить даныне по продажам в subtotal
+    public void sendDataToSubtotal(ActionEvent actionEvent) throws IOException {
+        Stage dialog = new Stage();
+        dialog.initStyle(StageStyle.UNDECORATED);
+        dialog.setTitle("Жак-Андрэ Продажи");
+
+        Parent root = FXMLLoader.load(getClass().getResource("/view/" + Properties.pathToFXML + "/ModalWhileSendDataFromServer.fxml"));
+
+        dialog.setScene(new Scene(root, 700, 220));
+
+        Node source = (Node) actionEvent.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
+
+        dialog.initOwner(stage);
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
     }
 }

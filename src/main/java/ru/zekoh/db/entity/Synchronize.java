@@ -1,13 +1,15 @@
 package ru.zekoh.db.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "synchronization", schema = "subtotalCenter")
 public class Synchronize {
     private int id;
     private String dateCloseOfLastCheck;
-    private String dateAction;
     private boolean status;
     private int checkId;
 
@@ -32,15 +34,6 @@ public class Synchronize {
         this.dateCloseOfLastCheck = dateCloseOfLastCheck;
     }
 
-    @Basic
-    @Column(name = "date_action")
-    public String getDateAction() {
-        return dateAction;
-    }
-
-    public void setDateAction(String dateAction) {
-        this.dateAction = dateAction;
-    }
 
     @Basic
     @Column(name = "status")

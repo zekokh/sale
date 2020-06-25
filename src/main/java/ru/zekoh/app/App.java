@@ -38,9 +38,12 @@ public class App extends Application {
             if (Properties.subtotal == null) {
                 logger.error("Ошибка создания объекта для взаимодействия с сервером subtotal");
             }
+
             generate();
 
             Properties.initDataWithoutFile();
+
+//            Properties.subtotal.sendSalesToSubtotal();
         } catch (Exception e) {
             logger.error("Ошибка! " + e.toString());
         }

@@ -319,19 +319,19 @@ public class CheckDaoImpl implements CheckDao {
     @Override
     public List<CheckSubtotal> getChecksFrom(String timeFrom) {
         if(timeFrom.length() < 3){
-            timeFrom = "1592415075";
+            timeFrom = "1549950966";
         }
 
         List<CheckSubtotal> listCheckSubtotal = new ArrayList<>();
+        //Получаем соединение с БД
+        Connection connection = DataBase.getConnection();
         try{
 
-            //Получаем соединение с БД
-            Connection connection = DataBase.getConnection();
             if (connection != null) {
                 Statement stmt = null;
                 connection.setAutoCommit(false);
                 stmt = connection.createStatement();
-                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `return_status` = '0' AND `date_of_creation` > '%" + timeFrom + "%'");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM `CHECK_lIST` WHERE `return_status` = '0' AND `date_of_closing` > '" + timeFrom + "'");
                 while (rs.next()) {
                     // Создаем чек
                     CheckSubtotal checkSubtotal = new CheckSubtotal(rs.getInt(1),
@@ -346,14 +346,34 @@ public class CheckDaoImpl implements CheckDao {
 
                     // Запрашиваем список товаров
                     Statement getGoodsStatement = connection.createStatement();
-                    ResultSet listGoodsFromDB = stmt.executeQuery("SELECT * FROM `GOODS` WHERE `check_id` = '" + checkSubtotal.getId() + "%'");
+                    ResultSet listGoodsFromDB = getGoodsStatement.executeQuery("SELECT * FROM `GOODS` WHERE `check_id` = '" + checkSubtotal.getId() + "%'");
                     List<GoodSubtotal> listGoodSubtotal = new ArrayList<>();
+                    while (listGoodsFromDB.next()){
+                        GoodSubtotal goodSubtotal = new GoodSubtotal(listGoodsFromDB.getInt(1),
+                                listGoodsFromDB.getInt(2),
+                                listGoodsFromDB.getInt(5),
+                                listGoodsFromDB.getInt(4),
+                                listGoodsFromDB.getString(3),
+                                listGoodsFromDB.getDouble(6),
+                                listGoodsFromDB.getDouble(7),
+                                listGoodsFromDB.getDouble(8),
+                                listGoodsFromDB.getDouble(9));
+                        listGoodSubtotal.add(goodSubtotal);
+                    }
+                    checkSubtotal.setGoodsList(listGoodSubtotal);
+                    listCheckSubtotal.add(checkSubtotal);
                 }
             }
+            return listCheckSubtotal;
         }catch (Exception e){
             logger.error("Ошибка при получении списка чеков из БД: "+e.toString());
+        } finally {
+            try {
+                connection.close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
         }
-
         return null;
     }
 }

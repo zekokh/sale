@@ -89,6 +89,8 @@ public class Properties {
 
     public static boolean updateDataFromServer = false;
 
+    public static boolean sendDataFromServer = false;
+
     public static int heght = 0;
 
     public static int width = 0;
@@ -135,6 +137,15 @@ public class Properties {
     // Глобальный объект для взаимодействия с серверами subtotal
     public static Subtotal subtotal = null;
 
+    // id точки продаж
+    public static int subtotalPosId = 74405;
+
+    // id склада откуда планируется списывать товары
+    public static int subtotalStoreId = 123994;
+
+    // id административной панели
+    public static String subtotalId = "id50538";
+
     //Инициализация данных из проперти файла
     public static void initData() {
         FileInputStream file;
@@ -157,12 +168,10 @@ public class Properties {
 
     //Инициализация данных при запуске программы
     public static void initDataWithoutFile() {
-        HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
+        HOST = "jdbc:mysql://localhost:3306/subtotalCenter?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "Heroin160892";
         KKM = false;
-
-
 
         switch (bakaryId) {
             case (1):

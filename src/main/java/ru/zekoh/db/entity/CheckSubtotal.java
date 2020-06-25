@@ -21,8 +21,10 @@ public class CheckSubtotal {
     private Double payWithBonus;
     // Был ли чек физкализирован
     private boolean printStatus = false;
+    // Список товаров в чеке
+    private List<GoodSubtotal> goodsList;
 
-    public CheckSubtotal(int id, Double amountByPrice, Double total, Integer typeOfPayment, String dateOfCreation, String dateOfClosing, Boolean returnStatus, Double payWithBonus, boolean printStatus,) {
+    public CheckSubtotal(int id, Double amountByPrice, Double total, Integer typeOfPayment, String dateOfCreation, String dateOfClosing, Boolean returnStatus, Double payWithBonus, boolean printStatus) {
         this.id = id;
         this.amountByPrice = amountByPrice;
         this.total = total;
@@ -34,8 +36,7 @@ public class CheckSubtotal {
         this.printStatus = printStatus;
     }
 
-    // Список товаров в чеке
-    private List<Goods> goodsList;
+
 
     public int getId() {
         return id;
@@ -101,14 +102,6 @@ public class CheckSubtotal {
         this.payWithBonus = payWithBonus;
     }
 
-    public String getDateOfClosingUnix() {
-        return dateOfClosingUnix;
-    }
-
-    public void setDateOfClosingUnix(String dateOfClosingUnix) {
-        this.dateOfClosingUnix = dateOfClosingUnix;
-    }
-
     public boolean isPrintStatus() {
         return printStatus;
     }
@@ -117,11 +110,11 @@ public class CheckSubtotal {
         this.printStatus = printStatus;
     }
 
-    public List<Goods> getGoodsList() {
+    public List<GoodSubtotal> getGoodsList() {
         return goodsList;
     }
 
-    public void setGoodsList(List<Goods> goodsList) {
+    public void setGoodsList(List<GoodSubtotal> goodsList) {
         this.goodsList = goodsList;
     }
 }

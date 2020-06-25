@@ -2749,6 +2749,7 @@ public class Sale {
                             goodsEntity.setProductId(goods.get(i).getProductId());
                             goodsEntity.setQuantity(goods.get(i).getCount());
                             goodsEntity.setProductName(goods.get(i).getProductName());
+                            goodsEntity.setGeneralId(goods.get(i).getGeneralId());
                             checkEntity.addGoods(goodsEntity);
                         }
 

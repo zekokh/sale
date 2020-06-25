@@ -37,6 +37,11 @@
                         <Font size="45.0" />
                     </font>
                 </Button>
+            <Button id="btn" fx:id="sendToSubtotal" disable="true" mnemonicParsing="false" onAction="#sendDataToSubtotal" prefHeight="100.0" prefWidth="610.0" text="Отправить в Subtotal">
+               <font>
+                  <Font size="45.0" />
+               </font>
+            </Button>
                 <Button id="btn" fx:id="returnBtn" disable="true" mnemonicParsing="false" onAction="#returnCheck" prefHeight="100.0" prefWidth="610.0" text="Возвраты">
                     <font>
                         <Font size="45.0" />
