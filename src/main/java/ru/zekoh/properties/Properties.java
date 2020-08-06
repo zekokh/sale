@@ -25,7 +25,7 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 2;
+    public static int bakaryId = 6;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -137,14 +137,16 @@ public class Properties {
     // Глобальный объект для взаимодействия с серверами subtotal
     public static Subtotal subtotal = null;
 
-    // id точки продаж
-    public static int subtotalPosId = 74405;
+    // id точки продаж Ex: 74405, 74815
+    public static int subtotalPosId = 75323;
 
-    // id склада откуда планируется списывать товары
-    public static int subtotalStoreId = 123994;
+    // id склада откуда планируется списывать товары Ex: 123994, 124673
+    public static int subtotalStoreId = 125495;
 
-    // id административной панели
-    public static String subtotalId = "id50538";
+    // id административной панели Ex: id50538
+    public static String subtotalId = "id50819";
+
+    public static boolean sendDataToLoyaltyServer = true;
 
     //Инициализация данных из проперти файла
     public static void initData() {
@@ -168,10 +170,14 @@ public class Properties {
 
     //Инициализация данных при запуске программы
     public static void initDataWithoutFile() {
+        //HOST = "jdbc:mysql://localhost:3306/centersubtotal?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         HOST = "jdbc:mysql://localhost:3306/subtotalCenter?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
+        //PASSWORD = "heroin";
         PASSWORD = "Heroin160892";
         KKM = false;
+        // Важно!!!
+        sendDataToLoyaltyServer = false;
 
         switch (bakaryId) {
             case (1):

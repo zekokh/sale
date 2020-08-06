@@ -38,7 +38,8 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
 
     @Override
     public Synchronize getLast() {
-        Synchronize synchronize = new Synchronize();
+        System.out.println("Уточняем последнии чек");
+        Synchronize synchronize = null;
         //Получаем соединение с БД
         Connection connection = DataBase.getConnection();
         try{
@@ -48,6 +49,7 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
                 stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery("SELECT * FROM synchronization WHERE status = 1 ORDER BY id DESC LIMIT 1");
                 while (rs.next()) {
+                    synchronize = new Synchronize();
                     synchronize.setId(rs.getInt(1));
                     synchronize.setDateCloseOfLastCheck(rs.getString(2));
 
@@ -56,6 +58,7 @@ public class SynchronizeDaoImpl implements SynchronizeDao {
                 }
             }
         }catch (Exception e){
+            System.out.println("Ошикбка в последнем чеке");
             logger.error("Ошибка получения последней записи о синхронизации: "+ e.toString());
         } finally {
                 try {

@@ -61,7 +61,7 @@ public class MenuController {
     @FXML
     public Button sendToSubtotal;
 
-    //Инициализация
+    // Инициализация
     @FXML
     public void initialize() {
 
@@ -88,7 +88,7 @@ public class MenuController {
             }
     }
 
-    //Переход в окно продаж
+    // Переход в окно продаж
     public void goToSaleWindow(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
@@ -101,7 +101,7 @@ public class MenuController {
         }
     }
 
-    //Переход на окно аутентификации
+    // Переход на окно аутентификации
     public void goToLoginWindow(ActionEvent actionEvent) {
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

@@ -321,7 +321,7 @@ public class CheckDaoImpl implements CheckDao {
         if(timeFrom.length() < 3){
             timeFrom = "1549950966";
         }
-
+        System.out.println("Ищем актуальные чеки для отправки в subtotal...");
         List<CheckSubtotal> listCheckSubtotal = new ArrayList<>();
         //Получаем соединение с БД
         Connection connection = DataBase.getConnection();

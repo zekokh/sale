@@ -135,6 +135,18 @@ public class Subtotal {
                 List<DataEntity> dataFolderEntities = new ArrayList<>();
 
                 session.createSQLQuery("truncate table product").executeUpdate();
+
+                // Создаем корневую папку
+                DataEntity basicFolder = new DataEntity();
+                basicFolder.setFullName("Корневая папка");
+                basicFolder.setShortName("Корневая папка");
+                basicFolder.setFolder(1);
+                basicFolder.setLive(true);
+                basicFolder.setPrice(0.0);
+                basicFolder.setParentId(1);
+                session.save(basicFolder);
+                dataFolderEntities.add(basicFolder);
+
                 for (ProductSubtotal product : productSubtotals) {
                     if (product.getFolder_name().length() > 0) {
                         int folderId = checkFolderInDataEntity(dataFolderEntities, product.getFolder_name());
@@ -322,6 +334,7 @@ public class Subtotal {
             httpPost.setEntity(new StringEntity(json.toString()));
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("charset", "utf-8");
             CloseableHttpResponse response = httpСlient.execute(httpPost, context);
 
             if (response.getStatusLine().getStatusCode() == 200) {
@@ -338,7 +351,7 @@ public class Subtotal {
 
     private int checkFolderInDataEntity(List<DataEntity> dataFolderEntities, String folderName) {
         for (DataEntity folder : dataFolderEntities) {
-            if (folderName == folder.getFullName()) {
+            if (folderName.equals(folder.getFullName())) {
                 return folder.getId();
             }
         }
@@ -351,18 +364,19 @@ public class Subtotal {
         String timeFrom = "";
         SynchronizeDao synchronizeDao = new SynchronizeDaoImpl();
         Synchronize lastSynchronize = synchronizeDao.getLast();
+        System.out.println("Последний чек тут: " +lastSynchronize);
         if (lastSynchronize != null) {
             timeFrom = lastSynchronize.getDateCloseOfLastCheck();
         }
         CheckDao checkDao = new CheckDaoImpl();
         List<CheckSubtotal> checkSubtotalList = checkDao.getChecksFrom(timeFrom);
-
+        System.out.println("Старт отправки данных");
         if (checkSubtotalList != null) {
             // По одному отправляем чек в subtotal и если чек успешно сохранен то
             for (CheckSubtotal check : checkSubtotalList) {
                 if(sendCheck(check)){
                     // Добавить запись в о синхронизация
-                    return  true;
+
                 }else {
                     //todo Ошибка отобразить сообщение "Произошла ошибка попробуйте еще раз"
                     return false;
@@ -393,7 +407,7 @@ public class Subtotal {
             addPay.put("pay_type", check.getTypeOfPayment());
             addPay.put("pay_sum", check.getTotal());
             addPay.put("pos", Properties.subtotalPosId);
-            addPay.put("description", "Бонусами: " + check.getPayWithBonus());
+            addPay.put("description", JSONObject.NULL);
             JSONArray addPayArray = new JSONArray();
             addPayArray.put(addPay);
 
@@ -401,6 +415,8 @@ public class Subtotal {
             outcome.put("pos_id", Properties.subtotalPosId);
             outcome.put("store_id", Properties.subtotalStoreId);
             outcome.put("add_pay", addPayArray);
+            outcome.put("description", "Bonuses: " + check.getPayWithBonus());
+            outcome.put("is_carry_out", true);
 
             JSONArray goods = new JSONArray();
             for (GoodSubtotal goodSubtotal : check.getGoodsList()) {

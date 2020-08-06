@@ -31,7 +31,7 @@ public class Сatalog {
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
         try {
-            List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 AND a.live = true ORDER BY a.serialNumber asc ", DataEntity.class).getResultList();
+            List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 1 AND a.live = true ORDER BY a.shortName asc ", DataEntity.class).getResultList();
 
 
             session.close();
@@ -68,7 +68,7 @@ public class Сatalog {
     private static Map<Integer, ArrayList<Product>> generateProducts() {
 
         Session session = HibernateSessionFactory.getSessionFactory().openSession();
-        List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 0 AND a.live = true ORDER BY a.serialNumber ASC", DataEntity.class).getResultList();
+        List<DataEntity> dataEntity = session.createQuery("SELECT a FROM DataEntity a WHERE a.folder = 0 AND a.live = true ORDER BY a.shortName ASC", DataEntity.class).getResultList();
         session.close();
 
         //Создаем список папок отсортированных по уровню

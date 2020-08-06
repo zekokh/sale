@@ -24,6 +24,7 @@ public class ModalWhileSendData {
 
                 task = new Task<Void>() {
                     @Override public Void call() {
+                        System.out.println("Подготовка данных к отправке в subtotal!");
                         if (Properties.subtotal.sendSalesToSubtotal()) {
 
                             Properties.sendDataFromServer = true;

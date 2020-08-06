@@ -2760,7 +2760,7 @@ public class Sale {
 
                         // todo Запись покупки по скидки
 
-                        if (checkObject.getDiscount() != null) {
+                        if (checkObject.getDiscount() != null && Properties.sendDataToLoyaltyServer) {
 
                             // Статус отправки на сервер
                             boolean onServer = false;
