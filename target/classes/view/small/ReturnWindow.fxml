@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1280.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnWindowController">
+    <children>
+        <Button layoutX="20.0" layoutY="680.0" mnemonicParsing="false" onAction="#back" prefHeight="48.0" prefWidth="87.0" text="назад" />
+        <TextField fx:id="productLabel" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="260.0" promptText="Продукт в чеке" />
+        <Button layoutX="464.0" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="70.0" text="найти" />
+        <Button layoutX="542.0" layoutY="20.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="90.0" text="очистить" />
+        <ListView fx:id="listView" layoutX="20.0" layoutY="60.0" prefHeight="610.0" prefWidth="650.0" visible="false" />
+        <TableView fx:id="tableView" layoutX="20.0" layoutY="60.0" onKeyReleased="#kbrClicked" onMouseClicked="#clicked" prefHeight="348.0" prefWidth="1240.0">
+            <columns>
+                <TableColumn fx:id="date" editable="false" prefWidth="75.0" text="Время" />
+                <TableColumn fx:id="total" editable="false" prefWidth="120.0" text="Продажная цена" />
+                <TableColumn fx:id="priceOfprice" editable="false" prefWidth="120.0" text="Цена по прайсу" />
+                <TableColumn fx:id="amountOfbonus" editable="false" prefWidth="123.27549743652344" text="Оплата бонусами" />
+                <TableColumn fx:id="typePayment" editable="false" prefWidth="132.83087158203125" text="Способ оплаты" />
+                <TableColumn fx:id="printStatus" editable="false" prefWidth="132.83087158203125" text="Чек напечатан" />
+            <TableColumn fx:id="returnStatus" editable="false" prefWidth="132.83087158203125" text="Возврат" />
+            </columns>
+        </TableView>
+        <ChoiceBox layoutX="294.0" layoutY="20.0" prefHeight="30.0" prefWidth="150.0" />
+        <TableView fx:id="goodTableView" layoutX="20.0" layoutY="414.0" prefHeight="256.0" prefWidth="1240.0">
+            <columns>
+                <TableColumn fx:id="productName" editable="false" prefWidth="300.0" text="Название продукта" />
+                <TableColumn fx:id="price" minWidth="0.0" prefWidth="120.0" text="Прайс" />
+                <TableColumn fx:id="totalProduct" minWidth="0.0" prefWidth="120.0" text="Цена" />
+                <TableColumn fx:id="count" minWidth="0.0" prefWidth="120.0" text="Кол-во" />
+                <TableColumn fx:id="sellingPrice" minWidth="0.0" prefWidth="120.0" text="Итого" />
+            </columns>
+        </TableView>
+        <Button fx:id="returnBtn" layoutX="1105.0" layoutY="679.0" mnemonicParsing="false" onAction="#returnAction" prefHeight="48.0" prefWidth="155.0" text="оформить возврат" />
+        <Label fx:id="labelInfo" layoutX="673.0" layoutY="25.0" prefHeight="19.0" prefWidth="329.0">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+      <Button fx:id="printBtn" layoutX="925.0" layoutY="679.0" mnemonicParsing="false" onAction="#printAction" prefHeight="48.0" prefWidth="155.0" text="напечатать" />
+    </children>
+</Pane>

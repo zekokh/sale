@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="210.0" prefWidth="700.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ReturnModalPassword">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="176.0" layoutY="21.0" prefHeight="54.0" prefWidth="339.0" text="Введите пароль администратора" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="263.0" layoutY="153.0" mnemonicParsing="false" onAction="#cancel" prefHeight="35.0" prefWidth="80.0" text="отмена">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button layoutX="359.0" layoutY="153.0" mnemonicParsing="false" onAction="#ok" prefHeight="35.0" prefWidth="80.0" text="ок">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <PasswordField fx:id="label" layoutX="196.0" layoutY="89.0" prefHeight="30.0" prefWidth="300.0" />
+   </children>
+</Pane>

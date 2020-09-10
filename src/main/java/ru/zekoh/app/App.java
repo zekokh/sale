@@ -32,10 +32,10 @@ public class App extends Application {
             session.close();
 
             // Аутентификация в subtotal
-            Properties.subtotal = Subtotal.getInstance();
+/*            Properties.subtotal = Subtotal.getInstance();
             if (Properties.subtotal == null) {
                 logger.error("Ошибка создания объекта для взаимодействия с сервером subtotal");
-            }
+            }*/
             generate();
 
             Properties.initDataWithoutFile();

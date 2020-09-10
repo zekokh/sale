@@ -25,7 +25,7 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 2;
+    public static int bakaryId = 1;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -160,7 +160,7 @@ public class Properties {
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "Heroin160892";
+        PASSWORD = "heroin";
         KKM = true;
 
         switch (bakaryId) {
@@ -185,7 +185,7 @@ public class Properties {
         }
     }
 
-    // Инициализация данных для пекарни на Российская
+    // Инициализация данных для пекарни на Майкоп, Пролетарская, 449
     public static void initDataCenter() {
         comPort = "6";
         updateUrl = "https://center.jacq.ru";
@@ -195,6 +195,7 @@ public class Properties {
         btnWigth = 145;
         btnHight = 90;
         protectedFolder = 370;
+        fontPath = "C:\\Users\\User\\Desktop\\sell\\fonts\\Exo.ttf";
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";

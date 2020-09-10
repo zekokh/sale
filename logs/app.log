@@ -1,0 +1,56 @@
+2019-13-24 15:13:19.327 [JavaFX Application Thread] ERROR HelloWorld - Hello, error!
+2019-15-24 15:15:47.169 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2019-15-24 15:15:47.172 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2019-15-24 15:15:47.591 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-15-24 15:15:47.718 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2019-15-24 15:15:47.722 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerVoshod?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2019-15-24 15:15:47.722 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2019-15-24 15:15:47.722 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2019-15-24 15:15:47.725 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2019-15-24 15:15:48.119 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2019-15-24 15:15:48.186 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2019-15-24 15:15:49.162 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@24b68dc3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2019-15-24 15:15:49.337 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2019-15-24 15:15:49.660 [JavaFX Application Thread] INFO  ru.zekoh.controller.Login - Hello, World!
+2019-15-24 15:15:49.661 [JavaFX Application Thread] ERROR ru.zekoh.controller.Login - Hello, error!
+2019-58-30 12:58:34.289 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2019-58-30 12:58:34.399 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2019-58-30 12:58:34.400 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2019-58-30 12:58:34.789 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-58-30 12:58:34.912 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2019-58-30 12:58:34.917 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerVoshod?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2019-58-30 12:58:34.917 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2019-58-30 12:58:34.918 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2019-58-30 12:58:34.920 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2019-58-30 12:58:35.295 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2019-58-30 12:58:35.391 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2019-58-30 12:58:36.176 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4b2fa33d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2019-58-30 12:58:36.350 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2019-58-30 12:58:59.333 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2019-59-30 12:59:36.221 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Статус отправки данных о чеке на сервер системы лояльности: 204
+2019-09-30 13:09:49.259 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2019-09-30 13:09:49.363 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2019-09-30 13:09:49.365 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2019-09-30 13:09:49.737 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-09-30 13:09:49.862 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2019-09-30 13:09:49.866 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerVoshod?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2019-09-30 13:09:49.867 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2019-09-30 13:09:49.867 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2019-09-30 13:09:49.869 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2019-09-30 13:09:50.223 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2019-09-30 13:09:50.320 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2019-09-30 13:09:51.081 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7de2d4ee] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2019-09-30 13:09:51.254 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2019-10-30 13:10:01.547 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2019-10-30 13:10:01.652 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2019-10-30 13:10:01.653 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2019-10-30 13:10:02.017 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2019-10-30 13:10:02.132 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2019-10-30 13:10:02.136 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerVoshod?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2019-10-30 13:10:02.137 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2019-10-30 13:10:02.137 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2019-10-30 13:10:02.140 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2019-10-30 13:10:02.505 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2019-10-30 13:10:02.567 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2019-10-30 13:10:03.348 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3fab91bb] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2019-10-30 13:10:03.521 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory

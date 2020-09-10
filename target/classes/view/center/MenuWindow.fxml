@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="760.0" prefWidth="1024.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.MenuController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="740.0" prefWidth="1024.0" stylesheets="@../../css/main.css">
+            <children>
+                <Label fx:id="errorLabel" textFill="#b90000">
+                    <font>
+                        <Font name="Helvetica Light" size="30.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="30.0" />
+                    </VBox.margin>
+                </Label>
+                <Button id="btn" fx:id="saleBtn" disable="true" mnemonicParsing="false" onAction="#goToSaleWindow" prefHeight="100.0" prefWidth="610.0" text="Продажи">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" disable="true" mnemonicParsing="false" onAction="#xReportAction" prefHeight="100.0" prefWidth="610.0" text="Суточный отчет" fx:id="xReport">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" fx:id="update" disable="true" mnemonicParsing="false" onAction="#updateData" prefHeight="100.0" prefWidth="610.0" text="Обновить данные">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" fx:id="returnBtn" disable="true" mnemonicParsing="false" onAction="#returnCheck" prefHeight="100.0" prefWidth="610.0" text="Возвраты">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" fx:id="reportBtn" disable="true" mnemonicParsing="false" onAction="#report" prefHeight="100.0" prefWidth="610.0" text="Закрыть смену">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" fx:id="settingBtn" disable="true" mnemonicParsing="false" onAction="#goToSetting" prefHeight="100.0" prefWidth="610.0" text="Настройки">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+                <Button id="btn" fx:id="blockBtn" disable="true" mnemonicParsing="false" onAction="#goToLoginWindow" prefHeight="100.0" prefWidth="610.0" text="Блокировка">
+                    <font>
+                        <Font size="45.0" />
+                    </font>
+                </Button>
+            </children>
+        </VBox>
+    </children>
+</Pane>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.KKTInfo">
+    <children>
+        <Button id="btn" fx:id="reconnectBtn" layoutX="14.0" layoutY="536.0" mnemonicParsing="false" onAction="#reconnect" prefHeight="90.0" prefWidth="381.0" text="переподключиться к ККТ и повторить печать" textAlignment="CENTER" textFill="#f88b17" wrapText="true">
+            <font>
+                <Font name="Helvetica" size="25.0" />
+            </font>
+        </Button>
+        <Label fx:id="info" alignment="CENTER" contentDisplay="CENTER" layoutX="25.0" layoutY="5.0" prefHeight="93.0" prefWidth="951.0" text="Чек сохранен в базе данных, но при печати возникли проблемы." textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Helvetica Bold" size="29.0" />
+            </font>
+        </Label>
+        <Button id="btn" fx:id="continueBtn" layoutX="432.0" layoutY="536.0" mnemonicParsing="false" onAction="#continueAction" prefHeight="90.0" prefWidth="259.0" text="продолжить" textFill="#2749c3">
+            <font>
+                <Font name="Helvetica" size="30.0" />
+            </font>
+        </Button>
+        <Label fx:id="errorLabel" layoutX="11.0" layoutY="86.0" prefHeight="109.0" prefWidth="980.0" text="Ошибка" textFill="#9c131a" wrapText="true">
+            <font>
+                <Font name="Helvetica" size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="197.0" prefHeight="29.0" prefWidth="951.0" text="- Проверьте подключен ли кабель от принтера чека к компьютеру." wrapText="true">
+            <font>
+                <Font name="Helvetica" size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="232.0" prefHeight="29.0" prefWidth="668.0" text="- Проверьте наличие чековой ленты." wrapText="true">
+            <font>
+                <Font size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="264.0" prefHeight="37.0" prefWidth="960.0" text="- Попробуйте выключить и включить принтер чека. При этом не выключая компьютер." wrapText="true">
+            <font>
+                <Font name="Helvetica" size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="331.0" prefHeight="29.0" prefWidth="944.0" text="После восстановления связи с принтером чека нажмите &quot;допечатать&quot;." wrapText="true">
+            <font>
+                <Font name="Helvetica Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="366.0" prefHeight="69.0" prefWidth="935.0" text="Если восстановить связь не удалось попробуйте создать новый объект связи нажав &quot;переподключиться к ККТ и повторить печать&quot;!" wrapText="true">
+            <font>
+                <Font name="Helvetica Bold" size="20.0" />
+            </font>
+        </Label>
+        <Label alignment="TOP_LEFT" layoutX="26.0" layoutY="434.0" prefHeight="52.0" prefWidth="944.0" text="Если хотите продолжить не напечатав нажмите &quot;продолжить&quot; и допечатайте чек позже из раздела &quot;возвраты&quot;." wrapText="true">
+            <font>
+                <Font name="Helvetica Bold" size="20.0" />
+            </font>
+        </Label>
+        <Button id="btn" fx:id="upToPrintBtn" layoutX="728.0" layoutY="536.0" mnemonicParsing="false" onAction="#upToPrintAction" prefHeight="90.0" prefWidth="259.0" text="допечатать" textFill="#239023">
+            <font>
+                <Font name="Helvetica" size="30.0" />
+            </font>
+        </Button>
+    </children>
+</Pane>

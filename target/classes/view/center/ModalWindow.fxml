@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="700.0" stylesheets="@../../css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.zekoh.controller.ModalController">
+    <children>
+        <Button id="yellowBtnId" layoutX="289.0" layoutY="152.0" mnemonicParsing="false" onAction="#exit" prefHeight="80.0" prefWidth="130.0" text="ok">
+            <font>
+                <Font name="Helvetica Light" size="25.0" />
+            </font>
+        </Button>
+        <Label alignment="CENTER" layoutX="50.0" layoutY="13.0" prefHeight="66.0" prefWidth="600.0" text="Ошибка!" textAlignment="CENTER" textFill="#d90000">
+            <font>
+                <Font name="Helvetica Light" size="25.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="37.0" layoutY="74.0" prefHeight="66.0" prefWidth="634.0" text="Проблема с доступом к базе данных, чек не сохранен!" textAlignment="CENTER" wrapText="true">
+            <font>
+                <Font name="Helvetica Light" size="25.0" />
+            </font>
+        </Label>
+    </children>
+</Pane>
