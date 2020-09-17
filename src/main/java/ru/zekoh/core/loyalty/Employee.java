@@ -1,5 +1,9 @@
 package ru.zekoh.core.loyalty;
 
+import ru.zekoh.db.entity.Present;
+
+import java.util.List;
+
 public class Employee implements StoreCard {
 
     // id
@@ -80,5 +84,25 @@ public class Employee implements StoreCard {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean isExistPresents() {
+        return false;
+    }
+
+    @Override
+    public void setPresents(List<Present> presentList) {
+
+    }
+
+    @Override
+    public void setExistPresents(boolean existPresents) {
+
+    }
+
+    @Override
+    public List<Present> getPresents() {
+        return null;
     }
 }

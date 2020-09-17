@@ -1,5 +1,7 @@
 package ru.zekoh.db.entity;
 
+import ru.zekoh.core.loyalty.StoreCard;
+
 public class Discount {
 
     // id пользователя
@@ -24,6 +26,10 @@ public class Discount {
     private int discountRole = 0;
 
     private boolean payWithBonus = false;
+
+    private boolean existPresents = false;
+
+    private StoreCard storeCard;
 
     public Long getId() {
         return id;
@@ -87,5 +93,21 @@ public class Discount {
 
     public void setPayWithBonus(boolean payWithBonus) {
         this.payWithBonus = payWithBonus;
+    }
+
+    public boolean isExistPresents() {
+        return existPresents;
+    }
+
+    public void setExistPresents(boolean existPresents) {
+        this.existPresents = existPresents;
+    }
+
+    public StoreCard getStoreCard() {
+        return storeCard;
+    }
+
+    public void setStoreCard(StoreCard storeCard) {
+        this.storeCard = storeCard;
     }
 }

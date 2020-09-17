@@ -1,5 +1,10 @@
 package ru.zekoh.core.loyalty;
 
+import ru.zekoh.db.entity.Present;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer implements StoreCard {
     // id
 
@@ -22,10 +27,16 @@ public class Customer implements StoreCard {
     // Уровень
     private int level;
 
+    // Флаг наличия у клиента подарков
+    private boolean existPresents;
+
+    // Подарки
+    private List<Present> presents;
+
     //todo Подарки и акции
 
 
-    public Customer(long id, String mail, String name, Double balance, Double discount, String gracePeriod, int level) {
+    public Customer(long id, String mail, String name, Double balance, Double discount, String gracePeriod, int level, boolean existPresents) {
         this.id = id;
         this.mail = mail;
         this.name = name;
@@ -33,6 +44,23 @@ public class Customer implements StoreCard {
         this.discount = discount;
         this.gracePeriod = gracePeriod;
         this.level = level;
+        this.existPresents = existPresents;
+    }
+
+    public boolean isExistPresents() {
+        return existPresents;
+    }
+
+    public void setExistPresents(boolean existPresents) {
+        this.existPresents = existPresents;
+    }
+
+    public List<Present> getPresents() {
+        return presents;
+    }
+
+    public void setPresents(List<Present> presents) {
+        this.presents = presents;
     }
 
     public long getId() {

@@ -31,6 +31,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.zekoh.components.PresentsPane;
 import ru.zekoh.core.DiscountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.loyalty.Customer;
@@ -122,6 +123,9 @@ public class Sale {
 
     // Кнопка для обновления карты клиента
     public Button updateLoyaltyCardBtn;
+
+    // Панель для подарков клиента
+    public Pane paneForGridWithPresents;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -2536,6 +2540,7 @@ public class Sale {
 
                 }
 
+                discount.setStoreCard(storeCard);
 
                 // Если существует скидка по карте то отменяем ее
                 if (check.isDiscountAppExist()) {
@@ -2549,10 +2554,14 @@ public class Sale {
 
                 check.setDiscount(discount);
 
+                //  Скрываем кнопку "Обновить карту"
+                updateLoyaltyCardBtn.setVisible(false);
                 discountTitle.setText("К чеку применена скидика пользователя: ");
                 labelForFindDiscount.setText(discount.getName());
                 storeCardBalanceLabel.setVisible(true);
                 storeCardBalanceLabel.setText(showTextBalance);
+
+                // Отобразить панель с подкарками
 
                 reloadAll();
 
@@ -2643,18 +2652,31 @@ public class Sale {
                     applyBonusBtn.setVisible(true);
                 }
             }
-
+            updateLoyaltyCardBtn.setVisible(false);
             storeCardBalanceLabel.setVisible(true);
 
             numberDiscountCardTextField.setVisible(false);
             panelWithBtnForDiscountCard.setVisible(false);
             findBtnForDiacountCard.setVisible(false);
             cancelBtnForDiacountCard.setVisible(false);
+            paneForGridWithPresents.setVisible(true);
+
+            // Если есть подарки у клиента, то отображаем их в сегенерированной панели
+            StoreCard storeCard = checkList.get(currentCheckIndex).getDiscount().getStoreCard();
+            if (storeCard.isExistPresents()) {
+                PresentsPane presentsPane = new PresentsPane(storeCard);
+                paneForGridWithPresents.setVisible(true);
+                paneForGridWithPresents.getChildren().add(presentsPane.generatePane());
+                System.out.println("Готова панель");
+            }
+
 
             // Вслучаи если открыто другая
             panelForApp.setVisible(false);
 
         } else {
+            updateLoyaltyCardBtn.setVisible(true);
+            paneForGridWithPresents.setVisible(false);
             discountOkBtn.setVisible(false);
             discountCancelBtn.setVisible(false);
             applyBonusBtn.setVisible(false);

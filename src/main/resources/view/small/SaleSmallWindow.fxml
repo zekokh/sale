@@ -353,6 +353,7 @@
                <font>
                   <Font size="17.0" />
                </font></Button>
+            <Pane fx:id="paneForGridWithPresents" layoutX="10.0" layoutY="310.0" prefHeight="380.0" prefWidth="800.0" visible="false" />
          </children>
       </Pane>
       <Pane fx:id="panelForApp" layoutX="443.0" layoutY="63.0" prefHeight="680.0" prefWidth="830.0" style="-fx-background-color: white;" visible="false">

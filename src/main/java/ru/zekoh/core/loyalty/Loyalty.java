@@ -4,14 +4,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.stjs.javascript.dom.Pre;
 import ru.zekoh.controller.Sale;
+import ru.zekoh.db.entity.Present;
 import ru.zekoh.properties.Properties;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Loyalty {
 
@@ -46,8 +50,32 @@ public class Loyalty {
                             json.getDouble("balance"),
                             json.getDouble("discount"),
                             json.getString("grace_period"),
-                            json.getInt("level")
+                            json.getInt("level"),
+                            json.getBoolean("exist_presents")
                     );
+
+                    if (customer.isExistPresents()) {
+                        // Если есть подарки добавляем их к клиенту
+                        List<Present> presentList = new ArrayList<Present>();
+                        JSONArray presentsJSON = new JSONArray(json.getString("presents"));
+                        if (presentsJSON.length() > 0) {
+                            for (int i = 0; i < presentsJSON.length(); i++) {
+                                JSONObject presentJSON = (JSONObject) presentsJSON.get(0);
+                                Present present = new Present();
+                                present.setId(presentJSON.getInt("id"));
+                                present.setCustomer_id(presentJSON.getInt("customer_id"));
+                                present.setType_present(presentJSON.getInt("type_present"));
+                                present.setName_type_present(presentJSON.getString("name_type_present"));
+                                present.setValue(presentJSON.getString("value"));
+                                present.setDescription(presentJSON.getString("description"));
+                                present.setDate_limit_unix(presentJSON.getInt("date_limit_unix"));
+                                presentList.add(present);
+                            }
+                            customer.setPresents(presentList);
+                        } else {
+                            customer.setExistPresents(false);
+                        }
+                    }
                     storeCard = customer;
                 } else if (customerTypeId == 2) {
                     StoreCard employee = new Employee(json.getLong("id"),
