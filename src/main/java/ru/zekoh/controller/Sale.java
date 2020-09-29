@@ -32,13 +32,13 @@ import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.components.PresentsPane;
-import ru.zekoh.core.DiscountProgram.*;
+import ru.zekoh.core.loyalty.LoyaltyCard;
+import ru.zekoh.core.privilege.discount.discountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
+import ru.zekoh.core.privilege.discount.discountProgram.DiscountProgram;
 import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
-import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAOImpl.CardDao;
 import ru.zekoh.db.Data;
@@ -54,7 +54,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
-import static java.lang.Math.log;
 import static java.lang.Math.toIntExact;
 
 public class Sale {
@@ -318,121 +317,9 @@ public class Sale {
                     goods.get(i).setSellingPrice(temp);
                 }
 
-                /*
-                if (check.isDiscountAccountExist()) {
-
-                    // Скидка по карте сотрудника
-                    if (check.getDiscount().getDiscountRole() == 4) {
-
-                        // Вычесть из продажной цены сумму скидки на весь чек
-                        //List<Goods> goods = check.getGoodsList();
-
-                        for (int i = 0; i < goods.size(); i++) {
-                            // Проверяем возможно ли сделать скидку на продукт
-                            if (goods.get(i).isParticipatesInpromotions()) {
-                                Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
-                                Double discount = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
-                                discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
-                                priceAfterDiscount -= discount;
-                                goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
-                            }
-
-                          /*  if (goods.get(i).getClassifier() == 19) {
-                                priceAfterDiscount -= (priceAfterDiscount * 20.0) / 100;
-                            } else {
-                                Double discount = (priceAfterDiscount * check.getDiscount().getPercentDiscount()) / 100;
-                                discount = new BigDecimal(discount).setScale(2, RoundingMode.HALF_UP).doubleValue();
-                                priceAfterDiscount -= discount;
-
-                            } *//*
-                        }
-                    }
-                } else {
-
-                    if (check.getDiscount() != null) {
-
-                        // Скидка по приложению для партнеров и друзей
-                        if (check.getDiscount().getDiscountRole() == 2) {
-
-                            // Вычесть из продажной цены сумму скидки 20% на весь чек
-                            // List<Goods> goods = check.getGoodsList();
-
-                            for (int i = 0; i < goods.size(); i++) {
-
-                                if (goods.get(i).isParticipatesInpromotions()) {
-                                    Double priceAfterDiscount = goods.get(i).getPriceFromThePriceList();
-
-                                    priceAfterDiscount -= priceAfterDiscount * 0.2;
-
-                                    goods.get(i).setPriceAfterDiscount(priceAfterDiscount);
-
-                                    Double temp = goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount();
-                                    temp = roundUp(temp);
-                                    goods.get(i).setSellingPrice(temp);
-                                }
-                            }
-
-                            if (check.getDiscount().isPayWithBonus()) {
-
-                                // Посчитать количество оплатой бонусами
-                                payBonus(check);
-
-                            }
-                        } else if (check.getDiscount().getDiscountRole() == 1) {
-
-                            // Если пользователь с ролью 1, обычный рядовой пользователь
-                            if (check.getDiscount().isPayWithBonus()) {
-
-                                // Посчитать количество оплатой бонусами
-                                payBonus(check);
-
-                            }
-                        }
-                    } else {
-
-                        // Вернуть ценны по прайсу
-                        //List<Goods> goods = check.getGoodsList();
-
-                        for (int i = 0; i < goods.size(); i++) {
-
-                            goods.get(i).setPriceAfterDiscount(goods.get(i).getPriceFromThePriceList());
-                        }
-
-                        //  amountBonus.setText("");
-                    }
-                }
-                */
-
-                // Промоушены
-                DiscountInterface discount;
-                switch (Properties.bakaryId) {
-                    case (1):
-                        discount = new CenterDiscountProgram();
-                        break;
-                    case (2):
-                        discount = new RossiyskayaDiscountProgram();
-                        break;
-                    case (3):
-                        discount = new VoshodDiscountProgram();
-                        break;
-                    case (4):
-                        discount = new ShifrinaDiscountProgram();
-                        break;
-                    case (5):
-                        discount = new NalchikDiscountProgram();
-                        break;
-                    case (6):
-                        discount = new PhenixDiscountProgram();
-                        break;
-                    default:
-                        discount = new DefaultDiscountProgram();
-                        break;
-                }
-                discount.applyDiscounts(check, goods);
-
 
                 // Скидки по карте лояльности если есть
-                if (check.isDiscountAccountExist()) {
+              /*  if (check.isDiscountAccountExist()) {
                     if (check.getDiscount() != null) {
                         // Если активирована скидка сотрудника
                         if (check.getDiscount().getDiscountRole() == 2) {
@@ -462,7 +349,43 @@ public class Sale {
 
                         }
                     }
+                }*/
+
+                // Если к чеку привяззана карта лояльности
+                LoyaltyCard loyaltyCard = check.getLoyaltyCard();
+                if (loyaltyCard != null) {
+                    loyaltyCard.usePrivileges(check);
                 }
+
+                // Промоушены
+                DiscountProgram discount;
+                switch (Properties.bakaryId) {
+                    case (1):
+                        discount = new CenterDiscountProgram();
+                        break;
+                    case (2):
+                        discount = new RossiyskayaDiscountProgram();
+                        break;
+                    case (3):
+                        discount = new VoshodDiscountProgram();
+                        break;
+                    case (4):
+                        discount = new ShifrinaDiscountProgram();
+                        break;
+                    case (5):
+                        discount = new NalchikDiscountProgram();
+                        break;
+                    case (6):
+                        discount = new PhenixDiscountProgram();
+                        break;
+                    default:
+                        discount = new DefaultDiscountProgram();
+                        break;
+                }
+                discount.applyDiscounts(check, goods);
+
+                // Оплачиваем бонусами весь чек
+
 
             }
 
@@ -529,7 +452,7 @@ public class Sale {
                 // Если будет привязан к чеку надо отобразить инфу по скидке
                 if (check.isDiscountAccountExist()) {
                     discountTitle.setText("К чеку применена скидика пользователя: ");
-                    labelForFindDiscount.setText(check.getDiscount().getName());
+                    labelForFindDiscount.setText(check.getLoyaltyCard().getName());
                     switchDiscountUserPanel(true);
                 } else {
                     discountTitle.setText("Введите номер карты для активации скидки");
@@ -576,7 +499,7 @@ public class Sale {
     }
 
     // Расчитать сумму которую можно оплатить бонусами
-    private Double calculateTotalPayWithBonus(CheckObject check, Discount discount) {
+    private Double calculateTotalPayWithBonus(CheckObject check, ru.zekoh.db.entity.Discount discount) {
         // Список товаров в чеке
         List<Goods> goodsForBonus = check.getGoodsList();
         // Сумма которую можно оплатить бонусами
@@ -603,69 +526,10 @@ public class Sale {
         // Если сумма меньше чем количество бонусов у клиента, то даем возможность оплатить всю сумму
         return amountThatCanBePaidWithBonuses;
     }
-/*
-    private void payBonus(CheckObject check) {
-
-        List<Goods> goodsForBonus = check.getGoodsList();
-        Double amountThatCanBePaidWithBonuses = 0.0;
-
-        for (int i = 0; i < goodsForBonus.size(); i++) {
-
-            Goods currentGoods = goodsForBonus.get(i);
-
-            // Если это не багет, то можно оплатить бонусными баллами
-            if (currentGoods.getClassifier() != 11 || currentGoods.isParticipatesInpromotions()) {
-                amountThatCanBePaidWithBonuses = amountThatCanBePaidWithBonuses + (currentGoods.getCount() * currentGoods.getPriceAfterDiscount());
-            }
-        }
-
-        amountThatCanBePaidWithBonuses = roundUp(amountThatCanBePaidWithBonuses * 0.3);
-
-        if (amountThatCanBePaidWithBonuses >= check.getDiscount().getBonus()) {
-            check.setAmountBonus(check.getDiscount().getBonus());
-        } else {
-            check.setAmountBonus(amountThatCanBePaidWithBonuses);
-        }
-
-
-        if (check.getDiscount().isPayWithBonus()) {
-            Double amountBonuses = check.getAmountBonus();
-            List<Goods> goods = check.getGoodsList();
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                if (amountBonuses == 0.0) {
-                    return;
-                }
-
-                Double priceAfterDiscount = goods.get(i).getSellingPrice();
-                if (amountBonuses >= priceAfterDiscount) {
-                    goods.get(i).setPriceAfterDiscount(0.0);
-
-                    goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
-                    amountBonuses = amountBonuses - priceAfterDiscount;
-                } else {
-
-                    if (goods.get(i).isUnit()) {
-                        goods.get(i).setPriceAfterDiscount(priceAfterDiscount - amountBonuses);
-                        goods.get(i).setSellingPrice(goods.get(i).getPriceAfterDiscount() * goods.get(i).getCount());
-                    } else {
-                        Double temp = (priceAfterDiscount - amountBonuses) / goods.get(i).getCount();
-                        goods.get(i).setPriceAfterDiscount(roundUp(temp));
-                        goods.get(i).setSellingPrice(priceAfterDiscount - amountBonuses);
-                    }
-
-                    amountBonuses = 0.0;
-                }
-
-            }
-        }
-
-    }
-
- */
 
     // Метод оплаты бонусами с помощью карты лояльности
     private void payBonus(CheckObject check) {
-        if (check.getDiscount().isPayWithBonus()) {
+        if (check.isPayWithEarnedBonuses()) {
             Double amountBonuses = check.getAmountBonus();
             List<Goods> goods = check.getGoodsList();
             for (int i = 0; i < check.getGoodsList().size(); i++) {
@@ -1355,7 +1219,7 @@ public class Sale {
                                         DiscountForEmployees discountForEmployees = new DiscountForEmployees();
                                         //todo узкое место если long будет больше int жопка будет надо привести в порядок
 
-                                        Discount discount = new Discount();
+                                        ru.zekoh.db.entity.Discount discount = new ru.zekoh.db.entity.Discount();
 
                                         // Устанавливаем что есть скидка
 
@@ -2480,15 +2344,16 @@ public class Sale {
             Properties.modalNumberCard = null;
 
 
-
-            StoreCard storeCard = Properties.modalStoreCard;
-            Discount discount = new Discount();
-            if (storeCard != null) {
+            check.setLoyaltyCard(Properties.modalLoyaltyCard);
+            LoyaltyCard loyaltyCard = check.getLoyaltyCard();
+            //ru.zekoh.db.entity.Discount discount = new ru.zekoh.db.entity.Discount();
+            if (check.getLoyaltyCard() != null) {
                 // Определяем тип карты лояльности и применяем условия к чеку.
-                System.out.println("Класс" + storeCard.getClass().toString());
-
+                System.out.println("Класс" + check.getLoyaltyCard().getClass().toString());
                 String showTextBalance = "Нет данных о балансе пользователя.";
-                if (storeCard instanceof Employee) {
+                showTextBalance = "Всего бонусов: " + check.getLoyaltyCard().getBalance() + "\n" + "Вы можете оплатить бонусами: " + check.getAmountWichPayBonus30percent();
+                /*
+                if (check.getLoyaltyCard() instanceof Employee) {
 
                     Employee employee = (Employee) storeCard;
 
@@ -2553,11 +2418,11 @@ public class Sale {
                 check.setDiscountAccountExist(true);
 
                 check.setDiscount(discount);
-
+*/
                 //  Скрываем кнопку "Обновить карту"
                 updateLoyaltyCardBtn.setVisible(false);
                 discountTitle.setText("К чеку применена скидика пользователя: ");
-                labelForFindDiscount.setText(discount.getName());
+                labelForFindDiscount.setText(check.getLoyaltyCard().getName());
                 storeCardBalanceLabel.setVisible(true);
                 storeCardBalanceLabel.setText(showTextBalance);
 
@@ -2646,7 +2511,7 @@ public class Sale {
             // Отобразить кнопки ок и отмена и скрыть все остальное
             discountOkBtn.setVisible(true);
             discountCancelBtn.setVisible(true);
-            Discount discount = checkList.get(currentCheckIndex).getDiscount();
+            ru.zekoh.db.entity.Discount discount = checkList.get(currentCheckIndex).getDiscount();
             if (discount.getDiscountRole() == 1) {
                 if (discount.getBalance() > 0.0) {
                     applyBonusBtn.setVisible(true);
@@ -2840,7 +2705,7 @@ public class Sale {
 
                         // todo Запись покупки по скидки
 
-                        if (checkObject.getDiscount() != null) {
+                        if (checkObject.getLoyaltyCard() != null) {
 
                             // Статус отправки на сервер
                             boolean onServer = false;
@@ -2892,7 +2757,7 @@ public class Sale {
                             }
 
                             // Сохранить в журнале скидок
-                            DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getDiscount().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation(), onServer);
+                            DiscountHistoryEntity discountHistoryEntity = new DiscountHistoryEntity(id, checkObject.getLoyaltyCard().getId(), checkObject.getDiscount().getDiscountRole(), checkObject.getDateOfCreation(), onServer);
                             Session session1 = Properties.sessionFactory.openSession();
                             Transaction t1 = session1.beginTransaction();
                             session1.save(discountHistoryEntity);
@@ -3068,8 +2933,8 @@ public class Sale {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         try {
-            String name = check.getDiscount().getName();
-            Long id = check.getDiscount().getId();
+            String name = check.getLoyaltyCard().getName();
+            Long id = check.getLoyaltyCard().getId();
             int checkId = checkIdFromHibernate;
             Double total = check.getSellingPrice();
             Double amountPaidBonuses = check.getAmountBonus();
@@ -3136,8 +3001,8 @@ public class Sale {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         try {
-            String name = check.getDiscount().getName();
-            Long id = check.getDiscount().getId();
+            String name = check.getLoyaltyCard().getName();
+            Long id = check.getLoyaltyCard().getId();
             int checkId = checkIdFromHibernate;
             Double total = check.getSellingPrice();
             Double amountPaidBonuses = check.getAmountBonus();
@@ -3165,8 +3030,8 @@ public class Sale {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         try {
-            String name = check.getDiscount().getName();
-            Long id = check.getDiscount().getId();
+            String name = check.getLoyaltyCard().getName();
+            Long id = check.getLoyaltyCard().getId();
             int checkId = checkIdFromHibernate;
             Double total = check.getSellingPrice();
             Double amountPaidBonuses = check.getAmountBonus();

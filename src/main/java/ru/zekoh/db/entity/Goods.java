@@ -1,5 +1,8 @@
 package ru.zekoh.db.entity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Goods {
 
     //id чека
@@ -27,7 +30,7 @@ public class Goods {
     private Double priceAfterDiscount;
 
     //Количество товара для дробных товаров
-    private Double count;
+    private Double count = 1.0;
 
     // Весовой товар
     private boolean unit;
@@ -37,6 +40,12 @@ public class Goods {
 
     // Участвует ли продукт в промоакциях
     private boolean participatesInpromotions = true;
+
+    //Товар добавлен в чек в подарок
+    private boolean gift = false;
+
+    //todo Персональная скидка на товар
+
 
     // Максимальная скидка которая может быть установлена на продукт
     private Double maxDiscount = 50.0;
@@ -112,7 +121,14 @@ public class Goods {
     }
 
     public void setPriceAfterDiscount(Double priceAfterDiscount) {
+        // Устанавливаем стоимость товара после скидки за единицу
         this.priceAfterDiscount = priceAfterDiscount;
+
+        // Перещитываем стоимость sellingPrice
+        // Округляем до десятых
+        Double total = priceAfterDiscount * count;
+        total = new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        setSellingPrice(total);
     }
 
     public Double getCount() {
@@ -161,5 +177,13 @@ public class Goods {
 
     public void setMaxDiscount(Double maxDiscount) {
         this.maxDiscount = maxDiscount;
+    }
+
+    public boolean isGift() {
+        return gift;
+    }
+
+    public void setGift(boolean gift) {
+        this.gift = gift;
     }
 }

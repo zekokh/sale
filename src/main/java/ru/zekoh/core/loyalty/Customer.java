@@ -1,5 +1,6 @@
 package ru.zekoh.core.loyalty;
 
+import ru.zekoh.core.privilege.bonuses.Bonus;
 import ru.zekoh.db.entity.Present;
 
 import java.util.ArrayList;
@@ -26,6 +27,9 @@ public class Customer implements StoreCard {
 
     // Уровень
     private int level;
+
+    // Бонусы
+    private List<Bonus> bonuses;
 
     // Флаг наличия у клиента подарков
     private boolean existPresents;

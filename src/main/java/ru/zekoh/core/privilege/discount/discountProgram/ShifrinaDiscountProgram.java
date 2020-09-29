@@ -1,4 +1,4 @@
-package ru.zekoh.core.DiscountProgram;
+package ru.zekoh.core.privilege.discount.discountProgram;
 
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class RossiyskayaDiscountProgram implements DiscountInterface {
+public class ShifrinaDiscountProgram implements DiscountProgram {
     public static void initPaniniWithTimeLimit(CheckObject check) {
 
         String startTime = "11:00:00";
@@ -144,11 +144,10 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
         }
     }
 
-    //Скидка 20% на ачму, салат, провонсаль после 19:00 вечера
-    //Список классификаторов
-    public static CheckObject timeDiscountAfterSeven(CheckObject check) {
+    // Скидка 30% на салат, багет провонцаль и ачму с курицей или овощами
+    public static CheckObject timeDiscountonSalad(CheckObject check) {
 
-        String afterTime = "19:00:00";
+        String afterTime = "18:00:00";
         Double amountOfDiscount = 0.3;
         boolean flag = false;
 
@@ -175,7 +174,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
         //Сравниваем текщую дату с лимитом
         if (curentDate.after(dateLimit)) {
 
-            //Делаем 20% скидку на выпечку
+            //Делаем 30% скидку на выпечку
             for (int i = 0; i < check.getGoodsList().size(); i++) {
 
                 //Текущий товар
@@ -484,12 +483,11 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                     countAmericaner = count;
                 }*/
 
-                if(count-countPalmie > 0) {
-                    countAmericaner = count-countPalmie;
-                }else {
+                if (count - countPalmie > 0) {
+                    countAmericaner = count - countPalmie;
+                } else {
                     countAmericaner = 0;
                 }
-
 
 
                 int amountCount = count * 3;
@@ -693,9 +691,9 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                 countPanini = count;
                 countTea = count;
 
-                if(count-countPalmie > 0) {
-                    countAmericaner = count-countPalmie;
-                }else {
+                if (count - countPalmie > 0) {
+                    countAmericaner = count - countPalmie;
+                } else {
                     countAmericaner = 0;
                 }
 
@@ -968,7 +966,6 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                 }
 
 
-
                 // Нашли чай
                 if (classifier == 17) {
                     if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
@@ -1026,7 +1023,6 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                             }
                         }
                     }
-
 
 
                     // Нашли чай
@@ -1180,6 +1176,8 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
         }
     }
 
+
+
     // Промоакция кофе + выпечка
     // К любому кофе от 90 руб. в подарок круассан или выпечка не превышающая 47 руб.
     public static void coffeeGift(CheckObject check) {
@@ -1220,6 +1218,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
                         // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
                         // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
+                        // g.getClassifier() == 36 - Пироги
                         if (g.getClassifier() == 4 || g.getClassifier() == 36) {
 
                             // Проверяем действия акции на товар
@@ -1242,6 +1241,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
             }
         }
     }
+
 
     public static void teaAndProduct(CheckObject check) {
 
@@ -1313,18 +1313,6 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                     if (classifier == 4 || classifier == 5 || classifier == 9) {
                         if (countBriosh > 0) {
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
-                                goods.setPriceAfterDiscount(19.0);
-/*
-                                //Количество товара
-                                Double countProduct = goods.getCount();
-
-                                //Считаем продажную цену умножая цену после скидки на кол-во товара
-                                Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
-
-                                //Устанавливаем продажную цену товара
-                                goods.setSellingPrice(sellingPrice);
-
- */
                                 Double price = goods.getPriceFromThePriceList() - 9;
                                 productDiscount(goods, price);
 
@@ -1375,6 +1363,83 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
         good.setSellingPrice(sellingPrice);
     }
 
+    //Скидка 30% на ачму, салат, провонсаль после 19:00 вечера
+    //Список классификаторов
+    public static CheckObject timeDiscountAfterSeven(CheckObject check) {
+
+        String afterTime = "19:00:00";
+        Double amountOfDiscount = 0.3;
+        boolean flag = false;
+
+        //Сегодняшняя дата
+        Date dateToday = new Date();
+
+        //Формат для сегодняшней даты
+        SimpleDateFormat formatForDateLimit = new SimpleDateFormat("dd.MM.yyyy");
+
+        //Сохранем отформатированную сегодняшнюю дату в переменной
+        String dateTodayString = formatForDateLimit.format(dateToday);
+
+        //Создаем лимит после какой даты и врмени можно будет сделать скидку
+        Date dateLimit = null;
+        try {
+            dateLimit = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse(dateTodayString + " " + afterTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        //Создаем текущее дату и время
+        Date curentDate = new Date();
+
+        //Сравниваем текщую дату с лимитом
+        if (curentDate.after(dateLimit)) {
+
+            //Делаем 20% скидку на выпечку
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Цена на текущий товар по прайсу
+                Double priceFromThePriceList = goods.getPriceFromThePriceList();
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if (classifier == 32) {
+
+                    //Сумма скидки
+                    Double discountAmount = priceFromThePriceList * amountOfDiscount;
+
+                    //Цена на товар со скидкой
+                    Double priceAfterDiscount = priceFromThePriceList - discountAmount;
+
+                    priceAfterDiscount = new BigDecimal(priceAfterDiscount).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+                    //Устанавливаем цену со скидкой
+                    goods.setPriceAfterDiscount(priceAfterDiscount);
+
+                    //Количество товара
+                    Double count = goods.getCount();
+
+                    //Считаем продажную цену умножая цену после скидки на кол-во товара
+                    Double sellingPrice = count * priceAfterDiscount;
+
+                    //Устанавливаем продажную цену товара
+                    goods.setSellingPrice(sellingPrice);
+
+                    flag = true;
+                }
+            }
+        }
+
+        if (flag) {
+            return check;
+        } else {
+            return null;
+        }
+    }
+
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
         boolean discount_flag = false;
@@ -1394,6 +1459,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
+
             CheckObject tempCheck = timeDiscount(check);
             if (tempCheck == null) {
 
@@ -1402,7 +1468,8 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
                 // 5 круаасан по цене 188р.
                 discountOnCountProductInCheck(check, 4, 5, 37.6);
 
-            } else {
+                teaAndProduct(check);
+            }else {
                 coffeeGift(check);
             }
 
@@ -1415,7 +1482,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
             // 10 макаронс по цене 225
             discountOnCountProductInCheck(check, 21, 10, 26.1);
 
-            teaAndProduct(check);
+
 
         }
     }

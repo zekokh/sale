@@ -1,4 +1,4 @@
-package ru.zekoh.core.DiscountProgram;
+package ru.zekoh.core.privilege.discount.discountProgram;
 
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class NalchikDiscountProgram implements DiscountInterface {
+public class NalchikDiscountProgram implements DiscountProgram {
     public static CheckObject timeDiscount(CheckObject check) {
 
         String afterTime = "19:00:00";

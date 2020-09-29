@@ -1,7 +1,12 @@
 package ru.zekoh.db;
 
+import ru.zekoh.core.loyalty.Loyalty;
+import ru.zekoh.core.loyalty.LoyaltyCard;
+import ru.zekoh.core.privilege.discount.discountProgram.*;
+import ru.zekoh.core.privilege.bonuses.Bonus;
 import ru.zekoh.db.entity.Discount;
 import ru.zekoh.db.entity.Goods;
+import ru.zekoh.properties.Properties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +24,14 @@ public class CheckObject {
 
     //Сумма оплаченная бонусами
     private Double amountBonus = 0.0;
+
+    // Чек оплаичается частью бонусов
+    private boolean payWithEarnedBonuses = false;
+
+    // Тип бонусов
+    // 1 - стандартные (можно оплатить до 30% продукции собственного производства)
+    // 2 - подарочные (можно оплатить всю покупку)
+    private Bonus bonus;
 
     //Статус оплаты
     private boolean paymentState = false;
@@ -45,7 +58,7 @@ public class CheckObject {
     private boolean discountAppExist = false;
 
     // Скидка
-    private Discount discount = null;
+    private DiscountProgram discountProgram = null;
 
     // Блокировка продажи
     private boolean blockForSale = false;
@@ -53,6 +66,46 @@ public class CheckObject {
     // Сохранен в базе данных
     private boolean saveInDB = false;
 
+    // На чек действуют внутреннии скидки
+    private boolean internalDiscountApplyToCheck = true;
+
+    // Карта лояльности
+    private LoyaltyCard loyaltyCard;
+
+    // Полуить сумму стоимости товаров собственного производства
+    public Double getAmountPriceOfGoodsOfOwnProduction() {
+        Double amountPriceOfGoodsOfOwnProduction = 0.0;
+        for (Goods good : goodsList) {
+            // Если товар принимает участие в акциях и его можно оплатить бонусами
+            if (good.isParticipatesInpromotions() && !good.isGift()) {
+                amountPriceOfGoodsOfOwnProduction += good.getSellingPrice();
+            }
+        }
+        return amountPriceOfGoodsOfOwnProduction;
+    }
+
+    public Double getAmountWichPayBonus30percent() {
+        Double balance = loyaltyCard.getBalance();
+        Double result = getAmountPriceOfGoodsOfOwnProduction();
+        if (getAmountPriceOfGoodsOfOwnProduction() >= balance) {
+            result = balance;
+        }
+        return result;
+    }
+
+    // Вче товары собственного производста
+    // на которые можно делать скидки и оплачивать их бонусами
+    public List<Goods> getGoodsOfOwnProduction() {
+        // Список продуктов собственного производства на которые можно делать скидки и оплачивать бонусы
+        List<Goods> goodsOfOwnProduction = new ArrayList<Goods>();
+        for (Goods good : goodsList) {
+            // Если товар принимает участие в акциях и его можно оплатить бонусами
+            if (good.isParticipatesInpromotions() && !good.isGift()) {
+                goodsOfOwnProduction.add(good);
+            }
+        }
+        return goodsOfOwnProduction;
+    }
 
     public List<Goods> getGoodsList() {
         return goodsList;
@@ -142,14 +195,6 @@ public class CheckObject {
         this.discountAccountExist = discountAccountExist;
     }
 
-    public Discount getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Discount discount) {
-        this.discount = discount;
-    }
-
     public boolean isBlockForSale() {
         return blockForSale;
     }
@@ -172,5 +217,55 @@ public class CheckObject {
 
     public void setSaveInDB(boolean saveInDB) {
         this.saveInDB = saveInDB;
+    }
+
+    public Bonus getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Bonus bonus) {
+        this.bonus = bonus;
+    }
+
+    private List<DiscountProgram> discountProgramList;
+
+    public List<DiscountProgram> getDiscountProgramList() {
+        return discountProgramList;
+    }
+
+    public void setDiscountProgramList(List<DiscountProgram> discountProgramList) {
+        this.discountProgramList = discountProgramList;
+    }
+
+    public boolean isInternalDiscountApplyToCheck() {
+        return internalDiscountApplyToCheck;
+    }
+
+    public void setInternalDiscountApplyToCheck(boolean internalDiscountApplyToCheck) {
+        this.internalDiscountApplyToCheck = internalDiscountApplyToCheck;
+    }
+
+    public DiscountProgram getDiscountProgram() {
+        return discountProgram;
+    }
+
+    public void setDiscountProgram(DiscountProgram discountProgram) {
+        this.discountProgram = discountProgram;
+    }
+
+    public LoyaltyCard getLoyaltyCard() {
+        return loyaltyCard;
+    }
+
+    public void setLoyaltyCard(LoyaltyCard loyaltyCard) {
+        this.loyaltyCard = loyaltyCard;
+    }
+
+    public boolean isPayWithEarnedBonuses() {
+        return payWithEarnedBonuses;
+    }
+
+    public void setPayWithEarnedBonuses(boolean payWithEarnedBonuses) {
+        this.payWithEarnedBonuses = payWithEarnedBonuses;
     }
 }

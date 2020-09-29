@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import ru.zekoh.core.KKTError;
 import ru.zekoh.core.loyalty.Loyalty;
+import ru.zekoh.core.loyalty.LoyaltyCard;
 import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.properties.Properties;
@@ -21,13 +22,13 @@ public class ModalSearchCustomer {
     // Инициализация
     @FXML
     public void initialize() {
-        Properties.modalStoreCard = null;
+        Properties.modalLoyaltyCard = null;
         task = new Task<Void>() {
             @Override
             public Void call() {
-                StoreCard storeCard = Loyalty.searchByNumber(Properties.modalNumberCard);
-                if (storeCard != null) {
-                    Properties.modalStoreCard = storeCard;
+                LoyaltyCard loyaltyCard = Loyalty.searchByNumber(Properties.modalNumberCard);
+                if (loyaltyCard != null) {
+                    Properties.modalLoyaltyCard = loyaltyCard;
 
                     Platform.runLater(new Runnable() {
                         @Override
@@ -38,7 +39,7 @@ public class ModalSearchCustomer {
                     });
 
                 } else {
-                    Properties.modalStoreCard = null;
+                    Properties.modalLoyaltyCard = null;
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {

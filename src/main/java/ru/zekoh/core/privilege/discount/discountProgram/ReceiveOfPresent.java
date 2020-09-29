@@ -1,4 +1,4 @@
-package ru.zekoh.core.DiscountProgram;
+package ru.zekoh.core.privilege.discount.discountProgram;
 
 import ru.zekoh.db.Check;
 import ru.zekoh.db.entity.Present;

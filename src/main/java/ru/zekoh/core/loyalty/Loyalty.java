@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.stjs.javascript.dom.Pre;
 import ru.zekoh.controller.Sale;
+import ru.zekoh.core.privilege.bonuses.Bonus;
+import ru.zekoh.core.privilege.bonuses.GiftBonuses;
 import ru.zekoh.db.entity.Present;
 import ru.zekoh.properties.Properties;
 
@@ -21,9 +23,9 @@ public class Loyalty {
 
     private static Logger logger = LogManager.getLogger(Loyalty.class);
 
-    public static StoreCard searchByNumber(String number) {
+    public static LoyaltyCard searchByNumber(String number) {
         String url = Properties.loyaltyUrl + number;
-        StoreCard storeCard = null;
+        LoyaltyCard loyaltyCard = null;
         // Запрашиваю на сервере информацию
         try {
             ArrayList<Integer> array = new ArrayList<Integer>();
@@ -44,12 +46,10 @@ public class Loyalty {
                 int customerTypeId = json.getInt("customer_type_id");
 
                 if (customerTypeId == 1) {
-                    StoreCard customer = new Customer(json.getLong("id"),
+                    CustomerCard customer = new CustomerCard(json.getLong("id"),
                             json.getString("mail"),
                             json.getString("name"),
                             json.getDouble("balance"),
-                            json.getDouble("discount"),
-                            json.getString("grace_period"),
                             json.getInt("level"),
                             json.getBoolean("exist_presents")
                     );
@@ -61,6 +61,19 @@ public class Loyalty {
                         if (presentsJSON.length() > 0) {
                             for (int i = 0; i < presentsJSON.length(); i++) {
                                 JSONObject presentJSON = (JSONObject) presentsJSON.get(0);
+                                switch (presentJSON.getInt("type_present")) {
+                                    case (1):
+                                        // Оплата всего чека бонусами
+                                        Bonus bonus = new GiftBonuses(presentJSON.getDouble("value"),
+                                                presentJSON.getInt("date_limit_unix"),
+                                                presentJSON.getString("description"));
+                                        //customer
+                                        break;
+                                    case (2):
+                                        // Продукт в подарок
+                                        break;
+                                }
+
                                 Present present = new Present();
                                 present.setId(presentJSON.getInt("id"));
                                 present.setCustomer_id(presentJSON.getInt("customer_id"));
@@ -76,7 +89,7 @@ public class Loyalty {
                             customer.setExistPresents(false);
                         }
                     }
-                    storeCard = customer;
+                    loyaltyCard = customer;
                 } else if (customerTypeId == 2) {
                     StoreCard employee = new Employee(json.getLong("id"),
                             json.getString("name"),
@@ -85,7 +98,8 @@ public class Loyalty {
                             json.getDouble("limit"),
                             json.getString("grace_period")
                     );
-                    storeCard = employee;
+                   // loyaltyCard = employee;
+                    loyaltyCard = null;
                 } else {
 
                 }
@@ -100,6 +114,6 @@ public class Loyalty {
         // Нет ошибок, возвращаю сущность
 
         // Ошибка
-        return storeCard;
+        return loyaltyCard;
     }
 }

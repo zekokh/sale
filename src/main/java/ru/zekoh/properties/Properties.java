@@ -4,6 +4,7 @@ package ru.zekoh.properties;
 import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.core.KKTError;
+import ru.zekoh.core.loyalty.LoyaltyCard;
 import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
@@ -119,7 +120,7 @@ public class Properties {
     public static int protectedFolder = 370;
 
     // Переменная для передачи карты клиента через модальное окно
-    public static StoreCard modalStoreCard = null;
+    public static LoyaltyCard modalLoyaltyCard = null;
 
     public static String modalNumberCard = null;
 

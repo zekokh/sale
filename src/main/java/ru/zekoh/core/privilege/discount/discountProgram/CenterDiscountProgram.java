@@ -1,4 +1,4 @@
-package ru.zekoh.core.DiscountProgram;
+package ru.zekoh.core.privilege.discount.discountProgram;
 
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class VoshodDiscountProgram implements DiscountInterface {
+public class CenterDiscountProgram implements DiscountProgram {
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
         boolean discount_flag = false;
@@ -21,17 +21,21 @@ public class VoshodDiscountProgram implements DiscountInterface {
         }
         // Промоушены
         if (check.getDiscount() == null || discount_flag) {
+
             for (int i = 0; i < goodsList.size(); i++) {
+
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
-            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
+            CheckObject tempCheck = timeDiscount(check);
             if (tempCheck == null) {
 
                 // 5 круаасан по цене 199р.
-                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
-                VoshodDiscountProgram.onCroissant(check);
-                VoshodDiscountProgram.cappuccinoAndCroissant(check);
+                discountOnCountProductInCheck(check, 4, 5, 39.8);
+
+                onCroissant(check);
+
+                //DiscountProgram.cappuccinoAndCroissant(check);
 
                 // Скидка на 3 кусков пирога
                 discountOnCountProductInCheck(check, 32, 3, 43.34);
@@ -41,16 +45,38 @@ public class VoshodDiscountProgram implements DiscountInterface {
                 discountOnCountProductInCheck(check, 32, 12, 41.58);
             }
 
-            VoshodDiscountProgram.onAchmaAndTea(check);
-            VoshodDiscountProgram.onBrioshAndTea(check);
+
+
+
+
+            onAchmaAndTea(check);
+
+            onBrioshAndTea(check);
+
             // Акции которые не с чем не пересикаются
             // 6 эклеров по цене 5
-            //VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
+            //discountOnCountProductInCheck(check, 5, 6, 40.833);
             discountOneFree(check, 36,6, 5);
             discountOneFree(check, 5,6, 5);
             discountOneFree(check, 37,6, 12);
             discountOneFree(check, 12,6, 12);
+
+            // Флан натюр по кусочкам
+            //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
+
+
+            // Флан кокос и чернослив
+            //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
+
+
+            // Флан апельсин лимон ягодны шоколад
+            //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
+
+            // Акция на панини комбо с 11:00 до 15:00
+            // DiscountProgram.initPaniniWithTimeLimit(check);
+
         }
+
     }
 
     public static void initPaniniWithTimeLimit(CheckObject check) {
@@ -188,6 +214,7 @@ public class VoshodDiscountProgram implements DiscountInterface {
             return null;
         }
     }
+
 
     // Скидка по кол-ву продукции в чеке
     public static CheckObject discountOnCountProductInCheck(CheckObject check, int classificatorSet, int countInTheCheckSet, Double priceSet) {
@@ -452,7 +479,6 @@ public class VoshodDiscountProgram implements DiscountInterface {
                 /*if (count < countPalmie) {
                     countPalmie = count;
                 }
-
                 if (count < countAmericaner) {
                     countAmericaner = count;
                 }*/

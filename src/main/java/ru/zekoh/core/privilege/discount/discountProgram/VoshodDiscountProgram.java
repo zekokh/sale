@@ -1,6 +1,5 @@
-package ru.zekoh.core.DiscountProgram;
+package ru.zekoh.core.privilege.discount.discountProgram;
 
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.Goods;
 
@@ -11,10 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class PhenixDiscountProgram implements DiscountInterface  {
+public class VoshodDiscountProgram implements DiscountProgram {
     @Override
     public void applyDiscounts(CheckObject check, List<Goods> goodsList) {
-
         boolean discount_flag = false;
         if (check.getDiscount() != null) {
             if (check.getDiscount().getDiscountRole() == 1){
@@ -23,23 +21,17 @@ public class PhenixDiscountProgram implements DiscountInterface  {
         }
         // Промоушены
         if (check.getDiscount() == null || discount_flag) {
-
             for (int i = 0; i < goodsList.size(); i++) {
-
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
-            CheckObject tempCheck = timeDiscount(check);
+            CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
             if (tempCheck == null) {
 
-                coffeeGift(check);
-
                 // 5 круаасан по цене 199р.
-                discountOnCountProductInCheck(check, 4, 5, 39.8);
-
-                onCroissant(check);
-
-                //DiscountProgram.cappuccinoAndCroissant(check);
+                VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
+                VoshodDiscountProgram.onCroissant(check);
+                VoshodDiscountProgram.cappuccinoAndCroissant(check);
 
                 // Скидка на 3 кусков пирога
                 discountOnCountProductInCheck(check, 32, 3, 43.34);
@@ -47,41 +39,18 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 discountOnCountProductInCheck(check, 32, 6, 42.5);
                 // Скидка на 12 кусков пирагов
                 discountOnCountProductInCheck(check, 32, 12, 41.58);
-
-            } else {
-                coffeeGift(check);
             }
 
-
-
-            onAchmaAndTea(check);
-
-            onBrioshAndTea(check);
-
+            VoshodDiscountProgram.onAchmaAndTea(check);
+            VoshodDiscountProgram.onBrioshAndTea(check);
             // Акции которые не с чем не пересикаются
             // 6 эклеров по цене 5
-            //discountOnCountProductInCheck(check, 5, 6, 40.833);
+            //VoshodDiscountProgram.discountOnCountProductInCheck(check, 5, 6, 40.833);
             discountOneFree(check, 36,6, 5);
             discountOneFree(check, 5,6, 5);
             discountOneFree(check, 37,6, 12);
             discountOneFree(check, 12,6, 12);
-
-            // Флан натюр по кусочкам
-            //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
-
-
-            // Флан кокос и чернослив
-            //DiscountProgram.discountOnCountProductInCheck(check, 6, 8, 81.125);
-
-
-            // Флан апельсин лимон ягодны шоколад
-            //DiscountProgram.discountOnCountProductInCheck(check, 16, 8, 93.625);
-
-            // Акция на панини комбо с 11:00 до 15:00
-            // DiscountProgram.initPaniniWithTimeLimit(check);
-
         }
-
     }
 
     public static void initPaniniWithTimeLimit(CheckObject check) {
@@ -218,155 +187,6 @@ public class PhenixDiscountProgram implements DiscountInterface  {
         } else {
             return null;
         }
-    }
-
-
-    // Берешь опредленное количество и один в подарок
-    public static CheckObject discountOneFree(CheckObject check, int classificatorSet, int countInTheCheckSet, int presentClassifier) {
-        if (check.getGoodsList().size() > 0) {
-
-            int count = 0;
-
-            // Считаем общее число товара нужного нам классификатора
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                //Текущий товар
-                Goods goods = check.getGoodsList().get(i);
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                if (classifier == classificatorSet) {
-                    count++;
-                }
-
-            }
-
-            // Если проукта в чеке больше то применяем акцию
-            if (count >= countInTheCheckSet) {
-
-                // Считаем к скольки продуктам надо применить эту акциюю
-                int countProductWhichNeedDiscount = count / countInTheCheckSet;
-
-                // Считаем общее число товара нужного нам классификатора
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                    //Текущий товар
-                    Goods goods = check.getGoodsList().get(i);
-
-                    //Классификатор товара
-                    int classifier = goods.getClassifier();
-
-                    if (countProductWhichNeedDiscount == 0) {
-                        return null;
-                    }
-                    if (classifier == classificatorSet || classifier == presentClassifier) {
-
-                        //Устанавливаем цену со скидкой
-                        goods.setPriceAfterDiscount(0.0);
-
-                        //Количество товара
-                        Double countProduct = goods.getCount();
-
-                        //Считаем продажную цену умножая цену после скидки на кол-во товара
-                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
-
-                        // Округляем результат до десятых
-                        sellingPrice = roundUp(sellingPrice);
-
-                        //Устанавливаем продажную цену товара
-                        goods.setSellingPrice(sellingPrice);
-
-                        countProductWhichNeedDiscount--;
-                    }
-
-                }
-
-            }
-        }
-
-        return check;
-    }
-
-    public static CheckObject discountOnEclairs(CheckObject check) {
-
-        int classificatorSet = 36;
-        int countInTheCheckSet = 6;
-        int presentClassifier = 5;
-
-        if (check.getGoodsList().size() > 0) {
-
-            int count = 0;
-            int countClassicEcler = 0;
-
-            // Считаем общее число товара нужного нам классификатора
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                //Текущий товар
-                Goods goods = check.getGoodsList().get(i);
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                if (classifier == classificatorSet) {
-                    count++;
-                }
-
-                if (classifier == presentClassifier) {
-                    countClassicEcler++;
-                }
-
-            }
-
-            // Если проукта в чеке больше то применяем акцию
-            if (count >= countInTheCheckSet) {
-                // Ищем 6-ой эклер
-
-                // Считаем к скольки продуктам надо применить эту акциюю
-                int countProductWhichNeedDiscount = count / countInTheCheckSet;
-
-                // Считаем общее число товара нужного нам классификатора
-                for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                    //Текущий товар
-                    Goods goods = check.getGoodsList().get(i);
-
-                    //Классификатор товара
-                    int classifier = goods.getClassifier();
-
-                    if (countProductWhichNeedDiscount == 0) {
-                        return null;
-                    }
-                    if (classifier == classificatorSet) {
-
-                        //Устанавливаем цену со скидкой
-                        goods.setPriceAfterDiscount(0.0);
-
-                        //Количество товара
-                        Double countProduct = goods.getCount();
-
-                        //Считаем продажную цену умножая цену после скидки на кол-во товара
-                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
-
-                        // Округляем результат до десятых
-                        sellingPrice = roundUp(sellingPrice);
-
-                        //Устанавливаем продажную цену товара
-                        goods.setSellingPrice(sellingPrice);
-
-                        countProductWhichNeedDiscount--;
-                    }
-
-                }
-
-                // Сколько осталось премиум эклеров не задействованных
-                int countPremiumEcler = count - countProductWhichNeedDiscount*countInTheCheckSet;
-
-
-            }
-        }
-
-        return check;
     }
 
     // Скидка по кол-ву продукции в чеке
@@ -632,6 +452,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 /*if (count < countPalmie) {
                     countPalmie = count;
                 }
+
                 if (count < countAmericaner) {
                     countAmericaner = count;
                 }*/
@@ -1374,84 +1195,6 @@ public class PhenixDiscountProgram implements DiscountInterface  {
         }
     }
 
-    public static void coffeeGift(CheckObject check) {
-        // В чеке должен быть хотя бы один товар
-        if (check.getGoodsList().size() > 0) {
-
-            // Количество кофеных напитков соответствующих условию промоакции
-            // Классификатор 35
-            int numberOfCoffee = 0;
-
-            // Вычисляю количество кофейных напитков попадающих под акцию
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-
-                // Товар
-                Goods goods = check.getGoodsList().get(i);
-
-                //Классификатор товара
-                int classifier = goods.getClassifier();
-
-                // Вычисляю количество кофейных напитков соответствующих условию промоакции
-                if (classifier == 35) {
-                    numberOfCoffee++;
-                }
-            }
-
-            // Если в чеке есть кофейные напитки соответствующих условию промоакции
-            if (numberOfCoffee > 0) {
-
-                // Повторяем скидку на выпечку количество раз равную количество кофейных напитков
-                // соответствующих условию промоакции
-                for (int x = 0; x < numberOfCoffee; x++) {
-
-                    // Ищем выпечку соответствующих условию промоакции
-                    for (int n = 0; n < check.getGoodsList().size(); n++) {
-
-                        // Товар
-                        Goods g = check.getGoodsList().get(n);
-
-                        // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
-                        // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
-                        if (g.getClassifier() == 4) {
-
-                            // Проверяем действия акции на товар
-                            if (g.getPriceAfterDiscount() > 0.0) {
-                                productDiscount(g, 0.0);
-
-                                numberOfCoffee--;
-                                if (x == numberOfCoffee) {
-                                    return;
-                                }
-                            } else {
-                                numberOfCoffee--;
-                                if (x == numberOfCoffee) {
-                                    return;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // Скидка на продукт в чеке
-    private static void productDiscount(Goods good, Double newPrice) {
-
-        Double price = newPrice;
-
-        good.setPriceAfterDiscount(price);
-
-        //Количество товара
-        Double countProduct = good.getCount();
-
-        //Считаем продажную цену умножая цену после скидки на кол-во товара
-        Double sellingPrice = countProduct * good.getPriceAfterDiscount();
-
-        //Устанавливаем продажную цену товара
-        good.setSellingPrice(sellingPrice);
-    }
-
     // Метод округления
     private static Double roundUp(Double numeral){
 
@@ -1459,4 +1202,72 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
         return numeral;
     }
+
+    // Берешь опредленное количество и один в подарок
+    public static CheckObject discountOneFree(CheckObject check, int classificatorSet, int countInTheCheckSet, int presentClassifier) {
+        if (check.getGoodsList().size() > 0) {
+
+            int count = 0;
+
+            // Считаем общее число товара нужного нам классификатора
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                //Текущий товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                if (classifier == classificatorSet) {
+                    count++;
+                }
+
+            }
+
+            // Если проукта в чеке больше то применяем акцию
+            if (count >= countInTheCheckSet) {
+
+                // Считаем к скольки продуктам надо применить эту акциюю
+                int countProductWhichNeedDiscount = count / countInTheCheckSet;
+
+                // Считаем общее число товара нужного нам классификатора
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                    //Текущий товар
+                    Goods goods = check.getGoodsList().get(i);
+
+                    //Классификатор товара
+                    int classifier = goods.getClassifier();
+
+                    if (countProductWhichNeedDiscount == 0) {
+                        return null;
+                    }
+                    if (classifier == classificatorSet || classifier == presentClassifier) {
+
+                        //Устанавливаем цену со скидкой
+                        goods.setPriceAfterDiscount(0.0);
+
+                        //Количество товара
+                        Double countProduct = goods.getCount();
+
+                        //Считаем продажную цену умножая цену после скидки на кол-во товара
+                        Double sellingPrice = countProduct * goods.getPriceAfterDiscount();
+
+                        // Округляем результат до десятых
+                        sellingPrice = roundUp(sellingPrice);
+
+                        //Устанавливаем продажную цену товара
+                        goods.setSellingPrice(sellingPrice);
+
+                        countProductWhichNeedDiscount--;
+                    }
+
+                }
+
+            }
+        }
+
+        return check;
+    }
+
 }
