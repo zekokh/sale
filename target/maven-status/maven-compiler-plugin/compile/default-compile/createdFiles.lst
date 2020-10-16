@@ -1,9 +1,11 @@
 ru/zekoh/db/entity/DataEntity.class
 ru/zekoh/controller/Sale$3.class
+ru/zekoh/db/entity/PresentEntity.class
 ru/zekoh/controller/ModalSearchCustomer$1$2.class
 ru/zekoh/db/entity/UserFromBonus.class
 ru/zekoh/db/entity/DiscountForEmployees.class
 ru/zekoh/controller/ModalSearchCustomer$1.class
+ru/zekoh/controller/Sale$9.class
 ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.class
 ru/zekoh/db/entity/Report.class
 ru/zekoh/controller/ReturnWindowController.class
@@ -16,6 +18,7 @@ ru/zekoh/Main.class
 ru/zekoh/core/loyalty/StoreCard.class
 ru/zekoh/core/KKTError.class
 ru/zekoh/db/DAOImpl/UserDaoImpl.class
+ru/zekoh/core/Present.class
 ru/zekoh/core/DiscountProgram/CenterDiscountProgram.class
 ru/zekoh/controller/InfoController.class
 ru/zekoh/db/entity/Goods.class
@@ -31,9 +34,11 @@ ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class
 ru/zekoh/controller/Login.class
 ru/zekoh/controller/ModalWhilePrintCheck$1$1.class
 ru/zekoh/db/entity/GoodsForDisplay.class
+ru/zekoh/db/DAOImpl/PresentDaoImpl.class
 ru/zekoh/app/App.class
 ru/zekoh/db/DAOImpl/DiscountForEmployeesDaoImpl.class
 ru/zekoh/core/loyalty/Employee.class
+ru/zekoh/controller/Sale$8.class
 ru/zekoh/db/entity/CheckEntity.class
 ru/zekoh/db/entity/PageProduct.class
 ru/zekoh/app/MyPreloader.class
@@ -82,6 +87,7 @@ ru/zekoh/controller/ZReportController.class
 ru/zekoh/db/entity/DailyReport.class
 ru/zekoh/core/GoodsCell.class
 ru/zekoh/db/Data.class
+ru/zekoh/db/DAO/PresentDao.class
 ru/zekoh/controller/ModalSearchCustomer$1$1.class
 ru/zekoh/controller/ModalWhileUpdateData.class
 ru/zekoh/controller/ModalUpdateLoyaltyCardController.class
@@ -94,6 +100,7 @@ ru/zekoh/core/printing/KKMOFD.class
 ru/zekoh/controller/ModalWhilePrintCheck.class
 ru/zekoh/core/DiscountProgram/DefaultDiscountProgram.class
 ru/zekoh/controller/Sale$4.class
+ru/zekoh/core/printing/Acquiring.class
 ru/zekoh/db/DAO/UserDao.class
 ru/zekoh/controller/CancelModalView.class
 ru/zekoh/db/entity/DiscountCardEntity.class

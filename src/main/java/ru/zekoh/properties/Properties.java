@@ -4,6 +4,7 @@ package ru.zekoh.properties;
 import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.core.KKTError;
+import ru.zekoh.core.Present;
 import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
@@ -25,7 +26,8 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 1;
+    // 7 - 2-я касса на Краснодар, Российская, 74
+    public static int bakaryId = 7;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -53,6 +55,9 @@ public class Properties {
 
     //Печать на ККМ
     public static boolean KKM;
+
+    // Автоматическая печать на электронный теримнал
+    public  static boolean ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL = false;
 
     // Драйвер принтера
     public static IFptr FPTR = null;
@@ -135,6 +140,12 @@ public class Properties {
     // Глобальный объект для взаимодействия с серверами subtotal
     public static Subtotal subtotal = null;
 
+    // Для перемещения списка подарков и привелегий
+    public static List<Present> modalPresents = null;
+
+    // Текст для модальных окон
+    public static String infoModalText;
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -161,7 +172,8 @@ public class Properties {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
-        KKM = true;
+        KKM = false;
+        ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL = true;
 
         switch (bakaryId) {
             case (1):
@@ -181,6 +193,9 @@ public class Properties {
                 break;
             case (6):
                 initDataPhenix();
+                break;
+            case (7):
+                initDataRossiyskayaSecondCashPoint();
                 break;
         }
     }
@@ -209,6 +224,17 @@ public class Properties {
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
+    }
+
+    // Инициализация данных для пекарни на Российская
+    public static void initDataRossiyskayaSecondCashPoint() {
+        comPort = "6";
+        updateUrl = "https://krasnodar.jacq.ru";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bagetId = 133;
+        // loyaltyUrl = "http://localhost:3000/customer/search/";
     }
 
     // Инициализация данных для пекарни Восход

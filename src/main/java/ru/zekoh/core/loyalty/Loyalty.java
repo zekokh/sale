@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.controller.Sale;
+import ru.zekoh.core.Present;
 import ru.zekoh.properties.Properties;
 
 import java.io.BufferedReader;
@@ -12,6 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Loyalty {
 
@@ -60,6 +62,28 @@ public class Loyalty {
                     storeCard = employee;
                 } else {
 
+                }
+
+                // Так как привелегированные подарочки могут быть у разных типах карт
+                // парсим их тут
+                if (json.getBoolean("exist_presents")) {
+                    // Если есть подарки добавляем их к клиенту
+                    List<Present> presentList = new ArrayList<Present>();
+                    JSONArray presentsJSON = new JSONArray(json.getString("presents"));
+                    if (presentsJSON.length() > 0) {
+                        for (int i = 0; i < presentsJSON.length(); i++) {
+                            JSONObject presentJSON = (JSONObject) presentsJSON.get(i);
+                            Present present = new Present(presentJSON.getLong("id"),
+                                    presentJSON.getInt("type_present"),
+                                    presentJSON.getString("name_type_present"),
+                                    presentJSON.getString("description"),
+                                    presentJSON.getInt("date_limit_unix"),
+                                    presentJSON.getLong("customer_id"),
+                                    presentJSON.getString("value"));
+                            presentList.add(present);
+                        }
+                    }
+                    Properties.modalPresents = presentList;
                 }
             } else {
 

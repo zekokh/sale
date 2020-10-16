@@ -17,7 +17,7 @@
                   <Font size="40.0" />
               </font>
           </Button>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="46.0" text="Лимит по скидке превышен." textAlignment="CENTER" wrapText="true">
+      <Label fx:id="text" alignment="CENTER" contentDisplay="CENTER" layoutX="157.0" layoutY="46.0" text="Лимит по скидке превышен." textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Helvetica Light" size="30.0" />
          </font>

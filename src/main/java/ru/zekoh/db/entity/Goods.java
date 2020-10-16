@@ -41,6 +41,9 @@ public class Goods {
     // Максимальная скидка которая может быть установлена на продукт
     private Double maxDiscount = 50.0;
 
+    //Товар добавлен в чек в подарок
+    private boolean gift = false;
+
     public Goods() {
 
     }
@@ -161,5 +164,13 @@ public class Goods {
 
     public void setMaxDiscount(Double maxDiscount) {
         this.maxDiscount = maxDiscount;
+    }
+
+    public boolean isGift() {
+        return gift;
+    }
+
+    public void setGift(boolean gift) {
+        this.gift = gift;
     }
 }

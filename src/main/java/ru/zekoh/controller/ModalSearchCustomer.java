@@ -22,6 +22,7 @@ public class ModalSearchCustomer {
     @FXML
     public void initialize() {
         Properties.modalStoreCard = null;
+        Properties.modalPresents = null;
         task = new Task<Void>() {
             @Override
             public Void call() {
@@ -38,6 +39,7 @@ public class ModalSearchCustomer {
                     });
 
                 } else {
+                    Properties.modalPresents = null;
                     Properties.modalStoreCard = null;
                     Platform.runLater(new Runnable() {
                         @Override

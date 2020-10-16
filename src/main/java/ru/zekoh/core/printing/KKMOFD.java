@@ -647,4 +647,10 @@ public class KKMOFD {
         logger.info("Чек закрылся успешно!");
         return new KKTError(true, 1, "Соединение с ККМ не открыто!!");
     }
+
+    static public void printSberCheck(IFptr fptr, String text) {
+        fptr.setParam(IFptr.LIBFPTR_PARAM_TEXT, text);
+        //fptr.setParam(IFptr.LIBFPTR_PARAM_ALIGNMENT, IFptr.LIBFPTR_ALIGNMENT_CENTER);
+        fptr.printText();
+    }
 }

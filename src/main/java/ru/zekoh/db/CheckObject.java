@@ -1,5 +1,6 @@
 package ru.zekoh.db;
 
+import ru.zekoh.core.Present;
 import ru.zekoh.db.entity.Discount;
 import ru.zekoh.db.entity.Goods;
 
@@ -19,6 +20,9 @@ public class CheckObject {
 
     //Сумма оплаченная бонусами
     private Double amountBonus = 0.0;
+
+    // Сумма подаренными бонусами которыми можно оплатить весь чек
+    private Double amountPayGiftBonus = 0.0;
 
     //Статус оплаты
     private boolean paymentState = false;
@@ -53,6 +57,31 @@ public class CheckObject {
     // Сохранен в базе данных
     private boolean saveInDB = false;
 
+    // Список подарочков для клиента
+    private List<Present> presents;
+
+    // Вче товары собственного производста
+    // на которые можно делать скидки и оплачивать их бонусами
+    public List<Goods> getGoodsOfOwnProductionAndCanDiscount() {
+        // Список продуктов собственного производства на которые можно делать скидки и оплачивать бонусы
+        List<Goods> goodsOfOwnProduction = new ArrayList<Goods>();
+        for (Goods good : goodsList) {
+            // Если товар принимает участие в акциях и его можно оплатить бонусами
+            if (good.isParticipatesInpromotions() && !good.isGift()) {
+                goodsOfOwnProduction.add(good);
+            }
+        }
+        return goodsOfOwnProduction;
+    }
+
+    // Полуить сумму стоимости товаров собственного производства
+    public Double getAmountPriceOfGoodsOfOwnProduction() {
+        Double amountPriceOfGoodsOfOwnProduction = 0.0;
+        for (Goods good : getGoodsOfOwnProductionAndCanDiscount()) {
+            amountPriceOfGoodsOfOwnProduction += good.getSellingPrice();
+        }
+        return amountPriceOfGoodsOfOwnProduction;
+    }
 
     public List<Goods> getGoodsList() {
         return goodsList;
@@ -172,5 +201,21 @@ public class CheckObject {
 
     public void setSaveInDB(boolean saveInDB) {
         this.saveInDB = saveInDB;
+    }
+
+    public List<Present> getPresents() {
+        return presents;
+    }
+
+    public void setPresents(List<Present> presents) {
+        this.presents = presents;
+    }
+
+    public Double getAmountPayGiftBonus() {
+        return amountPayGiftBonus;
+    }
+
+    public void setAmountPayGiftBonus(Double amountPayGiftBonus) {
+        this.amountPayGiftBonus = amountPayGiftBonus;
     }
 }

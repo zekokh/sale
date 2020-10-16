@@ -29,6 +29,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ModalController.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ModalWhileUpdateData.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/app/MyPreloader.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/PresentDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/DiscountInterface.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/PageFolder.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DataBase.java
@@ -43,6 +44,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Goods.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/FolderDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/Main.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/Present.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/TableGoods.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/Info.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Product.java
@@ -57,6 +59,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/UserDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/GoodsCellFactory.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/Data.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/PresentDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/ProductDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ModalWhilePrintCheck.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ReturnWindowController.java
@@ -65,6 +68,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/GoodsForDisplay.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/Check.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/printing/Acquiring.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Discount.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/PromocodDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Folder.java
@@ -73,6 +77,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/KKTInfo.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/NalchikDiscountProgram.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/InfoController.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/PresentEntity.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/FolderDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ReturnModalPassword.java

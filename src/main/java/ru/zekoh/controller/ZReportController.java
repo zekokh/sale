@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.zekoh.core.printing.Acquiring;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
@@ -29,7 +30,11 @@ public class ZReportController {
 
 
     public void ok(ActionEvent actionEvent) {
+
         KKMOFD.closeShift(Properties.FPTR);
+
+        // Сверка итогов на сбере
+        //Acquiring.report();
 
         Node source = (Node) actionEvent.getSource();
         Stage stage = (Stage) source.getScene().getWindow();

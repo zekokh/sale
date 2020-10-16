@@ -33,20 +33,23 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.core.DiscountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
+import ru.zekoh.core.Present;
 import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
 import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
+import ru.zekoh.core.printing.Acquiring;
+import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
+import ru.zekoh.db.DAO.PresentDao;
 import ru.zekoh.db.DAOImpl.CardDao;
+import ru.zekoh.db.DAOImpl.PresentDaoImpl;
 import ru.zekoh.db.Data;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.properties.Properties;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.HttpURLConnection;
@@ -122,6 +125,9 @@ public class Sale {
 
     // Кнопка для обновления карты клиента
     public Button updateLoyaltyCardBtn;
+
+    // Панель с подарками
+    public Pane panelWithPresentsList;
 
     // Количество страниц в уровне
     private int maxCurrenPages = 0;
@@ -399,6 +405,7 @@ public class Sale {
                 }
                 */
 
+
                 // Промоушены
                 DiscountInterface discount;
                 switch (Properties.bakaryId) {
@@ -420,12 +427,48 @@ public class Sale {
                     case (6):
                         discount = new PhenixDiscountProgram();
                         break;
+                    case (7):
+                        discount = new RossiyskayaDiscountProgram();
+                        break;
                     default:
                         discount = new DefaultDiscountProgram();
                         break;
                 }
                 discount.applyDiscounts(check, goods);
 
+                // Оплата бонусами всего чека
+                // Если есть такая оплата то применяем ее ко всем товарам собственного производства
+                if (check.getAmountPayGiftBonus() > 0.0) {
+                    Double bonuses = check.getAmountPayGiftBonus();
+                    for (Goods good : check.getGoodsOfOwnProductionAndCanDiscount()) {
+                        if (bonuses > 0.0) {
+                            if (bonuses >= good.getSellingPrice()) {
+                                bonuses -= good.getSellingPrice();
+                                good.setPriceAfterDiscount(0.0);
+                                good.setSellingPrice(0.0);
+                                bonuses = new BigDecimal(bonuses).setScale(2, RoundingMode.HALF_UP).doubleValue();
+
+                            } else {
+                                if (good.isUnit()) {
+                                    Double result = good.getSellingPrice() - bonuses;
+                                    result = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    good.setPriceAfterDiscount(result);
+                                    good.setSellingPrice(result);
+                                } else {
+                                    Double result = good.getSellingPrice() - bonuses;
+                                    Double priceUnit = result / good.getCount();
+                                    result = new BigDecimal(result).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    priceUnit = new BigDecimal(priceUnit).setScale(2, RoundingMode.HALF_UP).doubleValue();
+                                    good.setSellingPrice(result);
+                                    good.setPriceAfterDiscount(priceUnit);
+                                }
+                                bonuses = 0.0;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
 
                 // Скидки по карте лояльности если есть
                 if (check.isDiscountAccountExist()) {
@@ -451,7 +494,7 @@ public class Sale {
                             storeCardBalanceLabel.setText("Всего бонусов: " + check.getDiscount().getBalance() + "\n" + "Вы можете оплатить бонусами: " + amountPayBonus);
 
                             // Применить скидку (применять только на товары которые могут принимать участие в скидках)
-                            if(check.getDiscount().isPayWithBonus()){
+                            if (check.getDiscount().isPayWithBonus()) {
                                 check.setAmountBonus(amountPayBonus);
                                 payBonus(check);
                             }
@@ -461,7 +504,6 @@ public class Sale {
                 }
 
             }
-
 
 
             // Рассчитать цену исходя из проджной
@@ -669,7 +711,7 @@ public class Sale {
                     return;
                 }
 
-                if (goods.get(i).isParticipatesInpromotions() || goods.get(i).getProductId() == Properties.bagetId){
+                if (goods.get(i).isParticipatesInpromotions() || goods.get(i).getProductId() == Properties.bagetId) {
                     Double priceAfterDiscount = goods.get(i).getSellingPrice();
                     if (amountBonuses >= priceAfterDiscount) {
                         goods.get(i).setPriceAfterDiscount(0.0);
@@ -1026,6 +1068,14 @@ public class Sale {
             if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
                 logger.info("Нажата кнопка оплатить картой.");
                 if (!panelWithNumberForCash.isVisible()) {
+
+                    // Если электронный отправляем и ждем ответа
+                    if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL){
+                        // Отправляем на терминал сбера
+                        System.out.println("Отправляем на терминал сбера оплату: "+checkList.get(currentCheckIndex).getSellingPrice());
+                        Acquiring.send(checkList.get(currentCheckIndex).getSellingPrice());
+                    }
+
                     Stage dialog = new Stage();
                     dialog.initStyle(StageStyle.UNDECORATED);
                     dialog.setTitle("Жак-Андрэ Продажи");
@@ -2474,8 +2524,7 @@ public class Sale {
             dialog.initModality(Modality.APPLICATION_MODAL);
             dialog.showAndWait();
             Properties.modalNumberCard = null;
-
-
+            check.setPresents(Properties.modalPresents);
 
             StoreCard storeCard = Properties.modalStoreCard;
             Discount discount = new Discount();
@@ -2554,6 +2603,100 @@ public class Sale {
                 storeCardBalanceLabel.setVisible(true);
                 storeCardBalanceLabel.setText(showTextBalance);
 
+                // Если есть подарочки отображаем окно с подарочками
+                if (check.getPresents().size() > 0) {
+                    panelWithPresentsList.setVisible(true);
+                    // Создать массив кнопок с подарком
+                    GridPane gridPanePresents = new GridPane();
+                    Button[] btns = new Button[check.getPresents().size()];
+                    int x = 0;
+                    int y = 0;
+                    for (int i = 0; i < check.getPresents().size(); i++) {
+                        btns[i] = new Button(check.getPresents().get(i).getTypeName() + "\n" + check.getPresents().get(i).getDescription());
+                        btns[i].setPrefSize(280, 160);
+                        btns[i].setWrapText(true);
+                        btns[i].setFont(new Font(17));
+                        btns[i].setId("" + check.getPresents().get(i).getId() + "");
+                        btns[i].setBackground(new Background(new BackgroundFill(
+                                Color.valueOf("#FFF5E1"), CornerRadii.EMPTY, Insets.EMPTY)));
+                        btns[i].setBorder(new Border(new BorderStroke(Color.valueOf("#faefd9"),
+                                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+
+                        if (check.getPresents().get(i).isApplicable()) {
+                            btns[i].setBackground(new Background(new BackgroundFill(
+                                    Color.valueOf("#FFF5E1"), CornerRadii.EMPTY, Insets.EMPTY)));
+                        }
+                    }
+                    for (Button b : btns) {
+
+                        b.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+                            @Override
+                            public void handle(MouseEvent event) {
+                                b.setBackground(new Background(new BackgroundFill(
+                                        Color.valueOf("#B3E5FC"), CornerRadii.EMPTY, Insets.EMPTY)));
+                            }
+                        });
+
+                        //Действие когда кнопка отпущена
+                        b.setOnAction(new EventHandler<ActionEvent>() {
+                            @Override
+                            public void handle(ActionEvent event) {
+                                b.setBackground(new Background(new BackgroundFill(
+                                        Color.valueOf("#E1F5FE"), CornerRadii.EMPTY, Insets.EMPTY)));
+
+                                Present currentPresent = null;
+                                long currentBtnId = Integer.parseInt(b.getId());
+                                // По id найти что за подарок
+                                for (Present present : check.getPresents()) {
+                                    if (present.getId() == currentBtnId) {
+                                        currentPresent = present;
+                                    }
+                                }
+
+                                // Определяем тип действия по type id
+                                if (currentPresent != null) {
+                                    switch (currentPresent.getType()) {
+                                        case (1):
+                                            if (currentPresent.isApplicable()) {
+                                                check.setAmountPayGiftBonus(0.0);
+                                                currentPresent.setApplicable(false);
+                                                // Поменять цвет кнопки
+                                                b.setBackground(new Background(new BackgroundFill(
+                                                        Color.valueOf("#FFF5E1"), CornerRadii.EMPTY, Insets.EMPTY)));
+                                            } else {
+                                                // Оплата всего чека бонусами
+                                                Double bonuses = Double.parseDouble(currentPresent.getValue());
+                                                check.setAmountPayGiftBonus(bonuses);
+                                                // Указать что применили уже подарок
+                                                currentPresent.setApplicable(true);
+                                                // Поменять цвет кнопки
+                                                b.setBackground(new Background(new BackgroundFill(
+                                                        Color.valueOf("#c1caca"), CornerRadii.EMPTY, Insets.EMPTY)));
+                                            }
+                                            reloadAll();
+                                            break;
+                                        case (2):
+                                            // Забрать конкретный продукт
+
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                        });
+
+
+                        gridPanePresents.add(b, x * (x + (int) b.getWidth()), y);
+                        x++;
+                        if (x % 4 == 0) {
+                            y++;
+                            x = 0;
+                        }
+                    }
+                    panelWithPresentsList.getChildren().add(gridPanePresents);
+                }
+
                 reloadAll();
 
             } else {
@@ -2631,7 +2774,6 @@ public class Sale {
     }
 
     // Переключатель при выборе пользователя со скидкой
-
     private void switchDiscountUserPanel(boolean flag) {
         if (flag) {
             // Отобразить кнопки ок и отмена и скрыть все остальное
@@ -2645,11 +2787,13 @@ public class Sale {
             }
 
             storeCardBalanceLabel.setVisible(true);
+            panelWithPresentsList.setVisible(true);
 
             numberDiscountCardTextField.setVisible(false);
             panelWithBtnForDiscountCard.setVisible(false);
             findBtnForDiacountCard.setVisible(false);
             cancelBtnForDiacountCard.setVisible(false);
+            updateLoyaltyCardBtn.setVisible(false);
 
             // Вслучаи если открыто другая
             panelForApp.setVisible(false);
@@ -2659,12 +2803,13 @@ public class Sale {
             discountCancelBtn.setVisible(false);
             applyBonusBtn.setVisible(false);
             storeCardBalanceLabel.setVisible(false);
+            panelWithPresentsList.setVisible(false);
 
             numberDiscountCardTextField.setVisible(true);
             panelWithBtnForDiscountCard.setVisible(true);
             findBtnForDiacountCard.setVisible(true);
             cancelBtnForDiacountCard.setVisible(true);
-
+            updateLoyaltyCardBtn.setVisible(true);
             numberDiscountCardTextField.clear();
             numberDiscountCardTextField.requestFocus();
         }
@@ -2688,7 +2833,7 @@ public class Sale {
     public void applyBonusAction(ActionEvent event) {
         panelFindDiscount.setVisible(false);
         panelForButtons.setVisible(true);
-        CheckObject checkObject =  checkList.get(currentCheckIndex);
+        CheckObject checkObject = checkList.get(currentCheckIndex);
         checkObject.setPanelForFindDiscountCard(false);
         checkObject.getDiscount().setPayWithBonus(true);
 
@@ -2704,6 +2849,7 @@ public class Sale {
         CheckObject checkObject = checkList.get(currentCheckIndex);
         checkObject.setDiscountAccountExist(false);
         checkObject.setAmountBonus(0.0);
+        checkObject.setAmountPayGiftBonus(0.0);
         checkObject.setDiscount(null);
         reloadAll();
     }
@@ -2750,9 +2896,11 @@ public class Sale {
 
                     // Условия при которых чек не может быть напечатан
                     if (checkObject.getDiscount() != null && checkObject.getDiscount().getDiscountRole() == 4) {
+
                         // Проверяем лимит по балансу при оплате скидкой
                         if (checkObject.getDiscount().getBalance() + checkObject.getSellingPrice() > checkObject.getDiscount().getBudget()) {
                             // Отобразить модальное окно с инфой
+                            Properties.infoModalText = "Лимит по скидке превышен.";
                             Stage dialog = new Stage();
                             dialog.initStyle(StageStyle.UNDECORATED);
                             dialog.setTitle("Жак-Андрэ Продажи");
@@ -2814,6 +2962,27 @@ public class Sale {
                         id = (int) session.save(checkEntity);
                         t.commit();
                         session.close();
+/*                        long currentUnixTime = System.currentTimeMillis() / 1000L;
+                        for (Present present : checkObject.getPresents()) {
+                            PresentDao presentDao = new PresentDaoImpl();
+                            presentDao.save(present.getId(),
+                                    present.getCustomerId(),
+                                    present.getType(),
+                                    present.getTypeName(),
+                                    present.getDescription(),
+                                    present.getDateLimit(),
+                                    (int) currentUnixTime,
+                                    present.getValue(),
+                                    false);
+                            System.out.println(present.getId() + " " + present.getCustomerId() + " " + present.getType() + " " + present.getTypeName() + " " + present.getValue());
+
+                        }
+
+                        // todo Отправить подтверждение на сервер
+                        for (Present present : checkObject.getPresents()) {
+
+                        }*/
+
                         System.out.println("Транзакция прошла успешно!");
 
                         // todo Запись покупки по скидки
@@ -2900,6 +3069,37 @@ public class Sale {
 
 
                     //________________________________
+
+                    // Напечатать копию чека со сбербанка
+                    if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL && !isCash){
+                        try {
+                            File file = new File("C:\\SC552\\p");
+                            //создаем объект FileReader для объекта File
+                            FileReader fr = new FileReader(file);
+                            //создаем BufferedReader с существующего FileReader для построчного считывания
+                            BufferedReader reader = new BufferedReader(fr);
+                            // считаем сначала первую строку
+                            String line = reader.readLine();
+                            String text = "";
+                            while (line != null) {
+                                System.out.println(line);
+                                // считываем остальные строки в цикле
+                                line = reader.readLine();
+                                text += line;
+                            }
+                            System.out.println(text);
+                            if (Properties.FPTR != null) {
+                                KKMOFD.printSberCheck(Properties.FPTR, text);
+                            }else {
+                                logger.error("Принтер чека не подключен, не удается распечатать чек со сбербанка. Номер чека: " + id);
+                            }
+
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
 
                     // Отправить на принтер
                     printCheckOnKKT(id, checkObject, event);

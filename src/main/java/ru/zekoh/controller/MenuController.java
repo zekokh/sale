@@ -115,7 +115,6 @@ public class MenuController {
 
         //todo Проверяем если есть не допечатанные чеки, сообщаем об этом
 
-
         Stage dialog = new Stage();
         dialog.initStyle(StageStyle.UNDECORATED);
         dialog.setTitle("Жак-Андрэ Продажи");
