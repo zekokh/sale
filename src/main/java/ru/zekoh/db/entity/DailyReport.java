@@ -20,6 +20,9 @@ public class DailyReport {
     //Сумма картой
     private Double amountCard;
 
+    // Количество чашек кофе
+    private int amountCupOfCoffe;
+
     public Double getSoldPerDay() {
         Double temp = new BigDecimal(soldPerDay).setScale(2, RoundingMode.HALF_UP).doubleValue();
         return temp;
@@ -62,5 +65,13 @@ public class DailyReport {
 
     public void setAmountCard(Double amountCard) {
         this.amountCard = amountCard;
+    }
+
+    public int getAmountCupOfCoffe() {
+        return amountCupOfCoffe;
+    }
+
+    public void setAmountCupOfCoffe(int amountCupOfCoffe) {
+        this.amountCupOfCoffe = amountCupOfCoffe;
     }
 }

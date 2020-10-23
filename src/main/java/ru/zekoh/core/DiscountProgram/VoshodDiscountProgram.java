@@ -28,6 +28,8 @@ public class VoshodDiscountProgram implements DiscountInterface {
             CheckObject tempCheck = VoshodDiscountProgram.timeDiscount(check);
             if (tempCheck == null) {
 
+                coffeeGift(check);
+
                 // 5 круаасан по цене 199р.
                 VoshodDiscountProgram.discountOnCountProductInCheck(check, 4, 5, 39.8);
                 VoshodDiscountProgram.onCroissant(check);
@@ -39,6 +41,8 @@ public class VoshodDiscountProgram implements DiscountInterface {
                 discountOnCountProductInCheck(check, 32, 6, 42.5);
                 // Скидка на 12 кусков пирагов
                 discountOnCountProductInCheck(check, 32, 12, 41.58);
+            }else {
+                coffeeGift(check);
             }
 
             VoshodDiscountProgram.onAchmaAndTea(check);
@@ -1268,6 +1272,83 @@ public class VoshodDiscountProgram implements DiscountInterface {
         }
 
         return check;
+    }
+
+    public static void coffeeGift(CheckObject check) {
+        // В чеке должен быть хотя бы один товар
+        if (check.getGoodsList().size() > 0) {
+
+            // Количество кофеных напитков соответствующих условию промоакции
+            // Классификатор 35
+            int numberOfCoffee = 0;
+
+            // Вычисляю количество кофейных напитков попадающих под акцию
+            for (int i = 0; i < check.getGoodsList().size(); i++) {
+
+                // Товар
+                Goods goods = check.getGoodsList().get(i);
+
+                //Классификатор товара
+                int classifier = goods.getClassifier();
+
+                // Вычисляю количество кофейных напитков соответствующих условию промоакции
+                if (classifier == 35) {
+                    numberOfCoffee++;
+                }
+            }
+
+            // Если в чеке есть кофейные напитки соответствующих условию промоакции
+            if (numberOfCoffee > 0) {
+
+                // Повторяем скидку на выпечку количество раз равную количество кофейных напитков
+                // соответствующих условию промоакции
+                for (int x = 0; x < numberOfCoffee; x++) {
+
+                    // Ищем выпечку соответствующих условию промоакции
+                    for (int n = 0; n < check.getGoodsList().size(); n++) {
+
+                        // Товар
+                        Goods g = check.getGoodsList().get(n);
+
+                        // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
+                        // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
+                        if (g.getClassifier() == 4) {
+
+                            // Проверяем действия акции на товар
+                            if (g.getPriceAfterDiscount() > 0.0) {
+                                productDiscount(g, 0.0);
+
+                                numberOfCoffee--;
+                                if (x == numberOfCoffee) {
+                                    return;
+                                }
+                            } else {
+                                numberOfCoffee--;
+                                if (x == numberOfCoffee) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void productDiscount(Goods good, Double newPrice) {
+
+        Double price = newPrice;
+
+        good.setPriceAfterDiscount(price);
+
+        //Количество товара
+        Double countProduct = good.getCount();
+
+        //Считаем продажную цену умножая цену после скидки на кол-во товара
+        Double sellingPrice = countProduct * good.getPriceAfterDiscount();
+
+        //Устанавливаем продажную цену товара
+        good.setSellingPrice(sellingPrice);
     }
 
 }

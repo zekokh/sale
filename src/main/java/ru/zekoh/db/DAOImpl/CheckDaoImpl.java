@@ -145,8 +145,11 @@ public class CheckDaoImpl implements CheckDao {
         //Сумма картой
         Double amountCard = 0.0;
 
+        // Количество чашек кофе
+        int amountCupOfCoffe = 0;
+
         //Текущий день
-         String today = "" + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()) + "";
+        String today = "" + new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()) + "";
 
        /*DateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy hh:mm:ss z");
         Date date = dateFormat.parse(today );
@@ -180,6 +183,16 @@ public class CheckDaoImpl implements CheckDao {
                 while (rsReturn.next()) {
                     returnPerDay = returnPerDay + rsReturn.getDouble(3);
                 }
+
+
+                    //SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = #{product} AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%#{today}%'"
+
+                    //ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = "+i+" AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
+                    ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` INNER JOIN `groups` ON goods.product_id = groups.product_id WHERE `groups`.group_id = 1 AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
+                    while (amountCupOfCoffeeQuery.next()) {
+                        //System.out.println(amountCupOfCoffeeQuery.getInt(1));
+                        amountCupOfCoffe = amountCupOfCoffeeQuery.getInt(1);
+                    }
                 stmt.close();
             }
 
@@ -191,9 +204,10 @@ public class CheckDaoImpl implements CheckDao {
             dailyReport.setNumberOfChecks(numberOfChecks);
             dailyReport.setReturnPerDay(returnPerDay);
             dailyReport.setSoldPerDay(soldPerDay);
+            dailyReport.setAmountCupOfCoffe(amountCupOfCoffe);
 
         } catch (SQLException e) {
-            logger.error("Ошибка в формировании суточного отчета \n"+e.getLocalizedMessage());
+            logger.error("Ошибка в формировании суточного отчета \n" + e.getLocalizedMessage());
 
         } catch (Exception e) {
             logger.error(e.getStackTrace());

@@ -39,7 +39,8 @@ public class XReportController {
                     "Возврат: " + dailyReport.getReturnPerDay() + " р. \n" +
                     "Наличными: " + dailyReport.getAmountCash() + " р. \n" +
                     "По карте: " + dailyReport.getAmountCard() + " р. \n" +
-                    "Доход: " + dailyReport.getSoldPerDay() + " р.");
+                    "Доход: " + dailyReport.getSoldPerDay() + " р. \n" +
+                    "Кофе: " + dailyReport.getAmountCupOfCoffe()+ " стаканов.");
 
             }else {
                 label.setText("Произошла ошибка при формироании суточного отчета!");

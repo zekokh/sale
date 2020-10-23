@@ -2,10 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="settings init">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/view/center/ModalUpdateLoyaltyCard.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/app/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/app/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs\\app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs\\app.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/XReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/XReportController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/entity/DailyReport.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/entity/DailyReport.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/XReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/XReportController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DailyReport.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DailyReport.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -510,13 +522,6 @@
       <workItem from="1549382923354" duration="2402000" />
       <workItem from="1549569727109" duration="1660000" />
     </task>
-    <task id="LOCAL-00146" summary="Исправленна ошибка с круассаном в подарок">
-      <created>1570601501598</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1570601501599</updated>
-    </task>
     <task id="LOCAL-00147" summary="Выключил принтер чека">
       <created>1570622819236</created>
       <option name="number" value="00147" />
@@ -853,7 +858,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596703099528</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="Добавил возможность принимать оплату через интегрированный принтер сбербанка">
+      <created>1602871270051</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1602871270052</updated>
+    </task>
+    <option name="localTasksCounter" value="196" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -900,7 +912,6 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="Изменил округление до десятых" />
     <MESSAGE value="Добавил промоакцию кофе плюс круассан" />
     <MESSAGE value="Исправленна ошибка с круассаном в подарок" />
     <MESSAGE value="Выключил принтер чека" />
@@ -925,123 +936,74 @@
     <MESSAGE value="Добавлена возможность оплачивать багет в Краснодаре бонусами клуба Жак-Андрэ Бонус" />
     <MESSAGE value="Subtotal init" />
     <MESSAGE value="settings init" />
-    <option name="LAST_COMMIT_MESSAGE" value="settings init" />
+    <MESSAGE value="Добавил возможность принимать оплату через интегрированный принтер сбербанка" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил возможность принимать оплату через интегрированный принтер сбербанка" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="773" y="224" key="#com.intellij.ide.util.MemberChooser" timestamp="1592814289489">
+    <state x="773" y="231" key="#com.intellij.ide.util.MemberChooser" timestamp="1602871851641">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="507" y="-838" key="#com.intellij.ide.util.MemberChooser/-266.-1057.1920.1057/0.23.1440.877@-266.-1057.1920.1057" timestamp="1591187319243" />
-    <state x="773" y="224" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1592814289489" />
-    <state x="698" y="323" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1592417194296">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="698" y="323" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592417194296" />
+    <state x="773" y="231" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1602871851641" />
     <state x="369" y="17" key="CommitChangelistDialog2" timestamp="1596703099419">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="277" y="14" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1593066226769" />
     <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596703099419" />
-    <state x="277" y="37" key="CommitChangelistDialog2/0.23.1440.877@0.23.1440.877" timestamp="1591082978878" />
-    <state width="541" height="466" key="DebuggerActiveHint" timestamp="1592463876036">
+    <state width="1878" height="616" key="GridCell.Tab.0.bottom" timestamp="1603394195380">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="541" height="466" key="DebuggerActiveHint/0.0.1920.1080@0.0.1920.1080" timestamp="1592463876036" />
-    <state width="1398" height="477" key="GridCell.Tab.0.bottom" timestamp="1599203607582">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1398" height="499" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
+    <state width="1878" height="616" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1603394195380" />
+    <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
+    <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
+    <state width="1878" height="616" key="GridCell.Tab.0.center" timestamp="1603394195379">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1398" height="477" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1599055235980" />
-    <state width="1878" height="249" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1596703201543" />
-    <state width="1398" height="50" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1599054161704" />
-    <state width="1398" height="378" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1591548078695" />
-    <state width="1398" height="477" key="GridCell.Tab.0.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1599203607582" />
-    <state width="1398" height="477" key="GridCell.Tab.0.center" timestamp="1599203607581">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1398" height="499" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1603350991444" />
+    <state width="1878" height="616" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1603394195379" />
+    <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
+    <state width="1878" height="616" key="GridCell.Tab.0.left" timestamp="1603394195378">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1398" height="477" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1599055235979" />
-    <state width="1878" height="249" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1596703201542" />
-    <state width="1398" height="50" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1599054161703" />
-    <state width="1398" height="378" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1591548078694" />
-    <state width="1398" height="477" key="GridCell.Tab.0.center/0.23.1920.1007@0.23.1920.1007" timestamp="1599203607581" />
-    <state width="1398" height="477" key="GridCell.Tab.0.left" timestamp="1599203607579">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1398" height="499" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1603350991443" />
+    <state width="1878" height="616" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1603394195378" />
+    <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1603137448973" />
+    <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
+    <state width="1878" height="616" key="GridCell.Tab.0.right" timestamp="1603394195379">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1398" height="477" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1599055235979" />
-    <state width="1878" height="249" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1596703201542" />
-    <state width="1398" height="50" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1599054161702" />
-    <state width="1398" height="378" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1591548078694" />
-    <state width="1398" height="477" key="GridCell.Tab.0.left/0.23.1920.1007@0.23.1920.1007" timestamp="1599203607579" />
-    <state width="1398" height="477" key="GridCell.Tab.0.right" timestamp="1599203607581">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1398" height="499" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
+    <state width="1878" height="616" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1603394195379" />
+    <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
+    <state width="1878" height="411" key="GridCell.Tab.1.bottom" timestamp="1603137448976">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="477" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1599055235980" />
-    <state width="1878" height="381" key="GridCell.Tab.0.right/0.0.1920.1030@0.0.1920.1080" timestamp="1592239671204" />
-    <state width="1878" height="249" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1596703201543" />
-    <state width="1398" height="50" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1599054161703" />
-    <state width="1398" height="378" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1591548078694" />
-    <state width="1398" height="477" key="GridCell.Tab.0.right/0.23.1920.1007@0.23.1920.1007" timestamp="1599203607581" />
-    <state width="1878" height="320" key="GridCell.Tab.1.bottom" timestamp="1594573725133">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1878" height="411" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022824" />
+    <state width="1878" height="411" key="GridCell.Tab.1.bottom/0.23.1440.827@0.23.1440.827" timestamp="1603137448976" />
+    <state width="1878" height="411" key="GridCell.Tab.1.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178735" />
+    <state width="1878" height="411" key="GridCell.Tab.1.center" timestamp="1603137448975">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="257" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1593153833486" />
-    <state width="1878" height="320" key="GridCell.Tab.1.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1594386722598" />
-    <state width="1398" height="257" key="GridCell.Tab.1.bottom/0.23.1440.827@0.23.1440.827" timestamp="1593158041143" />
-    <state width="1878" height="320" key="GridCell.Tab.1.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1594573725133" />
-    <state width="1878" height="381" key="GridCell.Tab.1.bottom/0.23.1920.1057@0.23.1920.1057" timestamp="1592312628381" />
-    <state width="1878" height="320" key="GridCell.Tab.1.center" timestamp="1594573725132">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1878" height="411" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022823" />
+    <state width="1878" height="411" key="GridCell.Tab.1.center/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
+    <state width="1878" height="411" key="GridCell.Tab.1.center/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178734" />
+    <state width="1878" height="411" key="GridCell.Tab.1.left" timestamp="1603137448975">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="257" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1593153833485" />
-    <state width="1878" height="320" key="GridCell.Tab.1.center/0.0.1920.1080@0.0.1920.1080" timestamp="1594386722598" />
-    <state width="1398" height="257" key="GridCell.Tab.1.center/0.23.1440.827@0.23.1440.827" timestamp="1593158041143" />
-    <state width="1878" height="320" key="GridCell.Tab.1.center/0.23.1920.1007@0.23.1920.1007" timestamp="1594573725132" />
-    <state width="1878" height="381" key="GridCell.Tab.1.center/0.23.1920.1057@0.23.1920.1057" timestamp="1592312628380" />
-    <state width="1878" height="320" key="GridCell.Tab.1.left" timestamp="1594573725132">
-      <screen x="0" y="23" width="1920" height="1007" />
+    <state width="1878" height="411" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022822" />
+    <state width="1878" height="411" key="GridCell.Tab.1.left/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
+    <state width="1878" height="411" key="GridCell.Tab.1.left/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178734" />
+    <state width="1878" height="411" key="GridCell.Tab.1.right" timestamp="1603137448976">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="257" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1593153833485" />
-    <state width="1878" height="320" key="GridCell.Tab.1.left/0.0.1920.1080@0.0.1920.1080" timestamp="1594386722597" />
-    <state width="1398" height="257" key="GridCell.Tab.1.left/0.23.1440.827@0.23.1440.827" timestamp="1593158041142" />
-    <state width="1878" height="320" key="GridCell.Tab.1.left/0.23.1920.1007@0.23.1920.1007" timestamp="1594573725132" />
-    <state width="1878" height="381" key="GridCell.Tab.1.left/0.23.1920.1057@0.23.1920.1057" timestamp="1592312628380" />
-    <state width="1878" height="320" key="GridCell.Tab.1.right" timestamp="1594573725133">
-      <screen x="0" y="23" width="1920" height="1007" />
-    </state>
-    <state width="1398" height="257" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1593153833486" />
-    <state width="1878" height="320" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1594386722598" />
-    <state width="1398" height="257" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1593158041143" />
-    <state width="1878" height="320" key="GridCell.Tab.1.right/0.23.1920.1007@0.23.1920.1007" timestamp="1594573725133" />
-    <state width="1878" height="381" key="GridCell.Tab.1.right/0.23.1920.1057@0.23.1920.1057" timestamp="1592312628381" />
+    <state width="1878" height="411" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022823" />
+    <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448976" />
+    <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178735" />
     <state x="427" y="203" key="Vcs.Push.Dialog.v2" timestamp="1596703103242">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="320" y="169" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1591352227192" />
     <state x="427" y="203" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596703103242" />
-    <state x="320" y="188" key="Vcs.Push.Dialog.v2/0.23.1440.877@0.23.1440.877" timestamp="1591082981488" />
-    <state x="762" y="325" key="chooseDestDirectoryDialog" timestamp="1592417181568">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="762" y="325" key="chooseDestDirectoryDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592417181568" />
-    <state x="497" y="-608" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591188977550">
-      <screen x="-266" y="-1057" width="1920" height="1057" />
-    </state>
-    <state x="497" y="-608" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-266.-1057.1920.1057/0.23.1440.877@-266.-1057.1920.1057" timestamp="1591188977550" />
-    <state x="213" y="265" width="1357" height="722" key="git4idea.branch.GitBranchIsNotFullyMergedDialog" timestamp="1592220813767">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="213" y="265" width="1357" height="722" key="git4idea.branch.GitBranchIsNotFullyMergedDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1592220813767" />
-    <state x="383" y="162" key="new project wizard" timestamp="1591790003204">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="383" y="162" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1591790003204" />
-    <state x="625" y="235" key="run.anything.popup" timestamp="1592554516943">
-      <screen x="0" y="23" width="1920" height="1007" />
-    </state>
-    <state x="625" y="235" key="run.anything.popup/0.23.1920.1007@0.23.1920.1007" timestamp="1592554516943" />
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1591877150016">
-      <screen x="0" y="0" width="1920" height="1080" />
-    </state>
-    <state x="625" y="241" width="670" height="676" key="search.everywhere.popup/0.0.1920.1080@0.0.1920.1080" timestamp="1591877150016" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1067,24 +1029,9 @@
           <option name="timeStamp" value="239" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>192</line>
-          <option name="timeStamp" value="418" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/printing/KKM.java</url>
           <line>498</line>
           <option name="timeStamp" value="420" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>195</line>
-          <option name="timeStamp" value="431" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>198</line>
-          <option name="timeStamp" value="433" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/printing/KKM.java</url>
@@ -1137,26 +1084,6 @@
           <option name="timeStamp" value="977" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>186</line>
-          <option name="timeStamp" value="978" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>180</line>
-          <option name="timeStamp" value="979" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>167</line>
-          <option name="timeStamp" value="980" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>188</line>
-          <option name="timeStamp" value="981" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
           <line>2365</line>
           <option name="timeStamp" value="1081" />
@@ -1195,41 +1122,6 @@
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
           <line>2074</line>
           <option name="timeStamp" value="1253" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>157</line>
-          <option name="timeStamp" value="1263" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>160</line>
-          <option name="timeStamp" value="1271" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>165</line>
-          <option name="timeStamp" value="1272" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>166</line>
-          <option name="timeStamp" value="1273" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>189</line>
-          <option name="timeStamp" value="1276" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>190</line>
-          <option name="timeStamp" value="1277" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>191</line>
-          <option name="timeStamp" value="1278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
