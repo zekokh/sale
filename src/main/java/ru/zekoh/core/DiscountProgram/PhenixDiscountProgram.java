@@ -1412,7 +1412,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                         // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
                         // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
-                        if (g.getClassifier() == 4 || g.getClassifier() == 32) {
+                        if (g.getClassifier() == 4 || g.getClassifier() == 32 || g.getProductId() == 21) {
 
                             // Проверяем действия акции на товар
                             if (g.getPriceAfterDiscount() > 0.0) {

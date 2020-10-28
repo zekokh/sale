@@ -5,12 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -316,8 +310,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.App" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.App" />
     </list>
     <recent_temporary>
       <list>
@@ -515,13 +509,6 @@
       <workItem from="1549286377686" duration="5332000" />
       <workItem from="1549382923354" duration="2402000" />
       <workItem from="1549569727109" duration="1660000" />
-    </task>
-    <task id="LOCAL-00147" summary="Выключил принтер чека">
-      <created>1570622819236</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
-      <option name="project" value="LOCAL" />
-      <updated>1570622819237</updated>
     </task>
     <task id="LOCAL-00148" summary="Выключил принтер чека">
       <created>1571044344077</created>
@@ -859,7 +846,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602871270052</updated>
     </task>
-    <option name="localTasksCounter" value="196" />
+    <task id="LOCAL-00196" summary="settings init">
+      <created>1603696324621</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1603696324622</updated>
+    </task>
+    <option name="localTasksCounter" value="197" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -929,45 +923,45 @@
     <MESSAGE value="Обновлен функционал" />
     <MESSAGE value="Добавлена возможность оплачивать багет в Краснодаре бонусами клуба Жак-Андрэ Бонус" />
     <MESSAGE value="Subtotal init" />
-    <MESSAGE value="settings init" />
     <MESSAGE value="Добавил возможность принимать оплату через интегрированный принтер сбербанка" />
-    <option name="LAST_COMMIT_MESSAGE" value="Добавил возможность принимать оплату через интегрированный принтер сбербанка" />
+    <MESSAGE value="settings init" />
+    <option name="LAST_COMMIT_MESSAGE" value="settings init" />
   </component>
   <component name="WindowStateProjectService">
     <state x="773" y="231" key="#com.intellij.ide.util.MemberChooser" timestamp="1602871851641">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="773" y="231" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1602871851641" />
-    <state x="369" y="17" key="CommitChangelistDialog2" timestamp="1596703099419">
+    <state x="369" y="17" key="CommitChangelistDialog2" timestamp="1603696324094">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1596703099419" />
-    <state width="1878" height="616" key="GridCell.Tab.0.bottom" timestamp="1603476787498">
+    <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1603696324094" />
+    <state width="1878" height="616" key="GridCell.Tab.0.bottom" timestamp="1603865732588">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1398" height="499" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="616" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1603476787498" />
+    <state width="1878" height="616" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1603865732588" />
     <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
     <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
-    <state width="1878" height="616" key="GridCell.Tab.0.center" timestamp="1603476787497">
+    <state width="1878" height="616" key="GridCell.Tab.0.center" timestamp="1603865732587">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1398" height="499" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1603350991444" />
-    <state width="1878" height="616" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1603476787497" />
+    <state width="1878" height="616" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1603865732587" />
     <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
     <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="616" key="GridCell.Tab.0.left" timestamp="1603476787496">
+    <state width="1878" height="616" key="GridCell.Tab.0.left" timestamp="1603865732586">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1398" height="499" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1603350991443" />
-    <state width="1878" height="616" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1603476787496" />
+    <state width="1878" height="616" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1603865732586" />
     <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1603137448973" />
     <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="616" key="GridCell.Tab.0.right" timestamp="1603476787497">
+    <state width="1878" height="616" key="GridCell.Tab.0.right" timestamp="1603865732587">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state width="1398" height="499" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="616" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1603476787497" />
+    <state width="1878" height="616" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1603865732587" />
     <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
     <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
     <state width="1878" height="411" key="GridCell.Tab.1.bottom" timestamp="1603137448976">
@@ -994,10 +988,10 @@
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022823" />
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448976" />
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178735" />
-    <state x="427" y="203" key="Vcs.Push.Dialog.v2" timestamp="1596703103242">
+    <state x="427" y="203" key="Vcs.Push.Dialog.v2" timestamp="1603696326166">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="427" y="203" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1596703103242" />
+    <state x="427" y="203" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1603696326166" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
