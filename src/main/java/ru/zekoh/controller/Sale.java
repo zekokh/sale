@@ -37,6 +37,7 @@ import ru.zekoh.core.loyalty.Customer;
 import ru.zekoh.core.loyalty.Employee;
 import ru.zekoh.core.loyalty.Loyalty;
 import ru.zekoh.core.loyalty.StoreCard;
+import ru.zekoh.core.printing.Acquiring;
 import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.DAOImpl.CardDao;
@@ -419,6 +420,9 @@ public class Sale {
                         break;
                     case (6):
                         discount = new PhenixDiscountProgram();
+                        break;
+                    case (7):
+                        discount = new RossiyskayaDiscountProgram();
                         break;
                     default:
                         discount = new DefaultDiscountProgram();
@@ -1026,6 +1030,14 @@ public class Sale {
             if (checkList.get(currentCheckIndex).getGoodsList().size() > 0) {
                 logger.info("Нажата кнопка оплатить картой.");
                 if (!panelWithNumberForCash.isVisible()) {
+
+                    // Если электронный отправляем и ждем ответа
+                    if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL){
+                        // Отправляем на терминал сбера
+                        System.out.println("Отправляем на терминал сбера оплату: "+checkList.get(currentCheckIndex).getSellingPrice());
+                        Acquiring.send(checkList.get(currentCheckIndex).getSellingPrice());
+                    }
+
                     Stage dialog = new Stage();
                     dialog.initStyle(StageStyle.UNDECORATED);
                     dialog.setTitle("Жак-Андрэ Продажи");
@@ -2902,6 +2914,12 @@ public class Sale {
                     //________________________________
 
                     // Отправить на принтер
+                    // Если оплата при картой через интегрированный терминал сбера, то печатаем чек из сбера.
+                    if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL && !isCash) {
+                        Properties.checkPayCardWithSberPOS = true;
+                    }else {
+                        Properties.checkPayCardWithSberPOS = false;
+                    }
                     printCheckOnKKT(id, checkObject, event);
 
 

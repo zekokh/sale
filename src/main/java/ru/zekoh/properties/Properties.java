@@ -25,7 +25,8 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 3;
+    // 7 - 2-я касса на Краснодар, Российская, 74
+    public static int bakaryId = 7;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -135,6 +136,16 @@ public class Properties {
     // Глобальный объект для взаимодействия с серверами subtotal
     public static Subtotal subtotal = null;
 
+    // Текст для модальных окон
+    public static String infoModalText;
+
+    // Автоматическая печать на электронный теримнал
+    public  static boolean ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL = true;
+
+    public  static boolean checkPayCardWithSberPOS = false;
+    public static String textFromFileP = "";
+
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -182,6 +193,9 @@ public class Properties {
             case (6):
                 initDataPhenix();
                 break;
+            case (7):
+                initDataRossiyskayaSecondCashPoint();
+                break;
         }
     }
 
@@ -209,6 +223,17 @@ public class Properties {
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
+    }
+
+    // Инициализация данных для пекарни на Российская
+    public static void initDataRossiyskayaSecondCashPoint() {
+        comPort = "6";
+        updateUrl = "https://krasnodar.jacq.ru";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bagetId = 133;
+        // loyaltyUrl = "http://localhost:3000/customer/search/";
     }
 
     // Инициализация данных для пекарни Восход

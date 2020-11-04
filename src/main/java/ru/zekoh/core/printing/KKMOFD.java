@@ -85,7 +85,12 @@ public class KKMOFD {
                         }
                     } else {
                         if (print) {
-
+                            if(Properties.checkPayCardWithSberPOS) {
+                                String text = Acquiring.readPFile();
+                                if(text.length() > 1){
+                                    printText(fptr, text);
+                                }
+                            }
 
                             // Печать в остальных
 
@@ -193,6 +198,9 @@ public class KKMOFD {
         fptr.setParam(IFptr.LIBFPTR_PARAM_TEXT, s);
         fptr.setParam(IFptr.LIBFPTR_PARAM_ALIGNMENT, IFptr.LIBFPTR_ALIGNMENT_LEFT);
         fptr.printText();
+    }
+    public static void printSMTH(IFptr fptr, String s){
+        printText(fptr, s);
     }
 
     public static boolean returnToKKM(List<TableGoods> goods, CheckEntity check) {

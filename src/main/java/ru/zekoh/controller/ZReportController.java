@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import ru.zekoh.core.printing.Acquiring;
 import ru.zekoh.core.printing.KKMOFD;
 import ru.zekoh.db.DAO.CheckDao;
 import ru.zekoh.db.DAOImpl.CheckDaoImpl;
@@ -29,6 +30,22 @@ public class ZReportController {
 
 
     public void ok(ActionEvent actionEvent) {
+        try{
+            // Закрыть интегрированный терминал
+            if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL){
+                Acquiring.report();
+                String text = Acquiring.readPFile();
+                if(text.length() > 1){
+                    KKMOFD.printSMTH(Properties.FPTR, text);
+                }
+            }
+        }catch (Exception e){
+            System.out.println("Проблема при закрытии смены на POS Сбербанк");
+            System.out.println(e);
+        }
+
+
+        //
         KKMOFD.closeShift(Properties.FPTR);
 
         Node source = (Node) actionEvent.getSource();
