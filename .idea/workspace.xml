@@ -2,27 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="settings init">
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/printing/Acquiring.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/ZReportController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/ZReportController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/printing/KKMOFD.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/printing/KKMOFD.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ZReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ZReportController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKMOFD.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKMOFD.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -328,8 +320,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.App" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.App" />
     </list>
     <recent_temporary>
       <list>
@@ -527,13 +519,6 @@
       <workItem from="1549286377686" duration="5332000" />
       <workItem from="1549382923354" duration="2402000" />
       <workItem from="1549569727109" duration="1660000" />
-    </task>
-    <task id="LOCAL-00149" summary="Пофиксил баг с разным типом оплаты на ккт">
-      <created>1571988450978</created>
-      <option name="number" value="00149" />
-      <option name="presentableId" value="LOCAL-00149" />
-      <option name="project" value="LOCAL" />
-      <updated>1571988450979</updated>
     </task>
     <task id="LOCAL-00150" summary="init">
       <created>1572236140939</created>
@@ -871,7 +856,14 @@
       <option name="project" value="LOCAL" />
       <updated>1603875374453</updated>
     </task>
-    <option name="localTasksCounter" value="198" />
+    <task id="LOCAL-00198" summary="settings init">
+      <created>1604487941157</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1604487941158</updated>
+    </task>
+    <option name="localTasksCounter" value="199" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -950,37 +942,37 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="773" y="231" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080@0.0.1920.1080" timestamp="1602871851641" />
-    <state x="369" y="17" key="CommitChangelistDialog2" timestamp="1603875374106">
+    <state x="369" y="17" key="CommitChangelistDialog2" timestamp="1604487940619">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1603875374106" />
-    <state width="1878" height="616" key="GridCell.Tab.0.bottom" timestamp="1604322178300">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1604487940619" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom" timestamp="1605357804564">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="616" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1604322178300" />
-    <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605357804564" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605270412927" />
+    <state width="1398" height="374" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1604762351199" />
     <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
-    <state width="1878" height="616" key="GridCell.Tab.0.center" timestamp="1604322178299">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center" timestamp="1605357804564">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1603350991444" />
-    <state width="1878" height="616" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1604322178299" />
-    <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605357804564" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605270412926" />
+    <state width="1398" height="374" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1604762351198" />
     <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="616" key="GridCell.Tab.0.left" timestamp="1604322178298">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left" timestamp="1605357804563">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1603350991443" />
-    <state width="1878" height="616" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1604322178298" />
-    <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1603137448973" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605357804563" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605270412925" />
+    <state width="1398" height="374" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1604762351197" />
     <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="616" key="GridCell.Tab.0.right" timestamp="1604322178299">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right" timestamp="1605357804564">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="616" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1604322178299" />
-    <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605357804564" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605270412927" />
+    <state width="1398" height="374" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1604762351198" />
     <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
     <state width="1878" height="411" key="GridCell.Tab.1.bottom" timestamp="1603137448976">
       <screen x="0" y="23" width="1440" height="827" />
@@ -1006,14 +998,18 @@
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.0.1920.1080@0.0.1920.1080" timestamp="1602875022823" />
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448976" />
     <state width="1878" height="411" key="GridCell.Tab.1.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873178735" />
-    <state x="427" y="203" key="Vcs.Push.Dialog.v2" timestamp="1603875376245">
+    <state x="427" y="203" key="Vcs.Push.Dialog.v2" timestamp="1604487942867">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state x="427" y="203" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1603875376245" />
+    <state x="427" y="203" key="Vcs.Push.Dialog.v2/0.0.1920.1080@0.0.1920.1080" timestamp="1604487942867" />
     <state x="383" y="203" key="new project wizard" timestamp="1604245547122">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="383" y="203" key="new project wizard/0.0.1920.1080@0.0.1920.1080" timestamp="1604245547122" />
+    <state x="625" y="255" key="run.anything.popup" timestamp="1604488635133">
+      <screen x="0" y="23" width="1920" height="1007" />
+    </state>
+    <state x="625" y="255" key="run.anything.popup/0.23.1920.1007@0.23.1920.1007" timestamp="1604488635133" />
     <state x="625" y="241" width="670" height="676" key="search.everywhere.popup" timestamp="1603877194283">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -1039,7 +1035,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/db/DAOImpl/CheckDaoImpl.java</url>
-          <line>120</line>
+          <line>119</line>
           <option name="timeStamp" value="239" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1279,42 +1275,42 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>34</line>
+          <line>35</line>
           <option name="timeStamp" value="1499" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>51</line>
+          <line>52</line>
           <option name="timeStamp" value="1501" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1378</line>
+          <line>1379</line>
           <option name="timeStamp" value="1502" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1382</line>
+          <line>1383</line>
           <option name="timeStamp" value="1503" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1395</line>
+          <line>1396</line>
           <option name="timeStamp" value="1505" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1400</line>
+          <line>1401</line>
           <option name="timeStamp" value="1506" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1404</line>
+          <line>1405</line>
           <option name="timeStamp" value="1507" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
-          <line>1414</line>
+          <line>1415</line>
           <option name="timeStamp" value="1508" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

@@ -30,7 +30,7 @@ public class ZReportController {
 
 
     public void ok(ActionEvent actionEvent) {
-        try{
+/*        try{
             // Закрыть интегрированный терминал
             if(Properties.ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL){
                 Acquiring.report();
@@ -45,7 +45,7 @@ public class ZReportController {
         }
 
 
-        //
+        //*/
         KKMOFD.closeShift(Properties.FPTR);
 
         Node source = (Node) actionEvent.getSource();

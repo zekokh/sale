@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.List;
 
 public class CheckDaoImpl implements CheckDao {
-
     private static Logger logger = LogManager.getLogger(CheckDaoImpl.class);
 
     //Создаем чек
@@ -185,14 +184,14 @@ public class CheckDaoImpl implements CheckDao {
                 }
 
 
-                    //SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = #{product} AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%#{today}%'"
+                //SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = #{product} AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%#{today}%'"
 
-                    //ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = "+i+" AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
-                    ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` INNER JOIN `groups` ON goods.product_id = groups.product_id WHERE `groups`.group_id = 1 AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
-                    while (amountCupOfCoffeeQuery.next()) {
-                        //System.out.println(amountCupOfCoffeeQuery.getInt(1));
-                        amountCupOfCoffe = amountCupOfCoffeeQuery.getInt(1);
-                    }
+                //ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` WHERE `goods`.`product_id` = "+i+" AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
+                ResultSet amountCupOfCoffeeQuery = stmt.executeQuery("SELECT SUM(`goods`.`quantity`) FROM `goods` INNER JOIN `check_list` ON `goods`.`check_id` = `check_list`.`id` INNER JOIN `groups` ON goods.product_id = groups.product_id WHERE `groups`.group_id = 1 AND `check_list`.`return_status` = 0 AND FROM_UNIXTIME(`check_list`.`date_of_creation`) LIKE '%" + today + "%'");
+                while (amountCupOfCoffeeQuery.next()) {
+                    //System.out.println(amountCupOfCoffeeQuery.getInt(1));
+                    amountCupOfCoffe = amountCupOfCoffeeQuery.getInt(1);
+                }
                 stmt.close();
             }
 

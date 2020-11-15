@@ -26,7 +26,7 @@ public class Properties {
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
     // 7 - 2-я касса на Краснодар, Российская, 74
-    public static int bakaryId = 7;
+    public static int bakaryId = 6;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -140,7 +140,7 @@ public class Properties {
     public static String infoModalText;
 
     // Автоматическая печать на электронный теримнал
-    public  static boolean ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL = true;
+    public  static boolean ELECTRONIC_PAY_IN_INTEGRATION_TERMINAL = false;
 
     public  static boolean checkPayCardWithSberPOS = false;
     public static String textFromFileP = "";
@@ -172,7 +172,7 @@ public class Properties {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
         PASSWORD = "heroin";
-        KKM = true;
+        KKM = false;
 
         switch (bakaryId) {
             case (1):

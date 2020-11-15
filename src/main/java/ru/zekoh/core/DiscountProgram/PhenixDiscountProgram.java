@@ -29,7 +29,8 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 goodsList.get(i).setPriceAfterDiscount(goodsList.get(i).getPriceFromThePriceList());
             }
 
-            CheckObject tempCheck = timeDiscount(check);
+           // CheckObject tempCheck = timeDiscount(check);
+            CheckObject tempCheck = null;
             if (tempCheck == null) {
 
                 coffeeGift(check);
