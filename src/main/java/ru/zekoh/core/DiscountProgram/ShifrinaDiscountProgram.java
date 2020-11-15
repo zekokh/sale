@@ -1465,8 +1465,8 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                 coffeeGift(check);
 
-                // 5 круаасан по цене 188р.
-                discountOnCountProductInCheck(check, 4, 5, 37.6);
+                // 5 круаасан по цене 228р.
+                discountOnCountProductInCheck(check, 4, 5, 45.6);
 
                 teaAndProduct(check);
             }else {

@@ -25,7 +25,7 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 3;
+    public static int bakaryId = 6;
 
     // Путь до шрифта
     public static String fontPath = "";

@@ -34,8 +34,10 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                 coffeeGift(check);
 
-                // 5 круаасан по цене 199р.
-                discountOnCountProductInCheck(check, 4, 5, 39.8);
+                // 5 круаасан по цене 225р.
+                discountOnCountProductInCheck(check, 4, 5, 45.0);
+                // 5 круаасан классик по цене 199р.
+                discountOnCountProductInCheck(check, 37, 5, 39.8);
 
                 onCroissant(check);
 
@@ -63,7 +65,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
             //discountOnCountProductInCheck(check, 5, 6, 40.833);
             discountOneFree(check, 36,6, 5);
             discountOneFree(check, 5,6, 5);
-            discountOneFree(check, 37,6, 12);
+            //discountOneFree(check, 37,6, 12);
             discountOneFree(check, 12,6, 12);
 
             // Флан натюр по кусочкам
@@ -183,7 +185,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4 || classifier == 32) {
+                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 37) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
@@ -1013,9 +1015,10 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                 //Классификатор товара
                 int classifier = goods.getClassifier();
+                int productId = goods.getProductId();
 
                 // Нашли ачму
-                if (classifier == 4) {
+                if (classifier == 4 || productId == 21 || classifier == 37) {
                     if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
                         countCroissant++;
                     }
@@ -1055,16 +1058,22 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                     //Классификатор товара
                     int classifier = goods.getClassifier();
+                    int productId = goods.getProductId();
 
                     // Нашли ачму
-                    if (classifier == 4) {
+                    if (classifier == 4 || productId == 21 || classifier == 37) {
 
                         if (countCroissant > 0) {
 
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 8;
+                                Double price = goods.getPriceFromThePriceList() - 18;
+
+                                // Костыль для сикдки на классический круассан
+                                if (classifier == 37) {
+                                    price = goods.getPriceFromThePriceList() - 8;
+                                }
 
                                 goods.setPriceAfterDiscount(price);
 
@@ -1411,8 +1420,9 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                         Goods g = check.getGoodsList().get(n);
 
                         // Круассан, Маффин, Эскарго, Ватрушка = 47 руб. (классификатор 4),  Симмит (id: 32), Пирожок (id: 24/25), Ачма(id: 13)
+                        // 38 классификатор = пиражок с начинкой
                         // if (g.getClassifier() == 4 || g.getProductId() == 32 || g.getProductId() == 24 || g.getProductId() == 25 || g.getProductId() == 13) {
-                        if (g.getClassifier() == 4 || g.getClassifier() == 32 || g.getProductId() == 21) {
+                        if (g.getClassifier() == 4 || g.getClassifier() == 32 || g.getProductId() == 21 || g.getClassifier() == 38 || g.getClassifier() == 37) {
 
                             // Проверяем действия акции на товар
                             if (g.getPriceAfterDiscount() > 0.0) {
