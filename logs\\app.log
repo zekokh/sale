@@ -5470,3 +5470,314 @@ You have an error in your SQL syntax; check the manual that corresponds to your 
 2020-11-16 02:19:45.395 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 18 Круассан со сгущенкой Количество: 1.0 Цена со скидкой 45.6 Цена без скидки 47.0 Итог 45.6
 2020-11-16 02:19:45.395 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 18 Круассан со сгущенкой Количество: 1.0 Цена со скидкой 45.6 Цена без скидки 47.0 Итог 45.6
 2020-11-16 02:19:45.395 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 18 Круассан со сгущенкой Количество: 1.0 Цена со скидкой 45.6 Цена без скидки 47.0 Итог 45.6
+2020-11-16 08:21:36.887 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 08:21:36.996 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 08:21:36.998 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 08:21:37.385 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 08:21:37.505 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 08:21:37.509 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 08:21:37.510 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 08:21:37.510 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 08:21:37.512 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 08:21:37.930 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 08:21:38.035 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 08:21:38.888 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7a79c081] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 08:21:39.099 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 08:22:00.038 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:22:14.111 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:22:14.412 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:22:14.688 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:22:14.948 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:22:15.184 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:22:16.794 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:22.459 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 08:25:22.574 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 08:25:22.576 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 08:25:22.975 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 08:25:23.094 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 08:25:23.098 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 08:25:23.098 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 08:25:23.098 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 08:25:23.100 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 08:25:23.497 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 08:25:23.597 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 08:25:24.420 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@27d40202] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 08:25:24.613 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 08:25:29.461 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:25:29.467 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:30.087 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:30.378 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:30.630 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:30.866 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:25:51.700 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Круассан Смородина (id: 19) Кол-во: 5 Цена после скидки: 45.0 Цена по прайсу: 55.0 Продажная цена: 45.0
+2020-11-16 08:25:55.695 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Чай черный(id: 77)
+2020-11-16 08:25:58.123 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Эскарго(id: 35)
+2020-11-16 08:27:18.682 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 08:27:18.788 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 08:27:18.789 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 08:27:19.164 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 08:27:19.280 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 08:27:19.284 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 08:27:19.284 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 08:27:19.285 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 08:27:19.287 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 08:27:19.658 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 08:27:19.724 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 08:27:20.660 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3fcd7454] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 08:27:20.882 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 08:27:48.342 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:27:48.346 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Ачма(id: 13)
+2020-11-16 08:27:55.067 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Чай черный(id: 77)
+2020-11-16 08:28:10.489 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 49.0 null
+2020-11-16 08:28:10.489 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@e56ef8fe
+2020-11-16 08:28:10.489 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 13 Ачма Количество: 1.0 Цена со скидкой 29.0 Цена без скидки 45.0 Итог 29.0
+2020-11-16 08:28:10.490 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 77 Чай черный Количество: 1.0 Цена со скидкой 20.0 Цена без скидки 30.0 Итог 20.0
+2020-11-16 08:28:13.071 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:28:15.465 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:28:18.473 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Чай черный(id: 77)
+2020-11-16 08:28:23.632 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Эскарго(id: 35)
+2020-11-16 08:28:25.279 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Круассан Смородина (id: 19) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:38:10.049 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 08:38:10.164 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 08:38:10.166 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 08:38:10.562 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 08:38:10.675 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 08:38:10.679 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 08:38:10.680 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 08:38:10.680 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 08:38:10.682 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 08:38:11.056 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 08:38:11.123 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 08:38:12.029 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1a004826] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 08:38:12.223 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 08:38:29.829 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:38:29.834 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Чай черный(id: 77)
+2020-11-16 08:38:42.347 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Эскарго(id: 35)
+2020-11-16 08:38:44.217 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Эскарго (id: 35) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:38:47.676 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Эскарго(id: 35)
+2020-11-16 08:38:48.432 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:38:50.022 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Эскарго (id: 35) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:38:55.074 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Круассан Смородина (id: 19) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:38:56.098 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Ачма(id: 13)
+2020-11-16 08:38:57.990 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Ачма (id: 13) Кол-во: 1 Цена после скидки: 29.0 Цена по прайсу: 45.0 Продажная цена: 29.0
+2020-11-16 08:39:00.274 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Эскарго(id: 35)
+2020-11-16 08:39:02.262 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Эскарго (id: 35) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:40:08.710 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Ватрушка(id: 387)
+2020-11-16 08:40:12.375 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Ватрушка (id: 387) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:40:14.297 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Маффин(id: 21)
+2020-11-16 08:40:18.001 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Маффин (id: 21) Кол-во: 1 Цена после скидки: 37.0 Цена по прайсу: 55.0 Продажная цена: 37.0
+2020-11-16 08:40:20.017 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Классик(id: 464)
+2020-11-16 08:40:22.015 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 59.0 null
+2020-11-16 08:40:22.016 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@e56ef8fe
+2020-11-16 08:40:22.016 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 77 Чай черный Количество: 1.0 Цена со скидкой 22.0 Цена без скидки 30.0 Итог 22.0
+2020-11-16 08:40:22.016 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 464 Круассан Классик Количество: 1.0 Цена со скидкой 37.0 Цена без скидки 45.0 Итог 37.0
+2020-11-16 08:40:29.547 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 08:40:29.548 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Американо(id: 69)
+2020-11-16 08:40:33.137 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 08:40:48.608 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 115.0 null
+2020-11-16 08:40:48.609 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@e56ef8fe
+2020-11-16 08:40:48.609 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 69 Американо Количество: 1.0 Цена со скидкой 60.0 Цена без скидки 60.0 Итог 60.0
+2020-11-16 08:40:48.609 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 55.0 Цена без скидки 55.0 Итог 55.0
+2020-11-16 09:20:12.569 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 09:20:12.681 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 09:20:12.683 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 09:20:13.068 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 09:20:13.184 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 09:20:13.189 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 09:20:13.189 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 09:20:13.190 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 09:20:13.192 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 09:20:13.613 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 09:20:13.718 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 09:20:14.560 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@442bca24] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 09:20:14.744 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 09:20:46.613 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 09:20:46.727 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 09:20:46.729 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 09:20:47.107 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 09:20:47.221 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 09:20:47.226 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 09:20:47.226 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 09:20:47.226 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 09:20:47.228 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 09:20:47.603 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 09:20:47.671 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 09:20:48.513 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@442bca24] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 09:20:48.699 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 09:20:56.309 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 09:20:56.314 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 09:20:59.919 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Американо(id: 69)
+2020-11-16 09:21:49.459 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 09:21:49.572 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 09:21:49.573 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 09:21:49.949 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 09:21:50.060 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 09:21:50.064 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 09:21:50.064 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 09:21:50.064 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 09:21:50.067 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 09:21:50.440 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 09:21:50.539 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 09:21:51.332 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3d949df7] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 09:21:51.515 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 09:21:56.503 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 09:21:56.506 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 09:22:00.393 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Американо(id: 69)
+2020-11-16 09:22:04.293 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Американо (id: 69) Кол-во: 1 Цена после скидки: 49.0 Цена по прайсу: 60.0 Продажная цена: 49.0
+2020-11-16 09:22:15.159 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино(id: 72)
+2020-11-16 09:22:40.062 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Капучино (id: 72) Кол-во: 1 Цена после скидки: 57.0 Цена по прайсу: 70.0 Продажная цена: 57.0
+2020-11-16 09:22:41.692 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Латте(id: 74)
+2020-11-16 09:22:54.813 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 09:22:54.922 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 09:22:54.923 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 09:22:55.294 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 09:22:55.405 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 09:22:55.410 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 09:22:55.410 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 09:22:55.410 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 09:22:55.413 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 09:22:55.777 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 09:22:55.839 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 09:22:56.645 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@27d40202] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 09:22:56.829 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 09:23:02.202 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 09:23:02.206 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 09:23:06.059 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино(id: 72)
+2020-11-16 09:23:08.849 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 99.0 null
+2020-11-16 09:23:08.849 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@e56ef8fe
+2020-11-16 09:23:08.849 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 41.0 Цена без скидки 55.0 Итог 41.0
+2020-11-16 09:23:08.850 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 72 Капучино Количество: 1.0 Цена со скидкой 58.0 Цена без скидки 70.0 Итог 58.0
+2020-11-16 10:21:40.551 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 10:21:40.657 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 10:21:40.658 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 10:21:41.026 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 10:21:41.137 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 10:21:41.142 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerPhenix?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 10:21:41.142 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 10:21:41.142 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 10:21:41.145 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 10:21:41.518 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 10:21:41.617 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 10:21:42.337 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@357af861] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 10:21:42.520 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 10:21:58.104 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 10:21:58.109 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:21:58.356 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:21:58.560 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:21:58.788 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:21:58.990 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:22:05.106 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино маленький(id: 72)
+2020-11-16 10:22:12.528 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:22:29.725 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад-Орех(id: 15)
+2020-11-16 10:22:35.207 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Капучино маленький (id: 72) Кол-во: 1 Цена после скидки: 90.0 Цена по прайсу: 90.0 Продажная цена: 90.0
+2020-11-16 10:22:40.339 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино большой(id: 407)
+2020-11-16 10:46:20.579 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 435.0 null
+2020-11-16 10:46:20.579 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@9bafc576
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.580 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 15 Круассан Шоколад-Орех Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:20.581 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 407 Капучино большой Количество: 1.0 Цена со скидкой 120.0 Цена без скидки 120.0 Итог 120.0
+2020-11-16 10:46:22.573 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 10:46:23.647 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 10:46:32.716 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино большой(id: 407)
+2020-11-16 10:46:36.865 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 10:46:37.735 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 10:46:38.603 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 10:46:39.489 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 10:46:48.955 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 10:46:51.445 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 390.0 null
+2020-11-16 10:46:51.445 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@9bafc576
+2020-11-16 10:46:51.445 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 19 Круассан Смородина Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:51.445 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 407 Капучино большой Количество: 1.0 Цена со скидкой 120.0 Цена без скидки 120.0 Итог 120.0
+2020-11-16 10:46:51.445 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:51.446 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:51.446 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:51.446 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 10:46:51.446 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 45.0 Итог 45.0
+2020-11-16 11:02:23.278 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 11:02:23.420 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 11:02:23.421 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 11:02:23.913 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 11:02:24.043 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 11:02:24.048 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerPhenix?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 11:02:24.048 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 11:02:24.048 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 11:02:24.051 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 11:02:24.524 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 11:02:24.629 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 11:02:25.543 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3c53a5b2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 11:02:25.762 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 11:02:32.167 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 11:02:32.172 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:32.461 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:32.695 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:32.948 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:33.184 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:34.993 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:37.426 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Удаляем позицию в чеке: Круассан Смородина (id: 19) Кол-во: 6 Цена после скидки: 45.0 Цена по прайсу: 45.0 Продажная цена: 45.0
+2020-11-16 11:02:38.909 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:39.203 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:39.487 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:39.755 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:02:39.983 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Смородина(id: 19)
+2020-11-16 11:03:40.604 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 11:03:40.744 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 11:03:40.746 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 11:03:41.169 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 11:03:41.295 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 11:03:41.300 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerCenter?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 11:03:41.300 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 11:03:41.300 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 11:03:41.303 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 11:03:41.707 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 11:03:41.783 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 11:03:42.774 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@27d40202] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 11:03:42.970 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 11:03:53.171 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 11:03:53.176 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:03:53.837 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:03:54.455 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:03:54.788 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:03:55.040 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:03:56.719 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Шоколад(id: 20)
+2020-11-16 11:04:06.719 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 225.0 null
+2020-11-16 11:04:06.719 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@e56ef8fe
+2020-11-16 11:04:06.719 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 55.0 Итог 45.0
+2020-11-16 11:04:06.719 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 55.0 Итог 45.0
+2020-11-16 11:04:06.719 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 55.0 Итог 45.0
+2020-11-16 11:04:06.720 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 55.0 Итог 45.0
+2020-11-16 11:04:06.720 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 20 Круассан Шоколад Количество: 1.0 Цена со скидкой 45.0 Цена без скидки 55.0 Итог 45.0
+2020-11-16 11:04:21.688 [JavaFX-Launcher] INFO  ru.zekoh.app.App - Запуск системы продаж.
+2020-11-16 11:04:21.826 [JavaFX-Launcher] INFO  org.hibernate.Version - HHH000412: Hibernate Core {5.3.7.Final}
+2020-11-16 11:04:21.827 [JavaFX-Launcher] INFO  org.hibernate.cfg.Environment - HHH000206: hibernate.properties not found
+2020-11-16 11:04:22.276 [JavaFX-Launcher] INFO  org.hibernate.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.0.4.Final}
+2020-11-16 11:04:22.399 [JavaFX-Launcher] WARN  org.hibernate.orm.connections.pooling - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2020-11-16 11:04:22.403 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001005: using driver [com.mysql.cj.jdbc.Driver] at URL [jdbc:mysql://localhost:3306/centerVoshod?autoReconnect=true&useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC]
+2020-11-16 11:04:22.404 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001001: Connection properties: {user=root, password=Heroin160892}
+2020-11-16 11:04:22.404 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.pooling - HHH10001003: Autocommit mode: false
+2020-11-16 11:04:22.406 [JavaFX-Launcher] INFO  org.hibernate.engine.jdbc.connections.internal.DriverManagerConnectionProviderImpl - HHH000115: Hibernate connection pool size: 20 (min=1)
+2020-11-16 11:04:22.846 [JavaFX-Launcher] INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+2020-11-16 11:04:22.957 [JavaFX-Launcher] INFO  org.hibernate.envers.boot.internal.EnversServiceImpl - Envers integration enabled? : true
+2020-11-16 11:04:24.004 [JavaFX-Launcher] INFO  org.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3fcd7454] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2020-11-16 11:04:24.228 [JavaFX-Launcher] INFO  org.hibernate.hql.internal.QueryTranslatorFactoryInitiator - HHH000397: Using ASTQueryTranslatorFactory
+2020-11-16 11:04:32.854 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Создаем новый чек.
+2020-11-16 11:04:32.859 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Сыр(id: 14)
+2020-11-16 11:04:33.172 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Сыр(id: 14)
+2020-11-16 11:04:33.464 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Сыр(id: 14)
+2020-11-16 11:04:33.750 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Сыр(id: 14)
+2020-11-16 11:04:34.081 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Круассан Сыр(id: 14)
+2020-11-16 11:04:40.264 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино большой(id: 407)
+2020-11-16 11:04:59.491 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Добавляем товар: Капучино большой(id: 407)
+2020-11-16 11:05:03.137 [JavaFX Application Thread] WARN  ru.zekoh.controller.Sale - Cancel check Отмена чека: 405.0 null
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - Пользователь: ru.zekoh.db.entity.UserEntity@84268bdc
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 14 Круассан Сыр Количество: 1.0 Цена со скидкой 0.0 Цена без скидки 55.0 Итог 0.0
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 14 Круассан Сыр Количество: 1.0 Цена со скидкой 0.0 Цена без скидки 55.0 Итог 0.0
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 14 Круассан Сыр Количество: 1.0 Цена со скидкой 55.0 Цена без скидки 55.0 Итог 55.0
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 14 Круассан Сыр Количество: 1.0 Цена со скидкой 55.0 Цена без скидки 55.0 Итог 55.0
+2020-11-16 11:05:03.138 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 14 Круассан Сыр Количество: 1.0 Цена со скидкой 55.0 Цена без скидки 55.0 Итог 55.0
+2020-11-16 11:05:03.139 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 407 Капучино большой Количество: 1.0 Цена со скидкой 120.0 Цена без скидки 120.0 Итог 120.0
+2020-11-16 11:05:03.139 [JavaFX Application Thread] INFO  ru.zekoh.controller.Sale - 407 Капучино большой Количество: 1.0 Цена со скидкой 120.0 Цена без скидки 120.0 Итог 120.0

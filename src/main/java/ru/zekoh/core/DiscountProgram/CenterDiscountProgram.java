@@ -30,19 +30,25 @@ public class CenterDiscountProgram implements DiscountInterface {
             CheckObject tempCheck = timeDiscount(check);
             if (tempCheck == null) {
 
-                // 5 круаасан по цене 199р.
-                discountOnCountProductInCheck(check, 4, 5, 39.8);
+
+
+                // 5 круаасан по цене 225р.
+                discountOnCountProductInCheck(check, 4, 5, 45.0);
+                // 5 круассанов классик по 199р.
+                discountOnCountProductInCheck(check, 38, 5, 39.8);
 
                 onCroissant(check);
+
+                cappuccinoAndCroissant(check);
 
                 //DiscountProgram.cappuccinoAndCroissant(check);
 
                 // Скидка на 3 кусков пирога
-                discountOnCountProductInCheck(check, 32, 3, 43.34);
+                //discountOnCountProductInCheck(check, 32, 3, 43.34);
                 // Скидка на 6 кусков пирагов
-                discountOnCountProductInCheck(check, 32, 6, 42.5);
+                //discountOnCountProductInCheck(check, 32, 6, 42.5);
                 // Скидка на 12 кусков пирагов
-                discountOnCountProductInCheck(check, 32, 12, 41.58);
+                //discountOnCountProductInCheck(check, 32, 12, 41.58);
             }
 
 
@@ -59,7 +65,7 @@ public class CenterDiscountProgram implements DiscountInterface {
             discountOneFree(check, 36,6, 5);
             discountOneFree(check, 5,6, 5);
             discountOneFree(check, 37,6, 12);
-            discountOneFree(check, 12,6, 12);
+            //discountOneFree(check, 12,6, 12);
 
             // Флан натюр по кусочкам
             //DiscountProgram.discountOnCountProductInCheck(check, 9, 8, 62.375);
@@ -860,9 +866,10 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                 //Классификатор товара
                 int classifier = goods.getClassifier();
+                int product_id = goods.getProductId();
 
                 // Нашли ачму
-                if (classifier == 4) {
+                if (classifier == 4 || classifier == 38 || product_id == 21 || product_id == 387) {
                     if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
                         countCroissant++;
                     }
@@ -902,16 +909,22 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                     //Классификатор товара
                     int classifier = goods.getClassifier();
+                    int product_id = goods.getProductId();
 
                     // Нашли ачму
-                    if (classifier == 4) {
+                    if (classifier == 4 || classifier == 38 || product_id == 21 || product_id == 387) {
 
                         if (countCroissant > 0) {
 
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 8;
+                                Double price = goods.getPriceFromThePriceList() - 18;
+
+                                // КОстыль для круассана классик
+                                if (classifier == 38){
+                                    price = goods.getPriceFromThePriceList() - 8;
+                                }
 
                                 goods.setPriceAfterDiscount(price);
 
@@ -1112,9 +1125,10 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                 //Классификатор товара
                 int classifier = goods.getClassifier();
+                int product_id = goods.getProductId();
 
                 // Нашли эскарго / круассан
-                if (classifier == 4) {
+                if (classifier == 4 || product_id == 455 || product_id == 459 || product_id == 460 || product_id == 461 || product_id == 462) {
                     if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
                         countCroissant++;
                     }
@@ -1154,16 +1168,17 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                     //Классификатор товара
                     int classifier = goods.getClassifier();
+                    int product_id = goods.getProductId();
 
                     // Нашли ачму
-                    if (classifier == 4) {
+                    if (classifier == 4 || product_id == 455 || product_id == 459 || product_id == 460 || product_id == 461 || product_id == 462) {
 
                         if (countCroissant > 0) {
 
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 6;
+                                Double price = goods.getPriceFromThePriceList() - 14;
 
                                 goods.setPriceAfterDiscount(price);
 
@@ -1192,7 +1207,15 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 5;
+                                Double price = goods.getPriceFromThePriceList() - 11;
+
+                                // КОстыль
+                                if (product_id == 72) {
+                                    price = goods.getPriceFromThePriceList() - 12;
+                                }
+                                if (product_id == 74) {
+                                    price = goods.getPriceFromThePriceList() - 17;
+                                }
 
                                 goods.setPriceAfterDiscount(price);
 

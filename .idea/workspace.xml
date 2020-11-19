@@ -5,17 +5,24 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs\\app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs\\app.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" afterDir="false" />
@@ -323,8 +330,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.App" />
+      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
@@ -949,33 +956,33 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="369" y="17" key="CommitChangelistDialog2/0.0.1920.1080@0.0.1920.1080" timestamp="1603696324094" />
-    <state width="1878" height="374" key="GridCell.Tab.0.bottom" timestamp="1605482793554">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom" timestamp="1605687413494">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="374" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605482793554" />
-    <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1603137448975" />
+    <state width="1398" height="374" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1605513950224" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1605552092533" />
+    <state width="1878" height="374" key="GridCell.Tab.0.bottom/0.23.1440.827@0.23.1440.827" timestamp="1605687413494" />
     <state width="1878" height="411" key="GridCell.Tab.0.bottom/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
-    <state width="1878" height="374" key="GridCell.Tab.0.center" timestamp="1605482793553">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center" timestamp="1605687413493">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1603350991444" />
-    <state width="1878" height="374" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605482793553" />
-    <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1398" height="374" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1605513950223" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1605552092532" />
+    <state width="1878" height="374" key="GridCell.Tab.0.center/0.23.1440.827@0.23.1440.827" timestamp="1605687413493" />
     <state width="1878" height="411" key="GridCell.Tab.0.center/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="374" key="GridCell.Tab.0.left" timestamp="1605482793553">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left" timestamp="1605687413492">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1603350991443" />
-    <state width="1878" height="374" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605482793553" />
-    <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1603137448973" />
+    <state width="1398" height="374" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1605513950222" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1605552092532" />
+    <state width="1878" height="374" key="GridCell.Tab.0.left/0.23.1440.827@0.23.1440.827" timestamp="1605687413492" />
     <state width="1878" height="411" key="GridCell.Tab.0.left/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168172" />
-    <state width="1878" height="374" key="GridCell.Tab.0.right" timestamp="1605482793554">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right" timestamp="1605687413494">
+      <screen x="0" y="23" width="1440" height="827" />
     </state>
-    <state width="1398" height="499" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1603350991445" />
-    <state width="1878" height="374" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605482793554" />
-    <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1603137448974" />
+    <state width="1398" height="374" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1605513950223" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1605552092533" />
+    <state width="1878" height="374" key="GridCell.Tab.0.right/0.23.1440.827@0.23.1440.827" timestamp="1605687413494" />
     <state width="1878" height="411" key="GridCell.Tab.0.right/0.23.1920.1007@0.23.1920.1007" timestamp="1602873168173" />
     <state width="1878" height="411" key="GridCell.Tab.1.bottom" timestamp="1603137448976">
       <screen x="0" y="23" width="1440" height="827" />
@@ -1076,7 +1083,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2050</line>
+          <line>2053</line>
           <option name="timeStamp" value="963" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1086,47 +1093,47 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2365</line>
+          <line>2368</line>
           <option name="timeStamp" value="1081" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2368</line>
+          <line>2371</line>
           <option name="timeStamp" value="1082" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2350</line>
+          <line>2353</line>
           <option name="timeStamp" value="1083" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2353</line>
+          <line>2356</line>
           <option name="timeStamp" value="1085" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>1392</line>
+          <line>1395</line>
           <option name="timeStamp" value="1136" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>1391</line>
+          <line>1394</line>
           <option name="timeStamp" value="1137" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>1395</line>
+          <line>1398</line>
           <option name="timeStamp" value="1141" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2074</line>
+          <line>2077</line>
           <option name="timeStamp" value="1253" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>634</line>
+          <line>637</line>
           <option name="timeStamp" value="1289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1186,22 +1193,22 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2859</line>
+          <line>2862</line>
           <option name="timeStamp" value="1472" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2861</line>
+          <line>2864</line>
           <option name="timeStamp" value="1474" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2865</line>
+          <line>2868</line>
           <option name="timeStamp" value="1475" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2870</line>
+          <line>2873</line>
           <option name="timeStamp" value="1477" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1226,37 +1233,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2850</line>
+          <line>2853</line>
           <option name="timeStamp" value="1485" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2858</line>
+          <line>2861</line>
           <option name="timeStamp" value="1486" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2851</line>
+          <line>2854</line>
           <option name="timeStamp" value="1487" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>3023</line>
+          <line>3026</line>
           <option name="timeStamp" value="1488" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2909</line>
+          <line>2912</line>
           <option name="timeStamp" value="1490" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2908</line>
+          <line>2911</line>
           <option name="timeStamp" value="1491" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2813</line>
+          <line>2816</line>
           <option name="timeStamp" value="1492" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1306,67 +1313,67 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2825</line>
+          <line>2828</line>
           <option name="timeStamp" value="1509" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2789</line>
+          <line>2792</line>
           <option name="timeStamp" value="1511" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2828</line>
+          <line>2831</line>
           <option name="timeStamp" value="1513" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2839</line>
+          <line>2842</line>
           <option name="timeStamp" value="1514" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>2556</line>
+          <line>2559</line>
           <option name="timeStamp" value="1516" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>576</line>
+          <line>579</line>
           <option name="timeStamp" value="1517" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>578</line>
+          <line>581</line>
           <option name="timeStamp" value="1518" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>582</line>
+          <line>585</line>
           <option name="timeStamp" value="1519" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>587</line>
+          <line>590</line>
           <option name="timeStamp" value="1520" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>586</line>
+          <line>589</line>
           <option name="timeStamp" value="1521" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>594</line>
+          <line>597</line>
           <option name="timeStamp" value="1522" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>595</line>
+          <line>598</line>
           <option name="timeStamp" value="1523" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>599</line>
+          <line>602</line>
           <option name="timeStamp" value="1524" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -1396,118 +1403,123 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>591</line>
+          <line>594</line>
           <option name="timeStamp" value="1530" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>450</line>
+          <line>453</line>
           <option name="timeStamp" value="1531" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>454</line>
+          <line>457</line>
           <option name="timeStamp" value="1532" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>453</line>
+          <line>456</line>
           <option name="timeStamp" value="1533" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>455</line>
+          <line>458</line>
           <option name="timeStamp" value="1534" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>689</line>
+          <line>692</line>
           <option name="timeStamp" value="1535" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>663</line>
+          <line>666</line>
           <option name="timeStamp" value="1536" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>664</line>
+          <line>667</line>
           <option name="timeStamp" value="1537" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>667</line>
+          <line>670</line>
           <option name="timeStamp" value="1540" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>668</line>
+          <line>671</line>
           <option name="timeStamp" value="1541" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>671</line>
+          <line>674</line>
           <option name="timeStamp" value="1542" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>673</line>
+          <line>676</line>
           <option name="timeStamp" value="1543" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>680</line>
+          <line>683</line>
           <option name="timeStamp" value="1544" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>674</line>
+          <line>677</line>
           <option name="timeStamp" value="1545" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>684</line>
+          <line>687</line>
           <option name="timeStamp" value="1546" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>685</line>
+          <line>688</line>
           <option name="timeStamp" value="1547" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>686</line>
+          <line>689</line>
           <option name="timeStamp" value="1548" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>467</line>
+          <line>470</line>
           <option name="timeStamp" value="1549" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>722</line>
+          <line>725</line>
           <option name="timeStamp" value="1557" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>723</line>
+          <line>726</line>
           <option name="timeStamp" value="1558" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>3181</line>
+          <line>3184</line>
           <option name="timeStamp" value="1565" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>477</line>
+          <line>480</line>
           <option name="timeStamp" value="1566" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java</url>
-          <line>3183</line>
+          <line>3186</line>
           <option name="timeStamp" value="1569" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="1570" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

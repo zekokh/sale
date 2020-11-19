@@ -1409,11 +1409,11 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
             timeDiscountAfterSeven(check);
 
             // Акции которые не с чем не пересикаются
-            // 6 эклеров по цене 5
-            discountOnCountProductInCheck(check, 5, 6, 29.167);
+            // 6 эклеров по цене 5 (6 эклеров = 195р)
+            discountOnCountProductInCheck(check, 5, 6, 32.5);
 
-            // 10 макаронс по цене 225
-            discountOnCountProductInCheck(check, 21, 10, 26.1);
+            // 10 макаронс по цене 315
+            discountOnCountProductInCheck(check, 21, 10, 31.5);
 
             teaAndProduct(check);
 

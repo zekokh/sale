@@ -44,11 +44,11 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 //DiscountProgram.cappuccinoAndCroissant(check);
 
                 // Скидка на 3 кусков пирога
-                discountOnCountProductInCheck(check, 32, 3, 43.34);
+                //discountOnCountProductInCheck(check, 32, 3, 43.34);
                 // Скидка на 6 кусков пирагов
-                discountOnCountProductInCheck(check, 32, 6, 42.5);
+                //discountOnCountProductInCheck(check, 32, 6, 42.5);
                 // Скидка на 12 кусков пирагов
-                discountOnCountProductInCheck(check, 32, 12, 41.58);
+                //discountOnCountProductInCheck(check, 32, 12, 41.58);
 
             } else {
                 coffeeGift(check);
@@ -391,7 +391,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == classificatorForPromo) {
+                if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
                     count++;
                 }
 
@@ -415,7 +415,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                     if (countProductWhichNeedDiscount == 0) {
                         return null;
                     }
-                    if (classifier == classificatorForPromo) {
+                    if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
 
                         //Устанавливаем цену со скидкой
                         goods.setPriceAfterDiscount(price);

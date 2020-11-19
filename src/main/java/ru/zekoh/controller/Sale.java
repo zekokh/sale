@@ -420,6 +420,9 @@ public class Sale {
                     case (6):
                         discount = new PhenixDiscountProgram();
                         break;
+                    case (7):
+                        discount = new RossiyskayaDiscountProgram();
+                        break;
                     default:
                         discount = new DefaultDiscountProgram();
                         break;

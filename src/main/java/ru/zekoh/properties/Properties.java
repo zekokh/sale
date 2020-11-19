@@ -25,7 +25,8 @@ public class Properties {
     // 4 - Краснодар, Генерела Шифрина, 1
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
-    public static int bakaryId = 6;
+    // 7 - Краснодар, Российская, 74 (2-ая касса)
+    public static int bakaryId = 2;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -160,7 +161,7 @@ public class Properties {
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "heroin";
+        PASSWORD = "Heroin160892";
         KKM = true;
 
         switch (bakaryId) {
@@ -181,6 +182,9 @@ public class Properties {
                 break;
             case (6):
                 initDataPhenix();
+                break;
+            case (7):
+                initDataRossiyskayaSecondCashPoint();
                 break;
         }
     }
@@ -209,6 +213,17 @@ public class Properties {
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
+    }
+
+    // Инициализация данных для пекарни на Российская
+    public static void initDataRossiyskayaSecondCashPoint() {
+        comPort = "6";
+        updateUrl = "https://krasnodar.jacq.ru";
+        //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
+        loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
+        loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bagetId = 133;
+        // loyaltyUrl = "http://localhost:3000/customer/search/";
     }
 
     // Инициализация данных для пекарни Восход
