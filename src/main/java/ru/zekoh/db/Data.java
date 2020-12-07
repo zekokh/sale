@@ -35,4 +35,23 @@ public class Data {
 
         return null;
     }
+
+    public static Product getProductById(int id){
+        /*
+        for (List <Product> productList : products.entrySet()) {
+            for (int i = 0; i < productList.size(); i++){
+                if (productList.get(i).getId() == id) {
+                    return productList.get(i);
+                }
+            }
+        }*/
+        for (ArrayList<Product> productList : products.values()) {
+            for (int i = 0; i < productList.size(); i++) {
+                if (productList.get(i).getId() == id) {
+                    return productList.get(i);
+                }
+            }
+        }
+        return null;
+    }
 }

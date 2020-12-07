@@ -454,7 +454,7 @@ public class Sale {
                             storeCardBalanceLabel.setText("Всего бонусов: " + check.getDiscount().getBalance() + "\n" + "Вы можете оплатить бонусами: " + amountPayBonus);
 
                             // Применить скидку (применять только на товары которые могут принимать участие в скидках)
-                            if(check.getDiscount().isPayWithBonus()){
+                            if (check.getDiscount().isPayWithBonus()) {
                                 check.setAmountBonus(amountPayBonus);
                                 payBonus(check);
                             }
@@ -464,7 +464,6 @@ public class Sale {
                 }
 
             }
-
 
 
             // Рассчитать цену исходя из проджной
@@ -672,7 +671,7 @@ public class Sale {
                     return;
                 }
 
-                if (goods.get(i).isParticipatesInpromotions() || goods.get(i).getProductId() == Properties.bagetId){
+                if (goods.get(i).isParticipatesInpromotions() || goods.get(i).getProductId() == Properties.bagetId) {
                     Double priceAfterDiscount = goods.get(i).getSellingPrice();
                     if (amountBonuses >= priceAfterDiscount) {
                         goods.get(i).setPriceAfterDiscount(0.0);
@@ -981,6 +980,11 @@ public class Sale {
                     currentNotUnitProduct = Data.getProductById(tempGoods.getProductId(), tempGoods.getParentId());
                     displayScreenForEnteringProductQuantities(true);
                 }*/
+                if (tempGoods != null) {
+                    currentNotUnitProduct = Data.getProductById(tempGoods.getProductId());
+                    System.out.println("Кнопка весовой товар" + currentNotUnitProduct.getFullName());
+                    displayScreenForEnteringProductQuantities(true);
+                }
             }
         }
     }
@@ -1897,7 +1901,24 @@ public class Sale {
             //Добавляем товар в чек
             CheckObject check = checkList.get(currentCheckIndex);
 
-            check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), count, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId(), product.isParticipatesInpromotions()));
+            if (product.isUnit()) {
+                // Удалить этот товар
+                int text_x = check.getGoodsList().size()-1;
+                for (int x = check.getGoodsList().size()-1; x >= 0; x--) {
+                    Goods goods = check.getGoodsList().get(x);
+                    if (product.getId() == goods.getProductId()) {
+                        check.getGoodsList().remove(x);
+                    }
+                }
+
+                // Добавить заного
+                for(int i = 0; i < count; i++){
+                    check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), 1.0, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId(), product.isParticipatesInpromotions()));
+                }
+            } else {
+                check.getGoodsList().add(new Goods(product.getId(), product.getGeneralId(), product.getShortName(), product.getClassifierId(), count, product.getPrice(), product.getPrice(), product.getPrice(), product.isUnit(), product.getParentId(), product.isParticipatesInpromotions()));
+            }
+
 
             // Проверка на скидки и оновление всех данных
             reloadAll();
@@ -1976,7 +1997,6 @@ public class Sale {
                         if (goods.getProductId() == currentGoods.get(0).getProductId()) {
 
                             tempGoods = goods;
-
                             break;
                         }
                     }
@@ -2012,6 +2032,52 @@ public class Sale {
                     }
                     logger.info("Удаляем позицию в чеке: " + tempGoods.getProductName() + " (id: " + tempGoods.getProductId() + ") Кол-во: " + times + " Цена после скидки: " + tempGoods.getPriceAfterDiscount() + " Цена по прайсу: " + tempGoods.getPriceFromThePriceList() + " Продажная цена: " + tempGoods.getSellingPrice());
                     tempGoods = null;
+                    reloadAll();
+                }
+            }
+        }
+    }
+
+
+    // Метод изменения количество через клавиатуру
+    public void changeCountFromPanelKyebord() {
+
+        if (checkList.size() > 0) {
+            CheckObject check = checkList.get(currentCheckIndex);
+
+            // Если чек открыт
+            if (check.isLive()) {
+
+                // Если товар выбран
+                if (tempGoods != null) {
+
+
+                    // Если товар штуный
+                    if (tempGoods.isUnit()) {
+
+                        for (int i = 0; i < check.getGoodsList().size(); i++) {
+                            Goods goods = check.getGoodsList().get(i);
+                            if (tempGoods.getProductId() == goods.getProductId()) {
+
+                                Goods newGoods = new Goods(goods.getProductId(), goods.getGeneralId(), goods.getProductName(), goods.getClassifier(), goods.getCount(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.getPriceFromThePriceList(), goods.isUnit(), goods.getParentId(), goods.isParticipatesInpromotions());
+                                check.getGoodsList().add(newGoods);
+                                break;
+                            }
+
+                        }
+                    } else {
+                        for (int i = 0; i < check.getGoodsList().size(); i++) {
+                            Goods goods = check.getGoodsList().get(i);
+
+                            if (tempGoods.getProductId() == goods.getProductId() && tempGoods.getPriceAfterDiscount() == goods.getPriceAfterDiscount()) {
+
+                                Goods currentGood = check.getGoodsList().get(i);
+                                currentGood.setCount(currentGood.getCount() + 1);
+                            }
+
+                        }
+                    }
+
                     reloadAll();
                 }
             }
@@ -2479,7 +2545,6 @@ public class Sale {
             Properties.modalNumberCard = null;
 
 
-
             StoreCard storeCard = Properties.modalStoreCard;
             Discount discount = new Discount();
             if (storeCard != null) {
@@ -2691,7 +2756,7 @@ public class Sale {
     public void applyBonusAction(ActionEvent event) {
         panelFindDiscount.setVisible(false);
         panelForButtons.setVisible(true);
-        CheckObject checkObject =  checkList.get(currentCheckIndex);
+        CheckObject checkObject = checkList.get(currentCheckIndex);
         checkObject.setPanelForFindDiscountCard(false);
         checkObject.getDiscount().setPayWithBonus(true);
 

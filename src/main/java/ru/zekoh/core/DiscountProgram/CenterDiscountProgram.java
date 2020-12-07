@@ -184,7 +184,7 @@ public class CenterDiscountProgram implements DiscountInterface {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4 || classifier == 32) {
+                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 39) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
@@ -192,7 +192,12 @@ public class CenterDiscountProgram implements DiscountInterface {
                     //Цена на товар со скидкой
                     Double priceAfterDiscount = priceFromThePriceList - discountAmount;
 
-                    priceAfterDiscount = roundUp(priceAfterDiscount);
+                    if(goods.isUnit()){
+                        priceAfterDiscount = roundUp(priceAfterDiscount);
+                    }else {
+
+                        priceAfterDiscount = roundUpNotUniqProduct(priceAfterDiscount);
+                    }
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);
@@ -310,14 +315,15 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                 // id товара
                 int productId = goods.getProductId();
+                //Классификатор товара
+                int classifier = goods.getClassifier();
 
                 // Нашли ачму
-                if (productId == 13) {
+                if (productId == 13 || classifier == 38) {
                     countAchma++;
                 }
 
-                //Классификатор товара
-                int classifier = goods.getClassifier();
+
 
                 // Нашли чай
                 if (classifier == 17) {
@@ -351,9 +357,11 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                     // id товара
                     int productId = goods.getProductId();
+                    //Классификатор товара
+                    int classifier = goods.getClassifier();
 
                     // Нашли ачму
-                    if (productId == 13) {
+                    if (productId == 13 || classifier == 38) {
                         if (countAchma > 0) {
 
 
@@ -375,15 +383,14 @@ public class CenterDiscountProgram implements DiscountInterface {
                         }
                     }
 
-                    //Классификатор товара
-                    int classifier = goods.getClassifier();
+
 
                     // Нашли чай
                     if (classifier == 17) {
 
                         if (countTea > 0) {
 
-                            goods.setPriceAfterDiscount(20.0);
+                            goods.setPriceAfterDiscount(30.0);
 
                             //Количество товара
                             Double countProduct = goods.getCount();
@@ -869,7 +876,7 @@ public class CenterDiscountProgram implements DiscountInterface {
                 int product_id = goods.getProductId();
 
                 // Нашли ачму
-                if (classifier == 4 || classifier == 38 || product_id == 21 || product_id == 387) {
+                if (classifier == 4 || product_id == 21 || product_id == 387) {
                     if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
                         countCroissant++;
                     }
@@ -912,19 +919,16 @@ public class CenterDiscountProgram implements DiscountInterface {
                     int product_id = goods.getProductId();
 
                     // Нашли ачму
-                    if (classifier == 4 || classifier == 38 || product_id == 21 || product_id == 387) {
+                    if (classifier == 4 ||  product_id == 21 || product_id == 387) {
 
                         if (countCroissant > 0) {
 
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 18;
+                                Double price = goods.getPriceFromThePriceList() - 8;
 
-                                // КОстыль для круассана классик
-                                if (classifier == 38){
-                                    price = goods.getPriceFromThePriceList() - 8;
-                                }
+
 
                                 goods.setPriceAfterDiscount(price);
 
@@ -1081,7 +1085,7 @@ public class CenterDiscountProgram implements DiscountInterface {
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                goods.setPriceAfterDiscount(20.0);
+                                goods.setPriceAfterDiscount(30.0);
 
                                 //Количество товара
                                 Double countProduct = goods.getCount();
@@ -1319,4 +1323,11 @@ public class CenterDiscountProgram implements DiscountInterface {
         return check;
     }
 
+    // Метод округления для кол-венных товаров
+    private static Double roundUpNotUniqProduct(Double numeral){
+
+        numeral = new BigDecimal(numeral).setScale(3, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
+    }
 }

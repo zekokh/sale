@@ -171,6 +171,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
         Date curentDate = new Date();
 
         //Сравниваем текщую дату с лимитом
+        System.out.println(curentDate + " тут " + dateLimit);
         if (curentDate.after(dateLimit)) {
 
             //Делаем 40% скидку на выпечку
@@ -185,7 +186,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 37) {
+                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 37 || classifier == 39) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;
@@ -193,7 +194,14 @@ public class PhenixDiscountProgram implements DiscountInterface  {
                     //Цена на товар со скидкой
                     Double priceAfterDiscount = priceFromThePriceList - discountAmount;
 
-                    priceAfterDiscount = roundUp(priceAfterDiscount);
+                    if(goods.isUnit()){
+                        priceAfterDiscount = roundUp(priceAfterDiscount);
+                    }else {
+
+                        priceAfterDiscount = roundUpNotUniqProduct(priceAfterDiscount);
+                    }
+
+
 
                     //Устанавливаем цену со скидкой
                     goods.setPriceAfterDiscount(priceAfterDiscount);
@@ -206,6 +214,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                     // Округляем продажную цену
                     sellingPrice = roundUp(sellingPrice);
+
 
                     //Устанавливаем продажную цену товара
                     goods.setSellingPrice(sellingPrice);
@@ -532,7 +541,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                         if (countTea > 0) {
 
-                            goods.setPriceAfterDiscount(20.0);
+                            goods.setPriceAfterDiscount(30.0);
 
                             //Количество товара
                             Double countProduct = goods.getCount();
@@ -1068,11 +1077,11 @@ public class PhenixDiscountProgram implements DiscountInterface  {
 
                             if (areEqualDouble(goods.getPriceFromThePriceList(), goods.getPriceAfterDiscount(), 2)) {
 
-                                Double price = goods.getPriceFromThePriceList() - 18;
+                                Double price = goods.getPriceFromThePriceList() - 8;
 
                                 // Костыль для сикдки на классический круассан
                                 if (classifier == 37) {
-                                    price = goods.getPriceFromThePriceList() - 8;
+                                    price = goods.getPriceFromThePriceList() - 18;
                                 }
 
                                 goods.setPriceAfterDiscount(price);
@@ -1466,6 +1475,13 @@ public class PhenixDiscountProgram implements DiscountInterface  {
     private static Double roundUp(Double numeral){
 
         numeral = new BigDecimal(numeral).setScale(1, RoundingMode.HALF_UP).doubleValue();
+
+        return numeral;
+    }
+    // Метод округления для кол-венных товаров
+    private static Double roundUpNotUniqProduct(Double numeral){
+
+        numeral = new BigDecimal(numeral).setScale(3, RoundingMode.HALF_UP).doubleValue();
 
         return numeral;
     }
