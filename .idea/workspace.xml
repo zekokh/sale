@@ -333,8 +333,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.App" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.App" />
     </list>
     <recent_temporary>
       <list>
