@@ -103,7 +103,13 @@ public class KKMOFD {
                             // Печать продукции
                             for (int i = 0; i < goodsForDisplays.size(); i++) {
                                 fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goodsForDisplays.get(i).getName());
-                                fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goodsForDisplays.get(i).getPriceFromThePriceList());
+                                // Костыль для печати товаров со скидкой в драйвере ккт версии 5.0
+                                // так как бля всех товаров должна работать формула кол-во * цену = сумма
+                                if(Properties.bakaryId == 7){
+                                    fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goodsForDisplays.get(i).getPriceAfterDiscount());
+                                }else {
+                                    fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goodsForDisplays.get(i).getPriceFromThePriceList());
+                                }
                                 fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goodsForDisplays.get(i).getCount());
                                 fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goodsForDisplays.get(i).getSellingPrice());
                                 fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
@@ -217,14 +223,28 @@ public class KKMOFD {
 
 
                     // Печать продукции
-                    for (int i = 0; i < goods.size(); i++) {
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goods.get(i).getName());
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goods.get(i).getPrice());
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goods.get(i).getCount());
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goods.get(i).getSellingPrice());
-                        fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
-                        fptr.registration();
+                    // Костыль для печати товаров со скидкой в драйвере ккт версии 5.0
+                    // так как бля всех товаров должна работать формула кол-во * цену = сумма
+                    if(Properties.bakaryId == 1){
+                        for (int i = 0; i < check.getGoodsEntity().size(); i++) {
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, check.getGoodsEntity().get(i).getProductName());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, check.getGoodsEntity().get(i).getPriceAfterDiscount());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, check.getGoodsEntity().get(i).getQuantity());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, check.getGoodsEntity().get(i).getSellingPrice());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
+                            fptr.registration();
+                        }
+                    }else {
+                        for (int i = 0; i < goods.size(); i++) {
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_COMMODITY_NAME, goods.get(i).getName());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_PRICE, goods.get(i).getPrice());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_QUANTITY, goods.get(i).getCount());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_POSITION_SUM, goods.get(i).getSellingPrice());
+                            fptr.setParam(IFptr.LIBFPTR_PARAM_TAX_TYPE, IFptr.LIBFPTR_TAX_NO);
+                            fptr.registration();
+                        }
                     }
+
 
                     // Закрыть чек и напечатать
                     int typePaymaent = IFptr.LIBFPTR_PT_ELECTRONICALLY;
