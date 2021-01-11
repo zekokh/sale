@@ -184,7 +184,7 @@ public class CenterDiscountProgram implements DiscountInterface {
                 //Классификатор товара
                 int classifier = goods.getClassifier();
 
-                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 39) {
+                if (classifier == 13 || classifier == 4 || classifier == 32 || classifier == 39 || classifier == 38) {
 
                     //Сумма скидки
                     Double discountAmount = priceFromThePriceList * amountOfDiscount;

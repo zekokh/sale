@@ -26,7 +26,7 @@ public class Properties {
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
     // 7 - Краснодар, Российская, 74 (2-ая касса)
-    public static int bakaryId = 6;
+    public static int bakaryId = 1;
 
     // Путь до шрифта
     public static String fontPath = "";

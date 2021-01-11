@@ -146,7 +146,7 @@ public class PhenixDiscountProgram implements DiscountInterface  {
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "23:20:00";
+        String afterTime = "19:20:00";
         Double amountOfDiscount = 0.4;
         boolean flag = false;
 
