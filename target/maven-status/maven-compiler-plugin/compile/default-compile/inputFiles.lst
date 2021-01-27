@@ -5,6 +5,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ModalUpdateLoyaltyCardController.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/SellReportDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/ReturnCell.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/CanceledCheckDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/DiscountHistoryEntity.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/DiscountForEmployees.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/DailyReport.java
@@ -18,6 +19,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/MenuController.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/properties/Properties.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/Synchronise.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/CanceledGood.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/SellReportDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/ModalSearchCustomer.java
@@ -66,6 +68,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/Check.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Discount.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/CanceledCheck.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/PromocodDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/Folder.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/Login.java
@@ -85,6 +88,7 @@
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/GoodsEntity.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAO/CheckDao.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/core/GoodsCell.java
+/Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/DAOImpl/CanceledCheckDaoImpl.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/User.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/db/entity/LastSynchronization.java
 /Users/zekokh/Documents/project/jacques-Andre/IT/sale/saleCenterSmallScreen/src/main/java/ru/zekoh/controller/SettingMenuController.java

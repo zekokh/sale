@@ -16,6 +16,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.zekoh.core.printing.KKMOFD;
@@ -33,7 +39,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static ru.zekoh.properties.Properties.loyalty_url;
+
 public class ReturnWindowController {
+
+    private static Logger logger = LogManager.getLogger(ReturnWindowController.class);
 
     @FXML
     public ListView listView;
@@ -313,6 +323,9 @@ public class ReturnWindowController {
 
                                 initData();
                                 tableView.refresh();
+
+                                // Отпраивть возврат на сервер
+                                pushDataOnServer(checkEntity.getId());
                             } else {
                                 labelInfo.setText("Не удалось напечатать чек!");
                             }
@@ -343,6 +356,9 @@ public class ReturnWindowController {
 
                                 initData();
                                 tableView.refresh();
+
+                                // Отправить возврат на сервер
+                                pushDataOnServer(checkEntity.getId());
                             } catch (Exception e) {
                                 labelInfo.setText("Не удалось напечатать чек!");
                             }
@@ -466,6 +482,29 @@ public class ReturnWindowController {
         } else {
             // Принтер отключен
             labelInfo.setText("ККТ отключен!");
+        }
+    }
+
+    private void pushDataOnServer(int check_id) {
+        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+
+        try {
+
+            HttpPost request = new HttpPost(loyalty_url+"/customer/check/bonuses/cancel");
+            StringEntity params = new StringEntity("{\"check_id\":\"" + check_id + "\"}");
+            request.addHeader("content-type", "application/json");
+            request.setEntity(params);
+            org.apache.http.HttpResponse response = httpClient.execute(request);
+            logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            //handle response here...
+
+        } catch (Exception ex) {
+            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
+            //handle exception here
+
+        } finally {
+            //Deprecated
+            //httpClient.getConnectionManager().shutdown();
         }
     }
 }

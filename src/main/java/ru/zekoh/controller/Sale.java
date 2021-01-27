@@ -31,6 +31,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import ru.zekoh.core.CanceledCheckManager;
 import ru.zekoh.core.DiscountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.loyalty.Customer;
@@ -55,6 +56,7 @@ import java.util.*;
 
 import static java.lang.Math.log;
 import static java.lang.Math.toIntExact;
+import static ru.zekoh.properties.Properties.loyalty_url;
 
 public class Sale {
 
@@ -1061,15 +1063,6 @@ public class Sale {
 
     public void cancelCheck(ActionEvent actionEvent) throws IOException {
         if (checkList.size() > 0) {
-
-            // Логирование при отмене чека
-            CheckObject check = checkList.get(currentCheckIndex);
-            logger.warn("Cancel check Отмена чека: " + check.getSellingPrice() + " " + check.getDateOfClosing());
-            logger.info("Пользователь: " + Properties.currentUser);
-            for (int i = 0; i < check.getGoodsList().size(); i++) {
-                logger.info(check.getGoodsList().get(i).getProductId() + " " + check.getGoodsList().get(i).getProductName() + " Количество: " + check.getGoodsList().get(i).getCount() + " Цена со скидкой " + check.getGoodsList().get(i).getPriceAfterDiscount() + " Цена без скидки " + check.getGoodsList().get(i).getPriceFromThePriceList() + " Итог " + check.getGoodsList().get(i).getSellingPrice());
-            }
-
             Stage dialog = new Stage();
             dialog.initStyle(StageStyle.UNDECORATED);
             dialog.setTitle("Жак-Андрэ Продажи");
@@ -1087,6 +1080,17 @@ public class Sale {
 
             if (Properties.cancelModalView) {
                 Properties.cancelModalView = false;
+                // Логирование при отмене чека
+                CheckObject check = checkList.get(currentCheckIndex);
+                logger.warn("Cancel check Отмена чека: " + check.getSellingPrice() + " " + check.getDateOfClosing());
+                logger.info("Пользователь: " + Properties.currentUser);
+                for (int i = 0; i < check.getGoodsList().size(); i++) {
+                    logger.info(check.getGoodsList().get(i).getProductId() + " " + check.getGoodsList().get(i).getProductName() + " Количество: " + check.getGoodsList().get(i).getCount() + " Цена со скидкой " + check.getGoodsList().get(i).getPriceAfterDiscount() + " Цена без скидки " + check.getGoodsList().get(i).getPriceFromThePriceList() + " Итог " + check.getGoodsList().get(i).getSellingPrice());
+                }
+
+                // Уведомить об отмене чека на почту
+                CanceledCheckManager.send(check);
+
                 cancelCheckMethod();
             }
         }
@@ -3189,7 +3193,7 @@ public class Sale {
             Double amountPaidBonuses = check.getAmountBonus();
 
 
-            HttpPost request = new HttpPost("https://club.jacques-andre.ru/customer/check/add");
+            HttpPost request = new HttpPost(loyalty_url+"/customer/check/add");
             StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\",\"time\":\"" + check.getDateOfClosing() + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);
@@ -3218,7 +3222,7 @@ public class Sale {
             Double amountPaidBonuses = check.getAmountBonus();
 
 
-            HttpPost request = new HttpPost("https://club.jacques-andre.ru/customer/check/add");
+            HttpPost request = new HttpPost(loyalty_url+"/customer/check/add");
             StringEntity params = new StringEntity("{\"customer_id\":\"" + id + "\",\"bakery_id\":\"" + bakeryId + "\",\"amount_paid_bonuses\":\"" + amountPaidBonuses + "\",\"check_id\":\"" + checkId + "\",\"date\":\"" + check.getDateOfClosing() + "\",\"total\":\"" + total + "\",\"time\":\"" + check.getDateOfClosing() + "\"} ");
             request.addHeader("content-type", "application/json");
             request.setEntity(params);

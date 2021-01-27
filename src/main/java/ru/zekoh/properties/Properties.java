@@ -5,16 +5,13 @@ import org.hibernate.SessionFactory;
 import ru.atol.drivers10.fptr.IFptr;
 import ru.zekoh.core.KKTError;
 import ru.zekoh.core.loyalty.StoreCard;
-import ru.zekoh.db.Check;
 import ru.zekoh.db.CheckObject;
 import ru.zekoh.db.entity.*;
 import ru.zekoh.subtotal.Subtotal;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Properties {
 
@@ -26,7 +23,8 @@ public class Properties {
     // 5 - Нальчик, Московская, 6
     // 6 - Майкоп, Пролетарская, 449
     // 7 - Краснодар, Российская, 74 (2-ая касса)
-    public static int bakaryId = 1;
+    // 8 - local (тестовая среда на основе базы Феникса)
+    public static int bakaryId = 8;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -136,6 +134,10 @@ public class Properties {
     // Глобальный объект для взаимодействия с серверами subtotal
     public static Subtotal subtotal = null;
 
+    // Адрес системы лояльности
+    public static String loyalty_url = "https://club.jacques-andre.ru";
+    public static String bakaryAddress = "";
+
     //Инициализация данных из проперти файла
     public static void initData() {
 
@@ -170,6 +172,7 @@ public class Properties {
                 break;
             case (2):
                 initDataRossiyskaya();
+                PASSWORD = "Heroin160892";
                 break;
             case (3):
                 initDataVoshod();
@@ -185,6 +188,11 @@ public class Properties {
                 break;
             case (7):
                 initDataRossiyskayaSecondCashPoint();
+                break;
+            case (8):
+                loyalty_url = "http://5.63.159.130";
+                KKM = false;
+                initDataLocal();
                 break;
         }
     }
@@ -203,6 +211,7 @@ public class Properties {
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bakaryAddress = "Майкоп, Первомайская, 193";
     }
 
     // Инициализация данных для пекарни на Российская
@@ -213,6 +222,7 @@ public class Properties {
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
+        bakaryAddress = "Краснодар, Российская, 74";
     }
 
     // Инициализация данных для пекарни на Российская
@@ -224,6 +234,7 @@ public class Properties {
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
         // loyaltyUrl = "http://localhost:3000/customer/search/";
+        bakaryAddress = "Краснодар, 2 касса Российская, 74";
     }
 
     // Инициализация данных для пекарни Восход
@@ -235,6 +246,7 @@ public class Properties {
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bakaryAddress = "Майкоп, Шоссейная, 1В";
     }
 
     // Инициализация данных для пекарни на Шифрина
@@ -246,6 +258,7 @@ public class Properties {
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
         bagetId = 133;
+        bakaryAddress = "Краснодар, Шифрина, 1";
     }
 
     // Инициализация данных для пекарни в Нальчике
@@ -256,6 +269,7 @@ public class Properties {
         //loyaltyUrl = "https://loyalty.jacq.ru/customer/search/";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bakaryAddress = "";
     }
 
     // Инициализация данных для пекарни на Фениксе
@@ -265,5 +279,15 @@ public class Properties {
         fontPath = "C:\\Users\\a\\Desktop\\sell\\fonts\\Exo.ttf";
         loyaltyUrl = "https://club.jacques-andre.ru/customer/search/";
         loyaltyUrlUpdate = "https://club.jacques-andre.ru/card/update/";
+        bakaryAddress = "Майкоп, Прлетарская, 449";
+    }
+
+    public static void initDataLocal() {
+        comPort = "";
+        updateUrl = "";
+        fontPath = "C:\\Users\\a\\Desktop\\sell\\fonts\\Exo.ttf";
+        loyaltyUrl = "http://5.63.159.130/customer/search/";
+        loyaltyUrlUpdate = "http://5.63.159.130/card/update/";
+        bakaryAddress = "Local";
     }
 }

@@ -418,7 +418,7 @@ public class VoshodDiscountProgram implements DiscountInterface {
                     if (countProductWhichNeedDiscount == 0) {
                         return null;
                     }
-                    if (classifier == classificatorForPromo) {
+                    if (classifier == classificatorForPromo && goods.getPriceAfterDiscount() > 0.0) {
 
                         //Устанавливаем цену со скидкой
                         goods.setPriceAfterDiscount(price);
