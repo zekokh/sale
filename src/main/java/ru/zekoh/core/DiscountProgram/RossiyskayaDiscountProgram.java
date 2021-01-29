@@ -71,7 +71,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "20:00:00";
+        String afterTime = "11:00:00";
         Double amountOfDiscount = 0.3;
         boolean flag = false;
 

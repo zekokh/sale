@@ -24,7 +24,7 @@ public class Properties {
     // 6 - Майкоп, Пролетарская, 449
     // 7 - Краснодар, Российская, 74 (2-ая касса)
     // 8 - local (тестовая среда на основе базы Феникса)
-    public static int bakaryId = 8;
+    public static int bakaryId = 2;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -163,8 +163,8 @@ public class Properties {
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "heroin";
-        KKM = true;
+        PASSWORD = "Heroin160892";
+        KKM = false;
 
         switch (bakaryId) {
             case (1):
