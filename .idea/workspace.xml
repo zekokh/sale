@@ -4,190 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Актуальная ветка системы продаж">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_2_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_2_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jdk8_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_datatype_jackson_datatype_jsr310_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_parameter_names_2_11_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxjava3_rxjava_3_0_4.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jakarta_annotation_jakarta_annotation_api_1_3_5.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_logging_log4j_log4j_to_slf4j_2_13_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_9_0_41.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_9_0_41.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_glassfish_jakarta_el_3_0_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_jboss_marshalling_11_0_8_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_protostream_protostream_4_3_4_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_threads_jboss_threads_2_3_3_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_30.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_json_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_websocket_2_4_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jcl_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_websocket_5_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_stomp_websocket_2_3_3.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_wildfly_common_wildfly_common_1_3_0_Final.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_27.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/CustomerDisplay.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/Check.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/Good.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/Greeting.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/HelloMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/MyStompSessionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/socket/MyWebSocketHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_4.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_5_1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_ben_manes_caffeine_caffeine_2_6_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_ben_manes_caffeine_caffeine_2_8_8.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_protobuf_protobuf_java_3_6_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_15.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxjava2_rxjava_2_1_3.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_8_17.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_bytebuddy_byte_buddy_1_10_19.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_ehcache_ehcache_2_10_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sf_ehcache_ehcache_2_10_6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_14.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_commons_9_3_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_commons_11_0_8_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_core_9_3_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_core_11_0_8_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_hibernate_cache_commons_9_3_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_hibernate_cache_commons_11_0_8_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_hibernate_cache_spi_9_3_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_infinispan_infinispan_hibernate_cache_spi_11_0_8_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_2_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_4_1_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_marshalling_jboss_marshalling_osgi_2_0_5_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_marshalling_jboss_marshalling_osgi_2_0_9_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_1_spec_1_0_1_Final.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jgroups_jgroups_4_0_12_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jgroups_jgroups_4_2_9_Final.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_reactivestreams_reactive_streams_1_0_3.xml" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Добавил вывод инфы на дисплей покупателя">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs\\app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs\\app.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/sale_jar/sale.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sale.iml" beforeDir="false" afterPath="$PROJECT_DIR$/sale.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/controller/Sale.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/CanceledCheckManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/CanceledCheckManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/entity/Goods.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/db/entity/Goods.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/zekoh/properties/Properties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/fonts/Exo.otf" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/fonts/Exo.otf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/hibernate.cfg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lib/fptr.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lib/fptr.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/lib/libfptr10.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/lib/libfptr10.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/app/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/app/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/app/MyPreloader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/app/MyPreloader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/CancelModalView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/CancelModalView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/InfoController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/InfoController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/KKTInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/KKTInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Login.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Login.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/MenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/MenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalSearchCustomer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalUpdateLoyaltyCardController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhilePrintCheck.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ModalWhileUpdateData.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/PasswordEntryToAccessTheFolderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/PasswordEntryToAccessTheFolderController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/PayCard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/PayCard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ReturnModalPassword.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ReturnModalPassword.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ReturnWindowController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ReturnWindowController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/Sale.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/SettingController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/SettingController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/SettingMenuController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/SettingMenuController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/XReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/XReportController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ZReportController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/controller/ZReportController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/CenterDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/DefaultDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/DefaultDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/DiscountInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/DiscountInterface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/NalchikDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/NalchikDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/PhenixDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/RossiyskayaDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/ShifrinaDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/DiscountProgram/VoshodDiscountProgram.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/GoodsCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/GoodsCell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/GoodsCellFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/GoodsCellFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/KKTError.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/KKTError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/ReturnCell.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/ReturnCell.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/ReturnCellFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/ReturnCellFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Customer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Employee.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Employee.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Loyalty.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/loyalty/Loyalty.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKM$DriverException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKM$DriverException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKM.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKM.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKMOFD.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/core/printing/KKMOFD.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/Check.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/Check.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/CheckObject.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/CheckObject.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/CheckDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/CheckDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/DiscountForEmployeesDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/DiscountForEmployeesDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/PromocodDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/PromocodDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/SessionDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/SessionDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAO/UserDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CardDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CardDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/CheckDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/DiscountForEmployeesDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/DiscountForEmployeesDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/PromocodDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/PromocodDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/SessionDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/SessionDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/UserDaoImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/DAOImpl/UserDaoImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/Data.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/CheckEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/CheckEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DailyReport.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DailyReport.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DataEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DataEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Discount.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Discount.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountCardEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountCardEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountForEmployees.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountForEmployees.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountHistoryEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/DiscountHistoryEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Folder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Folder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Goods.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Goods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/GoodsEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/GoodsEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/GoodsForDisplay.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/GoodsForDisplay.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/LastSynchronization.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/LastSynchronization.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/PageFolder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/PageFolder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/PageProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/PageProduct.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Product.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Promocod.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Promocod.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Report.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Report.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/ReturnHistory.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/ReturnHistory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/SellReport.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/SellReport.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Session.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/Session.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/TableCheck.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/TableCheck.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/TableGoods.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/TableGoods.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/UserEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/UserFromBonus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/db/entity/UserFromBonus.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/ru/zekoh/properties/Properties.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/sale-1.0-SNAPSHOT.jar" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -375,12 +193,12 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.38390803" />
     <property name="recentsLimit" value="5" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -701,13 +519,7 @@
       <workItem from="1612897510093" duration="3317000" />
       <workItem from="1612908641758" duration="1331000" />
       <workItem from="1612939195901" duration="10731000" />
-    </task>
-    <task id="LOCAL-00154" summary="инит">
-      <created>1572377941460</created>
-      <option name="number" value="00154" />
-      <option name="presentableId" value="LOCAL-00154" />
-      <option name="project" value="LOCAL" />
-      <updated>1572377941460</updated>
+      <workItem from="1613111490129" duration="542000" />
     </task>
     <task id="LOCAL-00155" summary="инит">
       <created>1572378023299</created>
@@ -1045,7 +857,14 @@
       <option name="project" value="LOCAL" />
       <updated>1611909757242</updated>
     </task>
-    <option name="localTasksCounter" value="203" />
+    <task id="LOCAL-00203" summary="Добавил вывод инфы на дисплей покупателя">
+      <created>1613111605026</created>
+      <option name="number" value="00203" />
+      <option name="presentableId" value="LOCAL-00203" />
+      <option name="project" value="LOCAL" />
+      <updated>1613111605026</updated>
+    </task>
+    <option name="localTasksCounter" value="204" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -1092,7 +911,6 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="Исправленна ошибка с круассаном в подарок" />
     <MESSAGE value="Выключил принтер чека" />
     <MESSAGE value="Пофиксил баг с разным типом оплаты на ккт" />
     <MESSAGE value="init" />
@@ -1117,7 +935,8 @@
     <MESSAGE value="Добавил возможность принимать оплату через интегрированный принтер сбербанка" />
     <MESSAGE value="settings init" />
     <MESSAGE value="Актуальная ветка системы продаж" />
-    <option name="LAST_COMMIT_MESSAGE" value="Актуальная ветка системы продаж" />
+    <MESSAGE value="Добавил вывод инфы на дисплей покупателя" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил вывод инфы на дисплей покупателя" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
