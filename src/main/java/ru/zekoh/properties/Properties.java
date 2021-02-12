@@ -2,7 +2,9 @@ package ru.zekoh.properties;
 
 
 import org.hibernate.SessionFactory;
+import org.springframework.messaging.simp.stomp.StompSession;
 import ru.atol.drivers10.fptr.IFptr;
+import ru.zekoh.core.CustomerDisplay;
 import ru.zekoh.core.KKTError;
 import ru.zekoh.core.loyalty.StoreCard;
 import ru.zekoh.db.CheckObject;
@@ -24,7 +26,7 @@ public class Properties {
     // 6 - Майкоп, Пролетарская, 449
     // 7 - Краснодар, Российская, 74 (2-ая касса)
     // 8 - local (тестовая среда на основе базы Феникса)
-    public static int bakaryId = 2;
+    public static int bakaryId = 8;
 
     // Путь до шрифта
     public static String fontPath = "";
@@ -135,8 +137,11 @@ public class Properties {
     public static Subtotal subtotal = null;
 
     // Адрес системы лояльности
-    public static String loyalty_url = "https://club.jacques-andre.ru";
+    public static String loyalty_url = "http://club.jacques-andre.ru";
     public static String bakaryAddress = "";
+
+    public static CustomerDisplay customerDisplay = null;
+    public static StompSession stompSessionGlobal = null;
 
     //Инициализация данных из проперти файла
     public static void initData() {
@@ -163,8 +168,8 @@ public class Properties {
     public static void initDataWithoutFile() {
         HOST = "jdbc:mysql://localhost:3306/center?useUnicode=true&characterEncoding=utf8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false";
         LOGIN = "root";
-        PASSWORD = "Heroin160892";
-        KKM = false;
+        PASSWORD = "heroin";
+        KKM = true;
 
         switch (bakaryId) {
             case (1):
@@ -195,6 +200,9 @@ public class Properties {
                 initDataLocal();
                 break;
         }
+
+        customerDisplay = new CustomerDisplay();
+        customerDisplay.initData();
     }
 
     // Инициализация данных для пекарни на Майкоп, Пролетарская, 449

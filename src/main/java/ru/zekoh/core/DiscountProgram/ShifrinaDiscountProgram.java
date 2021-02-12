@@ -1223,15 +1223,16 @@ public class ShifrinaDiscountProgram implements DiscountInterface {
 
                             // Проверяем действия акции на товар
                             if (g.getPriceAfterDiscount() > 0.0) {
-                                // Проверяем что на выпечку не действут другии акции
-                                if(g.getPriceAfterDiscount() == g.getPriceFromThePriceList()){
-                                    productDiscount(g, 0.0);
+                                productDiscount(g, 0.0);
 
-                                    numberOfCoffee--;
-                                    if (x == numberOfCoffee) {
-                                        return;
-                                    }
+                                numberOfCoffee--;
+                                if (x == numberOfCoffee) {
+                                    return;
                                 }
+                                // Проверяем что на выпечку не действут другии акции
+                                //if(g.getPriceAfterDiscount() == g.getPriceFromThePriceList()){
+
+                                //}
                             } else {
                                 numberOfCoffee--;
                                 if (x == numberOfCoffee) {

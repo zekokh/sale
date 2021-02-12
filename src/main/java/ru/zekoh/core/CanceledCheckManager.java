@@ -46,26 +46,30 @@ public class CanceledCheckManager {
         System.out.println("JSON тут:");
         System.out.println(json.toString());
 
-        // Отправка данных на сервер
-        HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
+        // Если это не локальная сборка для теста отправляем на сервак для генерации email уведомлений
+        if (Properties.bakaryId != 8) {
 
-        try {
-            String url = "http://5.63.159.130/check/cancel";
-            HttpPost request = new HttpPost(url);
-            StringEntity params = new StringEntity(json.toString(), "UTF-8");
-            request.addHeader("content-type", "application/json;");
-            request.setEntity(params);
-            org.apache.http.HttpResponse response = httpClient.execute(request);
-            //logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
+            // Отправка данных на сервер
+            HttpClient httpClient = HttpClientBuilder.create().build();
+
+            try {
+                String url = "http://5.63.159.130/check/cancel";
+                HttpPost request = new HttpPost(url);
+                StringEntity params = new StringEntity(json.toString(), "UTF-8");
+                request.addHeader("content-type", "application/json;");
+                request.setEntity(params);
+                org.apache.http.HttpResponse response = httpClient.execute(request);
+                //logger.info("Статус отправки данных о чеке на сервер системы лояльности: " + response.getStatusLine().getStatusCode());
 
 
-        } catch (Exception ex) {
+            } catch (Exception ex) {
 //            logger.error("Отправка данных на сервер системы лояльности не произведена! \n" + ex.getMessage());
-            //handle exception here
+                //handle exception here
 
-        } finally {
-            //Deprecated
-            //httpClient.getConnectionManager().shutdown();
+            } finally {
+                //Deprecated
+                //httpClient.getConnectionManager().shutdown();
+            }
         }
     }
 

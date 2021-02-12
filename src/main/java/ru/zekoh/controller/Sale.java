@@ -32,6 +32,7 @@ import org.hibernate.Transaction;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import ru.zekoh.core.CanceledCheckManager;
+import ru.zekoh.core.CustomerDisplay;
 import ru.zekoh.core.DiscountProgram.*;
 import ru.zekoh.core.GoodsCellFactory;
 import ru.zekoh.core.loyalty.Customer;
@@ -56,6 +57,7 @@ import java.util.*;
 
 import static java.lang.Math.log;
 import static java.lang.Math.toIntExact;
+import static ru.zekoh.properties.Properties.customerDisplay;
 import static ru.zekoh.properties.Properties.loyalty_url;
 
 public class Sale {
@@ -570,6 +572,8 @@ public class Sale {
                 switchToCashKbr(false);
             }
 
+           customerDisplay.convert(check);
+            //logger.info("Отправил данные на дисплей покупаеля через сокет!");
         } else {
             clearAllUI();
         }

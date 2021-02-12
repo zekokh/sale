@@ -45,6 +45,19 @@ public class Goods {
 
     }
 
+    public Goods(Goods oldGoods) {
+        this.productId = oldGoods.getProductId();
+        this.generalId = oldGoods.getGeneralId();
+        this.productName = oldGoods.getProductName();
+        this.classifier = oldGoods.getClassifier();
+        this.count = oldGoods.getCount();
+        this.priceFromThePriceList = oldGoods.getPriceFromThePriceList() ;
+        this.priceAfterDiscount = oldGoods.priceAfterDiscount;
+        this.sellingPrice = oldGoods.getSellingPrice();
+        this.unit = oldGoods.isUnit();
+        this.parentId = oldGoods.getParentId();
+        this.participatesInpromotions = oldGoods.isParticipatesInpromotions();
+    }
     public Goods(int productId, int generalId, String productName, int classifier, Double count, Double priceFromThePriceList, Double priceAfterDiscount, Double sellingPrice, boolean unit, int parentId, boolean participatesInpromotions) {
         this.productId = productId;
         this.generalId = generalId;

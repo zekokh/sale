@@ -71,7 +71,7 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
     //Список классификаторов
     public static CheckObject timeDiscount(CheckObject check) {
 
-        String afterTime = "11:00:00";
+        String afterTime = "20:00:00";
         Double amountOfDiscount = 0.3;
         boolean flag = false;
 
@@ -1224,15 +1224,16 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
                             // Проверяем действия акции на товар
                             if (g.getPriceAfterDiscount() > 0.0) {
-                                // Проверяем что на выпечку не действут другии акции
-                                if(g.getPriceAfterDiscount() == g.getPriceFromThePriceList()){
-                                    productDiscount(g, 0.0);
+                                productDiscount(g, 0.0);
 
-                                    numberOfCoffee--;
-                                    if (x == numberOfCoffee) {
-                                        return;
-                                    }
+                                numberOfCoffee--;
+                                if (x == numberOfCoffee) {
+                                    return;
                                 }
+                                // Проверяем что на выпечку не действут другии акции
+                                /*if(g.getPriceAfterDiscount() == g.getPriceFromThePriceList()){
+
+                                }*/
 
                             } else {
                                 numberOfCoffee--;
@@ -1400,10 +1401,12 @@ public class RossiyskayaDiscountProgram implements DiscountInterface {
 
             CheckObject tempCheck = timeDiscount(check);
             if (tempCheck == null) {
+                coffeeGift(check);
+
                 // 5 круаасан по цене 228р.
                 discountOnCountProductInCheck(check, 4, 5, 45.6);
 
-                coffeeGift(check);
+
 
 
 
